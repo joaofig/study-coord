@@ -1,2 +1,2 @@
 [database]
-path = "study-coord.db"
+path = "./study-coord.db"

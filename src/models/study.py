@@ -5,8 +5,9 @@ from dataclasses import dataclass
 
 @dataclass
 class Study:
+    id: int
     name: str
-    location_id: int
+    sponsor: str
     start_date: str
-    sponsor: str | None = None
-    id: int | None = None
+    end_date: str
+

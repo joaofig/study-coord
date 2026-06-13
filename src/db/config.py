@@ -11,7 +11,7 @@ class DatabaseConfig:
 
 
 def load_database_config(config_path: Path | None = None) -> DatabaseConfig:
-    project_root = Path(__file__).resolve().parent.parent
+    project_root = Path(__file__).resolve().parent.parent.parent
     resolved_config_path = config_path or project_root / "study-coord.toml"
 
     if not resolved_config_path.exists():

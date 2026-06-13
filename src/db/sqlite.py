@@ -12,39 +12,23 @@ def get_connection(database_path: Path | None = None) -> sqlite3.Connection:
     return sqlite3.connect(str(database_path))
 
 
+def get_script(script_name: str) -> str:
+    return (Path("./sql") / script_name).read_text(
+        encoding="utf-8"
+    )
+
+
 def initialize_database(database_path: Path | None = None) -> None:
+    # The `ct` prefix stands for "create table".
+    script_files = [
+        "ct_researcher.sql",
+        "ct_study.sql",
+        "ct_patient.sql",
+        "ct_study_researcher.sql",
+    ]
+
     with get_connection(database_path) as connection:
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS location (
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL,
-                address_1 TEXT,
-                address_2 TEXT
+        for script_file in script_files:
+            connection.execute(
+                get_script(script_file)
             )
-            """
-        )
-
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS researcher (
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL,
-                location_id INTEGER NOT NULL,
-                FOREIGN KEY (location_id) REFERENCES location (id)
-            )
-            """
-        )
-
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS study (
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL,
-                sponsor TEXT,
-                location_id INTEGER NOT NULL,
-                start_date TEXT NOT NULL,
-                FOREIGN KEY (location_id) REFERENCES location (id)
-            )
-            """
-        )

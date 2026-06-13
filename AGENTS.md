@@ -12,7 +12,10 @@
 - All documentation is in the `docs` directory
 - `src/db` contains the database-related code and models
 - `src/models` contains the data models (data classes)
-  - `src/views` contains the views and controllers
+- `src/views` contains the views and controllers
+
+## Common tasks
+- Run tests: `uv run pytest`
 
 ## Definition of done
 - All tests pass
