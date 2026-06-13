@@ -13,7 +13,8 @@ def get_connection(database_path: Path | None = None) -> sqlite3.Connection:
 
 
 def get_script(script_name: str) -> str:
-    return (Path("./sql") / script_name).read_text(
+    path = Path("src/db/sql") / script_name
+    return path.read_text(
         encoding="utf-8"
     )
 
@@ -21,10 +22,12 @@ def get_script(script_name: str) -> str:
 def initialize_database(database_path: Path | None = None) -> None:
     # The `ct` prefix stands for "create table".
     script_files = [
-        "ct_researcher.sql",
         "ct_study.sql",
+        "ct_researcher.sql",
         "ct_patient.sql",
         "ct_study_researcher.sql",
+        "ct_screening.sql",
+        "ct_visit.sql",
     ]
 
     with get_connection(database_path) as connection:
