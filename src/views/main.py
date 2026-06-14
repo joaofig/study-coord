@@ -8,7 +8,8 @@ def main_view():
         with splitter.before:
             with ui.tabs().props("vertical").classes("w-full") as tabs:
                 studies = ui.tab("Studies", icon="science")
-                locations = ui.tab("Locations", icon="apartment")
+                researchers = ui.tab("Researchers", icon="group")
+                patients = ui.tab("Patients", icon="personal_injury")
                 reports = ui.tab("Reports", icon="dashboard")
                 settings = ui.tab("Settings", icon="settings")
 
@@ -21,9 +22,14 @@ def main_view():
                 with ui.tab_panel(studies):
                     study_table_view()
 
-                with ui.tab_panel(locations):
-                    ui.label("Locations").classes("text-h4")
-                    ui.label("Content of locations")
+                with ui.tab_panel(researchers):
+                    ui.label("Researchers").classes("text-h4")
+                    ui.label("Content of researchers")
+
+                with ui.tab_panel(patients):
+                    ui.label("Patients").classes("text-h4")
+                    ui.label("Content of patients")
+
                 with ui.tab_panel(reports):
                     ui.label("Reports").classes("text-h4")
                     ui.label("Content of reports")
