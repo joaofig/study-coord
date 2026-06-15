@@ -10,6 +10,7 @@ def main_view():
                 studies = ui.tab("Studies", icon="science")
                 visits = ui.tab("Visits", icon="event")
                 monitoring = ui.tab("Monitoring", icon="monitor_heart")
+                adverse_events = ui.tab("Adverse Events", icon="dangerous")
                 patients = ui.tab("Patients", icon="personal_injury")
                 researchers = ui.tab("Researchers", icon="group")
                 reports = ui.tab("Reports", icon="dashboard")
@@ -31,6 +32,10 @@ def main_view():
                 with ui.tab_panel(monitoring):
                     ui.label("Monitoring").classes("text-h4")
                     ui.label("Content of monitoring")
+
+                with ui.tab_panel(adverse_events):
+                    ui.label("Adverse Events").classes("text-h4")
+                    ui.label("Content of adverse events")
 
                 with ui.tab_panel(patients):
                     ui.label("Patients").classes("text-h4")
