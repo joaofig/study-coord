@@ -13,9 +13,7 @@ def get_all(conn: Connection) -> list[Study]:
         start_date=row[3],
         end_date=row[4],
     )
-    cursor = conn.execute(
-        "SELECT id, name, sponsor, start_date, end_date FROM study ORDER BY name"
-    )
+    cursor = conn.execute(get_script("study/get_all.sql"))
     return cursor.fetchall()
 
 
@@ -28,7 +26,7 @@ def get(conn: Connection, study_id: int) -> Study | None:
         end_date=row[4],
     )
     cursor = conn.execute(
-        "SELECT id, name, sponsor, start_date, end_date FROM study WHERE id = ?",
+        get_script("study/get.sql"),
         (study_id,),
     )
     return cursor.fetchone()

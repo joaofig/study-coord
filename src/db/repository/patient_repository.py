@@ -32,7 +32,7 @@ def get(conn: Connection, patient_id: int) -> Patient | None:
         exit_date=row[6],
         status=row[7],
     )
-    cursor = conn.execute(get_script("patient/get.sql"), (patient_id,))
+    cursor = conn.execute(get_script("patient/get_all.sql"), (patient_id,))
     return cursor.fetchone()
 
 
