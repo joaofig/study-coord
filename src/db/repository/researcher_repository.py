@@ -24,8 +24,8 @@ def get(conn: Connection, researcher_id: int) -> Researcher | None:
 
 def save(conn: Connection, researcher: Researcher) -> None:
     conn.execute(
-        "INSERT INTO researcher (name, type) VALUES (?, ?)",
-        (researcher.name, researcher.type),
+        "INSERT INTO researcher (name) VALUES (?)",
+        (researcher.name),
     )
 
 

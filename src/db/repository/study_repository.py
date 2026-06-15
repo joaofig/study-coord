@@ -41,7 +41,7 @@ def save(conn: Connection, study: Study) -> None:
 
 def delete(conn: Connection, study_id: int) -> None:
     conn.execute(
-        "DELETE FROM study WHERE id = ?",
+        get_script("study/delete.sql"),
         (study_id,),
     )
 
