@@ -1,6 +1,7 @@
 import asyncio
 from sqlite3 import Connection
 
+from db.sqlite import get_script
 from models import Researcher
 
 
@@ -8,25 +9,26 @@ def get_all(conn: Connection) -> list[Researcher]:
     conn.row_factory = lambda _, row: Researcher(
         id=row[0],
         name=row[1],
-        type=row[2],
     )
-    return conn.execute("SELECT id, name, type FROM researcher").fetchall()
+    sql = get_script("researcher/get_all.sql")
+    return conn.execute(sql).fetchall()
 
 
 def get(conn: Connection, researcher_id: int) -> Researcher | None:
     conn.row_factory = lambda _, row: Researcher(
         id=row[0],
         name=row[1],
-        type=row[2],
     )
-    return conn.execute("SELECT id, name, type FROM researcher WHERE id=?", (researcher_id,)).fetchone()
+    sql = get_script("researcher/get.sql")
+    return conn.execute(sql, (researcher_id,)).fetchone()
 
 
 def save(conn: Connection, researcher: Researcher) -> None:
-    conn.execute(
-        "INSERT INTO researcher (name) VALUES (?)",
-        (researcher.name),
-    )
+    conn.execute(get_script("researcher/save.sql"), (researcher.name,))
+
+
+def delete(conn: Connection, researcher_id: int) -> None:
+    conn.execute(get_script("researcher/delete.sql"), (researcher_id,))
 
 
 class ResearcherRepository:

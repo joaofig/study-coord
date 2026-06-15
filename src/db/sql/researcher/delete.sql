@@ -1,0 +1,1 @@
+DELETE FROM researcher WHERE id=?;
