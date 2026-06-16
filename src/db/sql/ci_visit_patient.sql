@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS visit_patient_idx ON visit (patient_id);

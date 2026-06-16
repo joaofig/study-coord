@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS visit_study_idx ON visit (study_id);

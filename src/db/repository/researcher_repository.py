@@ -1,7 +1,7 @@
 import asyncio
 from sqlite3 import Connection
 
-from db.sqlite import get_script
+from src.db import SQLCache
 from models import Researcher
 
 
@@ -10,7 +10,8 @@ def get_all(conn: Connection) -> list[Researcher]:
         id=row[0],
         name=row[1],
     )
-    sql = get_script("researcher/get_all.sql")
+    cache = SQLCache()
+    sql = cache.get("researcher/get_all.sql")
     return conn.execute(sql).fetchall()
 
 
@@ -19,16 +20,19 @@ def get(conn: Connection, researcher_id: int) -> Researcher | None:
         id=row[0],
         name=row[1],
     )
-    sql = get_script("researcher/get.sql")
+    cache = SQLCache()
+    sql = cache.get("researcher/get.sql")
     return conn.execute(sql, (researcher_id,)).fetchone()
 
 
 def save(conn: Connection, researcher: Researcher) -> None:
-    conn.execute(get_script("researcher/save.sql"), (researcher.name,))
+    cache = SQLCache()
+    conn.execute(cache.get("researcher/save.sql"), (researcher.name,))
 
 
 def delete(conn: Connection, researcher_id: int) -> None:
-    conn.execute(get_script("researcher/delete.sql"), (researcher_id,))
+    cache = SQLCache()
+    conn.execute(cache.get("researcher/delete.sql"), (researcher_id,))
 
 
 class ResearcherRepository:

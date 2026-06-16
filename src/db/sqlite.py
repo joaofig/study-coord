@@ -21,6 +21,7 @@ def get_script(script_name: str) -> str:
 
 def initialize_database(database_path: Path | None = None) -> None:
     # The `ct` prefix stands for "create table".
+    # The `ci` prefix stands for "create index".
     script_files = [
         "ct_study.sql",
         "ct_researcher.sql",
@@ -29,6 +30,9 @@ def initialize_database(database_path: Path | None = None) -> None:
         "ct_visit.sql",
         "ct_visit.sql",
         "ct_adverse_event.sql",
+        "ci_patient_study.sql",
+        "ci_visit_patient.sql",
+        "ci_visit_study.sql",
     ]
 
     with get_connection(database_path) as connection:

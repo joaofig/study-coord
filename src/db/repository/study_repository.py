@@ -1,6 +1,6 @@
 import asyncio
 
-from src.db.sqlite import get_script
+from src.db import SQLCache
 from src.models.study import Study
 from sqlite3 import Connection
 
@@ -13,7 +13,8 @@ def get_all(conn: Connection) -> list[Study]:
         start_date=row[3],
         end_date=row[4],
     )
-    cursor = conn.execute(get_script("study/get_all.sql"))
+    cache = SQLCache()
+    cursor = conn.execute(cache.get("study/get_all.sql"))
     return cursor.fetchall()
 
 
@@ -25,23 +26,26 @@ def get(conn: Connection, study_id: int) -> Study | None:
         start_date=row[3],
         end_date=row[4],
     )
+    cache = SQLCache()
     cursor = conn.execute(
-        get_script("study/get.sql"),
+        cache.get("study/get.sql"),
         (study_id,),
     )
     return cursor.fetchone()
 
 
 def save(conn: Connection, study: Study) -> None:
+    cache = SQLCache()
     conn.execute(
-        get_script("study/save.sql"),
+        cache.get("study/save.sql"),
         (study.name, study.sponsor, study.start_date, study.end_date)
     )
 
 
 def delete(conn: Connection, study_id: int) -> None:
+    cache = SQLCache()
     conn.execute(
-        get_script("study/delete.sql"),
+        cache.get("study/delete.sql"),
         (study_id,),
     )
 
