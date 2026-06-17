@@ -1,6 +1,12 @@
 from nicegui import ui
 
 
+def validate_number(value: str) -> str | None:
+    if not value:
+        return "Number is required"
+    return None
+
+
 class ResearcherDialog:
     def __init__(self):
         self.number = None
@@ -9,13 +15,29 @@ class ResearcherDialog:
 
         with ui.dialog() as dialog, ui.card():
             ui.label("Researcher Details").classes("text-h5")
-            self.number = ui.input(label="Number").classes("w-full")
+            self.number = ui.input(
+                label="Number",
+                validation = validate_number,
+            ).classes("w-full")
             self.name = ui.input(label="Name").classes("w-full")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: dialog.submit("Save"))
+                ui.button(
+                    "Save",
+                    on_click=lambda: self.handle_save()
+                )
                 ui.button("Cancel", on_click=lambda: dialog.submit("Cancel"))
             self.dialog = dialog
+
+    def validate(self) -> bool:
+        if not self.number.value:
+            ui.notify("Number is required", color="negative")
+            return False
+        return True
+
+    def handle_save(self):
+        if self.validate():
+            self.dialog.submit("Save")
 
     async def show(self):
         result = await self.dialog
