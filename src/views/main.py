@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from views.study import study_table_view, study_grid_view
+from views.study import study_grid_view
 
 
 def main_view():
