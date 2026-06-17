@@ -8,8 +8,8 @@ def study_dialog():
         ui.input(label="Sponsor").classes("w-full")
 
         with ui.row().classes("gap-2"):
-            ui.date_input(label="Start Date").classes("w-full")
-            ui.date_input(label="End Date").classes("w-full")
+            ui.date_input(label="Start Date")
+            ui.date_input(label="End Date")
 
         with ui.row().classes("gap-2"):
             (ui.number(label="Protocol Visits", value=1)

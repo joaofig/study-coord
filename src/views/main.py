@@ -1,5 +1,6 @@
 from nicegui import ui
 
+from views.researcher import researcher_grid_view
 from views.study import study_grid_view
 
 
@@ -42,8 +43,7 @@ def main_view():
                     ui.label("Content of patients")
 
                 with ui.tab_panel(researchers):
-                    ui.label("Researchers").classes("text-h4")
-                    ui.label("Content of researchers")
+                    researcher_grid_view()
 
                 with ui.tab_panel(reports):
                     ui.label("Reports").classes("text-h4")
