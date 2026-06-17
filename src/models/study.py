@@ -31,6 +31,7 @@ class StudyRow:
     sponsor: str
     start_date: str
     end_date: str
+    
     patients: int
     visits: int
     researchers: int

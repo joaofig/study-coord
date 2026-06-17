@@ -65,3 +65,30 @@ def study_table_view():
             ui.button("Add Study")
         table = study_table()
         # table.set_selection("single")
+
+
+def study_grid():
+    columns = [
+        {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
+        {"headerName": "Sponsor", "field": "sponsor", "sortable": True, "align": "left"},
+        {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left"},
+        {"headerName": "End", "field": "end_date", "sortable": True, "align": "left"},
+        {"headerName": "Patients", "field": "patients", "sortable": True, "align": "right"},
+        {"headerName": "Visits", "field": "visits", "sortable": True, "align": "right"},
+        {"headerName": "Researchers", "field": "researchers", "sortable": True, "align": "right"},
+        {"headerName": "Events", "field": "adverse_events", "sortable": True, "align": "right"},
+    ]
+    grid_def = {
+        "columnDefs": columns,
+        "rowData": []
+    }
+    return ui.aggrid(grid_def)
+
+
+def study_grid_view():
+    with ui.row().classes("w-full"):
+        with ui.row().classes("w-full"):
+            ui.label("Studies").classes("text-h4")
+            ui.space()
+            ui.button("Add Study")
+        grid = study_grid()

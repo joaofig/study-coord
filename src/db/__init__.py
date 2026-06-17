@@ -1,1 +1,1 @@
-from sql_cache import SQLCache
+from .sql_cache import SQLCache
