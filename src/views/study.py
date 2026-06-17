@@ -3,7 +3,7 @@ from nicegui import ui
 
 def study_dialog():
     with ui.dialog() as dialog, ui.card():
-        ui.label("Study Details").classes("text-h4")
+        ui.label("Study Details").classes("text-h5")
         ui.input(label="Name").classes("w-full")
         ui.input(label="Sponsor").classes("w-full")
 

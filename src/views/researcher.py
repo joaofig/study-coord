@@ -1,21 +1,30 @@
 from nicegui import ui
 
 
-def researcher_dialog():
-    with ui.dialog() as dialog, ui.card():
-        ui.label("Researcher Details").classes("text-h4")
-        ui.input(label="Number").classes("w-full")
-        ui.input(label="Name").classes("w-full")
+class ResearcherDialog:
+    def __init__(self):
+        self.number = None
+        self.name = None
+        self.dialog = None
 
-        with ui.row():
-            ui.button("Save", on_click=lambda: dialog.submit("Save"))
-            ui.button("Cancel", on_click=lambda: dialog.submit("Cancel"))
-        return dialog
+        with ui.dialog() as dialog, ui.card():
+            ui.label("Researcher Details").classes("text-h5")
+            self.number = ui.input(label="Number").classes("w-full")
+            self.name = ui.input(label="Name").classes("w-full")
+
+            with ui.row():
+                ui.button("Save", on_click=lambda: dialog.submit("Save"))
+                ui.button("Cancel", on_click=lambda: dialog.submit("Cancel"))
+            self.dialog = dialog
+
+    async def show(self):
+        result = await self.dialog
+        ui.notify(f'You chose {result}')
 
 
 async def show_dialog():
-    result = await researcher_dialog()
-    ui.notify(f'You chose {result}')
+    dialog = ResearcherDialog()
+    await dialog.show()
 
 
 def researcher_grid():
