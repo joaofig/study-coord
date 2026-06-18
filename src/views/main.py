@@ -1,21 +1,21 @@
 from nicegui import ui
 
 from views.researcher import researcher_grid_view
-from views.study import study_grid_view
+from views.study import study_view
 
 
 def main_view():
     with ui.splitter(value=10).classes("w-full h-screen p-0") as splitter:
         with splitter.before:
             with ui.tabs().props("vertical").classes("w-full") as tabs:
-                studies = ui.tab("Studies", icon="science")
-                visits = ui.tab("Visits", icon="event")
-                monitoring = ui.tab("Monitoring", icon="monitor_heart")
-                adverse_events = ui.tab("Adverse Events", icon="dangerous")
-                patients = ui.tab("Patients", icon="personal_injury")
-                researchers = ui.tab("Researchers", icon="group")
-                reports = ui.tab("Reports", icon="dashboard")
-                settings = ui.tab("Settings", icon="settings")
+                studies = ui.tab("Studies", icon="science").classes("text-sky-800")
+                visits = ui.tab("Visits", icon="event").classes("text-sky-800")
+                monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
+                adverse_events = ui.tab("Adverse Events", icon="dangerous").classes("text-sky-800")
+                patients = ui.tab("Patients", icon="personal_injury").classes("text-sky-800")
+                researchers = ui.tab("Researchers", icon="group").classes("text-sky-800")
+                reports = ui.tab("Reports", icon="dashboard").classes("text-sky-800")
+                settings = ui.tab("Settings", icon="settings").classes("text-sky-800")
 
         with splitter.after:
             with (
@@ -24,7 +24,7 @@ def main_view():
                 .classes("size-full")
             ):
                 with ui.tab_panel(studies):
-                    study_grid_view()
+                    study_view()
 
                 with ui.tab_panel(visits):
                     ui.label("Visits").classes("text-h4")

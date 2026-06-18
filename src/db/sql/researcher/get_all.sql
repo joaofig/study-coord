@@ -1,1 +1,1 @@
-SELECT id, name FROM researcher;
+SELECT id, number, name FROM researcher;

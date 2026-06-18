@@ -1,4 +1,5 @@
 from nicegui import ui
+from nicegui.elements.aggrid import AgGrid
 
 
 def validate_number(value: str) -> str | None:
@@ -49,8 +50,9 @@ async def show_dialog():
     await dialog.show()
 
 
-def researcher_grid():
+def researcher_grid() -> AgGrid:
     columns = [
+        {"headerName": "ID", "field": "id", "hide": True},
         {"headerName": "Number", "field": "sponsor", "sortable": True, "align": "left"},
         {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
     ]
@@ -63,8 +65,8 @@ def researcher_grid():
 
 def researcher_grid_view():
     with ui.row().classes("w-full"):
-        with ui.row().classes("w-full"):
-            ui.label("Studies").classes("text-h4")
-            ui.space()
-            ui.button("Add Researcher", on_click=lambda: show_dialog()).props("icon=add")
-        researcher_grid()
+        ui.label("Researchers").classes("text-h4")
+        ui.space()
+        ui.button("Add Researcher", on_click=lambda: show_dialog()).props("icon=add")
+    with ui.row().classes("w-full h-full"):
+        researcher_grid().classes("h-full")

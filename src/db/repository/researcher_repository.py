@@ -8,7 +8,8 @@ from models import Researcher
 def get_all(conn: Connection) -> list[Researcher]:
     conn.row_factory = lambda _, row: Researcher(
         id=row[0],
-        name=row[1],
+        number=row[1],
+        name=row[2],
     )
     cache = SQLCache()
     sql = cache.get("researcher/get_all.sql")
@@ -18,11 +19,23 @@ def get_all(conn: Connection) -> list[Researcher]:
 def get(conn: Connection, researcher_id: int) -> Researcher | None:
     conn.row_factory = lambda _, row: Researcher(
         id=row[0],
-        name=row[1],
+        number=row[1],
+        name=row[2],
     )
     cache = SQLCache()
     sql = cache.get("researcher/get.sql")
     return conn.execute(sql, (researcher_id,)).fetchone()
+
+
+def get_by_number(conn: Connection, researcher_number: str) -> Researcher | None:
+    conn.row_factory = lambda _, row: Researcher(
+        id=row[0],
+        number=row[1],
+        name=row[2],
+    )
+    cache = SQLCache()
+    sql = cache.get("researcher/get_by_number.sql")
+    return conn.execute(sql, (researcher_number,)).fetchone()
 
 
 def save(conn: Connection, researcher: Researcher) -> None:

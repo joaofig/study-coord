@@ -1,1 +1,1 @@
-SELECT id, name FROM researcher WHERE id=?
+SELECT id, number, name FROM researcher WHERE id=?

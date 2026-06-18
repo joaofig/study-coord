@@ -1,0 +1,1 @@
+SELECT id, number, name FROM researcher WHERE number=?
