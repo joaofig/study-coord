@@ -1,7 +1,7 @@
 from nicegui import ui
 
 from views.researcher import researcher_grid_view
-from views.study import study_view
+from views.study import study_view, StudyView
 
 
 def main_view():
@@ -24,7 +24,8 @@ def main_view():
                 .classes("size-full")
             ):
                 with ui.tab_panel(studies):
-                    study_view()
+                    view = StudyView()
+                    view.show()
 
                 with ui.tab_panel(visits):
                     ui.label("Visits").classes("text-h4")

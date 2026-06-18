@@ -1,30 +1,36 @@
 import asyncio
 
+from db import get_connection
 from src.db import SQLCache
 from src.models.study import Study
-from sqlite3 import Connection
 
 
-def get_all(conn: Connection) -> list[Study]:
+def get_all() -> list[Study]:
+    conn = get_connection()
     conn.row_factory = lambda _, row: Study(
         id=row[0],
         name=row[1],
         sponsor=row[2],
         start_date=row[3],
         end_date=row[4],
+        proto_visits=row[5],
+        comments=row[6]
     )
     cache = SQLCache()
     cursor = conn.execute(cache.get("study/get_all.sql"))
     return cursor.fetchall()
 
 
-def get(conn: Connection, study_id: int) -> Study | None:
+def get(study_id: int) -> Study | None:
+    conn = get_connection()
     conn.row_factory = lambda _, row: Study(
         id=row[0],
         name=row[1],
         sponsor=row[2],
         start_date=row[3],
         end_date=row[4],
+        proto_visits=row[5],
+        comments=row[6]
     )
     cache = SQLCache()
     cursor = conn.execute(
@@ -34,34 +40,47 @@ def get(conn: Connection, study_id: int) -> Study | None:
     return cursor.fetchone()
 
 
-def save(conn: Connection, study: Study) -> None:
+def save(study: Study) -> None:
+    conn = get_connection()
     cache = SQLCache()
-    conn.execute(
-        cache.get("study/save.sql"),
-        (study.name, study.sponsor, study.start_date, study.end_date)
-    )
+
+    if study.id == 0:
+        sql = cache.get("study/save.sql")
+        cur = conn.execute(
+            sql,
+            (study.name, study.sponsor, study.start_date, study.end_date, study.proto_visits, study.comments),
+        )
+        study.id = cur.lastrowid
+        cur.close()
+        print(f"Saved study with id {study.id}")
+    else:
+        sql = cache.get("study/update.sql")
+        conn.execute(
+            sql,
+            (study.name, study.sponsor, study.start_date, study.end_date, study.proto_visits, study.comments, study.id),
+        )
+    conn.commit()
 
 
-def delete(conn: Connection, study_id: int) -> None:
+def delete(study_id: int) -> None:
+    conn = get_connection()
     cache = SQLCache()
     conn.execute(
         cache.get("study/delete.sql"),
         (study_id,),
     )
+    conn.commit()
 
 
 class StudyRepository:
-    def __init__(self, conn: Connection):
-        self.conn: Connection = conn
-
     async def list(self):
-        return await asyncio.to_thread(get_all, self.conn)
+        return await asyncio.to_thread(get_all)
 
     async def get(self, study_id: int) -> Study | None:
-        return await asyncio.to_thread(get, self.conn, study_id)
+        return await asyncio.to_thread(get, study_id)
 
     async def save(self, study: Study) -> None:
-        await asyncio.to_thread(save, self.conn, study)
+        await asyncio.to_thread(save, study)
 
     async def delete(self, study_id: int) -> None:
-        await asyncio.to_thread(delete, self.conn, study_id)
+        await asyncio.to_thread(delete, study_id)

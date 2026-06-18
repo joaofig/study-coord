@@ -3,6 +3,8 @@ SELECT  s.id
 ,       s.sponsor
 ,       s.start_date
 ,       s.end_date
+,       s.protocol_visits
+,       s.comments
 ,       (SELECT count(0) FROM patient p WHERE p.study_id = s.id) AS num_patients
 ,       (SELECT count(0) FROM study_researcher sr WHERE sr.study_id = s.id) AS num_researchers
 ,       (SELECT count(0) FROM visit v WHERE v.study_id = s.id) AS num_visits
