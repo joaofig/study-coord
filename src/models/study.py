@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any
 
 
 @dataclass
@@ -46,14 +47,21 @@ class Study:
 
 
 @dataclass
-class StudyRow:
-    id: int
-    name: str
-    sponsor: str
-    start_date: str
-    end_date: str
-    
+class StudyRow(Study):
     patients: int
     visits: int
     researchers: int
     adverse_events: int
+
+    def do_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "sponsor": self.sponsor,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "patients": self.patients,
+            "visits": self.visits,
+            "researchers": self.researchers,
+            "adverse_events": self.adverse_events,
+        }

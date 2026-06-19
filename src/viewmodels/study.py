@@ -1,7 +1,9 @@
 from datetime import date
 from nicegui import binding
 
+from db.repository import StudyRepository
 from models import Study
+from models.study import StudyRow
 
 
 @binding.bindable_dataclass
@@ -37,7 +39,6 @@ class StudyViewModel:
     async def save(self):
         study = self.to_study()
         if study.is_valid():
-            from db import get_connection
             from db.repository import StudyRepository
             repo = StudyRepository()
             await repo.save(study)
@@ -48,3 +49,10 @@ class StudyViewModel:
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
 
 
+class StudyListViewModel:
+    def __init__(self):
+        self.studies: list[StudyRow] = []
+
+    async def load(self):
+        repo = StudyRepository()
+        self.studies = await repo.list()

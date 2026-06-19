@@ -1,8 +1,11 @@
+from typing import Mapping, Any
+
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
 from models import Study
 from viewmodels import StudyViewModel
+from viewmodels.study import StudyListViewModel
 
 
 class StudyEditor:
@@ -47,9 +50,41 @@ class StudyEditor:
                 ui.button("Delete", on_click=lambda: ui.notify("Study deleted")).props("icon=delete").classes("ml-2")
 
 
+class StudyGrid:
+    def __init__(self, vm: StudyViewModel) -> None:
+        self.vm = vm
+        columns = [
+            {"headerName": "ID", "field": "id", "hide": True},
+            {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
+            {"headerName": "Sponsor", "field": "sponsor", "sortable": True, "align": "left"},
+            {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left"},
+            {"headerName": "End", "field": "end_date", "sortable": True, "align": "left"},
+            {"headerName": "Patients", "field": "patients", "sortable": True, "align": "right"},
+            {"headerName": "Visits", "field": "visits", "sortable": True, "align": "right"},
+            {"headerName": "Researchers", "field": "researchers", "sortable": True, "align": "right"},
+            {"headerName": "Events", "field": "adverse_events", "sortable": True, "align": "right"},
+        ]
+        grid_def = {
+            "columnDefs": columns,
+            # Placeholder for rowData; in a real application, this would be populated from a data source
+            # For example: 'rowData': get_studies_from_database()
+            "rowData": [],
+            ":getRowId": "(params) => String(params.data.id)"
+        }
+        self.grid = ui.aggrid(grid_def)
+
+    def _list_changed(self, action: str, args: Mapping[str, Any]) -> None:
+        ...
+
+
 class StudyView:
     def __init__(self):
         self.editor = StudyEditor()
+        self.vm = StudyListViewModel()
+
+    async def load(self):
+        await self.vm.load()
+        rows = [row.do_dict() for row in self.vm.studies]
 
     def show(self):
         with ui.splitter(horizontal=True, value=50).classes("w-full h-full") as splitter:
@@ -82,7 +117,8 @@ class StudyView:
             "columnDefs": columns,
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
-            'rowData': []
+            "rowData": [],
+            ":getRowId": "(params) => String(params.data.id)"
         }
         return ui.aggrid(grid_def)
 
@@ -129,20 +165,6 @@ def study_editor(vm: StudyViewModel):
             with ui.row().classes("mt-4"):
                 ui.button("Save", on_click=lambda: ui.notify("Study saved")).props("icon=save").classes("ml-auto")
                 ui.button("Delete", on_click=lambda: ui.notify("Study deleted")).props("icon=delete").classes("ml-2")
-
-        # with ui.column().classes("ml-8"):
-        #     with ui.tabs() as tabs:
-        #         visits = ui.tab(name="Visits", icon="event").classes("text-sky-600")
-        #         monitoring = ui.tab(name="Monitoring", icon="monitor_heart").classes("text-sky-600")
-        #         adverse_events = ui.tab(name="Events", icon="dangerous").classes("text-sky-600")
-        #         patients = ui.tab(name="Patients", icon="personal_injury").classes("text-sky-600")
-        #         researchers = ui.tab(name="Researchers", icon="group").classes("text-sky-600")
-        #     with (
-        #         ui.tab_panels(tabs, value=visits)
-        #                 .props("vertical")
-        #                 .classes("size-full")
-        #     ):
-        #         pass
 
 
 def add_study():

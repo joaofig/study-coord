@@ -2,19 +2,23 @@ import asyncio
 
 from db import get_connection
 from src.db import SQLCache
-from src.models.study import Study
+from src.models.study import Study, StudyRow
 
 
-def get_all() -> list[Study]:
+def get_all() -> list[StudyRow]:
     conn = get_connection()
-    conn.row_factory = lambda _, row: Study(
+    conn.row_factory = lambda _, row: StudyRow(
         id=row[0],
         name=row[1],
         sponsor=row[2],
         start_date=row[3],
         end_date=row[4],
         proto_visits=row[5],
-        comments=row[6]
+        comments=row[6],
+        patients=row[7],
+        visits=row[8],
+        researchers=row[9],
+        adverse_events=row[10],
     )
     cache = SQLCache()
     cursor = conn.execute(cache.get("study/get_all.sql"))
