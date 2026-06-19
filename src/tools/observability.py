@@ -1,3 +1,4 @@
+import asyncio
 from typing import Callable, Mapping, Any, Coroutine, Set
 
 ObserverHandler = Callable[[str, Mapping[str, Any]], None] | Coroutine[Any, Any, None]
@@ -16,6 +17,8 @@ class Observable:
         if handler in self._handlers:
             self._handlers.remove(handler)
 
-    def notify(self, action: str, **kwargs) -> None:
+    async def notify(self, action: str, **kwargs) -> None:
         for handler in self._handlers:
-            handler(action, kwargs)
+            result = handler(action, kwargs)
+            if asyncio.iscoroutine(result):
+                await result

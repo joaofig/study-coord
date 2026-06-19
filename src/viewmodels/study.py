@@ -1,13 +1,19 @@
+import asyncio
+
+from dataclasses import field
 from datetime import date
+from typing import Any, Mapping
+
 from nicegui import binding
 
-from db.repository import StudyRepository
-from models import Study
-from models.study import StudyRow
+from src.db.repository import StudyRepository
+from src.models import Study
+from src.models.study import StudyRow
+from src.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass
-class StudyViewModel:
+class StudyViewModel(ViewModel):
     id: int = 0
     name: str = ""
     sponsor: str = ""
@@ -15,6 +21,9 @@ class StudyViewModel:
     start_date: str = date.today().strftime("%Y-%m-%d")
     end_date: str = ""
     comments: str = ""
+
+    def __post_init__(self):
+        super().__init__()
 
     def copy(self, study: Study):
         self.id = study.id or 0
@@ -44,15 +53,37 @@ class StudyViewModel:
             await repo.save(study)
             if study.id:
                 self.id = study.id
+            await self.notify("save")
         else:
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
 
+    async def async_message(self, msg: str, data: Any = None):
+        if msg == "save":
+            await self.save()
 
-class StudyListViewModel:
+    def message(self, msg: str, data: Any = None):
+        """No implementation for synchronous messages in StudyViewModel"""
+        pass
+
+
+class StudyListViewModel(ViewModel):
+    studies: list[StudyRow] = []
+    study_vm: StudyViewModel = StudyViewModel()
+
     def __init__(self):
-        self.studies: list[StudyRow] = []
+        super().__init__()
+        self.study_vm.register(self.async_message)
 
     async def load(self):
         repo = StudyRepository()
         self.studies = await repo.list()
+        await self.async_notify("list_changed")
+
+    async def async_message(self, msg: str, data: Any = None):
+        if msg == "save":
+            await self.load()
+
+    def message(self, msg: str, data: Any = None):
+        """No implementation for synchronous messages in StudyListViewModel"""
+        pass
