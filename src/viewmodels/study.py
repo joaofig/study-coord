@@ -57,13 +57,22 @@ class StudyViewModel(ViewModel):
 
     async def async_message(self, msg: str, data: Any = None):
         match msg:
-            case "select_row":
-                self.select_row(data)
+            case "load_study":
+                repo = StudyRepository()
+                study_id = int(data)
+                study = await repo.get(study_id)
+                print(study)
+                if study:
+                    self.copy(study)
             case "save_study":
                 await self.save()
 
-    def select_row(self, data: dict):
-        self.copy(Study.from_dict(data))
+    async def select_row(self, data: dict):
+        repo = StudyRepository()
+        study = await repo.get(data["id"])
+        print(study)
+        if study:
+            self.copy(study)
 
     def message(self, msg: str, data: Any = None):
         """No implementation for synchronous messages in StudyViewModel"""
@@ -89,9 +98,7 @@ class StudyListViewModel(ViewModel):
             case "study_saved":
                 await self.load()
             case "study_selected":
-                print(f"Selected Study: {data}")
-                self.study_vm.copy(Study.from_dict(data))
-                # await self.async_notify("study_selected", data)
+                await self.study_vm.async_message("load_study", data["id"])
 
     def message(self, msg: str, data: Any = None):
         """No implementation for synchronous messages in StudyListViewModel"""

@@ -4,7 +4,6 @@ from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
 from src.models import Study
-from src.tools.tasks import ManagedTasks
 from src.viewmodels import StudyViewModel
 from src.viewmodels.study import StudyListViewModel
 
@@ -27,48 +26,69 @@ class StudyEditor:
         self.study = study
         self.vm.copy(study)
 
+    def study_pane(self):
+        with ui.row().classes("mt-2 w-full"):
+            (ui.button("New", on_click=lambda: self.load(Study.empty()))
+             .props("icon=add")
+             .classes("text-xs")
+             )
+            (ui.button("Save", on_click=lambda: self.save())
+             .props("icon=save")
+             .classes("text-xs")
+             )
+            (ui.button("Undo", on_click=lambda: self.load(self.study))
+             .props("icon=undo")
+             .classes("text-xs")
+             )
+            ui.space()
+            (ui.button("Delete", on_click=lambda: ui.notify("Study deleted"))
+             .classes("text-xs")
+             .props("icon=delete")
+             .props("color=red")
+             )
+
+        (ui.input(label="Name", validation=validate_name)
+         .classes("w-full")
+         .bind_value(self.vm, "name")
+         )
+        (ui.input(label="Sponsor")
+         .classes("w-full")
+         .bind_value(self.vm, "sponsor")
+         )
+
+        with ui.row().classes("gap-2"):
+            (ui.date_input(label="Start Date").bind_value(self.vm, "start_date"))
+            (ui.date_input(label="End Date").bind_value(self.vm, "end_date"))
+
+        with ui.row().classes("gap-2"):
+            (ui.number(label="Protocol Visits", value=1)
+             .props('clearable')
+             .classes("w-full")
+             .bind_value(self.vm, "visits", strict=True)
+             )
+        with ui.row().classes("gap-2 w-full"):
+            (ui.textarea(label="Comments")
+             .classes("w-full")
+             .bind_value(self.vm, "comments")
+             )
+
+    def details_pane(self):
+        with ui.tabs().props("horizontal").classes("w-full") as tabs:
+            visits = ui.tab("Visits", icon="event").classes("text-sky-800")
+            monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
+            adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
+            patients = ui.tab("Patients", icon="personal_injury").classes("text-sky-800")
+            researchers = ui.tab("Researchers", icon="group").classes("text-sky-800")
+            reports = ui.tab("Reports", icon="dashboard").classes("text-sky-800")
+            settings = ui.tab("Settings", icon="settings").classes("text-sky-800")
+
     def show(self):
-        with ui.column():
-            with ui.row().classes("mt-2 w-full"):
-                (ui.button("Save", on_click=lambda: self.save())
-                    .props("icon=save")
-                    .classes("text-xs")
-                )
-                (ui.button("Undo", on_click=lambda: self.load(self.study))
-                    .props("icon=undo")
-                    .classes("text-xs")
-                )
-                ui.space()
-                (ui.button("Delete", on_click=lambda: ui.notify("Study deleted"))
-                    .classes("text-xs")
-                    .props("icon=delete")
-                    .props("color=red")
-                )
-
-            (ui.input(label="Name", validation=validate_name)
-                .classes("w-full")
-                .bind_value(self.vm, "name")
-            )
-            (ui.input(label="Sponsor")
-                 .classes("w-full")
-                 .bind_value(self.vm, "sponsor")
-            )
-
-            with ui.row().classes("gap-2"):
-                (ui.date_input(label="Start Date").bind_value(self.vm, "start_date"))
-                (ui.date_input(label="End Date").bind_value(self.vm, "end_date"))
-
-            with ui.row().classes("gap-2"):
-                (ui.number(label="Protocol Visits", value=1)
-                 .props('clearable')
-                 .classes("w-full")
-                 .bind_value(self.vm, "visits")
-                 )
-            with ui.row().classes("gap-2 w-full"):
-                (ui.textarea(label="Comments")
-                 .classes("w-full")
-                 .bind_value(self.vm, "comments")
-                 )
+        with ui.row():
+            with ui.column():
+                self.study_pane()
+            ui.separator().props("vertical")
+            with ui.column():
+                self.details_pane()
 
 
 class StudyGrid:
