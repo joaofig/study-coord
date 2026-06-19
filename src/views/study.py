@@ -79,8 +79,6 @@ class StudyEditor:
             adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
             patients = ui.tab("Patients", icon="personal_injury").classes("text-sky-800")
             researchers = ui.tab("Researchers", icon="group").classes("text-sky-800")
-            reports = ui.tab("Reports", icon="dashboard").classes("text-sky-800")
-            settings = ui.tab("Settings", icon="settings").classes("text-sky-800")
 
     def show(self):
         with ui.row():
