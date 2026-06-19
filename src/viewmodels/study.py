@@ -53,7 +53,7 @@ class StudyViewModel(ViewModel):
             await repo.save(study)
             if study.id:
                 self.id = study.id
-            await self.notify("save")
+            await self.async_notify("save")
         else:
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
