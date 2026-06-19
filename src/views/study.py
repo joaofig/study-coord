@@ -20,7 +20,7 @@ class StudyEditor:
         self.study = Study.empty()
 
     async def save(self):
-        await self.vm.async_message("save")
+        await self.vm.async_message("save_study")
 
     def load(self, study: Study):
         self.study = study

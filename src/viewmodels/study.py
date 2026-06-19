@@ -70,7 +70,7 @@ class StudyViewModel(ViewModel):
     async def select_row(self, data: dict):
         repo = StudyRepository()
         study = await repo.get(data["id"])
-        print(study)
+        # print(study)
         if study:
             self.copy(study)
 

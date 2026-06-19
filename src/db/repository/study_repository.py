@@ -56,7 +56,6 @@ def save(study: Study) -> None:
         )
         study.id = cur.lastrowid
         cur.close()
-        print(f"Saved study with id {study.id}")
     else:
         sql = cache.get("study/update.sql")
         conn.execute(
