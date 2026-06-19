@@ -2,7 +2,7 @@ import asyncio
 from sqlite3 import Connection
 
 from src.db import SQLCache
-from models import Researcher
+from src.models import Researcher
 
 
 def get_all(conn: Connection) -> list[Researcher]:

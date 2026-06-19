@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from models import Patient
+from src.models import Patient
 
 
 @dataclass

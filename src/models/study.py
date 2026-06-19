@@ -18,6 +18,18 @@ class Study:
     def empty(cls) -> Study:
         return Study(None, "", "", "", None, 0, None)
 
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> Study:
+        return Study(
+            id=data.get("id"),
+            name=data.get("name", ""),
+            sponsor=data.get("sponsor", ""),
+            start_date=data.get("start_date", ""),
+            end_date=data.get("end_date"),
+            proto_visits=data.get("proto_visits", 0),
+            comments=data.get("comments"),
+        )
+
     def is_valid(self) -> bool:
         """
         Check if the study is valid.

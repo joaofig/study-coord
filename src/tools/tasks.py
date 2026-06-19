@@ -1,6 +1,6 @@
 import asyncio
 
-from tools import singleton
+from src.tools import singleton
 
 
 @singleton

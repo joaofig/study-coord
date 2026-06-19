@@ -2,7 +2,7 @@ import asyncio
 from sqlite3 import Connection
 
 from src.db import SQLCache
-from models import Patient
+from src.models import Patient
 
 
 def get_all(conn: Connection) -> list[Patient]:

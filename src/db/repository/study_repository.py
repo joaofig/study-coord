@@ -1,6 +1,6 @@
 import asyncio
 
-from db import get_connection
+from src.db.sqlite import get_connection
 from src.db import SQLCache
 from src.models.study import Study, StudyRow
 

@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABC
 from typing import Any
 
-from tools.observability import Observable, ObserverHandler
+from src.tools.observability import Observable, ObserverHandler
 
 
 class ViewModel(ABC):

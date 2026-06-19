@@ -3,9 +3,10 @@ from typing import Mapping, Any
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
-from models import Study
-from viewmodels import StudyViewModel
-from viewmodels.study import StudyListViewModel
+from src.models import Study
+from src.tools.tasks import ManagedTasks
+from src.viewmodels import StudyViewModel
+from src.viewmodels.study import StudyListViewModel
 
 
 def validate_name(value: str | None) -> str | None:
@@ -15,8 +16,8 @@ def validate_name(value: str | None) -> str | None:
 
 
 class StudyEditor:
-    def __init__(self):
-        self.vm = StudyViewModel()
+    def __init__(self, vm: StudyViewModel):
+        self.vm = vm
         self.study = Study.empty()
 
     async def save(self):
@@ -70,7 +71,6 @@ class StudyEditor:
                  )
 
 
-
 class StudyGrid:
     def __init__(self, vm: StudyListViewModel) -> None:
         self.vm = vm
@@ -102,12 +102,20 @@ class StudyGrid:
             ":getRowId": "(params) => String(params.data.id)"
         }
         self.grid = ui.aggrid(grid_def).classes("w-full h-full")
+        self.grid.on("rowClicked",
+                     self._row_selected, # ui.notify(event.args["data"]),
+                     ["data"]
+                    )
         return self.grid
+
+    async def _row_selected(self, event):
+        row_data = event.args["data"]
+        await self.vm.async_message("study_selected", row_data)
 
 
 class StudyView:
     def __init__(self, view_model: StudyListViewModel):
-        self.editor = StudyEditor()
+        self.editor = StudyEditor(view_model.study_vm)
         self.vm = view_model
         self.grid = StudyGrid(self.vm)
 

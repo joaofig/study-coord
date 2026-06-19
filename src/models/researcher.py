@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from models import Study
+from src.models import Study
 
 
 @dataclass

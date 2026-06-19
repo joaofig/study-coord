@@ -1,5 +1,5 @@
 from pathlib import Path
-from tools import singleton
+from src.tools import singleton
 
 
 def get_script(script_name: str) -> str:

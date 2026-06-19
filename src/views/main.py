@@ -1,9 +1,9 @@
 from nicegui import ui
 
-from tools.tasks import ManagedTasks
-from viewmodels.study import StudyListViewModel
-from views.researcher import researcher_grid_view
-from views.study import StudyView
+from src.tools.tasks import ManagedTasks
+from src.viewmodels.study import StudyListViewModel
+from src.views.researcher import researcher_grid_view
+from src.views.study import StudyView
 
 
 def main_view():

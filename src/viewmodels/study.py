@@ -1,8 +1,5 @@
-import asyncio
-
-from dataclasses import field
 from datetime import date
-from typing import Any, Mapping
+from typing import Any
 
 from nicegui import binding
 
@@ -48,19 +45,25 @@ class StudyViewModel(ViewModel):
     async def save(self):
         study = self.to_study()
         if study.is_valid():
-            from db.repository import StudyRepository
+            from src.db.repository import StudyRepository
             repo = StudyRepository()
             await repo.save(study)
             if study.id:
                 self.id = study.id
-            await self.async_notify("save")
+            await self.async_notify("study_saved")
         else:
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
 
     async def async_message(self, msg: str, data: Any = None):
-        if msg == "save":
-            await self.save()
+        match msg:
+            case "select_row":
+                self.select_row(data)
+            case "save_study":
+                await self.save()
+
+    def select_row(self, data: dict):
+        self.copy(Study.from_dict(data))
 
     def message(self, msg: str, data: Any = None):
         """No implementation for synchronous messages in StudyViewModel"""
@@ -70,6 +73,7 @@ class StudyViewModel(ViewModel):
 class StudyListViewModel(ViewModel):
     studies: list[StudyRow] = []
     study_vm: StudyViewModel = StudyViewModel()
+    sel_row = binding.BindableProperty()
 
     def __init__(self):
         super().__init__()
@@ -81,8 +85,13 @@ class StudyListViewModel(ViewModel):
         await self.async_notify("list_changed")
 
     async def async_message(self, msg: str, data: Any = None):
-        if msg == "save":
-            await self.load()
+        match msg:
+            case "study_saved":
+                await self.load()
+            case "study_selected":
+                print(f"Selected Study: {data}")
+                self.study_vm.copy(Study.from_dict(data))
+                # await self.async_notify("study_selected", data)
 
     def message(self, msg: str, data: Any = None):
         """No implementation for synchronous messages in StudyListViewModel"""
