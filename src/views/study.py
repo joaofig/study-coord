@@ -33,8 +33,10 @@ class StudyEditor:
              .classes("text-xs")
              )
             (ui.button("Save", on_click=lambda: self.save())
-             .props("icon=save")
-             .classes("text-xs")
+                .props("icon=save")
+                .classes("text-xs")
+                .disable()
+                .bind_enabled(self.vm, "changed")
              )
             (ui.button("Undo", on_click=lambda: self.load(self.study))
              .props("icon=undo")
@@ -42,34 +44,39 @@ class StudyEditor:
              )
             ui.space()
             (ui.button("Delete", on_click=lambda: ui.notify("Study deleted"))
-             .classes("text-xs")
-             .props("icon=delete")
-             .props("color=red")
+                .classes("text-xs")
+                .props("icon=delete")
+                .props("color=red")
+                .disable()
              )
 
-        (ui.input(label="Name", validation=validate_name)
-         .classes("w-full")
-         .bind_value(self.vm, "name")
-         )
-        (ui.input(label="Sponsor")
-         .classes("w-full")
-         .bind_value(self.vm, "sponsor")
-         )
-
-        with ui.row().classes("gap-2"):
-            (ui.date_input(label="Start Date").bind_value(self.vm, "start_date"))
-            (ui.date_input(label="End Date").bind_value(self.vm, "end_date"))
-
-        with ui.row().classes("gap-2"):
-            (ui.number(label="Protocol Visits", value=1)
-             .props('clearable')
+        (ui.input(label="Name", validation=validate_name, 
+                  on_change=lambda _: self.vm.async_message("data_changed", "name"))
              .classes("w-full")
-             .bind_value(self.vm, "visits", strict=True)
+             .bind_value(self.vm, "name")
+         )
+        (ui.input(label="Sponsor", on_change=lambda _: self.vm.async_message("data_changed", "sponsor"))
+             .classes("w-full")
+             .bind_value(self.vm, "sponsor")
+         )
+
+        with ui.row().classes("gap-2"):
+            (ui.date_input(label="Start Date", on_change=lambda _: self.vm.async_message("data_changed", "start_date"))
+                .bind_value(self.vm, "start_date"))
+            (ui.date_input(label="End Date", on_change=lambda _: self.vm.async_message("data_changed", "end_date"))
+                .bind_value(self.vm, "end_date"))
+
+        with ui.row().classes("gap-2"):
+            (ui.number(label="Protocol Visits", value=1, on_change=lambda _: self.vm.async_message("data_changed", "proto_visits"))
+                 .props('clearable')
+                 .classes("w-full")
+                 .bind_value(self.vm, "visits", strict=True)
              )
         with ui.row().classes("gap-2 w-full"):
-            (ui.textarea(label="Comments")
-             .classes("w-full")
-             .bind_value(self.vm, "comments")
+            (ui.textarea(label="Comments", 
+                         on_change=lambda _: self.vm.async_message("data_changed", "comments"))
+                 .classes("w-full")
+                 .bind_value(self.vm, "comments")
              )
 
     def details_pane(self):
@@ -97,7 +104,7 @@ class StudyGrid:
 
     def _vm_notification(self, action: str, data: Any = None) -> None:
         if action == "list_changed":
-            self.grid.options["rowData"] = [row.do_dict() for row in self.vm.studies]
+            self.grid.options["rowData"] = self.vm.studies
             self.grid.update()
 
     def show(self) -> AgGrid:

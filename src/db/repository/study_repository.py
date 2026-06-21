@@ -34,10 +34,6 @@ def get(study_id: int) -> dict | None:
         "end_date": row[4],
         "proto_visits": row[5],
         "comments": row[6],
-        "patients": row[7],
-        "visits": row[8],
-        "researchers": row[9],
-        "adverse_events": row[10],
     }
     cache = SQLCache()
     cursor = conn.execute(
@@ -47,17 +43,17 @@ def get(study_id: int) -> dict | None:
     return cursor.fetchone()
 
 
-def save(study: dict) -> None:
+def save(study: dict) -> dict:
     conn = get_connection()
     cache = SQLCache()
 
-    if study.id == 0:
+    if study["id"] == 0:
         sql = cache.get("study/save.sql")
         cur = conn.execute(
             sql,
             (study["name"], study["sponsor"], study["start_date"], study["end_date"], study["proto_visits"], study["comments"]),
         )
-        study.id = cur.lastrowid
+        study["id"] = cur.lastrowid
         cur.close()
     else:
         sql = cache.get("study/update.sql")
@@ -66,6 +62,7 @@ def save(study: dict) -> None:
             (study["name"], study["sponsor"], study["start_date"], study["end_date"], study["proto_visits"], study["comments"], study["id"]),
         )
     conn.commit()
+    return study
 
 
 def delete(study_id: int) -> None:
@@ -88,8 +85,8 @@ class StudyRepository:
         return await asyncio.to_thread(get, study_id)
 
     @classmethod
-    async def save(cls, study: dict) -> None:
-        await asyncio.to_thread(save, study)
+    async def save(cls, study: dict) -> dict:
+        return await asyncio.to_thread(save, study)
 
     @classmethod
     async def delete(cls, study_id: int) -> None:

@@ -2,6 +2,7 @@ from datetime import date
 from typing import Any
 
 from nicegui import binding
+from nicegui.observables import ObservableSet
 
 from src.db.repository import StudyRepository
 from src.models import Study
@@ -18,6 +19,8 @@ class StudyViewModel(ViewModel):
     start_date: str = date.today().strftime("%Y-%m-%d")
     end_date: str = ""
     comments: str = ""
+    changed: bool = False
+    change_set = ObservableSet()
 
     def __post_init__(self):
         super().__init__()
@@ -30,6 +33,8 @@ class StudyViewModel(ViewModel):
         self.start_date = study.start_date
         self.end_date = study.end_date or ""
         self.comments = study.comments or ""
+        self.changed = False
+        self.change_set.clear()
 
     def to_study(self) -> Study:
         return Study(
@@ -49,6 +54,7 @@ class StudyViewModel(ViewModel):
             if study.id:
                 self.id = study.id
             await self.async_notify("study_saved")
+            self.changed = False
         else:
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
@@ -62,6 +68,9 @@ class StudyViewModel(ViewModel):
                     self.copy(study)
             case "save_study":
                 await self.save()
+            case "data_changed":
+                self.changed = True
+                self.change_set.add(data)
 
     async def select_row(self, data: dict):
         study = await Study.load(data["id"])
