@@ -45,7 +45,7 @@ class StudyEditor:
              )
             ui.space()
             (ui.button("Delete", on_click=lambda: ui.notify("Study deleted"))
-                .classes("text-xs")
+                .classes("text-xs mr-2")
                 .props("icon=delete")
                 .props("color=red")
                 .disable()
@@ -54,6 +54,7 @@ class StudyEditor:
         (ui.input(label="Name", validation=validate_name, 
                   on_change=lambda _: self.vm.async_message("data_changed", "name"))
              .classes("w-full")
+             # .props("dense")
              .bind_value(self.vm, "name")
          )
         (ui.input(label="Sponsor", on_change=lambda _: self.vm.async_message("data_changed", "sponsor"))
@@ -81,13 +82,14 @@ class StudyEditor:
              )
 
     def details_pane(self):
-        with ui.tabs().props("horizontal").classes("p-0") as tabs:
+        with ui.tabs().props("horizontal").classes("p-0").bind_visibility(self.vm, "is_old") as tabs:
             # visits = ui.tab("Visits", icon="event").classes("text-sky-800")
             # monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
             # adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
             patients = ui.tab("Patients", icon="personal_injury").classes("text-sky-800")
             researchers = ui.tab("Researchers", icon="group").classes("text-sky-800")
-        with ui.tab_panels(tabs, value=patients).classes("size-full"):
+        with (ui.tab_panels(tabs, value=patients)
+                .classes("size-full")):
             # with ui.tab_panel(visits):
             #     ui.label("Visits").classes("text-h4")
             #     ui.label("Content of visits")
@@ -100,17 +102,17 @@ class StudyEditor:
             #     ui.label("Adverse Events").classes("text-h4")
             #     ui.label("Content of adverse events")
 
-            with ui.tab_panel(patients).classes("pl-2 pt-0 pb-0 pr-0"):
+            with (ui.tab_panel(patients)
+                    .classes("pl-2 pt-0 pb-0 pr-0").bind_visibility(self.vm, "is_old")):
                 with ui.row().classes("w-full h-full"):
 
                     with ui.column().classes("h-full flex-1"):
-                        PatientGrid(self.vm).show()
+                        StudyPatientGrid(self.vm).show()
                     with ui.column().classes("h-full flex-none"):
                         ui.button(icon="add")
                         ui.button(icon="delete")
 
-
-            with ui.tab_panel(researchers):
+            with ui.tab_panel(researchers).bind_visibility(self.vm, "is_old"):
                 ui.label("Researchers").classes("text-h4")
                 ui.label("Content of researchers")
 
@@ -122,7 +124,7 @@ class StudyEditor:
                 self.details_pane()
 
 
-class PatientGrid:
+class StudyPatientGrid:
     def __init__(self, vm: ViewModel):
         self.vm = vm
         self.grid: Any = None
@@ -157,6 +159,15 @@ class StudyGrid:
             self.grid.options["rowData"] = self.vm.studies
             self.grid.update()
 
+    async def _row_selection_changed(self, event):
+        row = await self.grid.get_selected_row()
+        if row:
+            # ui.notify(f"{row}")
+            await self.vm.async_message("study_selected", row)
+        else:
+            # ui.notify('No row selected!')
+            await self.vm.async_message("study_unselected", row)
+
     def show(self) -> AgGrid:
         columns = [
             {"headerName": "ID", "field": "id", "hide": True},
@@ -174,13 +185,15 @@ class StudyGrid:
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
+            "rowSelection": {"mode": "singleRow"},
             ":getRowId": "(params) => String(params.data.id)"
         }
         self.grid = ui.aggrid(grid_def).classes("w-full h-full")
-        self.grid.on("rowClicked",
-                     self._row_selected, # ui.notify(event.args["data"]),
-                     ["data"]
-                    )
+        # self.grid.on("rowClicked",
+        #              self._row_selected, # ui.notify(event.args["data"]),
+        #              ["data"]
+        #             )
+        self.grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return self.grid
 
     async def _row_selected(self, event):

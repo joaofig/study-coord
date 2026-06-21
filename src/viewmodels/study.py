@@ -21,6 +21,7 @@ class StudyViewModel(ViewModel):
     comments: str = ""
     changed: bool = False
     change_set = ObservableSet()
+    is_old: bool = False
 
     def __post_init__(self):
         super().__init__()
@@ -34,6 +35,7 @@ class StudyViewModel(ViewModel):
         self.end_date = study.end_date or ""
         self.comments = study.comments or ""
         self.changed = False
+        self.is_old = study.id is not None
         self.change_set.clear()
 
     def to_study(self) -> Study:
@@ -55,6 +57,7 @@ class StudyViewModel(ViewModel):
                 self.id = study.id
             await self.async_notify("study_saved")
             self.changed = False
+            self.is_old = True
         else:
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
@@ -104,6 +107,8 @@ class StudyListViewModel(ViewModel):
                 await self.load()
             case "study_selected":
                 await self.study_vm.async_message("load_study", data["id"])
+            case "study_unselected":
+                self.study_vm.copy(Study.empty())
 
     def message(self, msg: str, data: Any = None):
         """No implementation for synchronous messages in StudyListViewModel"""
