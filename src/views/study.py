@@ -80,19 +80,38 @@ class StudyEditor:
              )
 
     def details_pane(self):
-        with ui.tabs().props("horizontal").classes("w-full") as tabs:
+        with ui.tabs().props("horizontal").classes("p-0") as tabs:
             visits = ui.tab("Visits", icon="event").classes("text-sky-800")
             monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
             adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
             patients = ui.tab("Patients", icon="personal_injury").classes("text-sky-800")
             researchers = ui.tab("Researchers", icon="group").classes("text-sky-800")
+        with ui.tab_panels(tabs, value=visits).classes("size-full"):
+            with ui.tab_panel(visits):
+                ui.label("Visits").classes("text-h4")
+                ui.label("Content of visits")
+
+            with ui.tab_panel(monitoring):
+                ui.label("Monitoring").classes("text-h4")
+                ui.label("Content of monitoring")
+
+            with ui.tab_panel(adverse_events):
+                ui.label("Adverse Events").classes("text-h4")
+                ui.label("Content of adverse events")
+
+            with ui.tab_panel(patients):
+                ui.label("Patients").classes("text-h4")
+                ui.label("Content of patients")
+
+            with ui.tab_panel(researchers):
+                ui.label("Researchers").classes("text-h4")
+                ui.label("Content of researchers")
 
     def show(self):
-        with ui.row():
-            with ui.column():
+        with ui.splitter(value=35).classes("w-full") as splitter:
+            with splitter.before:
                 self.study_pane()
-            ui.separator().props("vertical")
-            with ui.column():
+            with splitter.after:
                 self.details_pane()
 
 

@@ -16,7 +16,7 @@ class StudyViewModel(ViewModel):
     name: str = ""
     sponsor: str = ""
     visits: int = 1
-    start_date: str = date.today().strftime("%Y-%m-%d")
+    start_date: str = ""
     end_date: str = ""
     comments: str = ""
     changed: bool = False
@@ -69,6 +69,8 @@ class StudyViewModel(ViewModel):
             case "save_study":
                 await self.save()
             case "data_changed":
+                # Input controls send this message whenever the user changes the value
+                # The data is the changed property name
                 self.changed = True
                 self.change_set.add(data)
 

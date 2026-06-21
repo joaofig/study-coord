@@ -22,7 +22,6 @@ def main_view():
         with splitter.after:
             with (
                 ui.tab_panels(tabs, value=studies)
-                .props("vertical")
                 .classes("size-full")
             ):
                 with ui.tab_panel(studies):
