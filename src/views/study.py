@@ -6,6 +6,7 @@ from nicegui.elements.aggrid import AgGrid
 from src.models import Study
 from src.viewmodels import StudyViewModel
 from src.viewmodels.study import StudyListViewModel
+from viewmodels.view_model import ViewModel
 
 
 def validate_name(value: str | None) -> str | None:
@@ -81,27 +82,33 @@ class StudyEditor:
 
     def details_pane(self):
         with ui.tabs().props("horizontal").classes("p-0") as tabs:
-            visits = ui.tab("Visits", icon="event").classes("text-sky-800")
-            monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
-            adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
+            # visits = ui.tab("Visits", icon="event").classes("text-sky-800")
+            # monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
+            # adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
             patients = ui.tab("Patients", icon="personal_injury").classes("text-sky-800")
             researchers = ui.tab("Researchers", icon="group").classes("text-sky-800")
-        with ui.tab_panels(tabs, value=visits).classes("size-full"):
-            with ui.tab_panel(visits):
-                ui.label("Visits").classes("text-h4")
-                ui.label("Content of visits")
+        with ui.tab_panels(tabs, value=patients).classes("size-full"):
+            # with ui.tab_panel(visits):
+            #     ui.label("Visits").classes("text-h4")
+            #     ui.label("Content of visits")
+            #
+            # with ui.tab_panel(monitoring):
+            #     ui.label("Monitoring").classes("text-h4")
+            #     ui.label("Content of monitoring")
+            #
+            # with ui.tab_panel(adverse_events):
+            #     ui.label("Adverse Events").classes("text-h4")
+            #     ui.label("Content of adverse events")
 
-            with ui.tab_panel(monitoring):
-                ui.label("Monitoring").classes("text-h4")
-                ui.label("Content of monitoring")
+            with ui.tab_panel(patients).classes("pl-2 pt-0 pb-0 pr-0"):
+                with ui.row().classes("w-full h-full"):
 
-            with ui.tab_panel(adverse_events):
-                ui.label("Adverse Events").classes("text-h4")
-                ui.label("Content of adverse events")
+                    with ui.column().classes("h-full flex-1"):
+                        PatientGrid(self.vm).show()
+                    with ui.column().classes("h-full flex-none"):
+                        ui.button(icon="add")
+                        ui.button(icon="delete")
 
-            with ui.tab_panel(patients):
-                ui.label("Patients").classes("text-h4")
-                ui.label("Content of patients")
 
             with ui.tab_panel(researchers):
                 ui.label("Researchers").classes("text-h4")
@@ -113,6 +120,30 @@ class StudyEditor:
                 self.study_pane()
             with splitter.after:
                 self.details_pane()
+
+
+class PatientGrid:
+    def __init__(self, vm: ViewModel):
+        self.vm = vm
+        self.grid: Any = None
+
+    def show(self) -> AgGrid:
+        columns = [
+            {"headerName": "ID", "field": "id", "hide": True},
+            {"headerName": "Number", "field": "number", "sortable": True, "align": "left"},
+            {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left"},
+            {"headerName": "End", "field": "end_date", "sortable": True, "align": "left"},
+            {"headerName": "Status", "field": "status", "sortable": True, "align": "left"},
+        ]
+        grid_def = {
+            "columnDefs": columns,
+            # Placeholder for rowData; in a real application, this would be populated from a data source
+            # For example: 'rowData': get_studies_from_database()
+            "rowData": [],
+            ":getRowId": "(params) => String(params.data.id)"
+        }
+        self.grid = ui.aggrid(grid_def).classes("w-full h-full")
+        return self.grid
 
 
 class StudyGrid:
