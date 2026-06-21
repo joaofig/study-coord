@@ -45,9 +45,7 @@ class StudyViewModel(ViewModel):
     async def save(self):
         study = self.to_study()
         if study.is_valid():
-            from src.db.repository import StudyRepository
-            repo = StudyRepository()
-            await repo.save(study)
+            await study.save()
             if study.id:
                 self.id = study.id
             await self.async_notify("study_saved")
@@ -58,19 +56,15 @@ class StudyViewModel(ViewModel):
     async def async_message(self, msg: str, data: Any = None):
         match msg:
             case "load_study":
-                repo = StudyRepository()
                 study_id = int(data)
-                study = await repo.get(study_id)
-                print(study)
+                study = await Study.load(study_id)
                 if study:
                     self.copy(study)
             case "save_study":
                 await self.save()
 
     async def select_row(self, data: dict):
-        repo = StudyRepository()
-        study = await repo.get(data["id"])
-        # print(study)
+        study = await Study.load(data["id"])
         if study:
             self.copy(study)
 

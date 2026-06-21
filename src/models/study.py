@@ -1,7 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
+
+from db.repository import StudyRepository
 
 
 @dataclass
@@ -30,6 +32,17 @@ class Study:
             comments=data.get("comments"),
         )
 
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "sponsor": self.sponsor,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "proto_visits": self.proto_visits,
+            "comments": self.comments,
+        }
+
     def is_valid(self) -> bool:
         """
         Check if the study is valid.
@@ -57,6 +70,14 @@ class Study:
             return "At least one protocol visit is required."
         return ""
 
+    async def save(self):
+        await StudyRepository.save(self.to_dict())
+
+    @classmethod
+    async def load(cls, study_id: int) -> Study | None:
+        repo = StudyRepository()
+        study = await repo.get(study_id)
+        return Study.from_dict(study) if study else None
 
 @dataclass
 class StudyRow(Study):

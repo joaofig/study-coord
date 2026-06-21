@@ -1,4 +1,4 @@
-from typing import Mapping, Any
+from typing import Any
 
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
