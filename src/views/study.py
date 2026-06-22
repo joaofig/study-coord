@@ -142,10 +142,25 @@ class StudyPatientDialog:
             ui.label("Study Patient Details").classes("text-base")
 
             (ui.input("Number")
-             .classes("w-full")
-             .bind_value(self.vm, "number")
+                 .classes("w-full")
+                 .bind_value(self.vm, "number")
             )
-
+            (ui.date_input("Start Date")
+                 .classes("w-full")
+                 .bind_value(self.vm, "start_date")
+            )
+            (ui.date_input("Exit Date")
+                 .classes("w-full")
+                 .bind_value(self.vm, "exit_date")
+            )
+            (ui.select(options=["Active", "Completed", "Withdrawn", "Deceased"], label="Status")
+                 .classes("w-full")
+                 .bind_value(self.vm, "status")
+            )
+            (ui.textarea("Comments")
+                 .classes("w-full")
+                 .bind_value(self.vm, "comments")
+            )
             with ui.row():
                 ui.button("Save", on_click=lambda: dialog.submit("save"))
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
@@ -213,7 +228,7 @@ class StudyGrid:
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
-            "rowSelection": {"mode": "singleRow"},
+            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
             ":getRowId": "(params) => String(params.data.id)"
         }
         self.grid = ui.aggrid(grid_def).classes("w-full h-full")
