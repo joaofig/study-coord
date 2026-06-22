@@ -6,6 +6,7 @@ from nicegui.elements.aggrid import AgGrid
 from src.models import Study
 from src.viewmodels import StudyViewModel
 from src.viewmodels.study import StudyListViewModel
+from viewmodels.patient import PatientViewModel
 from viewmodels.view_model import ViewModel
 
 
@@ -81,6 +82,14 @@ class StudyEditor:
                  .bind_value(self.vm, "comments")
              )
 
+    async def show_patient_dialog(self):
+        patient_vm = PatientViewModel()
+        dialog = StudyPatientDialog(patient_vm)
+        result = await dialog.show()
+
+        if result == "save":
+            ui.notify("Patient saved")
+
     def details_pane(self):
         with ui.tabs().props("horizontal").classes("p-0").bind_visibility(self.vm, "is_old") as tabs:
             # visits = ui.tab("Visits", icon="event").classes("text-sky-800")
@@ -109,7 +118,7 @@ class StudyEditor:
                     with ui.column().classes("h-full flex-1"):
                         StudyPatientGrid(self.vm).show()
                     with ui.column().classes("h-full flex-none"):
-                        ui.button(icon="add")
+                        ui.button(icon="add", on_click=lambda: self.show_patient_dialog())
                         ui.button(icon="delete")
 
             with ui.tab_panel(researchers).bind_visibility(self.vm, "is_old"):
@@ -122,6 +131,25 @@ class StudyEditor:
                 self.study_pane()
             with splitter.after:
                 self.details_pane()
+
+
+class StudyPatientDialog:
+    def __init__(self, vm: ViewModel):
+        self.vm = vm
+
+    async def show(self):
+        with ui.dialog() as dialog, ui.card():
+            ui.label("Study Patient Details").classes("text-base")
+
+            (ui.input("Number")
+             .classes("w-full")
+             .bind_value(self.vm, "number")
+            )
+
+            with ui.row():
+                ui.button("Save", on_click=lambda: dialog.submit("save"))
+                ui.button("Close", on_click=lambda: dialog.submit("close"))
+        return await dialog
 
 
 class StudyPatientGrid:

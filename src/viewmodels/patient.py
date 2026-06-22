@@ -7,13 +7,11 @@ from viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass
-class StudyViewModel(ViewModel):
+class PatientViewModel(ViewModel):
     id: int = 0
     study_id: int = 0
-    study_name: str = ""
-    study_sponsor: str = ""
     number: str = ""
-    start_date: str = date.today().strftime("%Y-%m-%d")
+    start_date: str = date.today().isoformat()
     exit_date: str = ""
     status: str = "active"
     comments: str = ""

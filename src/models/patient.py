@@ -8,8 +8,6 @@ from db.repository.patient_repository import PatientRepository
 class Patient:
     id: int
     study_id: int
-    study_name: str
-    study_sponsor: str
     number: str
     start_date: str
     exit_date: str
