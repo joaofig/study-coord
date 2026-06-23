@@ -4,17 +4,18 @@ from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
 from viewmodels.study import StudyListViewModel
+from viewmodels.view_model import ViewModel
 
 
 class StudyGrid:
-    def __init__(self, vm: StudyListViewModel) -> None:
+    def __init__(self, vm: ViewModel) -> None:
         self.vm = vm
         self.grid: Any = None
         vm.register(self._vm_notification)
 
     def _vm_notification(self, action: str, data: Any = None) -> None:
         if action == "list_changed":
-            self.grid.options["rowData"] = self.vm.studies
+            self.grid.options["rowData"] = self.vm.get("studies")
             self.grid.update()
 
     async def _row_selection_changed(self, event):

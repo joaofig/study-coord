@@ -1,7 +1,7 @@
 from nicegui import ui
 
 from src.tools.tasks import ManagedTasks
-from src.viewmodels.study import StudyListViewModel
+from src.viewmodels.study import StudyListViewModel, StudyViewModel
 from src.views.researcher import researcher_grid_view
 from src.views.study import StudyView
 
@@ -25,7 +25,8 @@ def main_view():
                 .classes("size-full")
             ):
                 with ui.tab_panel(studies):
-                    view = StudyView(StudyListViewModel())
+                    study_vm = StudyViewModel()
+                    view = StudyView(StudyListViewModel(study_vm), study_vm)
                     view.show()
                     ManagedTasks().create(view.load())
 

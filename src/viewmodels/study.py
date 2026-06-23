@@ -64,6 +64,8 @@ class StudyViewModel(ViewModel):
 
     async def async_message(self, msg: str, data: Any = None):
         match msg:
+            case "copy":
+                self.copy(data)
             case "load_study":
                 study_id = int(data)
                 study = await Study.load(study_id)
@@ -89,12 +91,12 @@ class StudyViewModel(ViewModel):
 
 class StudyListViewModel(ViewModel):
     studies: list[StudyRow] = []
-    study_vm: StudyViewModel = StudyViewModel()
+    study_vm: StudyViewModel
     sel_row = binding.BindableProperty()
 
-    def __init__(self):
+    def __init__(self, study_vm: StudyViewModel):
         super().__init__()
-        self.study_vm.register(self.async_message)
+        self.study_vm = study_vm
 
     async def load(self):
         repo = StudyRepository()
@@ -103,12 +105,14 @@ class StudyListViewModel(ViewModel):
 
     async def async_message(self, msg: str, data: Any = None):
         match msg:
+            case "load":
+                await self.load()
             case "study_saved":
                 await self.load()
             case "study_selected":
                 await self.study_vm.async_message("load_study", data["id"])
             case "study_unselected":
-                self.study_vm.copy(Study.empty())
+                await self.study_vm.async_message("copy", Study.empty())
 
     def message(self, msg: str, data: Any = None):
         """No implementation for synchronous messages in StudyListViewModel"""

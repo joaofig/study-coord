@@ -1,8 +1,8 @@
 from nicegui import ui
 
 from models import Study
-from viewmodels import StudyViewModel
 from viewmodels.patient import PatientViewModel
+from viewmodels.view_model import ViewModel
 from views.dialogs.study_patient import StudyPatientDialog
 from views.study_patient_grid import StudyPatientGrid
 
@@ -14,16 +14,16 @@ def validate_name(value: str | None) -> str | None:
 
 
 class StudyEditor:
-    def __init__(self, vm: StudyViewModel):
+    def __init__(self, vm: ViewModel):
         self.vm = vm
         self.study = Study.empty()
 
     async def save(self):
         await self.vm.async_message("save_study")
 
-    def load(self, study: Study):
+    async def load(self, study: Study):
         self.study = study
-        self.vm.copy(study)
+        await self.vm.async_message("copy", study)
 
     def study_pane(self):
         with ui.row().classes("mt-2 w-full"):
