@@ -1,5 +1,5 @@
 INSERT INTO researcher
-    (number, name, comments, role)
+    (number, name, comments)
 VALUES
-    (?, ?, ?, ?)
+    (?, ?, ?)
 RETURNING id;

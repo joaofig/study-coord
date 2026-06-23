@@ -1,6 +1,5 @@
 UPDATE researcher SET
     number = ?,
     name = ?,
-    comments = ?,
-    role = ?
+    comments = ?
 WHERE id = ?;

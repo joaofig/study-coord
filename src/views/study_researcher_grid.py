@@ -6,7 +6,7 @@ from nicegui.elements.aggrid import AgGrid
 from viewmodels.view_model import ViewModel
 
 
-class StudyPatientGrid:
+class StudyResearcherGrid:
     def __init__(self, vm: ViewModel):
         self.vm = vm
         self.grid: Any = None

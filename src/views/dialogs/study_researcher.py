@@ -5,7 +5,7 @@ from viewmodels.view_model import ViewModel
 
 def validate_patient_number(value: str | None) -> str | None:
     if not value:
-        return "Patient number is required"
+        return "Researcher number is required"
     return None
 
 

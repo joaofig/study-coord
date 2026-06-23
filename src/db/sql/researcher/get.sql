@@ -1,1 +1,6 @@
-SELECT id, number, name, comments FROM researcher WHERE id=?
+SELECT  id
+,       number
+,       name
+,       comments
+FROM    researcher
+WHERE   id=?

@@ -10,6 +10,7 @@ def get_all(conn: Connection) -> list[Researcher]:
         id=row[0],
         number=row[1],
         name=row[2],
+        comments=row[3],
     )
     cache = SQLCache()
     sql = cache.get("researcher/get_all.sql")
@@ -21,6 +22,7 @@ def get(conn: Connection, researcher_id: int) -> Researcher | None:
         id=row[0],
         number=row[1],
         name=row[2],
+        comments=row[3],
     )
     cache = SQLCache()
     sql = cache.get("researcher/get.sql")
@@ -32,6 +34,7 @@ def get_by_number(conn: Connection, researcher_number: str) -> Researcher | None
         id=row[0],
         number=row[1],
         name=row[2],
+        comments=row[3],
     )
     cache = SQLCache()
     sql = cache.get("researcher/get_by_number.sql")
@@ -44,13 +47,13 @@ def save(conn: Connection, researcher: dict) -> dict:
         sql = cache.get("researcher/save.sql")
         cur = conn.execute(
             sql,
-            (researcher["number"], researcher["name"], researcher["comments"], researcher["role"])
+            (researcher["number"], researcher["name"], researcher["comments"])
         )
         researcher["id"] = cur.lastrowid
         cur.close()
     else:
         conn.execute(cache.get("researcher/update.sql"),
-                     (researcher["number"], researcher["name"], researcher["comments"], researcher["role"], researcher["id"]))
+                     (researcher["number"], researcher["name"], researcher["comments"], researcher["id"]))
     conn.commit()
     return researcher
 

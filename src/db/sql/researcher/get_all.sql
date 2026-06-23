@@ -3,5 +3,4 @@ SELECT
 ,   number
 ,   name
 ,   comments
-,   role
 FROM researcher;
