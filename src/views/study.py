@@ -8,6 +8,8 @@ from src.viewmodels import StudyViewModel
 from src.viewmodels.study import StudyListViewModel
 from viewmodels.patient import PatientViewModel
 from viewmodels.view_model import ViewModel
+from views.dialogs.study_patient import StudyPatientDialog
+from views.study_patient_grid import StudyPatientGrid
 
 
 def validate_name(value: str | None) -> str | None:
@@ -118,8 +120,12 @@ class StudyEditor:
                     with ui.column().classes("h-full flex-1"):
                         StudyPatientGrid(self.vm).show()
                     with ui.column().classes("h-full flex-none"):
-                        ui.button(icon="add", on_click=lambda: self.show_patient_dialog())
-                        ui.button(icon="delete")
+                        with ui.button(icon="add", on_click=lambda: self.show_patient_dialog()):
+                            ui.tooltip("Add Patient")
+                        with ui.button(icon="delete"):
+                            ui.tooltip("Delete Patient")
+                        with ui.button(icon="table_view"):
+                            ui.tooltip("Export to Excel")
 
             with ui.tab_panel(researchers).bind_visibility(self.vm, "is_old"):
                 ui.label("Researchers").classes("text-h4")
@@ -131,64 +137,6 @@ class StudyEditor:
                 self.study_pane()
             with splitter.after:
                 self.details_pane()
-
-
-class StudyPatientDialog:
-    def __init__(self, vm: ViewModel):
-        self.vm = vm
-
-    async def show(self):
-        with ui.dialog() as dialog, ui.card():
-            ui.label("Study Patient Details").classes("text-base")
-
-            (ui.input("Number")
-                 .classes("w-full")
-                 .bind_value(self.vm, "number")
-            )
-            (ui.date_input("Start Date")
-                 .classes("w-full")
-                 .bind_value(self.vm, "start_date")
-            )
-            (ui.date_input("Exit Date")
-                 .classes("w-full")
-                 .bind_value(self.vm, "exit_date")
-            )
-            (ui.select(options=["Active", "Completed", "Withdrawn", "Deceased"], label="Status")
-                 .classes("w-full")
-                 .bind_value(self.vm, "status")
-            )
-            (ui.textarea("Comments")
-                 .classes("w-full")
-                 .bind_value(self.vm, "comments")
-            )
-            with ui.row():
-                ui.button("Save", on_click=lambda: dialog.submit("save"))
-                ui.button("Close", on_click=lambda: dialog.submit("close"))
-        return await dialog
-
-
-class StudyPatientGrid:
-    def __init__(self, vm: ViewModel):
-        self.vm = vm
-        self.grid: Any = None
-
-    def show(self) -> AgGrid:
-        columns = [
-            {"headerName": "ID", "field": "id", "hide": True},
-            {"headerName": "Number", "field": "number", "sortable": True, "align": "left"},
-            {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left"},
-            {"headerName": "End", "field": "end_date", "sortable": True, "align": "left"},
-            {"headerName": "Status", "field": "status", "sortable": True, "align": "left"},
-        ]
-        grid_def = {
-            "columnDefs": columns,
-            # Placeholder for rowData; in a real application, this would be populated from a data source
-            # For example: 'rowData': get_studies_from_database()
-            "rowData": [],
-            ":getRowId": "(params) => String(params.data.id)"
-        }
-        self.grid = ui.aggrid(grid_def).classes("w-full h-full")
-        return self.grid
 
 
 class StudyGrid:

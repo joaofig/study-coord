@@ -34,3 +34,15 @@ class ViewModel(ABC):
     async def async_notify(self, action: str, **kwargs) -> None:
         """Notify all registered handlers of a message from the ViewModel"""
         await self.observable.notify(action, **kwargs)
+
+    def get(self, name: str) -> Any:
+        """Get the value of a property from the ViewModel"""
+        if not hasattr(self, name):
+            raise AttributeError(f"{self.__class__.__name__} has no attribute '{name}'")
+        return getattr(self, name)
+
+    def set(self, name: str, value: Any) -> None:
+        """Set the value of a property on the ViewModel"""
+        if not hasattr(self, name):
+            raise AttributeError(f"{self.__class__.__name__} has no attribute '{name}'")
+        setattr(self, name, value)

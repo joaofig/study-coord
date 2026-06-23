@@ -15,6 +15,13 @@ class PatientViewModel(ViewModel):
     exit_date: str = ""
     status: str = "active"
     comments: str = ""
+    statuses = {
+        "active": "Active",
+        "completed": "Completed",
+        "withdrawn": "Withdrawn Consent",
+        "lost": "Lost to Follow-up",
+        "deceased": "Deceased"
+    }
 
     def __post_init__(self):
         super().__init__()
