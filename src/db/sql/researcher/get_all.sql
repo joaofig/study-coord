@@ -1,1 +1,7 @@
-SELECT id, number, name FROM researcher;
+SELECT
+    id
+,   number
+,   name
+,   comments
+,   role
+FROM researcher;

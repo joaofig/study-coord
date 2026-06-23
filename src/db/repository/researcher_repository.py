@@ -38,9 +38,21 @@ def get_by_number(conn: Connection, researcher_number: str) -> Researcher | None
     return conn.execute(sql, (researcher_number,)).fetchone()
 
 
-def save(conn: Connection, researcher: Researcher) -> None:
+def save(conn: Connection, researcher: dict) -> dict:
     cache = SQLCache()
-    conn.execute(cache.get("researcher/save.sql"), (researcher.name,))
+    if researcher["id"] is None:
+        sql = cache.get("researcher/save.sql")
+        cur = conn.execute(
+            sql,
+            (researcher["number"], researcher["name"], researcher["comments"], researcher["role"])
+        )
+        researcher["id"] = cur.lastrowid
+        cur.close()
+    else:
+        conn.execute(cache.get("researcher/update.sql"),
+                     (researcher["number"], researcher["name"], researcher["comments"], researcher["role"], researcher["id"]))
+    conn.commit()
+    return researcher
 
 
 def delete(conn: Connection, researcher_id: int) -> None:
