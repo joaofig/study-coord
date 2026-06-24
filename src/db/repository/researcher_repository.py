@@ -28,7 +28,7 @@ class ResearcherRepository:
             name=row[2],
             comments=row[3],
         )
-        sql = self.cache.get("researcher/get.sql")
+        sql = self.cache.get("researcher/get_by_id.sql")
         return conn.execute(sql, (researcher_id,)).fetchone()
 
     def get_by_number(self, researcher_number: str) -> Researcher | None:

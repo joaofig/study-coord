@@ -37,7 +37,7 @@ def get(study_id: int) -> dict | None:
     }
     cache = SQLCache()
     cursor = conn.execute(
-        cache.get("study/get.sql"),
+        cache.get("study/get_by_id.sql"),
         (study_id,),
     )
     return cursor.fetchone()
