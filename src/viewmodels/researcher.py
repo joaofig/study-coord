@@ -17,11 +17,8 @@ class ResearcherViewModel(ViewModel):
     def __post_init__(self):
         super().__init__()
 
-    async def async_message(self, msg: str, data: Any = None):
+    async def handle_message(self, msg: str, data: Any = None):
         match msg:
             case "save":
-                pass
-
-    def message(self, msg: str, data: Any = None):
-        """No implementation for synchronous messages in ResearcherViewModel"""
-        pass
+                return None
+        return None

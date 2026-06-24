@@ -62,7 +62,7 @@ class StudyViewModel(ViewModel):
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
 
-    async def async_message(self, msg: str, data: Any = None):
+    async def handle_message(self, msg: str, data: Any = None):
         match msg:
             case "copy":
                 self.copy(data)
@@ -84,10 +84,6 @@ class StudyViewModel(ViewModel):
         if study:
             self.copy(study)
 
-    def message(self, msg: str, data: Any = None):
-        """No implementation for synchronous messages in StudyViewModel"""
-        pass
-
 
 class StudyListViewModel(ViewModel):
     studies: list[StudyRow] = []
@@ -103,17 +99,14 @@ class StudyListViewModel(ViewModel):
         self.studies = await repo.list()
         await self.async_notify("list_changed")
 
-    async def async_message(self, msg: str, data: Any = None):
+    async def handle_message(self, msg: str, data: Any = None):
         match msg:
             case "load":
                 await self.load()
             case "study_saved":
                 await self.load()
             case "study_selected":
-                await self.study_vm.async_message("load_study", data["id"])
+                return await self.study_vm.message("load_study", data["id"])
             case "study_unselected":
-                await self.study_vm.async_message("copy", Study.empty())
-
-    def message(self, msg: str, data: Any = None):
-        """No implementation for synchronous messages in StudyListViewModel"""
-        pass
+                await self.study_vm.message("copy", Study.empty())
+        return None

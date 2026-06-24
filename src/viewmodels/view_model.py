@@ -1,3 +1,4 @@
+import asyncio
 from abc import abstractmethod, ABC
 from typing import Any
 
@@ -9,15 +10,16 @@ class ViewModel(ABC):
         super().__init__()
         self.observable = Observable()
 
-    @abstractmethod
-    async def async_message(self, msg: str, data: Any = None):
-        """Base method for handling asynchronous messages sent to the ViewModel"""
-        pass
+    async def message(self, msg: str, data: Any = None):
+        result = self.handle_message(msg, data)
+        if asyncio.iscoroutine(result):
+            return await result
+        return result
 
     @abstractmethod
-    def message(self, msg: str, data: Any = None):
+    async def handle_message(self, msg: str, data: Any = None):
         """Base method for handling messages sent to the ViewModel"""
-        pass
+        return None
 
     def register(self, handler: ObserverHandler):
         """Register a handler to receive messages from the ViewModel"""

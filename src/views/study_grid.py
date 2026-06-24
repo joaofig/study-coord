@@ -22,10 +22,10 @@ class StudyGrid:
         row = await self.grid.get_selected_row()
         if row:
             # ui.notify(f"{row}")
-            await self.vm.async_message("study_selected", row)
+            await self.vm.message("study_selected", row)
         else:
             # ui.notify('No row selected!')
-            await self.vm.async_message("study_unselected", row)
+            await self.vm.message("study_unselected", row)
 
     def show(self) -> AgGrid:
         columns = [

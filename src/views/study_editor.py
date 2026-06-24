@@ -75,31 +75,31 @@ class StudyEditor:
              )
 
         (ui.input(label="Name", validation=validate_name,
-                  on_change=lambda _: self.vm.async_message("data_changed", "name"))
+                  on_change=lambda _: self.vm.message("data_changed", "name"))
              .classes("w-full")
              # .props("dense")
              .bind_value(self.vm, "name")
          )
-        (ui.input(label="Sponsor", on_change=lambda _: self.vm.async_message("data_changed", "sponsor"))
+        (ui.input(label="Sponsor", on_change=lambda _: self.vm.message("data_changed", "sponsor"))
              .classes("w-full")
              .bind_value(self.vm, "sponsor")
          )
 
         with ui.row().classes("gap-2"):
-            (ui.date_input(label="Start Date", on_change=lambda _: self.vm.async_message("data_changed", "start_date"))
+            (ui.date_input(label="Start Date", on_change=lambda _: self.vm.message("data_changed", "start_date"))
                 .bind_value(self.vm, "start_date"))
-            (ui.date_input(label="End Date", on_change=lambda _: self.vm.async_message("data_changed", "end_date"))
+            (ui.date_input(label="End Date", on_change=lambda _: self.vm.message("data_changed", "end_date"))
                 .bind_value(self.vm, "end_date"))
 
         with ui.row().classes("gap-2"):
-            (ui.number(label="Protocol Visits", value=1, on_change=lambda _: self.vm.async_message("data_changed", "proto_visits"))
+            (ui.number(label="Protocol Visits", value=1, on_change=lambda _: self.vm.message("data_changed", "proto_visits"))
                  .props('clearable')
                  .classes("w-full")
                  .bind_value(self.vm, "visits", strict=True)
              )
         with ui.row().classes("gap-2 w-full"):
             (ui.textarea(label="Comments",
-                         on_change=lambda _: self.vm.async_message("data_changed", "comments"))
+                         on_change=lambda _: self.vm.message("data_changed", "comments"))
                  .classes("w-full")
                  .bind_value(self.vm, "comments")
              )
