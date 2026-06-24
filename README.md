@@ -4,14 +4,16 @@ Research study coordination manager.
 
 ## Overview
 
-`study-coord` is a Python-based application designed to help manage and coordinate research studies. It provides a user-friendly interface for tracking studies, researchers, and participants.
+`study-coord` is a Python-based application designed to help manage and coordinate research studies. It provides a user-friendly interface for tracking studies, researchers, and participants using a clean MVVM architecture.
 
 ## Features
 
-- **Study Management**: View and add study details including name, sponsor, and dates.
-- **Researcher Management**: Track the team of researchers.
-- **Extensible Architecture**: Structured with repositories and SQL scripts for easy expansion to visits, patients, and adverse events.
-- **Integrated Database**: Uses SQLite for lightweight, local data storage.
+- **Study Management**: Detailed tracking of study information including name, sponsor, dates, protocol visits, and comments.
+- **Researcher Management**: Manage the team of researchers associated with each study with role-based details.
+- **Patient Management**: Comprehensive tracking of participants in studies with dedicated grids and dialogs.
+- **Interactive UI**: Data-rich interface powered by NiceGUI and AgGrid for efficient data management.
+- **Clean Architecture**: Follows MVVM (Model-View-ViewModel) pattern and Repository pattern for better maintainability and testability.
+- **Knowledge Graph**: Integrated with `code-review-graph` for advanced code analysis and structural insights.
 
 ## Tech Stack
 
@@ -20,6 +22,7 @@ Research study coordination manager.
 - **Data Grid**: AgGrid (via NiceGUI)
 - **Database**: SQLite
 - **Build Tool**: [uv](https://github.com/astral-sh/uv)
+- **Code Analysis**: [code-review-graph](https://github.com/astral-sh/code-review-graph)
 
 ## Getting Started
 
@@ -63,13 +66,25 @@ The web interface will typically be available at `http://localhost:8080`.
 ## Project Structure
 
 - `src/`: Main source code
-  - `db/`: Database models, repositories, and SQL scripts
+  - `db/`: Database configuration, repositories, and SQL scripts
   - `models/`: Core data models (dataclasses)
-  - `views/`: UI components and page layouts (NiceGUI)
-  - `tools/`: Utility functions and classes
+  - `viewmodels/`: ViewModels handling logic and state (MVVM)
+  - `views/`: UI components and layouts (NiceGUI)
+  - `tools/`: Utility functions, observability, and infrastructure
+- `tests/`: Automated tests
+- `docs/`: Project documentation
 - `main.py`: Application entry point
 - `study-coord.toml`: Database configuration
 - `AGENTS.md`: Development guidelines and project rules
+
+## Knowledge Graph
+
+This project uses `code-review-graph` to maintain a structural understanding of the codebase. It helps in:
+- Identifying impact radius of changes.
+- Detecting architectural patterns and anti-patterns.
+- Providing context-aware code reviews.
+
+Refer to `AGENTS.md` for more details on using graph tools.
 
 ## License
 
