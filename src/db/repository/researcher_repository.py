@@ -9,7 +9,7 @@ class ResearcherRepository:
     def __init__(self):
         self.cache = SQLCache()
 
-    def get_all(self) -> list[Researcher]:
+    def _get_all(self) -> list[Researcher]:
         conn = get_connection()
         conn.row_factory = lambda _, row: Researcher(
             id=row[0],
@@ -20,7 +20,7 @@ class ResearcherRepository:
         sql = self.cache.get("researcher/get_all.sql")
         return conn.execute(sql).fetchall()
 
-    def get_by_id(self, researcher_id: int) -> Researcher | None:
+    def _get_by_id(self, researcher_id: int) -> Researcher | None:
         conn = get_connection()
         conn.row_factory = lambda _, row: Researcher(
             id=row[0],
@@ -31,7 +31,7 @@ class ResearcherRepository:
         sql = self.cache.get("researcher/get_by_id.sql")
         return conn.execute(sql, (researcher_id,)).fetchone()
 
-    def get_by_number(self, researcher_number: str) -> Researcher | None:
+    def _get_by_number(self, researcher_number: str) -> Researcher | None:
         conn = get_connection()
         conn.row_factory = lambda _, row: Researcher(
             id=row[0],
@@ -63,10 +63,10 @@ class ResearcherRepository:
         conn.execute(self.cache.get("researcher/delete.sql"), (researcher_id,))
 
     async def list(self) -> List[Researcher]:
-        return await asyncio.to_thread(self.get_all)
+        return await asyncio.to_thread(self._get_all)
 
     async def get(self, researcher_id: int) -> Researcher | None:
-        return await asyncio.to_thread(self.get_by_id, researcher_id)
+        return await asyncio.to_thread(self._get_by_id, researcher_id)
 
     async def save(self, researcher: Researcher) -> None:
         await asyncio.to_thread(self._save, researcher.to_dict())

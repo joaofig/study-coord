@@ -77,14 +77,15 @@ class VersionedEntityManager(ABC, Generic[T]):
 ```python
 # Simple, focused helper
 async def auto_increment_version(
-    collection, handle: str, field_name: str, entity: VersionedEntity
+        collection, handle: str, field_name: str, entity: VersionedEntity
 ) -> VersionedEntity:
     """Auto-increment version using version=0 sentinel."""
     if entity.version == 0:
         current = await collection.find_one({"handle": handle})
-        current_version = current.get(field_name, {}).get("version", 0) if current else 0
+        current_version = current._get_by_id(field_name, {})._get_by_id("version", 0) if current else 0
         entity.version = current_version + 1
     return entity
+
 
 # Usage
 campaign = await auto_increment_version(collection, handle, "campaign", campaign)

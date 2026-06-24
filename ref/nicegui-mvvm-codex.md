@@ -80,6 +80,7 @@ from dataclasses import dataclass, field
 from src.models.study import Study
 from src.db.repositories.study_repository import StudyRepository
 
+
 @dataclass
 class StudyListViewModel:
     studies: list[Study] = field(default_factory=list)
@@ -107,7 +108,7 @@ class StudyListViewModel:
     async def delete_selected(self) -> None:
         if self.selected_id is None:
             return
-        await self.repository.delete(self.selected_id)
+        await self.repository._delete(self.selected_id)
         self.selected_id = None
         await self.load()
 ```
@@ -275,7 +276,7 @@ async def edit_study(self, study):
     if command is None:
         return
 
-    await self.vm.save(command)
+    await self.vm._save(command)
     self.render.refresh()
 ```
 

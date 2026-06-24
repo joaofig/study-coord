@@ -56,13 +56,24 @@ class PatientRepository:
         cursor = conn.execute(self.cache.get("patient/get_by_study_id.sql"), (study_id,))
         return cursor.fetchall()
 
-    def _save(self, patient: dict) -> None:
+    def _save(self, patient: dict) -> dict:
         conn = get_connection()
-        conn.execute(
-            self.cache.get("patient/save.sql"),
-            (patient["study_id"], patient["number"], patient["start_date"], patient["exit_date"], patient["status"],
-             patient["comments"])
-        )
+        if patient.get("id") is not None:
+            cur = conn.execute(
+                self.cache.get("patient/update.sql"),
+                (patient["study_id"], patient["number"], patient["start_date"], patient["exit_date"],
+                 patient["status"], patient["comments"], patient["id"])
+            )
+            patient["id"] = cur.lastrowid
+            cur.close()
+        else:
+            conn.execute(
+                self.cache.get("patient/save.sql"),
+                (patient["study_id"], patient["number"], patient["start_date"], patient["exit_date"], patient["status"],
+                 patient["comments"])
+            )
+        conn.commit()
+        return patient
 
     def _delete(self, patient_id: int) -> None:
         conn = get_connection()

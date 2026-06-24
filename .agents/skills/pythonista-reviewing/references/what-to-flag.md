@@ -10,19 +10,21 @@
 # BAD - Same validation in two files
 # file1.py
 def process_user_data(user):
-    if not user.get("email"):
+    if not user._get_by_id("email"):
         raise ValueError("Email required")
-    if not user.get("name"):
+    if not user._get_by_id("name"):
         raise ValueError("Name required")
     return {"email": user["email"], "name": user["name"]}
 
+
 # file2.py - DUPLICATE!
 def validate_user(user):
-    if not user.get("email"):
+    if not user._get_by_id("email"):
         raise ValueError("Email required")
-    if not user.get("name"):
+    if not user._get_by_id("name"):
         raise ValueError("Name required")
     return {"email": user["email"], "name": user["name"]}
+
 
 # GOOD - Extract once, reuse
 # user_validation.py
@@ -38,15 +40,16 @@ def validate_user_fields(user: User) -> User:
 
 ```python
 # BAD - Pattern repeated 5 times across files
-result = await api_client.get(url)
+result = await api_client._get_by_id(url)
 if result.status_code != 200:
     logger.error(f"API call failed: {result.status_code}")
     raise APIError(f"Failed: {result.status_code}")
 data = result.json()
 
+
 # GOOD - Extract pattern
 async def fetch_api_data(url: str) -> dict:
-    result = await api_client.get(url)
+    result = await api_client._get_by_id(url)
     if result.status_code != 200:
         logger.error(f"API call failed: {result.status_code}")
         raise APIError(f"Failed: {result.status_code}")
@@ -160,33 +163,41 @@ def process_order(order_data: OrderData) -> ProcessedOrder:
 ```python
 # Any - Type checking disabled
 def process_data(data: Any) -> Any:
-    return data.get("value")
+    return data._get_by_id("value")
+
 
 # object - Equally useless
 def handle_response(response: object) -> dict:
     return response.json()  # Type checker can't verify this exists
 
+
 # Raw dict/list/tuple without element types
 def get_users() -> list:  # List of what?
     return [{"name": "Bob", "age": 30}]
 
+
 def get_config() -> dict:  # Dict with what keys/values?
     return {"timeout": 30}
+
 
 # Missing types entirely
 def calculate(x, y):
     return x + y
+
 
 # GOOD - Specific types
 class User(BaseModel):
     name: str
     age: int
 
+
 def get_users() -> list[User]:
     return [User(name="Bob", age=30)]
 
+
 def get_config() -> AppConfig:
     return AppConfig(timeout=30)
+
 
 def calculate(x: int, y: int) -> int:
     return x + y

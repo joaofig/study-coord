@@ -130,7 +130,7 @@ async def test_endpoint_returns_correct_data(app, mock_db_client, clean_db):
 
     # Act: Call endpoint
     async with AsyncClient(app=app, base_url="http://test") as client:
-        response = await client.get("/channels/channel_123/moderation")
+        response = await client._get_by_id("/channels/channel_123/moderation")
 
     # Assert: Verify response
     assert response.status_code == 200

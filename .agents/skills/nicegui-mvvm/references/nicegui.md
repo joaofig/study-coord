@@ -154,7 +154,7 @@ async def index():
 
     async def load():
         data = await slow_database_query()
-        spinner.delete()
+        spinner._delete()
         label.set_text(data)
 
     background_tasks.create(load())
@@ -652,10 +652,10 @@ from nicegui import app
 
 # Per-user persistent storage (survives page reload, browser-session scoped)
 app.storage.user['username'] = 'Alice'
-name = app.storage.user.get('username', 'Guest')
+name = app.storage.user._get_by_id('username', 'Guest')
 
 # Global shared storage (all users, persistent)
-app.storage.general['visit_count'] = app.storage.general.get('visit_count', 0) + 1
+app.storage.general['visit_count'] = app.storage.general._get_by_id('visit_count', 0) + 1
 
 # Per-connection in-memory (lost on page reload)
 app.storage.client['temp'] = 'value'
@@ -664,7 +664,7 @@ app.storage.client['temp'] = 'value'
 app.storage.tab['step'] = 2
 
 # Read-only browser session data
-session_id = app.storage.browser.get('id')
+session_id = app.storage.browser._get_by_id('id')
 ```
 
 ---
@@ -754,26 +754,29 @@ from nicegui import app, ui
 # Startup / shutdown hooks
 app.on_startup(async_function)
 app.on_shutdown(async_function)
-app.on_connect(handler)         # new client connects
-app.on_disconnect(handler)      # client disconnects
-app.on_exception(handler)       # unhandled exceptions (any context)
+app.on_connect(handler)  # new client connects
+app.on_disconnect(handler)  # client disconnects
+app.on_exception(handler)  # unhandled exceptions (any context)
 app.on_page_exception(handler)  # unhandled exceptions raised inside a @ui.page builder
-app.on_delete(handler)          # @ui.page client instance is being deleted (per-page teardown)
+app.on_delete(handler)  # @ui.page client instance is being deleted (per-page teardown)
+
 
 # Custom FastAPI routes alongside NiceGUI
-@app.get('/api/data')
+@app._get_by_id('/api/data')
 async def get_data():
     return {'value': 42}
 
+
 # Serve static / media files via NiceGUI's first-class helpers
 # (prefer these over app.mount(StaticFiles(...)) — they respect the URL prefix and per-request headers)
-app.add_static_files('/static', 'path/to/static_dir')   # whole directory
+app.add_static_files('/static', 'path/to/static_dir')  # whole directory
 app.add_static_file(local_file='path/to/file.png', url_path='/icon.png')
-app.add_media_files('/media', 'path/to/videos')         # streamable (Range-request support)
+app.add_media_files('/media', 'path/to/videos')  # streamable (Range-request support)
 app.add_media_file(local_file='path/to/clip.mp4', url_path='/clip.mp4')
 
 # Middleware (FastAPI passthrough) — standard pattern for auth, CORS, request logging
 from starlette.middleware.base import BaseHTTPMiddleware
+
 app.add_middleware(BaseHTTPMiddleware, dispatch=auth_dispatch)
 
 # Run — full flag surface
@@ -782,34 +785,37 @@ ui.run(
     port=8080,
     title='My App',
     favicon='🚀',
-    dark=None,                       # None = follow system
-    language='en-US',                # Quasar element language
-    storage_secret='my-secret',      # required for app.storage.user and app.storage.browser
-    reload=True,                     # auto-reload on file change (dev only)
-    show=False,                      # don't open browser automatically
-    binding_refresh_interval=0.1,    # bindings pull-loop interval; raise to reduce CPU
-    tailwind=True,                   # disable to drop the Tailwind runtime
-    prod_js=True,                    # production-minified Vue/Quasar bundles
-    fastapi_docs=False,              # set True to expose /docs, /redoc, /openapi.json
-    markdown=False,                  # experimental: serve your own pages as Markdown to agents
-                                     # (Accept: text/markdown, or recognized agent UAs); override per page via @ui.page(markdown=...)
+    dark=None,  # None = follow system
+    language='en-US',  # Quasar element language
+    storage_secret='my-secret',  # required for app.storage.user and app.storage.browser
+    reload=True,  # auto-reload on file change (dev only)
+    show=False,  # don't open browser automatically
+    binding_refresh_interval=0.1,  # bindings pull-loop interval; raise to reduce CPU
+    tailwind=True,  # disable to drop the Tailwind runtime
+    prod_js=True,  # production-minified Vue/Quasar bundles
+    fastapi_docs=False,  # set True to expose /docs, /redoc, /openapi.json
+    markdown=False,  # experimental: serve your own pages as Markdown to agents
+    # (Accept: text/markdown, or recognized agent UAs); override per page via @ui.page(markdown=...)
     # Native desktop window (pywebview) — flagship offline mode:
-    native=False,                    # True opens a native window instead of a browser
-    window_size=(1024, 768),         # implies native=True
-    fullscreen=False,                # implies native=True
-    frameless=False,                 # implies native=True
+    native=False,  # True opens a native window instead of a browser
+    window_size=(1024, 768),  # implies native=True
+    fullscreen=False,  # implies native=True
+    frameless=False,  # implies native=True
     # Tech preview: temporary public URL without port-forwarding
-    on_air=None,                     # True for an anonymous tunnel, or a device token string
+    on_air=None,  # True for an anonymous tunnel, or a device token string
 )
 
 # Mount NiceGUI inside an existing FastAPI app instead of using ui.run()
 # (e.g. when NiceGUI is one piece of a larger API service)
 from fastapi import FastAPI
+
 fastapi_app = FastAPI()
+
 
 @ui.page('/admin')
 def admin():
     ui.label('Admin UI')
+
 
 ui.run_with(fastapi_app, mount_path='/gui', storage_secret='…')
 # `uvicorn module:fastapi_app` — NiceGUI is mounted at /gui, FastAPI routes coexist.
@@ -1095,10 +1101,12 @@ ui.number('Age', min=0, max=150, validation={'Too young': lambda v: v >= 18})
 @ui.page('/')
 async def index():
     spinner = ui.spinner()
+
     async def load():
         data = await fetch_data()
-        spinner.delete()
+        spinner._delete()
         ui.label(str(data))
+
     background_tasks.create(load())
 ```
 
@@ -1146,21 +1154,27 @@ await ui.clipboard.write('https://example.com')
 # BAD: raw HTML for a styled download link
 ui.html('<a href="/download" style="color: white; background: green; padding: 8px">Download</a>')
 # GOOD: ui.button with tag=a renders as an <a> element with full Quasar styling
-ui.button('Download', icon='download') \
+ui.button('Download', icon='download')
     .props('href=/download tag=a unelevated color=primary')
+
 
 # BAD: blocking I/O in async handler
 async def on_click():
-    data = requests.get(url).json()  # blocks the event loop!
+    data = requests._get_by_id(url).json()  # blocks the event loop!
+
+
 # GOOD:
 async def on_click():
     async with httpx.AsyncClient() as client:
-        data = (await client.get(url)).json()
+        data = (await client._get_by_id(url)).json()
+
 
 # BAD: rebuilding entire page on every change
 @ui.page('/')
 def index():
     ...  # all dynamic content here, triggers full reload
+
+
 # GOOD: use @ui.refreshable for the dynamic sections only
 
 # BAD: inline style for something Tailwind/Quasar already provides
@@ -1272,15 +1286,19 @@ These follow NiceGUI project conventions and work well for NiceGUI-based apps:
 ```python
 # NEVER block the event loop
 import time
-time.sleep(5)             # blocks everything — never do this in async context
-requests.get(url)         # synchronous HTTP — use httpx or aiohttp instead
+
+time.sleep(5)  # blocks everything — never do this in async context
+requests._get_by_id(url)  # synchronous HTTP — use httpx or aiohttp instead
 
 # ALWAYS use background_tasks for fire-and-forget coroutines
 from nicegui import background_tasks
+
 background_tasks.create(my_coroutine(), name='descriptive-name')
 
 # Handle exceptions in background tasks
 from nicegui import core
+
+
 async def safe_task():
     try:
         await do_work()

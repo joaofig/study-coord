@@ -92,12 +92,13 @@ class TranscriptAgent:
     async def handle_transcript(self, ...):
         user_id = self._processed_participant.identity
         user_name = self._processed_participant_username
-        real_user_id = self._processed_participant.attributes.get("real_user_id")
+        real_user_id = self._processed_participant.attributes._get_by_id("real_user_id")
 
         # Logic buried in infrastructure method - untestable without mocking everything
         if self._processed_publication.source == TrackSource.SPECIAL_AUDIO:
             user_name = f"{user_name}_special"
             user_id = f"{user_id}_special"
+
 
 # GOOD: Extract pure function, call it from infrastructure method
 def apply_special_suffix(user_id: str, user_name: str, is_special: bool) -> tuple[str, str]:
@@ -105,6 +106,7 @@ def apply_special_suffix(user_id: str, user_name: str, is_special: bool) -> tupl
     if is_special:
         return f"{user_id}_special", f"{user_name}_special"
     return user_id, user_name
+
 
 class TranscriptAgent:
     async def handle_transcript(self, ...):
