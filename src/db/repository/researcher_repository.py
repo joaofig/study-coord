@@ -1,8 +1,7 @@
 import asyncio
 from typing import List
 
-from db import get_connection
-from src.db import SQLCache
+from src.db import get_connection, SQLCache
 from src.models import Researcher
 
 

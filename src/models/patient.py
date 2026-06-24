@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from db import get_connection
-from db.repository.patient_repository import PatientRepository
+from src.db import get_connection
+from src.db.repository.patient_repository import PatientRepository
 
 
 @dataclass

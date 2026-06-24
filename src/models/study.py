@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from db.repository import StudyRepository
+from src.db.repository import StudyRepository
 
 
 @dataclass
