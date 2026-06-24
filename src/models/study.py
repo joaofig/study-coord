@@ -71,7 +71,8 @@ class Study:
         return ""
 
     async def save(self):
-        study: dict = await StudyRepository.save(self.to_dict())
+        repo = StudyRepository()
+        study: dict = await repo.save(self.to_dict())
         self.id = study["id"]
 
     @classmethod

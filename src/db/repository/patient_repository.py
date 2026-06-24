@@ -91,7 +91,7 @@ class PatientRepository:
     async def get_by_study_id(self, study_id: int) -> List[dict]:
         return await asyncio.to_thread(self._get_by_study_id, study_id)
 
-    async def save(self, patient: dict) -> None:
+    async def save(self, patient: dict) -> dict:
         await asyncio.to_thread(self._save, patient)
 
     async def delete(self, patient_id: int) -> None:

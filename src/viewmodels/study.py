@@ -79,11 +79,6 @@ class StudyViewModel(ViewModel):
                 self.changed = True
                 self.change_set.add(data)
 
-    async def select_row(self, data: dict):
-        study = await Study.load(data["id"])
-        if study:
-            self.copy(study)
-
 
 class StudyListViewModel(ViewModel):
     studies: list[StudyRow] = []

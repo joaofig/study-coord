@@ -213,19 +213,6 @@ async def test_message_save_study_delegates_to_save() -> None:
 
 
 @pytest.mark.asyncio
-async def test_select_row_copies_repository_result(fake_repository) -> None:
-    study = make_study(study_id=SELECTED_STUDY_ID)
-    fake_repository.studies_by_id[SELECTED_STUDY_ID] = study.to_dict()
-    view_model = StudyViewModel()
-
-    with patch("src.models.study.StudyRepository", fake_repository):
-        await view_model.select_row({"id": SELECTED_STUDY_ID})
-
-    assert fake_repository.requested_ids == [SELECTED_STUDY_ID]
-    assert_view_model_matches_study(view_model, study)
-
-
-@pytest.mark.asyncio
 async def test_study_list_load_replaces_rows_and_notifies(fake_repository) -> None:
     rows = [make_study_row(EXISTING_STUDY_ID), make_study_row(SELECTED_STUDY_ID)]
     fake_repository.rows = rows

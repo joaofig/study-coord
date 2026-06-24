@@ -14,6 +14,22 @@ class Patient:
     status: str = "active"
     comments: str = ""
 
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "study_id": self.study_id,
+            "number": self.number,
+            "start_date": self.start_date,
+            "exit_date": self.exit_date,
+            "status": self.status,
+            "comments": self.comments,
+        }
+
+    async def save(self):
+        repo = PatientRepository()
+        study: dict = await repo.save(self.to_dict())
+        self.id = study["id"]
+
 
 class PatientList:
     patients: list[Patient] = []
