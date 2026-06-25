@@ -87,17 +87,14 @@ class StudyViewModel(ViewModel):
 
 class StudyListViewModel(ViewModel):
     studies: list[StudyRow] = []
-    study_vm: StudyViewModel
     sel_row = binding.BindableProperty()
 
-    def __init__(self, study_vm: StudyViewModel):
+    def __init__(self):
         super().__init__()
-        self.study_vm = study_vm
 
     async def load(self):
         repo = StudyRepository()
         self.studies = [StudyRow(**s) for s in await repo.list()]
-        await self.async_notify("list_changed")
 
     async def handle_message(self, msg: str, data: Any = None):
         match msg:
@@ -108,6 +105,4 @@ class StudyListViewModel(ViewModel):
             case "study_selected":
                 study_id = int(data["id"])
                 return await self.study_vm.message("load_study", study_id)
-            case "study_unselected":
-                await self.study_vm.message("copy", Study.empty())
         return None

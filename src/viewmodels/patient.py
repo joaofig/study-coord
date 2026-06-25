@@ -3,6 +3,7 @@ from typing import Any
 
 from nicegui import binding
 
+from models.patient import PatientList
 from src.models import Patient
 from viewmodels.view_model import ViewModel
 
@@ -49,6 +50,17 @@ class PatientViewModel(ViewModel):
             comments=self.comments or ""
         )
 
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "study_id": self.study_id,
+            "number": self.number,
+            "start_date": self.start_date,
+            "exit_date": self.exit_date or "",
+            "status": self.status,
+            "comments": self.comments or ""
+        }
+
     async def save(self):
         patient = self.to_patient()
         await patient.save()
@@ -71,15 +83,8 @@ class PatientListViewModel(ViewModel):
         super().__init__()
 
     async def handle_message(self, msg: str, data: Any = None):
-        # match msg:
-        #     case "load_patients":
-        #         study_id = int(data)
-        #         patients = await Patient.get_by_study_id(study_id)
-        #         self.patients = [PatientViewModel(**patient.__dict__) for patient in patients]
-        #         await self.async_notify("patients_loaded")
+        match msg:
+            case "load_patients":
+                study_id = int(data)
+                await PatientList().load_from_study(study_id)
         return None
-
-    # async def load_patients(self, study_id: int):
-    #     patients = await Patient.get_by_study_id(study_id)
-    #     self.patients = [PatientViewModel(**patient.__dict__) for patient in patients]
-    #     await self.async_notify("patients_loaded")

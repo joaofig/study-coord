@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 from src.db import get_connection
 from src.db.repository.patient_repository import PatientRepository
@@ -34,6 +35,7 @@ class Patient:
 class PatientList:
     patients: list[Patient] = []
 
-    async def load_from_study(self, study_id: int):
+    async def load_from_study(self, study_id: int) -> List[Patient]:
         repo = PatientRepository()
-        self.patients = await repo.get_by_study_id(study_id)
+        self.patients = [Patient(**patient) for patient in await repo.get_by_study_id(study_id)]
+        return self.patients

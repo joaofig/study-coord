@@ -4,6 +4,7 @@ from models import Study
 from viewmodels.patient import PatientViewModel
 from viewmodels.view_model import ViewModel
 from views.dialogs.study_patient import StudyPatientDialog
+from views.patient_panel import PatientPanel
 from views.study_patient_grid import StudyPatientGrid
 from views.study_researcher_grid import StudyResearcherGrid
 
@@ -26,17 +27,9 @@ class StudyEditor:
         self.study = study
         await self.vm.async_message("copy", study)
 
-    def patient_pane(self):
-        with ui.row().classes("w-full h-full"):
-            with ui.column().classes("h-full flex-1"):
-                StudyPatientGrid(self.vm).show()
-            with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add", on_click=lambda: self.show_patient_dialog()):
-                    ui.tooltip("Add Patient")
-                with ui.button(icon="delete"):
-                    ui.tooltip("Delete Patient")
-                with ui.button(icon="table_view"):
-                    ui.tooltip("Export to Excel")
+    def patient_panel(self):
+        panel = PatientPanel()
+        panel.show()
 
     def researcher_pane(self):
         with ui.row().classes("w-full h-full"):
@@ -109,11 +102,9 @@ class StudyEditor:
         dialog = StudyPatientDialog(patient_vm)
         result = await dialog.show()
 
-        match result:
-            case "close":
-                ui.notify("Patient dialog closed")
-            case "save":
-                pass
+        if result == "save":
+            # Reload the patient's grid after saving the patient
+            await self.vm.message("load_patients")
 
     def details_pane(self):
         with ui.tabs().props("horizontal").classes("p-0").bind_visibility(self.vm, "is_old") as tabs:
@@ -127,7 +118,7 @@ class StudyEditor:
             with (ui.tab_panel(patients)
                     .classes("pl-2 pt-0 pb-0 pr-0")
                     .bind_visibility(self.vm, "is_old")):
-                self.patient_pane()
+                self.patient_panel()
 
             with (ui.tab_panel(researchers)
                     .classes("pl-2 pt-0 pb-0 pr-0")

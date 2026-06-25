@@ -29,11 +29,7 @@ class ViewModel(ABC):
         """Unregister a handler from receiving messages from the ViewModel"""
         self.observable.unregister(handler)
 
-    def notify(self, action: str, **kwargs) -> None:
-        """Notify all registered handlers of a message from the ViewModel"""
-        self.observable.notify(action, **kwargs)
-
-    async def async_notify(self, action: str, **kwargs) -> None:
+    async def notify(self, action: str, **kwargs) -> None:
         """Notify all registered handlers of a message from the ViewModel"""
         await self.observable.notify(action, **kwargs)
 

@@ -25,8 +25,7 @@ def main_view():
                 .classes("size-full")
             ):
                 with ui.tab_panel(studies):
-                    study_vm = StudyViewModel()
-                    view = StudyView(StudyListViewModel(study_vm), study_vm)
+                    view = StudyView()
                     view.show()
                     ManagedTasks().create(view.load())
 

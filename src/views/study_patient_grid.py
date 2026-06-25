@@ -3,15 +3,23 @@ from typing import Any
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
+from tools.messenger import MessengerHub
 from viewmodels.view_model import ViewModel
 
 
 class StudyPatientGrid:
     def __init__(self, vm: ViewModel):
         self.vm = vm
-        self.grid: Any = None
+        self.grid: AgGrid = self._build_grid()
+        self.messenger = MessengerHub()["patient"]
+        self.messenger.subscribe("saved", self._on_patient_saved)
 
-    def show(self) -> AgGrid:
+    async def _on_patient_saved(self, patient_data: dict|None):
+        await self.vm.message("load_patients")
+        self.grid.options["rowData"] = self.vm.get("patients")
+        self.grid.update()
+
+    def _build_grid(self) -> AgGrid:
         columns = [
             {"headerName": "ID", "field": "id", "hide": True},
             {"headerName": "Number", "field": "number", "sortable": True, "align": "left"},
@@ -26,5 +34,8 @@ class StudyPatientGrid:
             "rowData": [],
             ":getRowId": "(params) => String(params.data.id)"
         }
-        self.grid = ui.aggrid(grid_def).classes("w-full h-full")
+        grid = ui.aggrid(grid_def).classes("w-full h-full")
+        return grid
+
+    def show(self) -> AgGrid:
         return self.grid
