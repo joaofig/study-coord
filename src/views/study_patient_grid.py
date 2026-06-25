@@ -16,6 +16,9 @@ class StudyPatientGrid:
 
     async def _on_patient_saved(self, patient_data: dict|None):
         await self.vm.message("load_patients")
+        self._update_grid()
+
+    def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("patients")
         self.grid.update()
 

@@ -104,5 +104,5 @@ class StudyListViewModel(ViewModel):
                 await self.load()
             case "study_selected":
                 study_id = int(data["id"])
-                return await self.study_vm.message("load_study", study_id)
+                # return await self.study_vm.message("load_study", study_id)
         return None
