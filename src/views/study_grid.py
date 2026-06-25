@@ -15,7 +15,8 @@ class StudyGrid:
 
     def _vm_notification(self, action: str, data: Any = None) -> None:
         if action == "list_changed":
-            self.grid.options["rowData"] = self.vm.get("studies")
+            # Update the grid's rowData with the new list of studies from the ViewModel
+            self.grid.options["rowData"] = [s.to_dict() for s in self.vm.get("studies")]
             self.grid.update()
 
     async def _row_selection_changed(self, event):
@@ -57,4 +58,4 @@ class StudyGrid:
 
     async def _row_selected(self, event):
         row_data = event.args["data"]
-        await self.vm.async_message("study_selected", row_data)
+        await self.vm.message("study_selected", row_data)

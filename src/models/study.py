@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, List
 
 from src.db.repository import StudyRepository
 
@@ -72,7 +72,7 @@ class Study:
 
     async def save(self):
         repo = StudyRepository()
-        study: dict = await repo.save(self.to_dict())
+        study: dict = await repo.save(self)
         self.id = study["id"]
 
     @classmethod
@@ -88,7 +88,7 @@ class StudyRow(Study):
     researchers: int
     adverse_events: int
 
-    def do_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
@@ -100,3 +100,13 @@ class StudyRow(Study):
             "researchers": self.researchers,
             "adverse_events": self.adverse_events,
         }
+
+
+class StudyList:
+    studies: list[StudyRow] = []
+
+    async def load(self) -> List[StudyRow]:
+        repo = StudyRepository()
+        studies = await repo.list()
+        self.studies = [StudyRow(**study) for study in studies]
+        return self.studies

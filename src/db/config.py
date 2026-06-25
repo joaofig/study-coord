@@ -21,7 +21,7 @@ def load_database_config(config_path: Path | None = None) -> DatabaseConfig:
         raw_config = tomllib.load(config_file)
 
     database_section = raw_config.get("database", {})
-    configured_path = database_section._get_by_id("path", "study-coord.db")
+    configured_path = database_section.get("path", "study-coord.db")
 
     path = Path(configured_path)
     if not path.is_absolute():

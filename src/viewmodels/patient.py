@@ -62,3 +62,24 @@ class PatientViewModel(ViewModel):
             case "save":
                 return await self.save()
         return None
+
+
+class PatientListViewModel(ViewModel):
+    patients: list[dict] = []
+
+    def __post_init__(self):
+        super().__init__()
+
+    async def handle_message(self, msg: str, data: Any = None):
+        # match msg:
+        #     case "load_patients":
+        #         study_id = int(data)
+        #         patients = await Patient.get_by_study_id(study_id)
+        #         self.patients = [PatientViewModel(**patient.__dict__) for patient in patients]
+        #         await self.async_notify("patients_loaded")
+        return None
+
+    # async def load_patients(self, study_id: int):
+    #     patients = await Patient.get_by_study_id(study_id)
+    #     self.patients = [PatientViewModel(**patient.__dict__) for patient in patients]
+    #     await self.async_notify("patients_loaded")

@@ -9,7 +9,7 @@ class StudyRepository:
     def __init__(self):
         self.cache = SQLCache()
 
-    def _get_all(self) -> list[dict]:
+    def _get_all(self) -> List[dict]:
         conn = get_connection()
         conn.row_factory = lambda _, row: {
             "id": row[0],

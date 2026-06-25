@@ -1,4 +1,5 @@
 from nicegui import ui
+from nicegui.elements.dialog import Dialog
 
 from viewmodels.view_model import ViewModel
 
@@ -12,6 +13,10 @@ def validate_patient_number(value: str | None) -> str | None:
 class StudyPatientDialog:
     def __init__(self, vm: ViewModel):
         self.vm = vm
+
+    async def save(self, dialog: Dialog):
+        await self.vm.message("save_patient")
+        dialog.submit("save")
 
     async def show(self):
         statuses = self.vm.get("statuses")
@@ -38,6 +43,6 @@ class StudyPatientDialog:
                  .bind_value(self.vm, "comments")
             )
             with ui.row():
-                ui.button("Save", on_click=lambda: dialog.submit("save"))
+                ui.button("Save", on_click=lambda: self.save(dialog))
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
         return await dialog

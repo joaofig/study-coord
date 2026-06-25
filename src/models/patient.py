@@ -34,7 +34,6 @@ class Patient:
 class PatientList:
     patients: list[Patient] = []
 
-    def load_from_study(self, study_id: int):
-        conn = get_connection()
-        repo = PatientRepository(conn)
-        self.patients = repo.get_by_study_id(study_id)
+    async def load_from_study(self, study_id: int):
+        repo = PatientRepository()
+        self.patients = await repo.get_by_study_id(study_id)

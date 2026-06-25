@@ -109,8 +109,11 @@ class StudyEditor:
         dialog = StudyPatientDialog(patient_vm)
         result = await dialog.show()
 
-        if result == "save":
-            ui.notify("Patient saved")
+        match result:
+            case "close":
+                ui.notify("Patient dialog closed")
+            case "save":
+                pass
 
     def details_pane(self):
         with ui.tabs().props("horizontal").classes("p-0").bind_visibility(self.vm, "is_old") as tabs:

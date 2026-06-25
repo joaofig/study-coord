@@ -2,43 +2,42 @@ import asyncio
 from typing import List
 
 from src.db import get_connection, SQLCache
-from src.models import Researcher
 
 
 class ResearcherRepository:
     def __init__(self):
         self.cache = SQLCache()
 
-    def _get_all(self) -> list[Researcher]:
+    def _get_all(self) -> List[dict]:
         conn = get_connection()
-        conn.row_factory = lambda _, row: Researcher(
-            id=row[0],
-            number=row[1],
-            name=row[2],
-            comments=row[3],
-        )
+        conn.row_factory = lambda _, row: {
+            "id": row[0],
+            "number": row[1],
+            "name": row[2],
+            "comments": row[3],
+        }
         sql = self.cache.get("researcher/get_all.sql")
         return conn.execute(sql).fetchall()
 
-    def _get_by_id(self, researcher_id: int) -> Researcher | None:
+    def _get_by_id(self, researcher_id: int) -> dict | None:
         conn = get_connection()
-        conn.row_factory = lambda _, row: Researcher(
-            id=row[0],
-            number=row[1],
-            name=row[2],
-            comments=row[3],
-        )
+        conn.row_factory = lambda _, row: {
+            "id": row[0],
+            "number": row[1],
+            "name": row[2],
+            "comments": row[3],
+        }
         sql = self.cache.get("researcher/get_by_id.sql")
         return conn.execute(sql, (researcher_id,)).fetchone()
 
-    def _get_by_number(self, researcher_number: str) -> Researcher | None:
+    def _get_by_number(self, researcher_number: str) -> dict | None:
         conn = get_connection()
-        conn.row_factory = lambda _, row: Researcher(
-            id=row[0],
-            number=row[1],
-            name=row[2],
-            comments=row[3],
-        )
+        conn.row_factory = lambda _, row: {
+            "id": row[0],
+            "number": row[1],
+            "name": row[2],
+            "comments": row[3],
+        }
         sql = self.cache.get("researcher/get_by_number.sql")
         return conn.execute(sql, (researcher_number,)).fetchone()
 
@@ -62,14 +61,14 @@ class ResearcherRepository:
         conn = get_connection()
         conn.execute(self.cache.get("researcher/delete.sql"), (researcher_id,))
 
-    async def list(self) -> List[Researcher]:
+    async def list(self) -> List[dict]:
         return await asyncio.to_thread(self._get_all)
 
-    async def get(self, researcher_id: int) -> Researcher | None:
+    async def get(self, researcher_id: int) -> dict | None:
         return await asyncio.to_thread(self._get_by_id, researcher_id)
 
-    async def save(self, researcher: Researcher) -> None:
-        await asyncio.to_thread(self._save, researcher.to_dict())
+    async def save(self, researcher: dict) -> None:
+        await asyncio.to_thread(self._save, researcher)
 
     async def delete(self, researcher_id: int) -> None:
         await asyncio.to_thread(self._delete, researcher_id)

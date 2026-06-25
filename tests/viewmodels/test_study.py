@@ -1,3 +1,4 @@
+from typing import List
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
@@ -64,13 +65,13 @@ def make_study_row(study_id: int = EXISTING_STUDY_ID) -> StudyRow:
 @pytest.fixture
 def fake_repository():
     class FakeStudyRepository:
-        rows: list[StudyRow] = []
+        rows: List[StudyRow] = []
         studies_by_id: dict[int, dict] = {}
-        requested_ids: list[int] = []
-        saved_studies: list[dict] = []
+        requested_ids: List[int] = []
+        saved_studies: List[dict] = []
 
         @classmethod
-        async def list(cls) -> list[StudyRow]:
+        async def list(cls) -> List[StudyRow]:
             return cls.rows
 
         @classmethod
@@ -108,11 +109,12 @@ def assert_studies_match(actual: Study, expected: Study) -> None:
     assert actual.comments == expected.comments
 
 
-def test_study_view_model_copy_populates_editable_fields() -> None:
+@pytest.mark.asyncio
+async def test_study_view_model_copy_populates_editable_fields() -> None:
     view_model = StudyViewModel()
     study = make_study(end_date=None, comments=None)
 
-    view_model.copy(study)
+    await view_model.copy(study)
 
     assert_view_model_matches_study(view_model, study)
 

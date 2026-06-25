@@ -8,6 +8,7 @@ from src.db.repository import StudyRepository
 from src.models import Study
 from src.models.study import StudyRow
 from src.viewmodels.view_model import ViewModel
+from viewmodels.patient import PatientListViewModel
 
 
 @binding.bindable_dataclass
@@ -23,10 +24,12 @@ class StudyViewModel(ViewModel):
     change_set = ObservableSet()
     is_old: bool = False
 
+    patient_list_vm = PatientListViewModel()
+
     def __post_init__(self):
         super().__init__()
 
-    def copy(self, study: Study):
+    async def copy(self, study: Study):
         self.id = study.id or 0
         self.name = study.name
         self.sponsor = study.sponsor
@@ -37,6 +40,8 @@ class StudyViewModel(ViewModel):
         self.changed = False
         self.is_old = study.id is not None
         self.change_set.clear()
+
+        await self.patient_list_vm.message("load_patients", study.id)
 
     def to_study(self) -> Study:
         return Study(
@@ -65,12 +70,12 @@ class StudyViewModel(ViewModel):
     async def handle_message(self, msg: str, data: Any = None):
         match msg:
             case "copy":
-                self.copy(data)
+                await self.copy(data)
             case "load_study":
                 study_id = int(data)
                 study = await Study.load(study_id)
                 if study:
-                    self.copy(study)
+                    await self.copy(study)
             case "save_study":
                 await self.save()
             case "data_changed":
@@ -91,7 +96,7 @@ class StudyListViewModel(ViewModel):
 
     async def load(self):
         repo = StudyRepository()
-        self.studies = await repo.list()
+        self.studies = [StudyRow(**s) for s in await repo.list()]
         await self.async_notify("list_changed")
 
     async def handle_message(self, msg: str, data: Any = None):
@@ -101,7 +106,8 @@ class StudyListViewModel(ViewModel):
             case "study_saved":
                 await self.load()
             case "study_selected":
-                return await self.study_vm.message("load_study", data["id"])
+                study_id = int(data["id"])
+                return await self.study_vm.message("load_study", study_id)
             case "study_unselected":
                 await self.study_vm.message("copy", Study.empty())
         return None
