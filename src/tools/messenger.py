@@ -7,13 +7,13 @@ class Messenger:
     def __init__(self):
         self.handlers = {}
 
-    async def broadcast(self, message: str, data: dict|None = None):
+    async def broadcast(self, message: str, **kwargs):
         if message in self.handlers.keys():
             for handler in self.handlers[message]:
-                await handler(data)
+                await handler(**kwargs)
 
-    async def send(self, message: str, data: dict|None = None):
-        await self.broadcast(message, data)
+    async def send(self, message: str, **kwargs):
+        await self.broadcast(message, **kwargs)
 
     def subscribe(
         self, message: str, handler: Callable[[dict|None], Awaitable[None]]

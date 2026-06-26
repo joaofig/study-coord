@@ -1,11 +1,13 @@
 from nicegui import ui
 
 from models import Study
+from tools.messenger import MessengerHub
 from viewmodels.patient import PatientViewModel
 from viewmodels.view_model import ViewModel
 from views.dialogs.study_patient import StudyPatientDialog
 from views.patient_panel import PatientPanel
 from views.study_researcher_grid import StudyResearcherGrid
+from views.view import View
 
 
 def validate_name(value: str | None) -> str | None:
@@ -14,17 +16,24 @@ def validate_name(value: str | None) -> str | None:
     return None
 
 
-class StudyEditor:
+class StudyEditor(View):
     def __init__(self, vm: ViewModel):
         self.vm = vm
         self.study = Study.empty()
+        self.messenger = MessengerHub()["study"]
+        self.messenger.subscribe("study_selected", self._study_selected)
 
     async def save(self):
         await self.vm.message("save_study")
 
+    async def _study_selected(self, **kwargs):
+        study = kwargs.get("study")
+        if study:
+            await self.load(Study.from_dict(study))
+
     async def load(self, study: Study):
         self.study = study
-        await self.vm.message("copy", study)
+        await self.vm.message("copy", study=study)
 
     def patient_panel(self):
         panel = PatientPanel()
@@ -67,31 +76,31 @@ class StudyEditor:
              )
 
         (ui.input(label="Name", validation=validate_name,
-                  on_change=lambda _: self.vm.message("data_changed", "name"))
+                  on_change=lambda _: self.command("data_changed", property="name"))
              .classes("w-full")
              # .props("dense")
              .bind_value(self.vm, "name")
          )
-        (ui.input(label="Sponsor", on_change=lambda _: self.vm.message("data_changed", "sponsor"))
+        (ui.input(label="Sponsor", on_change=lambda _: self.command("data_changed", property="sponsor"))
              .classes("w-full")
              .bind_value(self.vm, "sponsor")
          )
 
         with ui.row().classes("gap-2"):
-            (ui.date_input(label="Start Date", on_change=lambda _: self.vm.message("data_changed", "start_date"))
+            (ui.date_input(label="Start Date", on_change=lambda _: self.command("data_changed", property="start_date"))
                 .bind_value(self.vm, "start_date"))
-            (ui.date_input(label="End Date", on_change=lambda _: self.vm.message("data_changed", "end_date"))
+            (ui.date_input(label="End Date", on_change=lambda _: self.command("data_changed", property="end_date"))
                 .bind_value(self.vm, "end_date"))
 
         with ui.row().classes("gap-2"):
-            (ui.number(label="Protocol Visits", value=1, on_change=lambda _: self.vm.message("data_changed", "proto_visits"))
+            (ui.number(label="Protocol Visits", value=1, on_change=lambda _: self.command("data_changed", property="proto_visits"))
                  .props('clearable')
                  .classes("w-full")
                  .bind_value(self.vm, "visits", strict=True)
              )
         with ui.row().classes("gap-2 w-full"):
             (ui.textarea(label="Comments",
-                         on_change=lambda _: self.vm.message("data_changed", "comments"))
+                         on_change=lambda _: self.command("data_changed", property="comments"))
                  .classes("w-full")
                  .bind_value(self.vm, "comments")
              )

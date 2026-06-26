@@ -24,8 +24,6 @@ class StudyViewModel(ViewModel):
     change_set = ObservableSet()
     is_old: bool = False
 
-    patient_list_vm = PatientListViewModel()
-
     def __post_init__(self):
         super().__init__()
 
@@ -40,8 +38,6 @@ class StudyViewModel(ViewModel):
         self.changed = False
         self.is_old = study.id is not None
         self.change_set.clear()
-
-        await self.patient_list_vm.message("load_patients", study.id)
 
     def to_study(self) -> Study:
         return Study(
@@ -67,12 +63,12 @@ class StudyViewModel(ViewModel):
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
 
-    async def handle_message(self, msg: str, data: Any = None):
+    async def handle_message(self, msg: str, **kwargs):
         match msg:
             case "copy":
-                await self.copy(data)
+                await self.copy(kwargs.get("study"))
             case "load_study":
-                study_id = int(data)
+                study_id = int(kwargs.get("study_id"))
                 study = await Study.load(study_id)
                 if study:
                     await self.copy(study)
@@ -82,7 +78,7 @@ class StudyViewModel(ViewModel):
                 # Input controls send this message whenever the user changes the value
                 # The data is the changed property name
                 self.changed = True
-                self.change_set.add(data)
+                self.change_set.add(kwargs.get("data"))
 
 
 class StudyListViewModel(ViewModel):

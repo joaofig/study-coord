@@ -3,7 +3,7 @@ from typing import Any
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
-from viewmodels.study import StudyListViewModel
+from tools.messenger import MessengerHub
 from viewmodels.view_model import ViewModel
 from views.view import View
 
@@ -12,6 +12,7 @@ class StudyGrid(View):
     def __init__(self, vm: ViewModel) -> None:
         super().__init__(vm)
         self.grid: Any = None
+        self.messenger = MessengerHub()["study"]
 
     async def load(self):
         await self.command("load")
@@ -31,6 +32,7 @@ class StudyGrid(View):
         if row:
             # ui.notify(f"{row}")
             await self.command("study_selected", study=row)
+            await self.messenger.send("study_selected", study=row)
         else:
             # ui.notify('No row selected!')
             await self.command("study_unselected")
