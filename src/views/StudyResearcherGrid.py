@@ -3,7 +3,7 @@ from typing import Any
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
-from viewmodels.view_model import ViewModel
+from viewmodels.ViewModel import ViewModel
 
 
 class StudyResearcherGrid:

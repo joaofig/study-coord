@@ -4,7 +4,7 @@ from nicegui.observables import ObservableSet
 from src.db.repository import StudyRepository
 from src.models import Study
 from src.models.study import StudyRow
-from src.viewmodels.view_model import ViewModel
+from src.viewmodels.ViewModel import ViewModel
 from tools.messenger import get_messenger
 
 
@@ -94,23 +94,3 @@ class StudyViewModel(ViewModel):
                 field_name = kwargs.get("field_name")
                 if field_name:
                     self._field_changed(field_name)
-
-
-class StudyListViewModel(ViewModel):
-    studies: list[StudyRow] = []
-
-    def __init__(self):
-        super().__init__()
-
-    async def load(self):
-        repo = StudyRepository()
-        self.studies = [StudyRow(**s) for s in await repo.list()]
-        await self.notify("list_changed")
-
-    async def handle_command(self, msg: str, **kwargs):
-        match msg:
-            case "load":
-                await self.load()
-
-            case "study_saved":
-                await self.load()

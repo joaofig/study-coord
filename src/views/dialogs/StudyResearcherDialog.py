@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from viewmodels.view_model import ViewModel
+from viewmodels.ViewModel import ViewModel
 
 
 def validate_patient_number(value: str | None) -> str | None:

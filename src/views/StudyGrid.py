@@ -4,8 +4,8 @@ from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
 from tools.messenger import get_messenger
-from viewmodels.view_model import ViewModel
-from views.view import View
+from viewmodels.ViewModel import ViewModel
+from views.View import View
 
 
 class StudyGrid(View):

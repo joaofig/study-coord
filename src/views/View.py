@@ -1,4 +1,4 @@
-from viewmodels.view_model import ViewModel
+from viewmodels.ViewModel import ViewModel
 
 
 class View:

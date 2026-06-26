@@ -1,10 +1,10 @@
 from nicegui import ui
 
-from viewmodels.study import StudyListViewModel, StudyViewModel
-from viewmodels.view_model import ViewModel
-from views.study_editor import StudyEditor
-from views.study_grid import StudyGrid
-from views.view import View
+from viewmodels.StudyViewModel import StudyViewModel
+from viewmodels.ViewModel import ViewModel
+from views.StudyEditor import StudyEditor
+from views.StudyGrid import StudyGrid
+from views.View import View
 
 
 class StudyView(View):

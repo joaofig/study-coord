@@ -1,1 +1,1 @@
-from .study import StudyViewModel
+from .StudyViewModel import StudyViewModel

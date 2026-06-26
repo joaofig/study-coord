@@ -5,7 +5,7 @@ import pytest
 from nicegui import ui
 
 from src.models.study import Study, StudyRow
-from src.viewmodels.study import StudyListViewModel, StudyViewModel
+from src.viewmodels.StudyViewModel import StudyListViewModel, StudyViewModel
 
 EXISTING_STUDY_ID = 7
 NEW_STUDY_ID = 23

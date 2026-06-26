@@ -1,11 +1,11 @@
 from nicegui import ui
 
 from tools.messenger import get_messenger
-from viewmodels.patient import PatientListViewModel, PatientViewModel
-from viewmodels.view_model import ViewModel
-from views.study_patient_grid import StudyPatientGrid
-from views.dialogs.study_patient import StudyPatientDialog
-from views.view import View
+from viewmodels.PatientViewModel import PatientListViewModel, PatientViewModel
+from viewmodels.ViewModel import ViewModel
+from views.StudyPatientGrid import StudyPatientGrid
+from views.dialogs.StudyPatientDialog import StudyPatientDialog
+from views.View import View
 
 
 class PatientPanel(View):

@@ -2,7 +2,7 @@ from typing import Any
 
 from nicegui import binding
 
-from viewmodels.view_model import ViewModel
+from viewmodels.ViewModel import ViewModel
 
 
 @binding.bindable_dataclass
