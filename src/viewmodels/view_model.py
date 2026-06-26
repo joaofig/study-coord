@@ -10,28 +10,16 @@ class ViewModel(ABC):
         super().__init__()
         self.observable = Observable()
 
-    async def message(self, msg: str, data: Any = None):
-        result = self.handle_message(msg, data)
+    async def message(self, msg: str, **kwargs):
+        result = self.handle_message(msg, **kwargs)
         if asyncio.iscoroutine(result):
             return await result
         return result
 
     @abstractmethod
-    async def handle_message(self, msg: str, data: Any = None):
+    async def handle_message(self, msg: str, **kwargs):
         """Base method for handling messages sent to the ViewModel"""
         return None
-
-    def register(self, handler: ObserverHandler):
-        """Register a handler to receive messages from the ViewModel"""
-        self.observable.register(handler)
-
-    def unregister(self, handler: ObserverHandler) -> None:
-        """Unregister a handler from receiving messages from the ViewModel"""
-        self.observable.unregister(handler)
-
-    async def notify(self, action: str, **kwargs) -> None:
-        """Notify all registered handlers of a message from the ViewModel"""
-        await self.observable.notify(action, **kwargs)
 
     def get(self, name: str) -> Any:
         """Get the value of a property from the ViewModel"""
@@ -44,3 +32,16 @@ class ViewModel(ABC):
         if not hasattr(self, name):
             raise AttributeError(f"{self.__class__.__name__} has no attribute '{name}'")
         setattr(self, name, value)
+
+    # Observable methods exposed through composition
+    def register(self, handler: ObserverHandler):
+        """Register a handler to receive messages from the ViewModel"""
+        self.observable.register(handler)
+
+    def unregister(self, handler: ObserverHandler) -> None:
+        """Unregister a handler from receiving messages from the ViewModel"""
+        self.observable.unregister(handler)
+
+    async def notify(self, action: str, **kwargs) -> None:
+        """Notify all registered handlers of a message from the ViewModel"""
+        await self.observable.notify(action, **kwargs)

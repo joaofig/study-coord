@@ -4,18 +4,20 @@ from viewmodels.study import StudyListViewModel, StudyViewModel
 from viewmodels.view_model import ViewModel
 from views.study_editor import StudyEditor
 from views.study_grid import StudyGrid
+from views.view import View
 
 
-class StudyView:
+class StudyView(View):
     """
     This is the main Study view, which contains the StudyGrid and StudyEditor components.
     It is responsible for managing the layout and interactions between these components.
     """
-    def __init__(self):
-        self.grid = StudyGrid(StudyListViewModel())
+    def __init__(self, vm: ViewModel):
+        super().__init__(vm)
+        self.grid = StudyGrid(vm)
 
     async def load(self):
-        await self.grid.load()
+        await self.command("load")
 
     def show(self):
         with ui.splitter(horizontal=True, value=50).classes("w-full h-full") as splitter:

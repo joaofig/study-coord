@@ -5,21 +5,20 @@ from nicegui.elements.aggrid import AgGrid
 
 from viewmodels.study import StudyListViewModel
 from viewmodels.view_model import ViewModel
+from views.view import View
 
 
-class StudyGrid:
+class StudyGrid(View):
     def __init__(self, vm: ViewModel) -> None:
-        self.vm = vm
+        super().__init__(vm)
         self.grid: Any = None
-        vm.register(self._vm_notification)
 
     async def load(self):
-        await self.vm.message("load")
-        self._update_grid()
+        await self.command("load")
 
-    def _vm_notification(self, action: str, data: Any = None) -> None:
+    def _handle_notification(self, action: str, **kwargs):
+        """Handle notifications from the ViewModel"""
         if action == "list_changed":
-            # Update the grid's rowData with the new list of studies from the ViewModel
             self._update_grid()
 
     def _update_grid(self):
@@ -31,10 +30,10 @@ class StudyGrid:
         row = await self.grid.get_selected_row()
         if row:
             # ui.notify(f"{row}")
-            await self.vm.message("study_selected", row)
+            await self.command("study_selected", study=row)
         else:
             # ui.notify('No row selected!')
-            await self.vm.message("study_unselected", row)
+            await self.command("study_unselected")
 
     def show(self) -> AgGrid:
         columns = [

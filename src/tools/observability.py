@@ -19,6 +19,6 @@ class Observable:
 
     async def notify(self, action: str, **kwargs) -> None:
         for handler in self._handlers:
-            result = handler(action, kwargs)
+            result = handler(action, **kwargs)
             if asyncio.iscoroutine(result):
                 await result

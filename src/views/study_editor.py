@@ -5,7 +5,6 @@ from viewmodels.patient import PatientViewModel
 from viewmodels.view_model import ViewModel
 from views.dialogs.study_patient import StudyPatientDialog
 from views.patient_panel import PatientPanel
-from views.study_patient_grid import StudyPatientGrid
 from views.study_researcher_grid import StudyResearcherGrid
 
 
@@ -21,11 +20,11 @@ class StudyEditor:
         self.study = Study.empty()
 
     async def save(self):
-        await self.vm.async_message("save_study")
+        await self.vm.message("save_study")
 
     async def load(self, study: Study):
         self.study = study
-        await self.vm.async_message("copy", study)
+        await self.vm.message("copy", study)
 
     def patient_panel(self):
         panel = PatientPanel()

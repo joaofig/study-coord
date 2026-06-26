@@ -60,7 +60,7 @@ class StudyViewModel(ViewModel):
             await study.save()
             if study.id:
                 self.id = study.id
-            await self.async_notify("study_saved")
+            self.notify("study_saved")
             self.changed = False
             self.is_old = True
         else:
@@ -95,14 +95,17 @@ class StudyListViewModel(ViewModel):
     async def load(self):
         repo = StudyRepository()
         self.studies = [StudyRow(**s) for s in await repo.list()]
+        await self.notify("list_changed")
 
-    async def handle_message(self, msg: str, data: Any = None):
+    async def handle_message(self, msg: str, **kwargs):
         match msg:
             case "load":
                 await self.load()
             case "study_saved":
                 await self.load()
-            case "study_selected":
-                study_id = int(data["id"])
-                # return await self.study_vm.message("load_study", study_id)
+            # case "study_selected":
+            #     if "study" in kwargs:
+            #         study = kwargs["study"]
+            #         study_id = study.id
+            #         return await self.study_vm.message("load_study", study_id)
         return None
