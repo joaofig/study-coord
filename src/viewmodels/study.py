@@ -1,5 +1,3 @@
-from datetime import date
-from typing import Any
 
 from nicegui import binding
 from nicegui.observables import ObservableSet
@@ -8,7 +6,6 @@ from src.db.repository import StudyRepository
 from src.models import Study
 from src.models.study import StudyRow
 from src.viewmodels.view_model import ViewModel
-from viewmodels.patient import PatientListViewModel
 
 
 @binding.bindable_dataclass
@@ -78,7 +75,7 @@ class StudyViewModel(ViewModel):
                 # Input controls send this message whenever the user changes the value
                 # The data is the changed property name
                 self.changed = True
-                self.change_set.add(kwargs.get("data"))
+                self.change_set.add(kwargs.get("property"))
 
 
 class StudyListViewModel(ViewModel):
