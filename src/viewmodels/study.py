@@ -67,12 +67,12 @@ class StudyViewModel(ViewModel):
         match msg:
             case "copy":
                 await self.copy(kwargs.get("study"))
-            case "load_study":
+            case "load":
                 study_id = int(kwargs.get("study_id"))
                 study = await Study.load(study_id)
                 if study:
                     await self.copy(study)
-            case "save_study":
+            case "save":
                 await self.save()
             case "data_changed":
                 # Input controls send this message whenever the user changes the value

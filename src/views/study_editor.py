@@ -18,22 +18,24 @@ def validate_name(value: str | None) -> str | None:
 
 class StudyEditor(View):
     def __init__(self, vm: ViewModel):
-        self.vm = vm
+        super().__init__(vm)
         self.study = Study.empty()
         self.messenger = MessengerHub()["study"]
         self.messenger.subscribe("study_selected", self._study_selected)
 
     async def save(self):
-        await self.vm.message("save_study")
+        await self.command("save_study")
 
     async def _study_selected(self, **kwargs):
         study = kwargs.get("study")
         if study:
-            await self.load(Study.from_dict(study))
+            study_id = study.get("id")
+            if study_id:
+                await self.command("load", study_id=study_id)
 
     async def load(self, study: Study):
         self.study = study
-        await self.vm.message("copy", study=study)
+        await self.command("copy", study=study)
 
     def patient_panel(self):
         panel = PatientPanel()
