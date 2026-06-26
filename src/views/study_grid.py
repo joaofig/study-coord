@@ -3,7 +3,7 @@ from typing import Any
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
-from tools.messenger import MessengerHub
+from tools.messenger import get_messenger
 from viewmodels.view_model import ViewModel
 from views.view import View
 
@@ -12,7 +12,7 @@ class StudyGrid(View):
     def __init__(self, vm: ViewModel) -> None:
         super().__init__(vm)
         self.grid: Any = None
-        self.messenger = MessengerHub()["study"]
+        self.messenger = get_messenger("study")
 
     async def load(self):
         await self.command("load")
@@ -28,10 +28,10 @@ class StudyGrid(View):
         self.grid.update()
 
     async def _row_selection_changed(self, event):
+        # Handle the row selection change event from the AgGrid component
         row = await self.grid.get_selected_row()
         if row:
-            # ui.notify(f"{row}")
-            await self.command("study_selected", study=row)
+            # Notify other components that a study has been selected
             await self.messenger.send("study_selected", study=row)
         else:
             # ui.notify('No row selected!')
@@ -64,7 +64,3 @@ class StudyGrid(View):
         #             )
         self.grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return self.grid
-
-    async def _row_selected(self, event):
-        row_data = event.args["data"]
-        await self.vm.message("study_selected", row_data)

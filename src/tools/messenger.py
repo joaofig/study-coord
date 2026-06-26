@@ -16,7 +16,7 @@ class Messenger:
         await self.broadcast(message, **kwargs)
 
     def subscribe(
-        self, message: str, handler: Callable[[dict|None], Awaitable[None]]
+        self, message: str, handler: Callable[..., None | Awaitable[None]]
     ) -> None:
         if message not in self.handlers:
             self.handlers[message] = [handler]
@@ -33,3 +33,7 @@ class MessengerHub:
         if message not in self.hub:
             self.hub[message] = Messenger()
         return self.hub[message]
+
+
+def get_messenger(name: str) -> Messenger:
+    return MessengerHub()[name]

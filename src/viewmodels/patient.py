@@ -69,7 +69,7 @@ class PatientViewModel(ViewModel):
         await self.async_notify("patient_saved")
         self.changed = False
 
-    async def handle_message(self, msg: str, data: Any = None):
+    async def handle_command(self, msg: str, data: Any = None):
         match msg:
             case "save":
                 return await self.save()
@@ -82,7 +82,7 @@ class PatientListViewModel(ViewModel):
     def __post_init__(self):
         super().__init__()
 
-    async def handle_message(self, msg: str, data: Any = None):
+    async def handle_command(self, msg: str, data: Any = None):
         match msg:
             case "load_patients":
                 study_id = int(data)

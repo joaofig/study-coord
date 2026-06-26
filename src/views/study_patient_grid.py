@@ -1,21 +1,21 @@
-from typing import Any
-
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
-from tools.messenger import MessengerHub
+from tools.messenger import MessengerHub, get_messenger
 from viewmodels.view_model import ViewModel
+from views.view import View
 
 
-class StudyPatientGrid:
+class StudyPatientGrid(View):
     def __init__(self, vm: ViewModel):
+        super().__init__(vm)
         self.vm = vm
         self.grid: AgGrid = self._build_grid()
-        self.messenger = MessengerHub()["patient"]
+        self.messenger = get_messenger("patient")
         self.messenger.subscribe("saved", self._on_patient_saved)
 
-    async def _on_patient_saved(self, patient_data: dict|None):
-        await self.vm.message("load_patients")
+    async def _on_patient_saved(self, **kwargs):
+        await self.command("load_patients")
         self._update_grid()
 
     def _update_grid(self):

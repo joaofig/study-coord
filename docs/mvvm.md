@@ -14,12 +14,16 @@ Each view knows about its corresponding ViewModel, which provides the data and c
 The view binds to properties and commands exposed by the ViewModel, allowing for a clean separation of concerns.
 Any attached view model is handled in an abstract fashion, allowing for easy swapping of view models without modifying the view itself.
 
+All views must derive from the `View` base class.
+
 ## ViewModels
 
 A ViewModel is responsible for managing the data and business logic of the application.
 It acts as an intermediary between the view and the model, providing the necessary data and commands for the view to function.
 ViewModels are typically implemented as Python classes and are responsible for handling user interactions and updating the view accordingly.
 They expose properties and commands that the view can bind to, ensuring a clear separation of concerns between the presentation and business logic layers.
+
+All view models must derive from the `ViewModel` base class.
 
 ## Models
 

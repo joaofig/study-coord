@@ -1,15 +1,25 @@
 from nicegui import ui
 
-from tools.messenger import MessengerHub, Messenger
+from tools.messenger import get_messenger
 from viewmodels.patient import PatientListViewModel, PatientViewModel
+from viewmodels.view_model import ViewModel
 from views.study_patient_grid import StudyPatientGrid
 from views.dialogs.study_patient import StudyPatientDialog
+from views.view import View
 
 
-class PatientPanel:
-    def __init__(self):
+class PatientPanel(View):
+    def __init__(self, vm: ViewModel):
+        super().__init__(vm)
         self.vm = PatientListViewModel()
-        self.messenger = MessengerHub()["patient"]
+        self.messenger = get_messenger("patient")
+        self.messenger.subscribe("study_selected", self._handle_study_selected)
+
+    async def _handle_study_selected(self, **args):
+        study_id = args.get("study_id")
+        if study_id:
+            await self.vm.load_patients(study_id)
+            self._update_grid()
 
     async def show_patient_dialog(self):
         patient_vm = PatientViewModel()

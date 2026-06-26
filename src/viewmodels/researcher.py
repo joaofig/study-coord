@@ -17,7 +17,7 @@ class ResearcherViewModel(ViewModel):
     def __post_init__(self):
         super().__init__()
 
-    async def handle_message(self, msg: str, data: Any = None):
+    async def handle_command(self, msg: str, data: Any = None):
         match msg:
             case "save":
                 return None

@@ -11,13 +11,13 @@ class ViewModel(ABC):
         self.observable = Observable()
 
     async def message(self, msg: str, **kwargs):
-        result = self.handle_message(msg, **kwargs)
+        result = self.handle_command(msg, **kwargs)
         if asyncio.iscoroutine(result):
             return await result
         return result
 
     @abstractmethod
-    async def handle_message(self, msg: str, **kwargs):
+    async def handle_command(self, msg: str, **kwargs):
         """Base method for handling messages sent to the ViewModel"""
         return None
 

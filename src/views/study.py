@@ -24,5 +24,6 @@ class StudyView(View):
             with splitter.before:
                 self.grid.show()
             with splitter.after:
-                editor = StudyEditor(StudyViewModel())
+                vm = StudyViewModel()
+                editor = StudyEditor(vm)
                 editor.show()

@@ -1,4 +1,3 @@
-
 from nicegui import binding
 from nicegui.observables import ObservableSet
 
@@ -6,6 +5,7 @@ from src.db.repository import StudyRepository
 from src.models import Study
 from src.models.study import StudyRow
 from src.viewmodels.view_model import ViewModel
+from tools.messenger import get_messenger
 
 
 @binding.bindable_dataclass
@@ -17,14 +17,29 @@ class StudyViewModel(ViewModel):
     start_date: str = ""
     end_date: str = ""
     comments: str = ""
-    changed: bool = False
+    data_changed: bool = False
     change_set = ObservableSet()
     is_old: bool = False
 
     def __post_init__(self):
         super().__init__()
+        self.messenger = get_messenger("study")
+        self.messenger.subscribe("study_selected", self._handle_study_selected)
 
-    async def copy(self, study: Study):
+    def _field_changed(self, field_name: str):
+        self.changed = True
+        self.change_set.add(field_name)
+
+    async def _handle_study_selected(self, **kwargs):
+        study_row = kwargs.get("study")
+        if study_row:
+            study_id = study_row.get("id")
+            if study_id:
+                study = await Study.load(study_id=study_id)
+                if study:
+                    self.copy(study)
+
+    def copy(self, study: Study):
         self.id = study.id or 0
         self.name = study.name
         self.sponsor = study.sponsor
@@ -53,34 +68,36 @@ class StudyViewModel(ViewModel):
             await study.save()
             if study.id:
                 self.id = study.id
-            self.notify("study_saved")
             self.changed = False
             self.is_old = True
+            await self.messenger.send("study_saved", study=study)
+            await self.notify("study_saved", study=study)
         else:
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
 
-    async def handle_message(self, msg: str, **kwargs):
+    async def handle_command(self, msg: str, **kwargs):
         match msg:
             case "copy":
                 await self.copy(kwargs.get("study"))
+
             case "load":
                 study_id = int(kwargs.get("study_id"))
                 study = await Study.load(study_id)
                 if study:
                     await self.copy(study)
+
             case "save":
                 await self.save()
-            case "data_changed":
-                # Input controls send this message whenever the user changes the value
-                # The data is the changed property name
-                self.changed = True
-                self.change_set.add(kwargs.get("property"))
+
+            case "mark_changed":
+                field_name = kwargs.get("field_name")
+                if field_name:
+                    self._field_changed(field_name)
 
 
 class StudyListViewModel(ViewModel):
     studies: list[StudyRow] = []
-    sel_row = binding.BindableProperty()
 
     def __init__(self):
         super().__init__()
@@ -90,15 +107,10 @@ class StudyListViewModel(ViewModel):
         self.studies = [StudyRow(**s) for s in await repo.list()]
         await self.notify("list_changed")
 
-    async def handle_message(self, msg: str, **kwargs):
+    async def handle_command(self, msg: str, **kwargs):
         match msg:
             case "load":
                 await self.load()
+
             case "study_saved":
                 await self.load()
-            # case "study_selected":
-            #     if "study" in kwargs:
-            #         study = kwargs["study"]
-            #         study_id = study.id
-            #         return await self.study_vm.message("load_study", study_id)
-        return None
