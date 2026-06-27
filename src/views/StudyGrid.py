@@ -32,9 +32,8 @@ class StudyGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a study has been selected
-            await self.messenger.send("study_selected", study=row)
+            await self.messenger.send("study_selected", study=row, study_id=row["id"])
         else:
-            # ui.notify('No row selected!')
             await self.command("study_unselected")
 
     def show(self) -> AgGrid:

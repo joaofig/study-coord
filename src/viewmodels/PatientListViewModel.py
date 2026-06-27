@@ -1,17 +1,38 @@
 from models.patient import PatientList
+from tools.messenger import get_messenger
 from viewmodels.ViewModel import ViewModel
 
 
 class PatientListViewModel(ViewModel):
     patients: list[dict] = []
+    study_id: int = 0
 
-    def __post_init__(self):
+    def __init__(self):
         super().__init__()
+        self.study_messenger = get_messenger("study")
+        self.study_messenger.subscribe("study_selected", self._handle_study_selected)
 
-    async def handle_command(self, msg: str, data: Any = None):
+    async def _load_patients(self, study_id: int):
+        patients = PatientList()
+        self.patients = [p.to_dict() for p in await patients.load_from_study(study_id)]
+        await self.notify("patients_loaded")
+
+    async def _handle_study_selected(self, **kwargs):
+        study_id = kwargs.get("study_id")
+        if study_id:
+            self.study_id = int(study_id)
+            await self._load_patients(self.study_id)
+
+    async def handle_command(self, msg: str, **kwargs):
         match msg:
             case "load_patients":
-                study_id = int(data)
-                await PatientList().load_from_study(study_id)
+                study_id = kwargs.get("study_id")
+                if study_id is not None:
+                    self.study_id = int(study_id)
+                    await self._load_patients(self.study_id)
+
+            case "reload_patients":
+                if self.study_id != 0:
+                    await self._load_patients(self.study_id)
         return None
 

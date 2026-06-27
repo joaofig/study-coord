@@ -1,32 +1,23 @@
 from nicegui import ui
 
-from tools.messenger import get_messenger
-from viewmodels.PatientViewModel import PatientListViewModel, PatientViewModel
-from viewmodels.ViewModel import ViewModel
-from views.StudyPatientGrid import StudyPatientGrid
-from views.dialogs.StudyPatientDialog import StudyPatientDialog
-from views.View import View
+from src.tools.messenger import get_messenger
+from src.viewmodels import PatientViewModel
+from src.viewmodels.ViewModel import ViewModel
+from src.views.StudyPatientGrid import StudyPatientGrid
+from src.views.dialogs.StudyPatientDialog import StudyPatientDialog
+from src.views.View import View
 
 
 class PatientPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.vm = PatientListViewModel()
-        self.messenger = get_messenger("patient")
-        self.messenger.subscribe("study_selected", self._handle_study_selected)
-
-    async def _handle_study_selected(self, **args):
-        study_id = args.get("study_id")
-        if study_id:
-            await self.vm.load_patients(study_id)
-            self._update_grid()
 
     async def show_patient_dialog(self):
         patient_vm = PatientViewModel()
         dialog = StudyPatientDialog(patient_vm)
         result = await dialog.show()
         if result == "save":
-            await self.messenger.send("saved", patient_vm.to_dict())
+            await self.command("reload_patients")
 
     def show(self):
         with ui.row().classes("w-full h-full"):

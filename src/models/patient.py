@@ -1,17 +1,17 @@
 from dataclasses import dataclass
 from typing import List
 
-from src.db import get_connection
 from src.db.repository.patient_repository import PatientRepository
 
 
 @dataclass
 class Patient:
-    id: int
-    study_id: int
-    number: str
-    start_date: str
-    exit_date: str
+    id: int = 0
+    study_id: int = 0
+    number: str = ""
+    name: str = ""
+    start_date: str = ""
+    exit_date: str = ""
     status: str = "active"
     comments: str = ""
 
@@ -20,6 +20,7 @@ class Patient:
             "id": self.id,
             "study_id": self.study_id,
             "number": self.number,
+            "name": self.name,
             "start_date": self.start_date,
             "exit_date": self.exit_date,
             "status": self.status,
@@ -28,7 +29,7 @@ class Patient:
 
     async def save(self):
         repo = PatientRepository()
-        study: dict = await repo.save(self.to_dict())
+        study = await repo.save(self.to_dict())
         self.id = study["id"]
 
 

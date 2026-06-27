@@ -45,33 +45,33 @@ class PatientRepository:
         conn.row_factory = lambda _, row: {
             "id": row[0],
             "study_id": row[1],
-            "study_name": row[2],
-            "study_sponsor": row[3],
-            "number": row[4],
-            "start_date": row[5],
-            "exit_date": row[6],
-            "status": row[7],
-            "comments": row[8],
+            "number": row[2],
+            "name": row[3],
+            "start_date": row[4],
+            "exit_date": row[5],
+            "status": row[6],
+            "comments": row[7],
         }
         cursor = conn.execute(self.cache.get("patient/get_by_study_id.sql"), (study_id,))
         return cursor.fetchall()
 
     def _save(self, patient: dict) -> dict:
         conn = get_connection()
-        if patient.get("id") is not None:
-            cur = conn.execute(
+        if patient.get("id", 0) > 0:
+            conn.execute(
                 self.cache.get("patient/update.sql"),
-                (patient["study_id"], patient["number"], patient["start_date"], patient["exit_date"],
+                (patient["study_id"], patient["number"], patient["name"], patient["start_date"], patient["exit_date"],
                  patient["status"], patient["comments"], patient["id"])
+            )
+
+        else:
+            cur = conn.execute(
+                self.cache.get("patient/save.sql"),
+                (patient["number"], patient["name"], patient["start_date"], patient["exit_date"], patient["status"],
+                 patient["comments"])
             )
             patient["id"] = cur.lastrowid
             cur.close()
-        else:
-            conn.execute(
-                self.cache.get("patient/save.sql"),
-                (patient["study_id"], patient["number"], patient["start_date"], patient["exit_date"], patient["status"],
-                 patient["comments"])
-            )
         conn.commit()
         return patient
 
@@ -92,7 +92,7 @@ class PatientRepository:
         return await asyncio.to_thread(self._get_by_study_id, study_id)
 
     async def save(self, patient: dict) -> dict:
-        await asyncio.to_thread(self._save, patient)
+        return await asyncio.to_thread(self._save, patient)
 
     async def delete(self, patient_id: int) -> None:
         await asyncio.to_thread(self._delete, patient_id)

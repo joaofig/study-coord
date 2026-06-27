@@ -9,7 +9,6 @@ from views.View import View
 class StudyPatientGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.vm = vm
         self.grid: AgGrid = self._build_grid()
         self.messenger = get_messenger("patient")
         self.messenger.subscribe("saved", self._on_patient_saved)
@@ -21,6 +20,10 @@ class StudyPatientGrid(View):
     def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("patients")
         self.grid.update()
+
+    async def _handle_notification(self, action: str, **kwargs):
+        if action == "patients_loaded":
+            self._update_grid()
 
     def _build_grid(self) -> AgGrid:
         columns = [

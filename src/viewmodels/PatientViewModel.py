@@ -65,7 +65,7 @@ class PatientViewModel(ViewModel):
         await patient.save()
         if patient.id:
             self.id = patient.id
-        await self.async_notify("patient_saved")
+        await self.notify("patient_saved")
         self.changed = False
 
     async def handle_command(self, msg: str, data: Any = None):

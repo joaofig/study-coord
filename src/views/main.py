@@ -1,8 +1,8 @@
 from nicegui import ui
 
 from src.tools.tasks import ManagedTasks
-from src.viewmodels.StudyViewModel import StudyListViewModel
-from views.dialogs.ResearcherDialog import researcher_grid_view
+from src.viewmodels import StudyListViewModel
+from src.views.dialogs.ResearcherDialog import researcher_grid_view
 from src.views.StudyView import StudyView
 
 

@@ -1,12 +1,13 @@
 from nicegui import ui
 
 from models import Study
-from viewmodels.PatientViewModel import PatientViewModel, PatientListViewModel
-from viewmodels.ViewModel import ViewModel
-from views.dialogs.StudyPatientDialog import StudyPatientDialog
-from views.PatientPanel import PatientPanel
-from views.StudyResearcherGrid import StudyResearcherGrid
-from views.View import View
+from src.viewmodels import PatientListViewModel
+from src.viewmodels import PatientViewModel
+from src.viewmodels.ViewModel import ViewModel
+from src.views.dialogs.StudyPatientDialog import StudyPatientDialog
+from src.views.PatientPanel import PatientPanel
+from src.views.StudyResearcherGrid import StudyResearcherGrid
+from src.views.View import View
 
 
 def validate_name(value: str | None) -> str | None:
