@@ -12,6 +12,7 @@ class PatientViewModel(ViewModel):
     id: int = 0
     study_id: int = 0
     number: str = ""
+    name: str = ""
     start_date: str = date.today().isoformat()
     exit_date: str = ""
     status: str = "active"
@@ -32,6 +33,7 @@ class PatientViewModel(ViewModel):
         self.id = patient.id or 0
         self.study_id = patient.study_id
         self.number = patient.number
+        self.name = patient.name
         self.start_date = patient.start_date
         self.exit_date = patient.exit_date or ""
         self.status = patient.status
@@ -43,6 +45,7 @@ class PatientViewModel(ViewModel):
             id=self.id,
             study_id=self.study_id,
             number=self.number,
+            name=self.name,
             start_date=self.start_date,
             exit_date=self.exit_date or "",
             status=self.status,
@@ -54,11 +57,23 @@ class PatientViewModel(ViewModel):
             "id": self.id,
             "study_id": self.study_id,
             "number": self.number,
+            "name": self.name,
             "start_date": self.start_date,
             "exit_date": self.exit_date or "",
             "status": self.status,
             "comments": self.comments or ""
         }
+
+    def from_dict(self, patient: dict):
+        self.id = patient["id"] or 0
+        self.study_id = patient["study_id"]
+        self.number = patient["number"]
+        self.name = patient["name"]
+        self.start_date = patient["start_date"]
+        self.exit_date = patient["exit_date"] or ""
+        self.status = patient["status"]
+        self.comments = patient["comments"] or ""
+        self.changed = False
 
     async def save(self):
         patient = self.to_patient()

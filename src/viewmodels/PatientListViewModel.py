@@ -29,10 +29,16 @@ class PatientListViewModel(ViewModel):
                 study_id = kwargs.get("study_id")
                 if study_id is not None:
                     self.study_id = int(study_id)
-                    await self._load_patients(self.study_id)
+                await self._load_patients(self.study_id)
 
             case "reload_patients":
                 if self.study_id != 0:
                     await self._load_patients(self.study_id)
+
+            case "patient_selected":
+                patient = kwargs.get("patient")
+                if patient:
+                    self.patient_id = patient["id"]
+
         return None
 

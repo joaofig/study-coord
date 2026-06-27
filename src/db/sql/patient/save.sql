@@ -1,6 +1,6 @@
 INSERT INTO patient (
-    study_id
-,   number
+    number
+,   name
 ,   start_date
 ,   exit_date
 ,   status

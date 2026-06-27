@@ -2,8 +2,10 @@ from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
 from tools.messenger import MessengerHub, get_messenger
+from viewmodels import PatientViewModel
 from viewmodels.ViewModel import ViewModel
 from views.View import View
+from views.dialogs.StudyPatientDialog import StudyPatientDialog
 
 
 class StudyPatientGrid(View):
@@ -27,8 +29,25 @@ class StudyPatientGrid(View):
 
     def _build_grid(self) -> AgGrid:
         columns = [
-            {"headerName": "ID", "field": "id", "hide": True},
+            # {"headerName": "ID", "field": "id", "hide": True},
+            {
+                "headerName": "Edit",
+                "field": "id",
+                "width": 80,
+                ":cellRenderer": """
+                (params) => {
+                    const btn = document.createElement('button');
+                    btn.innerText = '✏️';
+                    btn.style.cssText = 'cursor:pointer; padding:2px 8px;';
+                    btn.addEventListener('click', () => {
+                        emitEvent('patient-row-edit', params.data);
+                    });
+                return btn;
+                }
+                """
+            },
             {"headerName": "Number", "field": "number", "sortable": True, "align": "left"},
+            {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
             {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left"},
             {"headerName": "End", "field": "end_date", "sortable": True, "align": "left"},
             {"headerName": "Status", "field": "status", "sortable": True, "align": "left"},
@@ -38,10 +57,36 @@ class StudyPatientGrid(View):
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
+            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
             ":getRowId": "(params) => String(params.data.id)"
         }
+        ui.on("patient-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def).classes("w-full h-full")
+        grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return grid
+
+    async def _edit_patient(self, patient: dict) -> dict:
+        vm = PatientViewModel()
+        dlg = StudyPatientDialog(vm=vm)
+        vm.from_dict(patient)
+        result = await dlg.show()
+        if result == "save":
+            patient = vm.to_dict()
+            await self._on_patient_saved()
+        return patient
+
+    async def _handle_edit(self, event):
+        row_data = event.args  # dict with the full row's data
+        if row_data:
+            await self._edit_patient(row_data)
+        # ui.notify(f"Edit triggered for: {row_data["number"]} (id={row_data['id']})")
 
     def show(self) -> AgGrid:
         return self.grid
+
+    async def _row_selection_changed(self, event):
+        row = await self.grid.get_selected_row()
+        if row:
+            # Notify other components that a study has been selected
+            await self.messenger.send("patient_selected", patient=row, patient_id=row["id"])
+            await self.command("patient_selected", patient=row)

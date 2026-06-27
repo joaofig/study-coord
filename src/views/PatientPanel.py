@@ -19,6 +19,13 @@ class PatientPanel(View):
         if result == "save":
             await self.command("reload_patients")
 
+    async def edit_patient_dialog(self):
+        patient_vm = PatientViewModel()
+        dialog = StudyPatientDialog(patient_vm)
+        result = await dialog.show()
+        if result == "save":
+            await self.command("reload_patients")
+
     def show(self):
         with ui.row().classes("w-full h-full"):
 
@@ -28,7 +35,12 @@ class PatientPanel(View):
             with ui.column().classes("h-full flex-none"):
                 with ui.button(icon="add", on_click=lambda: self.show_patient_dialog()):
                     ui.tooltip("Add Patient")
+
+                with ui.button(icon="edit", on_click=lambda: self.edit_patient_dialog()):
+                    ui.tooltip("Edit Patient")
+
                 with ui.button(icon="delete"):
                     ui.tooltip("Delete Patient")
+
                 with ui.button(icon="table_view"):
                     ui.tooltip("Export to Excel")
