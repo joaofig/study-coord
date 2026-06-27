@@ -3,6 +3,7 @@ from typing import Any
 
 from nicegui import binding
 
+from models.patient import patient_statuses
 from src.models import Patient
 from viewmodels.ViewModel import ViewModel
 
@@ -17,13 +18,7 @@ class PatientViewModel(ViewModel):
     exit_date: str = ""
     status: str = "active"
     comments: str = ""
-    statuses = {
-        "active": "Active",
-        "completed": "Completed",
-        "withdrawn": "Withdrawn Consent",
-        "lost": "Lost to Follow-up",
-        "deceased": "Deceased"
-    }
+    statuses = patient_statuses()
     changed: bool = False
 
     def __post_init__(self):

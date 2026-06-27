@@ -46,11 +46,11 @@ class StudyPatientGrid(View):
                 }
                 """
             },
-            {"headerName": "Number", "field": "number", "sortable": True, "align": "left"},
+            {"headerName": "Number", "field": "number", "sortable": True, "align": "left", "width": 100},
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
-            {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left"},
-            {"headerName": "End", "field": "exit_date", "sortable": True, "align": "left"},
-            {"headerName": "Status", "field": "status", "sortable": True, "align": "left"},
+            {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left", "width": 120},
+            {"headerName": "End", "field": "exit_date", "sortable": True, "align": "left", "width": 120},
+            {"headerName": "Status", "field": "status_text", "sortable": True, "align": "left"},
         ]
         grid_def = {
             "columnDefs": columns,

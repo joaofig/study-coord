@@ -4,6 +4,20 @@ from typing import List
 from src.db.repository.patient_repository import PatientRepository
 
 
+def patient_statuses() -> dict:
+    return {
+        "active": "Active",
+        "completed": "Completed",
+        "withdrawn": "Withdrawn Consent",
+        "lost": "Lost to Follow-up",
+        "deceased": "Deceased"
+    }
+
+
+def patient_status_name(status:str) -> str:
+    return patient_statuses().get(status, "Unknown")
+
+
 @dataclass
 class Patient:
     id: int = 0
@@ -24,6 +38,7 @@ class Patient:
             "start_date": self.start_date,
             "exit_date": self.exit_date,
             "status": self.status,
+            "status_text": patient_status_name(self.status),
             "comments": self.comments,
         }
 
