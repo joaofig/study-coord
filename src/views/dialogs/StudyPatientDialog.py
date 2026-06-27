@@ -20,7 +20,7 @@ class StudyPatientDialog(View):
         if action == "patient_saved":
             self.dialog.submit("save")
 
-    async def save(self, dialog: Dialog):
+    async def save(self):
         await self.command("save")
 
     async def show(self):
@@ -55,6 +55,6 @@ class StudyPatientDialog(View):
                  .bind_value(self.vm, "comments")
             )
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save(dialog))
+                ui.button("Save", on_click=lambda: self.save())
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
         return dialog

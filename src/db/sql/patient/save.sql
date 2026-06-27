@@ -1,8 +1,9 @@
 INSERT INTO patient (
-    number
+    study_id
+,   number
 ,   name
 ,   start_date
 ,   exit_date
 ,   status
 ,   comments)
-VALUES (?, ?, ?, ?, ?, ?)
+VALUES (?, ?, ?, ?, ?, ?, ?)
