@@ -5,6 +5,7 @@ from nicegui import binding
 
 from models.patient import patient_statuses
 from src.models import Patient
+from tools.messenger import get_messenger, send_message
 from viewmodels.ViewModel import ViewModel
 
 
@@ -76,6 +77,7 @@ class PatientViewModel(ViewModel):
         if patient.id:
             self.id = patient.id
         await self.notify("patient_saved")
+        await send_message("study_list", "load")
         self.changed = False
 
     async def handle_command(self, msg: str, data: Any = None):

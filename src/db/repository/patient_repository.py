@@ -67,7 +67,8 @@ class PatientRepository:
         else:
             cur = conn.execute(
                 self.cache.get("patient/save.sql"),
-                (patient["number"], patient["name"], patient["start_date"], patient["exit_date"], patient["status"],
+                (patient["study_id"], patient["number"], patient["name"], patient["start_date"],
+                 patient["exit_date"], patient["status"],
                  patient["comments"])
             )
             patient["id"] = cur.lastrowid

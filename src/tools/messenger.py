@@ -37,3 +37,9 @@ class MessengerHub:
 
 def get_messenger(name: str) -> Messenger:
     return MessengerHub()[name]
+
+
+async def send_message(messenger: str, message: str, **kwargs):
+    msg = get_messenger(messenger)
+    if msg:
+        await msg.send(message, **kwargs)
