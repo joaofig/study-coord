@@ -2,7 +2,8 @@ SELECT
     id
 ,   number
 ,   name
+,   phone
+,   email
 ,   comments
-,   role
 FROM    researcher
 WHERE   number=?

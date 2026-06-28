@@ -67,8 +67,8 @@ class ResearcherRepository:
     async def get(self, researcher_id: int) -> dict | None:
         return await asyncio.to_thread(self._get_by_id, researcher_id)
 
-    async def save(self, researcher: dict) -> None:
-        await asyncio.to_thread(self._save, researcher)
+    async def save(self, researcher: dict) -> dict:
+        return await asyncio.to_thread(self._save, researcher)
 
     async def delete(self, researcher_id: int) -> None:
         await asyncio.to_thread(self._delete, researcher_id)

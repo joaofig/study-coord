@@ -1,9 +1,7 @@
 from nicegui import binding
 from nicegui.observables import ObservableSet
 
-from src.db.repository import StudyRepository
 from src.models import Study
-from src.models.study import StudyRow
 from src.viewmodels.ViewModel import ViewModel
 from tools.messenger import get_messenger
 

@@ -1,6 +1,9 @@
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
+from viewmodels.ViewModel import ViewModel
+from views.View import View
+
 
 def validate_number(value: str) -> str | None:
     if not value:
@@ -8,8 +11,9 @@ def validate_number(value: str) -> str | None:
     return None
 
 
-class ResearcherDialog:
-    def __init__(self):
+class ResearcherDialog(View):
+    def __init__(self, vm: ViewModel):
+        super().__init__(vm)
         self.number = None
         self.name = None
         self.dialog = None
