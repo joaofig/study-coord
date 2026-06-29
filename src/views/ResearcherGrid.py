@@ -42,6 +42,15 @@ class ResearcherGrid(View):
         ui.on("resercher-row-edit", self._handle_edit)
         return ui.aggrid(grid_def).classes("w-full h-full")
 
+    def _update_grid(self):
+        # Update the grid's rowData with the new list of studies from the ViewModel
+        self.grid.options["rowData"] = [s.to_dict() for s in self.vm.get("researchers")]
+        self.grid.update()
+
+    async def _handle_notification(self, action: str, **kwargs):
+        if action == "list_changed":
+            self._update_grid()
+
     async def _handle_edit(self, event):
         ...
         # row_data = event.args  # dict with the full row's data
