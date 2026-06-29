@@ -80,10 +80,3 @@ class ResearcherRepository:
 
     async def delete(self, researcher_id: int) -> None:
         await asyncio.to_thread(self._delete, researcher_id)
-
-
-
-class StudyResearcherRepository:
-    def __init__(self):
-        self.cache = SQLCache()
-

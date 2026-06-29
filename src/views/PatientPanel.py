@@ -44,8 +44,8 @@ class PatientPanel(View):
                 with ui.button(icon="add", on_click=lambda: self.new_patient_dialog()):
                     ui.tooltip("Add Patient")
 
-                with ui.button(icon="edit", on_click=lambda: self.edit_patient_dialog()):
-                    ui.tooltip("Edit Patient")
+                # with ui.button(icon="edit", on_click=lambda: self.edit_patient_dialog()):
+                #     ui.tooltip("Edit Patient")
 
                 with ui.button(icon="delete"):
                     ui.tooltip("Delete Patient")

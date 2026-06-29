@@ -17,6 +17,8 @@ class StudyResearcherGrid:
             {"headerName": "Number", "field": "number", "sortable": True, "align": "left"},
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
             {"headerName": "Role", "field": "role", "sortable": True, "align": "left"},
+            {"headerName": "Phone", "field": "phone", "sortable": True, "align": "left"},
+            {"headerName": "Email", "field": "email", "sortable": True, "align": "left"},
         ]
         grid_def = {
             "columnDefs": columns,

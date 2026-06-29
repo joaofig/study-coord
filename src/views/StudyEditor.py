@@ -8,6 +8,9 @@ from src.views.dialogs.StudyPatientDialog import StudyPatientDialog
 from src.views.PatientPanel import PatientPanel
 from src.views.StudyResearcherGrid import StudyResearcherGrid
 from src.views.View import View
+from viewmodels.StudyResearcherListViewModel import StudyResearcherListViewModel
+from viewmodels.StudyResearcherViewModel import StudyResearcherViewModel
+from views.StudyResearcherPanel import StudyResearcherPanel
 
 
 def validate_name(value: str | None) -> str | None:
@@ -33,16 +36,9 @@ class StudyEditor(View):
         panel.show()
 
     def researcher_pane(self):
-        with ui.row().classes("w-full h-full"):
-            with ui.column().classes("h-full flex-1"):
-                StudyResearcherGrid(self.vm).show()
-            with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add"):
-                    ui.tooltip("Add Researcher")
-                with ui.button(icon="delete"):
-                    ui.tooltip("Delete Researcher")
-                with ui.button(icon="table_view"):
-                    ui.tooltip("Export to Excel")
+        vm = StudyResearcherListViewModel()
+        panel = StudyResearcherPanel(vm)
+        panel.show()
 
     def study_pane(self):
         with ui.row().classes("mt-2 w-full"):
