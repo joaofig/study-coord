@@ -77,13 +77,13 @@ class StudyViewModel(ViewModel):
     async def handle_command(self, msg: str, **kwargs):
         match msg:
             case "copy":
-                await self.copy(kwargs.get("study"))
+                self.copy(kwargs.get("study"))
 
             case "load":
                 study_id = int(kwargs.get("study_id"))
                 study = await Study.load(study_id)
                 if study:
-                    await self.copy(study)
+                    self.copy(study)
 
             case "save":
                 await self.save()

@@ -1,7 +1,6 @@
 from nicegui import ui
-from nicegui.elements.aggrid import AgGrid
 
-from viewmodels import ResearcherViewModel
+from tools.messenger import get_messenger
 from viewmodels.ViewModel import ViewModel
 from views.View import View
 
@@ -17,26 +16,34 @@ class ResearcherDialog(View):
         super().__init__(vm)
         self.number = None
         self.name = None
-        self.dialog = None
+        self.messenger = get_messenger("researcher")
 
         with ui.dialog() as dialog, ui.card().classes("w-100"):
             ui.label("Researcher Details").classes("text-h5")
             self.number = ui.input(
                 label="Number",
                 validation = validate_number,
-            ).classes("w-full")
-            self.name = ui.input(label="Name").classes("w-full")
-            ui.input(label="Phone").classes("w-full")
-            ui.input(label="Email").classes("w-full")
-            ui.textarea(label="Comments").classes("w-full")
+            ).classes("w-full").bind_value(self.vm, "number")
+            self.name = ui.input(label="Name").classes("w-full").bind_value(self.vm, "name")
+            ui.input(label="Phone").classes("w-full").bind_value(self.vm, "phone")
+            ui.input(label="Email").classes("w-full").bind_value(self.vm, "email")
+            ui.textarea(label="Comments").classes("w-full").bind_value(self.vm, "comments")
 
             with ui.row():
                 ui.button(
                     "Save",
-                    on_click=lambda: self.handle_save()
+                    on_click=lambda: self.save()
                 )
                 ui.button("Cancel", on_click=lambda: dialog.submit("Cancel"))
             self.dialog = dialog
+
+    async def _handle_notification(self, action: str, **kwargs):
+        if action == "researcher_saved":
+            self.dialog.submit("save")
+            await self.messenger.send(action)
+
+    async def save(self):
+        await self.command("save")
 
     def validate(self) -> bool:
         if not self.number.value:
@@ -44,17 +51,7 @@ class ResearcherDialog(View):
             return False
         return True
 
-    def handle_save(self):
-        if self.validate():
-            self.dialog.submit("Save")
-
     async def show(self):
         result = await self.dialog
-        ui.notify(f'You chose {result}')
-
-
-async def show_dialog():
-    dialog = ResearcherDialog(ResearcherViewModel())
-    await dialog.show()
-
-
+        if result == "save":
+            await self.save()

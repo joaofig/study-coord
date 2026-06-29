@@ -14,7 +14,9 @@ class ResearcherRepository:
             "id": row[0],
             "number": row[1],
             "name": row[2],
-            "comments": row[3],
+            "phone": row[3],
+            "email": row[4],
+            "comments": row[5],
         }
         sql = self.cache.get("researcher/get_all.sql")
         return conn.execute(sql).fetchall()
@@ -25,7 +27,9 @@ class ResearcherRepository:
             "id": row[0],
             "number": row[1],
             "name": row[2],
-            "comments": row[3],
+            "phone": row[3],
+            "email": row[4],
+            "comments": row[5],
         }
         sql = self.cache.get("researcher/get_by_id.sql")
         return conn.execute(sql, (researcher_id,)).fetchone()
@@ -36,24 +40,28 @@ class ResearcherRepository:
             "id": row[0],
             "number": row[1],
             "name": row[2],
-            "comments": row[3],
+            "phone": row[3],
+            "email": row[4],
+            "comments": row[5],
         }
         sql = self.cache.get("researcher/get_by_number.sql")
         return conn.execute(sql, (researcher_number,)).fetchone()
 
     def _save(self, researcher: dict) -> dict:
         conn = get_connection()
-        if researcher["id"] is None:
+        if researcher["id"] == 0:
             sql = self.cache.get("researcher/save.sql")
             cur = conn.execute(
                 sql,
-                (researcher["number"], researcher["name"], researcher["comments"])
+                (researcher["number"], researcher["name"], researcher["phone"], researcher["email"], researcher["comments"])
             )
             researcher["id"] = cur.lastrowid
             cur.close()
         else:
             conn.execute(self.cache.get("researcher/update.sql"),
-                         (researcher["number"], researcher["name"], researcher["comments"], researcher["id"]))
+                         (researcher["number"], researcher["name"],
+                          researcher["phone"], researcher["email"],
+                          researcher["comments"], researcher["id"]))
         conn.commit()
         return researcher
 

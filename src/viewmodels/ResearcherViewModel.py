@@ -11,13 +11,11 @@ from viewmodels.ViewModel import ViewModel
 @binding.bindable_dataclass
 class ResearcherViewModel(ViewModel):
     id: int = 0
-    study_id: int = 0
     number: str = ""
     name: str = ""
     phone: str = ""
     email: str = ""
     comments: str = ""
-    role: str = ""
     data_changed: bool = False
     change_set = ObservableSet()
     is_old: bool = False
@@ -32,16 +30,55 @@ class ResearcherViewModel(ViewModel):
         self.change_set.add(field_name)
 
     async def _handle_researcher_selected(self, **kwargs):
-        study_row = kwargs.get("study")
+        study_row = kwargs.get("researcher")
         if study_row:
             study_id = study_row.get("id")
             if study_id:
-                study = await Researcher.load(researcher_id=study_id)
-                if study:
-                    self.copy(study)
+                researcher = await Researcher.load(researcher_id=study_id)
+                if researcher:
+                    self.copy(researcher)
 
-    async def handle_command(self, msg: str, data: Any = None):
+    async def handle_command(self, msg: str, **kwargs):
         match msg:
+            case "copy":
+                self.copy(kwargs.get("researcher"))
+
             case "save":
-                return None
+                await self.save()
+
+            case "load":
+                r = await Researcher.load(researcher_id=kwargs.get("researcher_id"))
+                if r:
+                    self.copy(r)
         return None
+
+    def copy(self, researcher: Researcher):
+        self.id = researcher.id or 0
+        self.name = researcher.name
+        self.number = researcher.number
+        self.phone = researcher.phone
+        self.email = researcher.email
+        self.comments = researcher.comments or ""
+        self.data_changed = False
+        self.is_old = researcher.id is not None
+        self.change_set.clear()
+        
+    def to_researcher(self):
+        return Researcher(
+            id=self.id,
+            number=self.number,
+            name=self.name,
+            phone=self.phone,
+            email=self.email,
+            comments=self.comments
+        )
+
+    async def save(self):
+        researcher = self.to_researcher()
+        await researcher.save()
+        if researcher.id:
+            self.id = researcher.id
+        self.data_changed = False
+        self.is_old = True
+        await self.messenger.send("researcher_saved", researcher=researcher)
+        await self.notify("researcher_saved", researcher=researcher)

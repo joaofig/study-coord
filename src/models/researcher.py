@@ -15,7 +15,7 @@ class Researcher:
 
     @classmethod
     def empty(cls) -> Researcher:
-        return Researcher(None, "", "", "", "", "", "")
+        return Researcher(0, "", "", "", "", "")
 
     def to_dict(self):
         return {

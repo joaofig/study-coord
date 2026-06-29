@@ -32,5 +32,4 @@ class ResearcherView(View):
             await self.command("load")
 
     async def _handle_notification(self, action: str, **kwargs):
-        if action == "list_changed":
-            await self.command("load")
+        return
