@@ -1,6 +1,7 @@
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
+from viewmodels import ResearcherViewModel
 from viewmodels.ViewModel import ViewModel
 from views.View import View
 
@@ -18,13 +19,16 @@ class ResearcherDialog(View):
         self.name = None
         self.dialog = None
 
-        with ui.dialog() as dialog, ui.card():
+        with ui.dialog() as dialog, ui.card().classes("w-100"):
             ui.label("Researcher Details").classes("text-h5")
             self.number = ui.input(
                 label="Number",
                 validation = validate_number,
             ).classes("w-full")
             self.name = ui.input(label="Name").classes("w-full")
+            ui.input(label="Phone").classes("w-full")
+            ui.input(label="Email").classes("w-full")
+            ui.textarea(label="Comments").classes("w-full")
 
             with ui.row():
                 ui.button(
@@ -50,27 +54,7 @@ class ResearcherDialog(View):
 
 
 async def show_dialog():
-    dialog = ResearcherDialog()
+    dialog = ResearcherDialog(ResearcherViewModel())
     await dialog.show()
 
 
-def researcher_grid() -> AgGrid:
-    columns = [
-        {"headerName": "ID", "field": "id", "hide": True},
-        {"headerName": "Number", "field": "sponsor", "sortable": True, "align": "left"},
-        {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
-    ]
-    grid_def = {
-        "columnDefs": columns,
-        "rowData": []
-    }
-    return ui.aggrid(grid_def)
-
-
-def researcher_grid_view():
-    with ui.row().classes("w-full"):
-        ui.label("Researchers").classes("text-h4")
-        ui.space()
-        ui.button("Add Researcher", on_click=lambda: show_dialog()).props("icon=add")
-    with ui.row().classes("w-full h-full"):
-        researcher_grid().classes("h-full")

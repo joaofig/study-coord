@@ -8,6 +8,7 @@ from views.View import View
 class ResearcherGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
+        self.grid = self._build_grid()
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -39,7 +40,7 @@ class ResearcherGrid(View):
             ":getRowId": "(params) => String(params.data.id)"
         }
         ui.on("resercher-row-edit", self._handle_edit)
-        return ui.aggrid(grid_def)
+        return ui.aggrid(grid_def).classes("w-full h-full")
 
     async def _handle_edit(self, event):
         ...

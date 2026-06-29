@@ -2,8 +2,9 @@ from nicegui import ui
 
 from src.tools.tasks import ManagedTasks
 from src.viewmodels import StudyListViewModel
-from src.views.dialogs.ResearcherDialog import researcher_grid_view
 from src.views.StudyView import StudyView
+from viewmodels.ResearcherListViewModel import ResearcherListViewModel
+from views.ResearcherView import ResearcherView
 
 
 def main_view():
@@ -46,7 +47,7 @@ def main_view():
                     ui.label("Content of patients")
 
                 with ui.tab_panel(researchers):
-                    researcher_grid_view()
+                    ResearcherView(ResearcherListViewModel())
 
                 with ui.tab_panel(reports):
                     ui.label("Reports").classes("text-h4")
