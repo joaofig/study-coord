@@ -1,7 +1,6 @@
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
-from models import Researcher
 from tools.messenger import get_messenger
 from viewmodels import ResearcherViewModel
 from viewmodels.ViewModel import ViewModel

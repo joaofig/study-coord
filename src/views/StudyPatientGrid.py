@@ -1,7 +1,7 @@
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
-from tools.messenger import MessengerHub, get_messenger
+from tools.messenger import get_messenger
 from viewmodels import PatientViewModel
 from viewmodels.ViewModel import ViewModel
 from views.View import View

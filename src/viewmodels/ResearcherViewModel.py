@@ -1,4 +1,3 @@
-from typing import Any
 
 from nicegui import binding
 from nicegui.observables import ObservableSet

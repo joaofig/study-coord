@@ -5,7 +5,7 @@ from nicegui import binding
 
 from models.patient import patient_statuses
 from src.models import Patient
-from tools.messenger import get_messenger, send_message
+from tools.messenger import send_message
 from viewmodels.ViewModel import ViewModel
 
 
