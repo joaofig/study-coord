@@ -27,7 +27,7 @@ class ResearcherGrid(View):
                     btn.innerText = '✏️';
                     btn.style.cssText = 'cursor:pointer; padding:2px 8px;';
                     btn.addEventListener('click', () => {
-                        emitEvent('resercher-row-edit', params.data);
+                        emitEvent('researcher-row-edit', params.data);
                     });
                 return btn;
                 }
@@ -45,7 +45,7 @@ class ResearcherGrid(View):
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
             ":getRowId": "(params) => String(params.data.id)"
         }
-        ui.on("resercher-row-edit", self._handle_edit)
+        ui.on("researcher-row-edit", self._handle_edit)
         return ui.aggrid(grid_def).classes("w-full h-full")
 
     async def _on_researcher_saved(self, **kwargs):

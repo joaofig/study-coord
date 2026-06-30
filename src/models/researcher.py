@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 from db.repository.StudyResearcherRepository import StudyResearcherRepository
-from db.repository.researcher_repository import ResearcherRepository
+from db.repository.ResearcherRepository import ResearcherRepository
 
 
 @dataclass
@@ -52,6 +52,15 @@ def study_researcher_roles() -> dict:
 
 def study_researcher_role_name(role: str) -> str:
     return study_researcher_roles().get(role, "Unknown")
+
+
+class ResearcherList:
+    researchers: list[Researcher] = []
+
+    async def load(self) -> List[Researcher]:
+        repo = ResearcherRepository()
+        self.researchers = [Researcher(**r) for r in await repo.list()]
+        return self.researchers
 
 
 @dataclass

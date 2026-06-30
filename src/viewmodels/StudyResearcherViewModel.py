@@ -1,6 +1,9 @@
+from typing import List
+
 from nicegui import binding
 
-from models.researcher import StudyResearcher
+from models.researcher import StudyResearcher, Researcher, ResearcherList
+from tools.tasks import ManagedTasks
 from viewmodels.ViewModel import ViewModel
 
 
@@ -17,8 +20,11 @@ class StudyResearcherViewModel(ViewModel):
     email: str = ""
     changed: bool = False
 
+    researchers: List[Researcher] = []
+
     def __post_init__(self):
         super().__init__()
+        ManagedTasks().create(self._load_researchers)
 
     def copy(self, researcher: StudyResearcher):
         self.id = researcher.id
@@ -82,3 +88,7 @@ class StudyResearcherViewModel(ViewModel):
             case "save":
                 return await self.save()
         return None
+
+    async def _load_researchers(self):
+        researcher_list = ResearcherList()
+        self.researchers = await researcher_list.load()

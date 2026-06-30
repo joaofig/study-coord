@@ -1,4 +1,4 @@
-from db.repository.researcher_repository import ResearcherRepository
+from db.repository.ResearcherRepository import ResearcherRepository
 from models import Researcher
 from viewmodels.ViewModel import ViewModel
 
