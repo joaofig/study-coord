@@ -1,5 +1,4 @@
 from models.patient import PatientList
-from tools.messenger import get_messenger
 from viewmodels.ViewModel import ViewModel
 
 
@@ -9,8 +8,7 @@ class PatientListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.study_messenger = get_messenger("study")
-        self.study_messenger.subscribe("study_selected", self._handle_study_selected)
+        self.subscribe("study", "study_selected", self._handle_study_selected)
 
     async def _load_patients(self, study_id: int):
         patients = PatientList()
@@ -23,7 +21,7 @@ class PatientListViewModel(ViewModel):
             self.study_id = int(study_id)
             await self._load_patients(self.study_id)
 
-    async def handle_command(self, msg: str, **kwargs):
+    async def _on_message(self, msg: str, **kwargs):
         match msg:
             case "load_patients":
                 study_id = kwargs.get("study_id")

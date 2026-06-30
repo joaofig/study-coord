@@ -1,7 +1,6 @@
 from nicegui import binding
 
 from models.researcher import StudyResearcher
-from tools.messenger import send_message
 from viewmodels.ViewModel import ViewModel
 
 
@@ -75,10 +74,10 @@ class StudyResearcherViewModel(ViewModel):
         if sr.id:
             self.id = sr.id
         await self.notify("study_researcher_saved")
-        await send_message("study_researcher_list", "load")
+        await self.broadcast("study_researcher_list", "load")
         self.changed = False
 
-    async def handle_command(self, msg: str, **kwargs):
+    async def _on_message(self, msg: str, **kwargs):
         match msg:
             case "save":
                 return await self.save()

@@ -3,7 +3,6 @@ from nicegui.observables import ObservableSet
 
 from src.models import Study
 from src.viewmodels.ViewModel import ViewModel
-from tools.messenger import get_messenger
 
 
 @binding.bindable_dataclass
@@ -21,8 +20,7 @@ class StudyViewModel(ViewModel):
 
     def __post_init__(self):
         super().__init__()
-        self.messenger = get_messenger("study")
-        self.messenger.subscribe("study_selected", self._handle_study_selected)
+        self.subscribe("study", "study_selected", self._handle_study_selected)
 
     def _field_changed(self, field_name: str):
         self.changed = True
@@ -68,13 +66,13 @@ class StudyViewModel(ViewModel):
                 self.id = study.id
             self.changed = False
             self.is_old = True
-            await self.messenger.send("study_saved", study=study)
+            await self.broadcast("study", "study_saved", study=study)
             await self.notify("study_saved", study=study)
         else:
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
 
-    async def handle_command(self, msg: str, **kwargs):
+    async def _on_message(self, msg: str, **kwargs):
         match msg:
             case "copy":
                 self.copy(kwargs.get("study"))

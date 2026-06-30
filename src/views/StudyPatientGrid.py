@@ -16,7 +16,7 @@ class StudyPatientGrid(View):
         self.messenger.subscribe("saved", self._on_patient_saved)
 
     async def _on_patient_saved(self, **kwargs):
-        await self.command("load_patients")
+        await self.vm_message("load_patients")
         self._update_grid()
 
     def _update_grid(self):
@@ -89,4 +89,4 @@ class StudyPatientGrid(View):
         if row:
             # Notify other components that a study has been selected
             await self.messenger.send("patient_selected", patient=row, patient_id=row["id"])
-            await self.command("patient_selected", patient=row)
+            await self.vm_message("patient_selected", patient=row)

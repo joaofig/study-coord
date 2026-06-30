@@ -80,7 +80,7 @@ class PatientViewModel(ViewModel):
         await send_message("study_list", "load")
         self.changed = False
 
-    async def handle_command(self, msg: str, data: Any = None):
+    async def _on_message(self, msg: str, data: Any = None):
         match msg:
             case "save":
                 return await self.save()

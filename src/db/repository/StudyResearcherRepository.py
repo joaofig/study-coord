@@ -22,7 +22,7 @@ class StudyResearcherRepository:
             "email": row[8],
         }
         sql = self.cache.get("study_researcher/get_by_study_id.sql")
-        return conn.execute(sql).fetchall()
+        return conn.execute(sql, (study_id,)).fetchall()
 
     def _get_by_id(self, sr_id: int) -> dict | None:
         conn = get_connection()

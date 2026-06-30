@@ -49,7 +49,7 @@ class ResearcherGrid(View):
         return ui.aggrid(grid_def).classes("w-full h-full")
 
     async def _on_researcher_saved(self, **kwargs):
-        await self.command("load")  # Reload the grid after a researcher is saved
+        await self.vm_message("load")  # Reload the grid after a researcher is saved
         self._update_grid()
 
     def _update_grid(self):
@@ -65,10 +65,10 @@ class ResearcherGrid(View):
         from views.dialogs.ResearcherDialog import ResearcherDialog
         vm = ResearcherViewModel()
         dialog = ResearcherDialog(vm)
-        await dialog.command("load", researcher_id=row_data["id"])  # Copy the selected row's data into the ViewModel
+        await dialog.vm_message("load", researcher_id=row_data["id"])  # Copy the selected row's data into the ViewModel
         result = await dialog.show()
         if result == "save":
-            await self.command("load")  # Reload the grid after saving
+            await self.vm_message("load")  # Reload the grid after saving
 
     async def _handle_edit(self, event):
         row_data = event.args  # dict with the full row's data

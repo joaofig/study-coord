@@ -43,7 +43,7 @@ class ResearcherDialog(View):
             await self.messenger.send(action)
 
     async def save(self):
-        await self.command("save")
+        await self.vm_message("save")
 
     def validate(self) -> bool:
         if not self.number.value:

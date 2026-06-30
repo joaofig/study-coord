@@ -1,8 +1,10 @@
+
 import asyncio
 from abc import abstractmethod, ABC
-from typing import Any
+from typing import Any, Callable, Awaitable
 
 from src.tools.observability import Observable, ObserverHandler
+from tools.messenger import get_messenger
 
 
 class ViewModel(ABC):
@@ -10,14 +12,28 @@ class ViewModel(ABC):
         super().__init__()
         self.observable = Observable()
 
+    @staticmethod
+    async def broadcast(channel: str, message: str, **kwargs):
+        """Broadcast a message to all registered handlers on the given channel"""
+        messenger = get_messenger(channel)
+        await messenger.broadcast(message, **kwargs)
+
+    @staticmethod
+    def subscribe(channel: str, message: str, handler: Callable[..., None | Awaitable[None]]):
+        """Subscribe a handler to a message on the given channel"""
+        messenger = get_messenger(channel)
+        messenger.subscribe(message, handler)
+
+
     async def message(self, msg: str, **kwargs):
-        result = self.handle_command(msg, **kwargs)
+        """Use this method to send messages to the ViewModel. It will call the _on_message method and return the result."""
+        result = self._on_message(msg, **kwargs)
         if asyncio.iscoroutine(result):
             return await result
         return result
 
     @abstractmethod
-    async def handle_command(self, msg: str, **kwargs):
+    async def _on_message(self, msg: str, **kwargs):
         """Base method for handling messages sent to the ViewModel"""
         return None
 

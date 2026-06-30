@@ -15,7 +15,7 @@ class StudyGrid(View):
         self.messenger = get_messenger("study")
 
     async def load(self):
-        await self.command("load")
+        await self.vm_message("load")
 
     def _handle_notification(self, action: str, **kwargs):
         """Handle notifications from the ViewModel"""
@@ -34,7 +34,7 @@ class StudyGrid(View):
             # Notify other components that a study has been selected
             await self.messenger.send("study_selected", study=row, study_id=row["id"])
         else:
-            await self.command("study_unselected")
+            await self.vm_message("study_unselected")
 
     def show(self) -> AgGrid:
         columns = [

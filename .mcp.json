@@ -2,7 +2,9 @@
   "mcpServers": {
     "atlassian": {
       "command": "uvx",
-      "args": ["mcp-atlassian"],
+      "args": [
+        "mcp-atlassian"
+      ],
       "env": {
         "JIRA_URL": "https://jir.t3.daimlertruck.com",
         "JIRA_PERSONAL_TOKEN": "${JIRA_PERSONAL_TOKEN}",
@@ -12,14 +14,28 @@
     },
     "context7": {
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp@latest"]
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
     },
     "exa": {
       "command": "npx",
-      "args": ["-y", "exa-mcp"],
+      "args": [
+        "-y",
+        "exa-mcp"
+      ],
       "env": {
         "EXA_API_KEY": "${EXA_API_KEY}"
       }
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "description": "Persistent knowledge graph — cross-session memory for architecture, conventions, and project context"
     }
   }
 }

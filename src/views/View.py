@@ -11,7 +11,6 @@ class View:
         # This method can be overridden in subclasses to handle notifications
         pass
 
-    async def command(self, cmd: str, **kwargs):
+    async def vm_message(self, cmd: str, **kwargs):
         """Send a command to the ViewModel"""
-        result = await self.vm.message(cmd, **kwargs)
-        return result
+        return await self.vm.message(cmd, **kwargs)

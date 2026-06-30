@@ -2,7 +2,6 @@ from typing import List
 
 from db.repository.StudyResearcherRepository import StudyResearcherRepository
 from models.researcher import StudyResearcher, StudyResearcherList
-from tools.messenger import get_messenger
 from viewmodels.ViewModel import ViewModel
 
 
@@ -12,10 +11,8 @@ class StudyResearcherListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.study_messenger = get_messenger("study")
-        self.messenger = get_messenger("study_research_list")
-        self.messenger.subscribe("load", self._on_load)
-        self.study_messenger.subscribe("study_selected", self._on_study_selected)
+        self.subscribe("study_research_list", "load", self._on_load)
+        self.subscribe("study", "study_selected", self._on_study_selected)
 
     async def _load_study_researchers(self, study_id: int):
         researchers = StudyResearcherList()
@@ -33,7 +30,7 @@ class StudyResearcherListViewModel(ViewModel):
         self.researchers = [StudyResearcher(**s) for s in await repo.list(self.study_id)]
         await self.notify("list_changed")
 
-    async def handle_command(self, msg: str, **kwargs):
+    async def _on_message(self, msg: str, **kwargs):
         match msg:
             case "load":
                 await self.load()

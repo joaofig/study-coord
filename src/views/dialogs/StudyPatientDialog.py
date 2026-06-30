@@ -21,7 +21,7 @@ class StudyPatientDialog(View):
             self.dialog.submit("save")
 
     async def save(self):
-        await self.command("save")
+        await self.vm_message("save")
 
     async def show(self):
         return await self.dialog
