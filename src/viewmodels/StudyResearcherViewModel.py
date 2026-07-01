@@ -1,9 +1,12 @@
-from typing import List
+from dataclasses import field
+from typing import List, Dict
 
 from nicegui import binding
+from nicegui.binding import bind
 
 from models.researcher import StudyResearcher, Researcher, ResearcherList
 from tools.tasks import ManagedTasks
+from viewmodels import ResearcherViewModel
 from viewmodels.ViewModel import ViewModel
 
 
@@ -20,11 +23,20 @@ class StudyResearcherViewModel(ViewModel):
     email: str = ""
     changed: bool = False
 
-    researchers: List[Researcher] = []
+    researchers: Dict[int, str] = field(default_factory=dict)
+    selection = ResearcherViewModel()
+    _id: int = 0
 
     def __post_init__(self):
         super().__init__()
         ManagedTasks().create(self._load_researchers)
+
+        bind(self, "researcher_id", self, "_id", forward=self._on_researcher_id)
+
+    async def _on_researcher_id(self, value):
+        researcher = await Researcher.load(value)
+        if researcher:
+            self.selection.copy(researcher)
 
     def copy(self, researcher: StudyResearcher):
         self.id = researcher.id
@@ -84,6 +96,13 @@ class StudyResearcherViewModel(ViewModel):
         self.changed = False
 
     async def _on_message(self, msg: str, **kwargs):
+        """
+        Handle incoming messages from the attached View.
+
+        :param msg: The message to handle.
+        :param kwargs: Additional keyword arguments.
+        :return: None
+        """
         match msg:
             case "save":
                 return await self.save()
@@ -91,4 +110,6 @@ class StudyResearcherViewModel(ViewModel):
 
     async def _load_researchers(self):
         researcher_list = ResearcherList()
-        self.researchers = await researcher_list.load()
+        await researcher_list.load()
+        self.researchers = {r.id: r.name for r in researcher_list.researchers}
+        await self.notify("researcher_list_loaded")

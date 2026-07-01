@@ -7,7 +7,7 @@ from db.repository.ResearcherRepository import ResearcherRepository
 
 @dataclass
 class Researcher:
-    id: int | None = None
+    id: int = 0
     number: str = ""
     name: str = ""
     phone: str = ""

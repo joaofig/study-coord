@@ -50,14 +50,14 @@ class ResearcherViewModel(ViewModel):
         return None
 
     def copy(self, researcher: Researcher):
-        self.id = researcher.id or 0
+        self.id = researcher.id
         self.name = researcher.name
         self.number = researcher.number
         self.phone = researcher.phone
         self.email = researcher.email
         self.comments = researcher.comments or ""
         self.data_changed = False
-        self.is_old = researcher.id is not None
+        self.is_old = researcher.id > 0
         self.change_set.clear()
         
     def to_researcher(self):
