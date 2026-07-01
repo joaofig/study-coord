@@ -14,7 +14,6 @@ class StudyResearcherGrid(View):
 
     def _update_grid(self):
         researchers = self.vm.get("researchers")
-        print(researchers)
         self.grid.options["rowData"] = researchers
         self.grid.update()
 
