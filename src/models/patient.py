@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from src.db.repository.patient_repository import PatientRepository
+from src.db.repository.PatientRepository import PatientRepository
 
 
 def patient_statuses() -> dict:

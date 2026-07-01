@@ -52,7 +52,7 @@ tests/
 Keep SQLite access behind repositories:
 
 ```python
-# src/db/repositories/study_repository.py
+# src/db/repositories/StudyRepository.py
 from src.models.study import Study
 
 class StudyRepository:

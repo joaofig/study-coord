@@ -25,18 +25,10 @@ class StudyResearcherViewModel(ViewModel):
 
     researchers: Dict[int, str] = field(default_factory=dict)
     selection = ResearcherViewModel()
-    _id: int = 0
 
     def __post_init__(self):
         super().__init__()
-        ManagedTasks().create(self._load_researchers)
-
-        bind(self, "researcher_id", self, "_id", forward=self._on_researcher_id)
-
-    async def _on_researcher_id(self, value):
-        researcher = await Researcher.load(value)
-        if researcher:
-            self.selection.copy(researcher)
+        ManagedTasks().create(self.load_researchers())
 
     def copy(self, researcher: StudyResearcher):
         self.id = researcher.id
@@ -106,9 +98,13 @@ class StudyResearcherViewModel(ViewModel):
         match msg:
             case "save":
                 return await self.save()
+            case "researcher_id":
+                researcher = await Researcher.load(self.researcher_id)
+                if researcher:
+                    self.selection.copy(researcher)
         return None
 
-    async def _load_researchers(self):
+    async def load_researchers(self):
         researcher_list = ResearcherList()
         await researcher_list.load()
         self.researchers = {r.id: r.name for r in researcher_list.researchers}

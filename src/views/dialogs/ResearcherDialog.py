@@ -34,13 +34,12 @@ class ResearcherDialog(View):
                     "Save",
                     on_click=lambda: self.save()
                 )
-                ui.button("Cancel", on_click=lambda: dialog.submit("Cancel"))
+                ui.button("Cancel", on_click=lambda: dialog.submit("cancel"))
             self.dialog = dialog
 
     async def _handle_notification(self, action: str, **kwargs):
         if action == "researcher_saved":
             self.dialog.submit("save")
-            await self.messenger.send(action)
 
     async def save(self):
         await self.vm_message("save")
@@ -52,6 +51,5 @@ class ResearcherDialog(View):
         return True
 
     async def show(self):
-        result = await self.dialog
-        if result == "save":
-            await self.save()
+        return await self.dialog
+

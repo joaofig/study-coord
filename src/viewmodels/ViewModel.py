@@ -16,7 +16,7 @@ class ViewModel(ABC):
     async def broadcast(channel: str, message: str, **kwargs):
         """Broadcast a message to all registered handlers on the given channel"""
         messenger = get_messenger(channel)
-        await messenger.broadcast(message, **kwargs)
+        await messenger.send(message, **kwargs)
 
     @staticmethod
     def subscribe(channel: str, message: str, handler: Callable[..., None | Awaitable[None]]):

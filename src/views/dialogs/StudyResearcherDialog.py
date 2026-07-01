@@ -15,13 +15,13 @@ class StudyResearcherDialog(View):
         super().__init__(vm)
         self.vm = vm
 
-        with ui.dialog() as dialog, ui.card():
+        with ui.dialog() as dialog, ui.card().classes("w-100"):
             ui.label("Study Researcher Details").classes("text-base")
 
-            ui.label("Researcher:")
             self.select = ui.select(options=self.vm.get("researchers"), label="Researcher") \
                 .bind_value(self.vm, "researcher_id") \
-                .on_value_change(self._on_select_change)
+                .on_value_change(self._on_select_change) \
+                .classes("w-full")
 
             selection = self.vm.get("selection")
             ui.input(label="Number").props("readonly") \
@@ -42,8 +42,8 @@ class StudyResearcherDialog(View):
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
             self.dialog = dialog
 
-    def _on_select_change(self, event):
-        pass
+    async def _on_select_change(self, event):
+        await self.vm_message("researcher_id", value=event.value)
 
     async def _handle_notification(self, action: str, **kwargs):
         match action:

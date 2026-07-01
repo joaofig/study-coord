@@ -8,7 +8,7 @@ from src.views.View import View
 from tools.messenger import get_messenger
 
 
-class PatientPanel(View):
+class StudyPatientPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.study_id = 0
@@ -19,7 +19,7 @@ class PatientPanel(View):
         if "study_id" in kwargs:
             self.study_id = kwargs["study_id"]
 
-    async def new_patient_dialog(self):
+    async def _new_patient_dialog(self):
         patient_vm = PatientViewModel()
         patient_vm.study_id = self.study_id
         dialog = StudyPatientDialog(patient_vm)
@@ -41,7 +41,7 @@ class PatientPanel(View):
                 StudyPatientGrid(self.vm).show()
 
             with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add", on_click=lambda: self.new_patient_dialog()):
+                with ui.button(icon="add", on_click=lambda: self._new_patient_dialog()):
                     ui.tooltip("Add Patient")
 
                 # with ui.button(icon="edit", on_click=lambda: self.edit_patient_dialog()):

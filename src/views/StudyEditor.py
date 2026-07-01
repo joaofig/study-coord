@@ -5,7 +5,7 @@ from src.viewmodels import PatientListViewModel
 from src.viewmodels import PatientViewModel
 from src.viewmodels.ViewModel import ViewModel
 from src.views.dialogs.StudyPatientDialog import StudyPatientDialog
-from src.views.PatientPanel import PatientPanel
+from src.views.StudyPatientPanel import StudyPatientPanel
 from src.views.StudyResearcherGrid import StudyResearcherGrid
 from src.views.View import View
 from viewmodels.StudyResearcherListViewModel import StudyResearcherListViewModel
@@ -32,7 +32,7 @@ class StudyEditor(View):
         await self.vm_message("copy", study=study)
 
     def patient_panel(self):
-        panel = PatientPanel(PatientListViewModel())
+        panel = StudyPatientPanel(PatientListViewModel())
         panel.show()
 
     def researcher_pane(self):
