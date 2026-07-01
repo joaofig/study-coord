@@ -4,19 +4,26 @@ from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
 from viewmodels.ViewModel import ViewModel
+from views.View import View
 
 
-class StudyResearcherGrid:
+class StudyResearcherGrid(View):
     def __init__(self, vm: ViewModel):
-        self.vm = vm
+        super().__init__(vm)
         self.grid: Any = None
+
+    def _update_grid(self):
+        researchers = self.vm.get("researchers")
+        print(researchers)
+        self.grid.options["rowData"] = researchers
+        self.grid.update()
 
     def show(self) -> AgGrid:
         columns = [
             {"headerName": "ID", "field": "id", "hide": True},
             {"headerName": "Number", "field": "number", "sortable": True, "align": "left"},
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
-            {"headerName": "Role", "field": "role", "sortable": True, "align": "left"},
+            {"headerName": "Role", "field": "role_text", "sortable": True, "align": "left"},
             {"headerName": "Phone", "field": "phone", "sortable": True, "align": "left"},
             {"headerName": "Email", "field": "email", "sortable": True, "align": "left"},
         ]
@@ -29,3 +36,8 @@ class StudyResearcherGrid:
         }
         self.grid = ui.aggrid(grid_def).classes("w-full h-full")
         return self.grid
+
+    def _handle_notification(self, action: str, **kwargs):
+        match action:
+            case "study_researchers_loaded":
+                self._update_grid()

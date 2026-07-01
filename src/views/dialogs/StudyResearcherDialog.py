@@ -38,7 +38,7 @@ class StudyResearcherDialog(View):
                 .bind_value(selection, "email")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: dialog.submit("save"))
+                ui.button("Save", on_click=self.save)
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
             self.dialog = dialog
 
@@ -47,15 +47,11 @@ class StudyResearcherDialog(View):
 
     async def _handle_notification(self, action: str, **kwargs):
         match action:
-            case "save":
-                researcher = self.vm.get("researcher")
-                researcher.name = self.select.value
-                await self.vm.save()
-                await self.dialog.submit("close")
-
             case "researcher_list_loaded":
                 self.select.set_options(self.vm.get("researchers"))
 
+    async def save(self):
+        await self.vm_message("save")
 
     async def show(self):
         return await self.dialog

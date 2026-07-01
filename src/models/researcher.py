@@ -84,6 +84,10 @@ class StudyResearcher:
             "role": self.role,
             "role_text": study_researcher_role_name(self.role),
             "study_comments": self.study_comments,
+            "number": self.number,
+            "name": self.name,
+            "phone": self.phone,
+            "email": self.email,
         }
 
     async def save(self):

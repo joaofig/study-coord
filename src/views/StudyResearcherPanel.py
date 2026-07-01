@@ -12,8 +12,14 @@ class StudyResearcherPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.study_id = 0
-        self.study_messenger = get_messenger("study_researcher")
-        self.study_messenger.subscribe("study_researcher_selected", self._study_researcher_selected)
+        self.messenger = get_messenger("study_researcher")
+        self.messenger.subscribe("study_researcher_selected", self._study_researcher_selected)
+        self.study_messenger = get_messenger("study")
+        self.study_messenger.subscribe("study_selected", self._study_selected)
+
+    async def _study_selected(self, **kwargs):
+        if "study_id" in kwargs:
+            self.study_id = kwargs["study_id"]
 
     async def _new_researcher_dialog(self):
         researcher_vm = StudyResearcherViewModel()

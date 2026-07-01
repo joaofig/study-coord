@@ -36,8 +36,7 @@ class StudyEditor(View):
         panel.show()
 
     def researcher_pane(self):
-        vm = StudyResearcherListViewModel()
-        panel = StudyResearcherPanel(vm)
+        panel = StudyResearcherPanel(StudyResearcherListViewModel())
         panel.show()
 
     def study_pane(self):
