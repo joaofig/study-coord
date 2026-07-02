@@ -29,6 +29,7 @@ class StudyResearcherPanel(View):
         result = await dialog.show()
         if result == "save":
             await self.vm_message("load")
+            await self.broadcast("study_list", "load")
 
     async def _study_researcher_selected(self, **kwargs):
         if "study_id" in kwargs:

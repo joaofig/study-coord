@@ -15,9 +15,15 @@ class StudyResearcherGrid(View):
         self.grid: Any = None
         self.subscribe(channel="study_researcher",
                        message="saved",
-                       handler=self._on_researcher_saved)
+                       handler=self._refresh_grid)
+        self.subscribe(channel="patient",
+                       message="saved",
+                       handler=self._refresh_grid)
+        self.subscribe(channel="study",
+                       message="study_selected",
+                       handler=self._refresh_grid)
 
-    async def _on_researcher_saved(self, **kwargs):
+    async def _refresh_grid(self, **kwargs):
         await self.vm_message("load")
         self._update_grid()
 
@@ -61,11 +67,6 @@ class StudyResearcherGrid(View):
         self.grid = ui.aggrid(grid_def).classes("w-full h-full")
         return self.grid
 
-    # def _handle_notification(self, action: str, **kwargs):
-    #     match action:
-    #         case "study_researchers_loaded":
-    #             self._update_grid()
-
     async def _edit_researcher(self, researcher: dict) -> dict:
         researcher_vm = StudyResearcherViewModel()
         await researcher_vm.load_researchers()
@@ -75,7 +76,7 @@ class StudyResearcherGrid(View):
         result = await dialog.show()
         if result == "save":
             researcher = researcher_vm.to_dict()
-            await self._on_researcher_saved()
+            await self._refresh_grid()
         return researcher
 
     async def _on_edit(self, event):
