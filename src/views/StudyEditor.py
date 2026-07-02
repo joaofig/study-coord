@@ -35,7 +35,7 @@ class StudyEditor(View):
         panel = StudyPatientPanel(PatientListViewModel())
         panel.show()
 
-    def researcher_pane(self):
+    def researcher_panel(self):
         panel = StudyResearcherPanel(StudyResearcherListViewModel())
         panel.show()
 
@@ -95,16 +95,6 @@ class StudyEditor(View):
                  .classes("w-full") \
                  .bind_value(self.vm, "comments")
 
-
-    async def show_patient_dialog(self):
-        patient_vm = PatientViewModel()
-        dialog = StudyPatientDialog(patient_vm)
-        result = await dialog.show()
-
-        if result == "save":
-            # Reload the patient's grid after saving the patient
-            await self.vm.message("load_patients")
-
     def details_pane(self):
         with ui.tabs().props("horizontal").classes("p-0").bind_visibility(self.vm, "is_old") as tabs:
             # visits = ui.tab("Visits", icon="event").classes("text-sky-800")
@@ -122,7 +112,7 @@ class StudyEditor(View):
             with (ui.tab_panel(researchers)
                     .classes("pl-2 pt-0 pb-0 pr-0")
                     .bind_visibility(self.vm, "is_old")):
-                self.researcher_pane()
+                self.researcher_panel()
 
     def show(self):
         with ui.splitter(value=35).classes("w-full") as splitter:

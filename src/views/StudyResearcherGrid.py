@@ -13,6 +13,9 @@ class StudyResearcherGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.grid: Any = None
+        self.subscribe(channel="study_researcher",
+                       message="saved",
+                       handler=self._on_researcher_saved)
 
     async def _on_researcher_saved(self, **kwargs):
         await self.vm_message("load")
@@ -58,10 +61,10 @@ class StudyResearcherGrid(View):
         self.grid = ui.aggrid(grid_def).classes("w-full h-full")
         return self.grid
 
-    def _handle_notification(self, action: str, **kwargs):
-        match action:
-            case "study_researchers_loaded":
-                self._update_grid()
+    # def _handle_notification(self, action: str, **kwargs):
+    #     match action:
+    #         case "study_researchers_loaded":
+    #             self._update_grid()
 
     async def _edit_researcher(self, researcher: dict) -> dict:
         researcher_vm = StudyResearcherViewModel()

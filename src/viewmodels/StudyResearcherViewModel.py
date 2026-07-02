@@ -80,9 +80,8 @@ class StudyResearcherViewModel(ViewModel):
         await sr.save()
         if sr.id:
             self.id = sr.id
-        await self.notify("study_researcher_saved")
-        await self.broadcast("study_researcher_list", "load")
         self.changed = False
+        await self.broadcast("study_researcher", "saved")
 
     async def _on_message(self, msg: str, **kwargs):
         """
@@ -112,4 +111,4 @@ class StudyResearcherViewModel(ViewModel):
         researcher_list = ResearcherList()
         await researcher_list.load()
         self.researchers = {r.id: r.name for r in researcher_list.researchers}
-        await self.notify("researcher_list_loaded")
+        # await self.notify("researcher_list_loaded")

@@ -12,11 +12,10 @@ class StudyPatientGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.grid: AgGrid = self._build_grid()
-        self.messenger = get_messenger("patient")
-        self.messenger.subscribe("saved", self._on_patient_saved)
+        self.subscribe("patient", "saved", self._on_patient_saved)
 
     async def _on_patient_saved(self, **kwargs):
-        await self.vm_message("load_patients")
+        await self.vm_message("load")
         self._update_grid()
 
     def _update_grid(self):

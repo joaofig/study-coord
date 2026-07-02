@@ -16,12 +16,9 @@ class StudyPatientDialog(View):
         super().__init__(vm)
         self.dialog: Dialog = self._build_dialog()
 
-    async def _handle_notification(self, action: str, **kwargs):
-        if action == "patient_saved":
-            self.dialog.submit("save")
-
     async def save(self):
         await self.vm_message("save")
+        self.dialog.submit("save")
 
     async def show(self):
         return await self.dialog

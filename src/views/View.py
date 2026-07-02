@@ -1,3 +1,6 @@
+from typing import Callable, Awaitable
+
+from tools.messenger import get_messenger
 from viewmodels.ViewModel import ViewModel
 
 
@@ -14,3 +17,15 @@ class View:
     async def vm_message(self, cmd: str, **kwargs):
         """Send a command to the ViewModel"""
         return await self.vm.message(cmd, **kwargs)
+
+    @staticmethod
+    async def broadcast(channel: str, message: str, **kwargs):
+        """Broadcast a message to all registered handlers on the given channel"""
+        messenger = get_messenger(channel)
+        await messenger.send(message, **kwargs)
+
+    @staticmethod
+    def subscribe(channel: str, message: str, handler: Callable[..., None | Awaitable[None]]):
+        """Subscribe a handler to a message on the given channel"""
+        messenger = get_messenger(channel)
+        messenger.subscribe(message, handler)

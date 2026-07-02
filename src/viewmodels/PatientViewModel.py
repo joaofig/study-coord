@@ -76,7 +76,6 @@ class PatientViewModel(ViewModel):
         await patient.save()
         if patient.id:
             self.id = patient.id
-        await self.notify("patient_saved")
         await send_message("study_list", "load")
         self.changed = False
 

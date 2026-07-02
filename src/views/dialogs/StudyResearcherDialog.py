@@ -44,18 +44,9 @@ class StudyResearcherDialog(View):
     async def _on_select_change(self, event):
         await self.vm_message("researcher_id", value=event.value)
 
-    async def _handle_notification(self, action: str, **kwargs):
-        print(action)
-        match action:
-            case "researcher_list_loaded":
-                researcher_id = self.vm.get("researcher_id")
-                print(researcher_id)
-                self.select.set_options(self.vm.get("researchers"), value=researcher_id)
-            case "researcher_saved":
-                self.dialog.submit("save")
-
     async def save(self):
         await self.vm_message("save")
+        self.dialog.submit("save")
 
     async def show(self):
         return await self.dialog

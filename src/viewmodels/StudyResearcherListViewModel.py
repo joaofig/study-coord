@@ -11,13 +11,13 @@ class StudyResearcherListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe("study_research_list", "load", self._on_load)
+        self.subscribe("study_researcher_list", "load", self._on_load)
         self.subscribe("study", "study_selected", self._on_study_selected)
 
     async def _load_study_researchers(self, study_id: int):
         researchers = StudyResearcherList()
         self.researchers = [sr.to_dict() for sr in await researchers.load_from_study(study_id)]
-        await self.notify("study_researchers_loaded")
+        # await self.notify("study_researchers_loaded")
 
     async def _on_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")

@@ -23,15 +23,11 @@ class PatientListViewModel(ViewModel):
 
     async def _on_message(self, msg: str, **kwargs):
         match msg:
-            case "load_patients":
+            case "load":
                 study_id = kwargs.get("study_id")
                 if study_id is not None:
                     self.study_id = int(study_id)
                 await self._load_patients(self.study_id)
-
-            case "reload_patients":
-                if self.study_id != 0:
-                    await self._load_patients(self.study_id)
 
             case "patient_selected":
                 patient = kwargs.get("patient")
