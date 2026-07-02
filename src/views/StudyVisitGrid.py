@@ -23,7 +23,7 @@ class StudyVisitGrid(View):
         if action == "visits_loaded":
             self._update_grid()
 
-    def _build_grid(self) -> AgGrid:
+    def show(self) -> AgGrid:
         columns = [
             {
                 "headerName": "Edit",
@@ -44,6 +44,7 @@ class StudyVisitGrid(View):
             {"headerName": "Date", "field": "date", "sortable": True, "align": "left", "width": 120},
             {"headerName": "Type", "field": "type", "sortable": True, "align": "left"},
             {"headerName": "Status", "field": "status_text", "sortable": True, "align": "left"},
+            {"headerName": "Patient", "field": "patient_number", "sortable": True, "align": "left"},
         ]
         grid_def = {
             "columnDefs": columns,
@@ -57,3 +58,12 @@ class StudyVisitGrid(View):
         grid = ui.aggrid(grid_def).classes("w-full h-full")
         grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return grid
+
+    async def _row_selection_changed(self, event):
+        # Handle the row selection change event from the AgGrid component
+        row = await self.grid.get_selected_row()
+        if row:
+            # Notify the ViewModel that a visit has been selected
+            await self.vm_message("visit_selected", visit_id=row["id"])
+        else:
+            await self.vm_message("visit_unselected")
