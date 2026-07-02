@@ -23,7 +23,7 @@ class StudyVisitGrid(View):
         if action == "visits_loaded":
             self._update_grid()
 
-    def show(self) -> AgGrid:
+    def _build_grid(self) -> AgGrid:
         columns = [
             {
                 "headerName": "Edit",
@@ -54,7 +54,7 @@ class StudyVisitGrid(View):
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
             ":getRowId": "(params) => String(params.data.id)"
         }
-        ui.on("visit-row-edit", self._handle_edit)
+        # ui.on("visit-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def).classes("w-full h-full")
         grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return grid
@@ -67,3 +67,6 @@ class StudyVisitGrid(View):
             await self.vm_message("visit_selected", visit_id=row["id"])
         else:
             await self.vm_message("visit_unselected")
+
+    def show(self) -> AgGrid:
+        return self.grid

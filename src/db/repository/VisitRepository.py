@@ -1,3 +1,4 @@
+import asyncio
 from typing import List
 
 from db import SQLCache, get_connection
@@ -62,3 +63,15 @@ class VisitRepository:
             (visit_id,)
         )
         conn.commit()
+
+    async def get(self, visit_id: int) -> dict | None:
+        return await asyncio.to_thread(self._get_by_id, visit_id)
+
+    async def get_by_study_id(self, study_id: int) -> List[dict]:
+        return await asyncio.to_thread(self._get_by_study_id, study_id)
+
+    async def save(self, visit: dict) -> dict:
+        return await asyncio.to_thread(self._save, visit)
+
+    async def delete(self, visit_id: int) -> None:
+        await asyncio.to_thread(self._delete, visit_id)

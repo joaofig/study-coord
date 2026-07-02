@@ -35,4 +35,3 @@ class StudyVisitPanel(View):
 
                 with ui.button(icon="table_view"):
                     ui.tooltip("Export to Excel")
-        return self.grid

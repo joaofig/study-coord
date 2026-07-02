@@ -10,7 +10,9 @@ from src.views.StudyResearcherGrid import StudyResearcherGrid
 from src.views.View import View
 from viewmodels.StudyResearcherListViewModel import StudyResearcherListViewModel
 from viewmodels.StudyResearcherViewModel import StudyResearcherViewModel
+from viewmodels.VisitListViewModel import VisitListViewModel
 from views.StudyResearcherPanel import StudyResearcherPanel
+from views.StudyVisitPanel import StudyVisitPanel
 
 
 def validate_name(value: str | None) -> str | None:
@@ -37,6 +39,10 @@ class StudyEditor(View):
 
     def researcher_panel(self):
         panel = StudyResearcherPanel(StudyResearcherListViewModel())
+        panel.show()
+
+    def visit_panel(self):
+        panel = StudyVisitPanel(VisitListViewModel())
         panel.show()
 
     def study_pane(self):
@@ -102,12 +108,12 @@ class StudyEditor(View):
             # adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
             patients = ui.tab("Patients", icon="personal_injury").classes("text-sky-800")
             researchers = ui.tab("Researchers", icon="group").classes("text-sky-800")
-        with (ui.tab_panels(tabs, value=patients)
+        with (ui.tab_panels(tabs, value=visits)
                 .classes("size-full")):
             with (ui.tab_panel(visits)
                     .classes("pl-2 pt-0 pb-0 pr-0")
                     .bind_visibility(self.vm, "is_old")):
-                ui.label("Visits panel")
+                self.visit_panel()
 
             with (ui.tab_panel(patients)
                     .classes("pl-2 pt-0 pb-0 pr-0")

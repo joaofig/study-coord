@@ -1,3 +1,4 @@
+from models.visit import VisitList
 from viewmodels.ViewModel import ViewModel
 
 
@@ -21,3 +22,8 @@ class VisitListViewModel(ViewModel):
         if study_id:
             self.study_id = int(study_id)
             await self._load_visits(self.study_id)
+
+    async def _on_message(self, msg: str, **kwargs):
+        match msg:
+            case "study_selected":
+                await self._handle_study_selected(**kwargs)
