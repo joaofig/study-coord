@@ -37,7 +37,6 @@ class StudyResearcherPanel(View):
 
     async def _on_delete_researcher(self):
         selected_id = self.vm.get("selected_id")
-        print(f"Selected researcher ID: {selected_id}")
         if selected_id:
             researcher_id = selected_id
             await self.vm_message("delete_researcher", researcher_id=researcher_id)

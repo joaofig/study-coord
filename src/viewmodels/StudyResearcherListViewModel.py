@@ -57,7 +57,6 @@ class StudyResearcherListViewModel(ViewModel):
             case "delete_researcher":
                 if "researcher_id" in kwargs:
                     researcher_id = kwargs["researcher_id"]
-                    print(f"Deleting researcher with ID: {researcher_id}")
                     await self._delete_researcher(researcher_id)
 
     async def _on_load(self, **kwargs):
