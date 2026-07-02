@@ -1,1 +1,1 @@
-DELETE FROM PATIENT WHERE id = ?;
+DELETE FROM patient WHERE id = ?;

@@ -97,13 +97,18 @@ class StudyEditor(View):
 
     def details_pane(self):
         with ui.tabs().props("horizontal").classes("p-0").bind_visibility(self.vm, "is_old") as tabs:
-            # visits = ui.tab("Visits", icon="event").classes("text-sky-800")
+            visits = ui.tab("Visits", icon="event").classes("text-sky-800")
             # monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
             # adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
             patients = ui.tab("Patients", icon="personal_injury").classes("text-sky-800")
             researchers = ui.tab("Researchers", icon="group").classes("text-sky-800")
         with (ui.tab_panels(tabs, value=patients)
                 .classes("size-full")):
+            with (ui.tab_panel(visits)
+                    .classes("pl-2 pt-0 pb-0 pr-0")
+                    .bind_visibility(self.vm, "is_old")):
+                ui.label("Visits panel")
+
             with (ui.tab_panel(patients)
                     .classes("pl-2 pt-0 pb-0 pr-0")
                     .bind_visibility(self.vm, "is_old")):
