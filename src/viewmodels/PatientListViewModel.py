@@ -8,7 +8,9 @@ class PatientListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe("study", "study_selected", self._handle_study_selected)
+        self.subscribe(channel="study",
+                       message="study_selected",
+                       handler=self._handle_study_selected)
 
     async def _load_patients(self, study_id: int):
         patients = PatientList()

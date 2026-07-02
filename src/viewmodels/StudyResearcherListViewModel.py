@@ -27,7 +27,8 @@ class StudyResearcherListViewModel(ViewModel):
         repo = StudyResearcherRepository()
         await repo.delete(researcher_id)
         await self.load()
-        await self.broadcast("study_researcher", "deleted")
+        await self.broadcast(channel="study_researcher",
+                             message="deleted")
 
     async def _on_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")

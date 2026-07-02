@@ -8,8 +8,12 @@ class ResearcherListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe("researcher", "researcher_saved", self._on_message)
-        self.subscribe("researcher_list", "load", self._on_load)
+        self.subscribe(channel="researcher",
+                       message="researcher_saved",
+                       handler=self._on_message)
+        self.subscribe(channel="researcher_list",
+                       message="load",
+                       handler=self._on_load)
 
     async def load(self):
         repo = ResearcherRepository()

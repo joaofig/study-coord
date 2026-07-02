@@ -111,4 +111,3 @@ class StudyResearcherViewModel(ViewModel):
         researcher_list = ResearcherList()
         await researcher_list.load()
         self.researchers = {r.id: r.name for r in researcher_list.researchers}
-        # await self.notify("researcher_list_loaded")
