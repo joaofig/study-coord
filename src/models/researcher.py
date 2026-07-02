@@ -90,10 +90,25 @@ class StudyResearcher:
             "email": self.email,
         }
 
+    def to_researcher(self) -> Researcher | None:
+        return Researcher(
+            id=self.researcher_id,
+            number=self.number,
+            name=self.name,
+            phone=self.phone,
+            email=self.email,
+        )
+
     async def save(self):
         repo = StudyResearcherRepository()
         researcher = await repo.save(self.to_dict())
         self.id = researcher["id"]
+
+    @staticmethod
+    async def load(sr_id) -> StudyResearcher | None:
+        repo = StudyResearcherRepository()
+        researcher = await repo.get(sr_id)
+        return StudyResearcher(**researcher)
 
 
 class StudyResearcherList:

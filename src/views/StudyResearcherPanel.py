@@ -23,16 +23,12 @@ class StudyResearcherPanel(View):
 
     async def _new_researcher_dialog(self):
         researcher_vm = StudyResearcherViewModel()
+        await researcher_vm.load_researchers()
         researcher_vm.study_id = self.study_id
         dialog = StudyResearcherDialog(researcher_vm)
         result = await dialog.show()
-        ...
-        # patient_vm = PatientViewModel()
-        # patient_vm.study_id = self.study_id
-        # dialog = StudyPatientDialog(patient_vm)
-        # result = await dialog.show()
-        # if result == "save":
-        #     await self.vm_message("reload_patients")
+        if result == "save":
+            await self.vm_message("load")
 
     async def _study_researcher_selected(self, **kwargs):
         if "study_id" in kwargs:

@@ -27,13 +27,6 @@ class StudyPatientPanel(View):
         if result == "save":
             await self.vm_message("reload_patients")
 
-    async def edit_patient_dialog(self):
-        patient_vm = PatientViewModel()
-        dialog = StudyPatientDialog(patient_vm)
-        result = await dialog.show()
-        if result == "save":
-            await self.vm_message("reload_patients")
-
     def show(self):
         with ui.row().classes("w-full h-full"):
 

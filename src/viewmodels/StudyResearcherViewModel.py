@@ -1,11 +1,9 @@
 from dataclasses import field
-from typing import List, Dict
+from typing import Dict
 
 from nicegui import binding
-from nicegui.binding import bind
 
 from models.researcher import StudyResearcher, Researcher, ResearcherList
-from tools.tasks import ManagedTasks
 from viewmodels import ResearcherViewModel
 from viewmodels.ViewModel import ViewModel
 
@@ -28,7 +26,6 @@ class StudyResearcherViewModel(ViewModel):
 
     def __post_init__(self):
         super().__init__()
-        ManagedTasks().create(self.load_researchers())
 
     def copy(self, researcher: StudyResearcher):
         self.id = researcher.id
@@ -102,6 +99,13 @@ class StudyResearcherViewModel(ViewModel):
                 researcher = await Researcher.load(self.researcher_id)
                 if researcher:
                     self.selection.copy(researcher)
+            case "load":
+                researcher_id = kwargs.get("researcher_id")
+                if researcher_id:
+                    study_researcher = await StudyResearcher.load(researcher_id)
+                    if study_researcher:
+                        researcher = study_researcher.to_researcher()
+                        self.selection.copy(researcher)
         return None
 
     async def load_researchers(self):

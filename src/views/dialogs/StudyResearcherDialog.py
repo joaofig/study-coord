@@ -13,7 +13,6 @@ def validate_patient_number(value: str | None) -> str | None:
 class StudyResearcherDialog(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.vm = vm
 
         with ui.dialog() as dialog, ui.card().classes("w-100"):
             ui.label("Study Researcher Details").classes("text-base")
@@ -46,17 +45,17 @@ class StudyResearcherDialog(View):
         await self.vm_message("researcher_id", value=event.value)
 
     async def _handle_notification(self, action: str, **kwargs):
+        print(action)
         match action:
             case "researcher_list_loaded":
-                self.select.set_options(self.vm.get("researchers"))
+                researcher_id = self.vm.get("researcher_id")
+                print(researcher_id)
+                self.select.set_options(self.vm.get("researchers"), value=researcher_id)
+            case "researcher_saved":
+                self.dialog.submit("save")
 
     async def save(self):
         await self.vm_message("save")
 
     async def show(self):
         return await self.dialog
-
-    async def _on_dialog_submit(self, action: str):
-        if action == "save":
-            await self.vm_message("save")
-        await self.dialog.close()
