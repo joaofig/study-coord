@@ -16,6 +16,9 @@ class StudyResearcherGrid(View):
         self.subscribe(channel="study_researcher",
                        message="saved",
                        handler=self._refresh_grid)
+        self.subscribe(channel="study_researcher",
+                       message="deleted",
+                       handler=self._refresh_grid)
         self.subscribe(channel="patient",
                        message="saved",
                        handler=self._refresh_grid)
@@ -61,10 +64,12 @@ class StudyResearcherGrid(View):
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
+            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
             ":getRowId": "(params) => String(params.data.id)"
         }
         ui.on("study-researcher-row-edit", self._on_edit)
         self.grid = ui.aggrid(grid_def).classes("w-full h-full")
+        self.grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return self.grid
 
     async def _edit_researcher(self, researcher: dict) -> dict:
@@ -83,3 +88,12 @@ class StudyResearcherGrid(View):
         row_data = event.args  # dict with the full row's data
         if row_data:
             await self._edit_researcher(row_data)
+
+    async def _row_selection_changed(self, event):
+        # Handle the row selection change event from the AgGrid component
+        row = await self.grid.get_selected_row()
+        if row:
+            # Notify other components that a study has been selected
+            await self.vm_message("researcher_selected", researcher_id=row["id"])
+        else:
+            await self.vm_message("researcher_unselected")

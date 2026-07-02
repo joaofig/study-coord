@@ -35,6 +35,14 @@ class StudyResearcherPanel(View):
         if "study_id" in kwargs:
             self.study_id = kwargs["study_id"]
 
+    async def _on_delete_researcher(self):
+        selected_id = self.vm.get("selected_id")
+        print(f"Selected researcher ID: {selected_id}")
+        if selected_id:
+            researcher_id = selected_id
+            await self.vm_message("delete_researcher", researcher_id=researcher_id)
+            await self.broadcast("study_list", "load")
+
     def show(self):
         with ui.row().classes("w-full h-full"):
             with ui.column().classes("h-full flex-1"):
@@ -44,7 +52,7 @@ class StudyResearcherPanel(View):
                 with ui.button(icon="add", on_click=lambda: self._new_researcher_dialog()):
                     ui.tooltip("Add Researcher")
 
-                with ui.button(icon="delete"):
+                with ui.button(icon="delete", on_click=lambda: self._on_delete_researcher()):
                     ui.tooltip("Delete Researcher")
 
                 with ui.button(icon="table_view"):

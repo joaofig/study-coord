@@ -82,6 +82,7 @@ class PatientRepository:
             self.cache.get("patient/delete.sql"),
             (patient_id,)
         )
+        conn.commit()
 
     async def list(self) -> List[dict]:
         return await asyncio.to_thread(self._get_all)

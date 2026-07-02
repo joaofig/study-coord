@@ -68,6 +68,7 @@ class ResearcherRepository:
     def _delete(self, researcher_id: int) -> None:
         conn = get_connection()
         conn.execute(self.cache.get("researcher/delete.sql"), (researcher_id,))
+        conn.commit()
 
     async def list(self) -> List[dict]:
         return await asyncio.to_thread(self._get_all)
