@@ -11,13 +11,9 @@ class ResearcherGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.grid = self._build_grid()
-        self.subscribe(channel="researcher",
-                       message="list_changed",
-                       handler=self._handle_notification)
 
         self.researchers = self.vm.get("researchers")
         if isinstance(self.researchers, ObservableList):
-            self.grid.options["rowData"] = self.researchers
             self.researchers.on_change(self._update_grid)
 
     def _build_grid(self) -> AgGrid:
@@ -60,19 +56,17 @@ class ResearcherGrid(View):
 
     def _update_grid(self):
         # Update the grid's rowData with the new list of studies from the ViewModel
-        self.grid.options["rowData"] = [s.to_dict() for s in self.vm.get("researchers")]
+        self.grid.options["rowData"] = [s.to_dict() for s in self.researchers]
         self.grid.update()
-
-    async def _edit_researcher(self, row_data):
-        from views.dialogs.ResearcherDialog import ResearcherDialog
-        vm = ResearcherViewModel()
-        dialog = ResearcherDialog(vm)
-        await dialog.vm_message("load", researcher_id=row_data["id"])  # Copy the selected row's data into the ViewModel
-        result = await dialog.show()
-        if result == "save":
-            await self.vm_message("load")  # Reload the grid after saving
 
     async def _handle_edit(self, event):
         row_data = event.args  # dict with the full row's data
         if row_data:
-            await self._edit_researcher(row_data)
+            from views.dialogs.ResearcherDialog import ResearcherDialog
+            vm = ResearcherViewModel()
+            dialog = ResearcherDialog(vm)
+            await dialog.vm_message("load",
+                                    researcher_id=row_data["id"])  # Copy the selected row's data into the ViewModel
+            result = await dialog.show()
+            if result == "save":
+                await self.vm_message("load")  # Reload the grid after saving

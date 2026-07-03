@@ -77,4 +77,3 @@ class ResearcherViewModel(ViewModel):
             self.id = researcher.id
         self.data_changed = False
         self.is_old = True
-        await self.notify("researcher_saved", researcher=researcher)

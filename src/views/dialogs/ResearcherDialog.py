@@ -47,4 +47,3 @@ class ResearcherDialog(View):
 
     async def show(self):
         return await self.dialog
-
