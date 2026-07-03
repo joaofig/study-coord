@@ -25,9 +25,6 @@ class StudyResearcherDialog(View):
             ui.input(label="Number").props("readonly") \
                 .classes("w-full") \
                 .bind_value(selection, "number")
-            # ui.input(label="Name").props("readonly") \
-            #     .classes("w-full") \
-            #     .bind_value(selection, "name")
             ui.input(label="Phone").props("readonly") \
                 .classes("w-full") \
                 .bind_value(selection, "phone")

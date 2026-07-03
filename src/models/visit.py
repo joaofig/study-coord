@@ -1,28 +1,44 @@
 from dataclasses import dataclass
 
-from src.models import Patient
+from db.repository.VisitRepository import VisitRepository
 
 
 @dataclass
 class Visit:
-    id: int
-    patient_id: int
-    patient_number: str
-    patient_name: str
-    date: str
-    type: str = "visit"
-    comments: str = ""
+    id: int                         # Read-only unique identifier for the visit
+    study_id: int                   # Identifier for the study associated with the visit
+    patient_id: int                 # Identifier for the patient associated with the visit
+    patient_number: str             # Patient's unique number
+    patient_name: str               # Patient's full name
+    visit_date: str                 # Date of the visit
+    visit_type: str = "visit"       # Type of the visit
+    comments: str = ""              # Additional comments about the visit
 
     def to_dict(self) -> dict:
         return {
             "id": self.id,
+            "study_id": self.study_id,
             "patient_id": self.patient_id,
             "patient_number": self.patient_number,
             "patient_name": self.patient_name,
-            "date": self.date,
-            "type": self.type,
+            "visit_date": self.visit_date,
+            "visit_type": self.visit_type,
             "comments": self.comments,
         }
+
+    async def save(self):
+        repo = VisitRepository()
+        return await repo.save(self.to_dict())
+
+
+async def load_visit(visit_id: int) -> Visit | None:
+    repo = VisitRepository()
+    visit_dict = await repo.get(visit_id)
+    if visit_dict:
+        return Visit(**visit_dict)
+    else:
+        return None
+
 
 @dataclass
 class VisitList:
