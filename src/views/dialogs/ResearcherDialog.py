@@ -1,6 +1,5 @@
 from nicegui import ui
 
-from tools.messenger import get_messenger
 from viewmodels.ViewModel import ViewModel
 from views.View import View
 
@@ -16,7 +15,6 @@ class ResearcherDialog(View):
         super().__init__(vm)
         self.number = None
         self.name = None
-        self.messenger = get_messenger("researcher")
 
         with ui.dialog() as dialog, ui.card().classes("w-100"):
             ui.label("Researcher Details").classes("text-h5")
@@ -37,12 +35,9 @@ class ResearcherDialog(View):
                 ui.button("Cancel", on_click=lambda: dialog.submit("cancel"))
             self.dialog = dialog
 
-    async def _handle_notification(self, action: str, **kwargs):
-        if action == "researcher_saved":
-            self.dialog.submit("save")
-
     async def save(self):
         await self.vm_message("save")
+        self.dialog.submit("save")
 
     def validate(self) -> bool:
         if not self.number.value:

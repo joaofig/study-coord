@@ -1,10 +1,12 @@
+from nicegui.observables import ObservableList
+
 from db.repository.ResearcherRepository import ResearcherRepository
 from models import Researcher
 from viewmodels.ViewModel import ViewModel
 
 
 class ResearcherListViewModel(ViewModel):
-    researchers: list[Researcher] = []
+    researchers = ObservableList()
 
     def __init__(self):
         super().__init__()
@@ -17,8 +19,8 @@ class ResearcherListViewModel(ViewModel):
 
     async def load(self):
         repo = ResearcherRepository()
-        self.researchers = [Researcher(**s) for s in await repo.list()]
-        await self.notify("list_changed")
+        self.researchers.clear()
+        self.researchers.extend([Researcher(**s) for s in await repo.list()])
 
     async def _on_message(self, msg: str, **kwargs):
         match msg:

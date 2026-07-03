@@ -1,7 +1,7 @@
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
+from nicegui.observables import ObservableList
 
-from tools.messenger import get_messenger
 from viewmodels import ResearcherViewModel
 from viewmodels.ViewModel import ViewModel
 from views.View import View
@@ -11,8 +11,14 @@ class ResearcherGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.grid = self._build_grid()
-        self.messenger = get_messenger("researcher")
-        self.messenger.subscribe("researcher_saved", self._on_researcher_saved)
+        self.subscribe(channel="researcher",
+                       message="list_changed",
+                       handler=self._handle_notification)
+
+        self.researchers = self.vm.get("researchers")
+        if isinstance(self.researchers, ObservableList):
+            self.grid.options["rowData"] = self.researchers
+            self.researchers.on_change(self._update_grid)
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -56,10 +62,6 @@ class ResearcherGrid(View):
         # Update the grid's rowData with the new list of studies from the ViewModel
         self.grid.options["rowData"] = [s.to_dict() for s in self.vm.get("researchers")]
         self.grid.update()
-
-    async def _handle_notification(self, action: str, **kwargs):
-        if action == "list_changed":
-            self._update_grid()
 
     async def _edit_researcher(self, row_data):
         from views.dialogs.ResearcherDialog import ResearcherDialog
