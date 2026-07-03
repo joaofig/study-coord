@@ -1,3 +1,5 @@
+from nicegui.observables import ObservableList
+
 from models.visit import VisitList
 from viewmodels.ViewModel import ViewModel
 
@@ -5,7 +7,7 @@ from viewmodels.ViewModel import ViewModel
 class VisitListViewModel(ViewModel):
     def __init__(self):
         super().__init__()
-        self.visits: list[dict] = []
+        self.visits = ObservableList()
         self.study_id: int = 0
         self.visit_id: int = 0
         self.subscribe(channel="study",
@@ -14,8 +16,9 @@ class VisitListViewModel(ViewModel):
 
     async def _load_visits(self, study_id: int):
         visits = VisitList()
-        self.visits = [v.to_dict() for v in await visits.load_from_study(study_id)]
-        await self.notify("visits_loaded")
+        self.visits.clear()
+        self.visits.extend([v.to_dict() for v in await visits.load_from_study(study_id)])
+        # await self.notify("visits_loaded")
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")

@@ -1,5 +1,6 @@
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
+from nicegui.observables import ObservableList
 
 from viewmodels.ViewModel import ViewModel
 from views.View import View
@@ -9,19 +10,14 @@ class StudyVisitGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.grid: AgGrid = self._build_grid()
-        self.subscribe("visit", "saved", self._on_visit_saved)
-
-    async def _on_visit_saved(self, **kwargs):
-        await self.vm_message("load")
-        self._update_grid()
+        self.visits = self.vm.get("visits")
+        if isinstance(self.visits, ObservableList):
+            self.visits.on_change(self._update_grid)
+        self.subscribe("visit", "saved", self._update_grid)
 
     def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("visits")
         self.grid.update()
-
-    async def _handle_notification(self, action: str, **kwargs):
-        if action == "visits_loaded":
-            self._update_grid()
 
     def _build_grid(self) -> AgGrid:
         columns = [

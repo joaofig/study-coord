@@ -105,6 +105,12 @@ class StudyResearcherViewModel(ViewModel):
                     if study_researcher:
                         researcher = study_researcher.to_researcher()
                         self.selection.copy(researcher)
+
+                        self.id = study_researcher.id
+                        self.study_id = study_researcher.study_id
+                        self.researcher_id = study_researcher.researcher_id
+                        self.role = study_researcher.role
+                        self.study_comments = study_researcher.study_comments
         return None
 
     async def load_researchers(self):

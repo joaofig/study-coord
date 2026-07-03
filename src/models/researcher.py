@@ -105,7 +105,7 @@ class StudyResearcher:
         self.id = researcher["id"]
 
     @staticmethod
-    async def load(sr_id) -> StudyResearcher | None:
+    async def load(sr_id: int) -> StudyResearcher | None:
         repo = StudyResearcherRepository()
         researcher = await repo.get(sr_id)
         return StudyResearcher(**researcher)
