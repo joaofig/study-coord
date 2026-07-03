@@ -8,8 +8,6 @@ class Visit:
     id: int                         # Read-only unique identifier for the visit
     study_id: int                   # Identifier for the study associated with the visit
     patient_id: int                 # Identifier for the patient associated with the visit
-    patient_number: str             # Patient's unique number
-    patient_name: str               # Patient's full name
     visit_date: str                 # Date of the visit
     visit_type: str = "visit"       # Type of the visit
     comments: str = ""              # Additional comments about the visit
@@ -19,8 +17,6 @@ class Visit:
             "id": self.id,
             "study_id": self.study_id,
             "patient_id": self.patient_id,
-            "patient_number": self.patient_number,
-            "patient_name": self.patient_name,
             "visit_date": self.visit_date,
             "visit_type": self.visit_type,
             "comments": self.comments,

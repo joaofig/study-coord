@@ -9,33 +9,17 @@ class PatientRepository:
     def __init__(self):
         self.cache = SQLCache()
 
-    def _get_all(self) -> List[dict]:
-        conn = get_connection()
-        conn.row_factory = lambda _, row: {
-            "id": row[0],
-            "study_id": row[1],
-            "study_name": row[2],
-            "study_sponsor": row[3],
-            "number": row[4],
-            "start_date": row[5],
-            "exit_date": row[6],
-            "status": row[7],
-            "comments": row[8],
-        }
-        cursor = conn.execute(self.cache.get("patient/get_all.sql"))
-        return cursor.fetchall()
-
     def _get_by_id(self, patient_id: int) -> dict | None:
         conn = get_connection()
         conn.row_factory = lambda _, row: {
             "id": row[0],
             "study_id": row[1],
-            "study_name": row[2],
-            "study_sponsor": row[3],
-            "number": row[4],
-            "start_date": row[5],
-            "exit_date": row[6],
-            "status": row[7],
+            "number": row[2],
+            "name": row[3],
+            "start_date": row[4],
+            "exit_date": row[5],
+            "status": row[6],
+            "comments": row[7],
         }
         cursor = conn.execute(self.cache.get("patient/get_by_id.sql"), (patient_id,))
         return cursor.fetchone()
@@ -83,9 +67,6 @@ class PatientRepository:
             (patient_id,)
         )
         conn.commit()
-
-    async def list(self) -> List[dict]:
-        return await asyncio.to_thread(self._get_all)
 
     async def get(self, patient_id: int) -> dict | None:
         return await asyncio.to_thread(self._get_by_id, patient_id)

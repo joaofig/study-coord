@@ -4,7 +4,7 @@ from viewmodels.ViewModel import ViewModel
 from views.View import View
 
 
-class VisitDialog(View):
+class StudyVisitDialog(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
 
@@ -13,12 +13,20 @@ class VisitDialog(View):
 
             self.select = ui.select(options=self.vm.get("patients"), label="Patient") \
                 .bind_value(self.vm, "patient_id") \
+                .on_value_change(lambda: self.vm_message(cmd="load")) \
                 .classes("w-full")
 
+            selection = self.vm.get("selection")
             ui.input(label="Patient Number").props("readonly") \
+                .bind_value(selection, "number") \
                 .classes("w-full")
 
-            ui.input(label="Patient Name").props("readonly") \
+            ui.input(label="Start Date").props("readonly") \
+                .bind_value(selection, "start_date") \
+                .classes("w-full")
+
+            ui.input(label="Status").props("readonly") \
+                .bind_value(selection, "status") \
                 .classes("w-full")
 
             ui.date_input(label="Visit Date").bind_value(self.vm, "visit_date") \
@@ -34,3 +42,7 @@ class VisitDialog(View):
                 ui.button("Save", on_click=lambda: dialog.submit("save"))
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
             self.dialog = dialog
+
+    async def show(self):
+        await self.dialog
+

@@ -1,8 +1,10 @@
 from nicegui import ui
 
 from viewmodels.ViewModel import ViewModel
+from viewmodels.VisitViewModel import VisitViewModel
 from views.StudyVisitGrid import StudyVisitGrid
 from views.View import View
+from views.dialogs.StudyVisitDialog import StudyVisitDialog
 
 
 class StudyVisitPanel(View):
@@ -17,6 +19,15 @@ class StudyVisitPanel(View):
         if "study_id" in kwargs:
             self.study_id = kwargs["study_id"]
 
+    async def _new_visit_dialog(self):
+        visit_vm = VisitViewModel()
+        await visit_vm.load_patients(self.study_id)
+        dialog = StudyVisitDialog(visit_vm)
+        result = await dialog.show()
+        if result == "save":
+            await self.vm_message("load", study_id=self.study_id)
+            await self.broadcast("study_list", "load")
+
     def show(self):
         with ui.row().classes("w-full h-full"):
 
@@ -24,14 +35,14 @@ class StudyVisitPanel(View):
                 StudyVisitGrid(self.vm).show()
 
             with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add"):
-                    ui.tooltip("Add Patient")
+                with ui.button(icon="add", on_click=self._new_visit_dialog):
+                    ui.tooltip("Add Visit")
 
                 # with ui.button(icon="edit", on_click=lambda: self.edit_patient_dialog()):
-                #     ui.tooltip("Edit Patient")
+                #     ui.tooltip("Edit Visit")
 
                 with ui.button(icon="delete"):
-                    ui.tooltip("Delete Patient")
+                    ui.tooltip("Delete Visit")
 
                 with ui.button(icon="table_view"):
                     ui.tooltip("Export to Excel")

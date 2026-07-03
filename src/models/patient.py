@@ -47,6 +47,11 @@ class Patient:
         study = await repo.save(self.to_dict())
         self.id = study["id"]
 
+    @classmethod
+    async def load(cls, patient_id: int) -> Patient:
+        repo = PatientRepository()
+        patient = await repo.get(patient_id)
+        return Patient(**patient)
 
 class PatientList:
     patients: list[Patient] = []

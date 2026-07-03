@@ -19,6 +19,7 @@ class StudyResearcherDialog(View):
 
             self.select = ui.select(options=self.vm.get("researchers"), label="Researcher") \
                 .bind_value(self.vm, "researcher_id") \
+                .on_value_change(lambda: self.vm_message(cmd="load")) \
                 .classes("w-full")
 
             selection = self.vm.get("selection")

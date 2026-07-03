@@ -12,7 +12,7 @@ from viewmodels.ViewModel import ViewModel
 class StudyResearcherViewModel(ViewModel):
     id: int = 0
     study_id: int = 0
-    researcher_id: int = 0
+    researcher_id: int = 0      # Bound to the selector
     role: str = "standard"
     study_comments: str = ""
     number: str = ""
@@ -27,17 +27,6 @@ class StudyResearcherViewModel(ViewModel):
 
     def __post_init__(self):
         super().__init__()
-
-    def copy(self, researcher: StudyResearcher):
-        self.id = researcher.id
-        self.study_id = researcher.study_id
-        self.researcher_id = researcher.researcher_id
-        self.role = researcher.role
-        self.study_comments = researcher.study_comments
-        self.number = researcher.number
-        self.name = researcher.name
-        self.phone = researcher.phone
-        self.email = researcher.email
 
     def to_study_researcher(self) -> StudyResearcher:
         return StudyResearcher(
@@ -65,17 +54,6 @@ class StudyResearcherViewModel(ViewModel):
             "email": self.email,
         }
 
-    def from_dict(self, researcher: dict):
-        self.id = researcher["id"]
-        self.study_id = researcher["study_id"]
-        self.researcher_id = researcher["researcher_id"]
-        self.role = researcher["role"]
-        self.study_comments = researcher["study_comments"]
-        self.number = researcher["number"]
-        self.name = researcher["name"]
-        self.phone = researcher["phone"]
-        self.email = researcher["email"]
-
     async def save(self):
         sr = self.to_study_researcher()
         await sr.save()
@@ -95,23 +73,12 @@ class StudyResearcherViewModel(ViewModel):
         match msg:
             case "save":
                 return await self.save()
-            case "researcher_id":
+
+            case "load":
                 researcher = await Researcher.load(self.researcher_id)
                 if researcher:
                     self.selection.copy(researcher)
-            case "load":
-                researcher_id = kwargs.get("researcher_id")
-                if researcher_id:
-                    study_researcher = await StudyResearcher.load(researcher_id)
-                    if study_researcher:
-                        researcher = study_researcher.to_researcher()
-                        self.selection.copy(researcher)
 
-                        self.id = study_researcher.id
-                        self.study_id = study_researcher.study_id
-                        self.researcher_id = study_researcher.researcher_id
-                        self.role = study_researcher.role
-                        self.study_comments = study_researcher.study_comments
         return None
 
     async def load_researchers(self):
