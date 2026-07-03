@@ -3,7 +3,7 @@ from typing import Dict
 
 from nicegui import binding
 
-from models.researcher import StudyResearcher, Researcher, ResearcherList
+from models.researcher import StudyResearcher, Researcher, ResearcherList, study_researcher_roles
 from viewmodels import ResearcherViewModel
 from viewmodels.ViewModel import ViewModel
 
@@ -20,6 +20,7 @@ class StudyResearcherViewModel(ViewModel):
     phone: str = ""
     email: str = ""
     changed: bool = False
+    roles: dict = field(default_factory=study_researcher_roles)
 
     researchers: Dict[int, str] = field(default_factory=dict)
     selection = ResearcherViewModel()

@@ -32,7 +32,7 @@ class StudyResearcherGrid(View):
 
     def _update_grid(self):
         researchers = self.vm.get("researchers")
-        self.grid.options["rowData"] = researchers
+        self.grid.options["rowData"] = [r.to_dict() for r in researchers]
         self.grid.update()
 
     def show(self) -> AgGrid:
@@ -53,7 +53,7 @@ class StudyResearcherGrid(View):
             }
             """
             },
-            {"headerName": "Number", "field": "number", "sortable": True, "align": "left"},
+            {"headerName": "Number", "field": "number", "sortable": True, "align": "left", "width": 100},
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
             {"headerName": "Role", "field": "role_text", "sortable": True, "align": "left"},
             {"headerName": "Phone", "field": "phone", "sortable": True, "align": "left"},

@@ -19,8 +19,7 @@ class StudyResearcherDialog(View):
 
             self.select = ui.select(options=self.vm.get("researchers"), label="Researcher") \
                 .bind_value(self.vm, "researcher_id") \
-                .classes("w-full") \
-                .on_value_change(self._on_select_change) \
+                .classes("w-full")
 
             selection = self.vm.get("selection")
             ui.input(label="Number").props("readonly") \
@@ -36,9 +35,9 @@ class StudyResearcherDialog(View):
                 .classes("w-full") \
                 .bind_value(selection, "email")
 
-            ui.input(label="Role") \
-                .classes("w-full") \
-                .bind_value(self.vm, "role")
+            self.select = ui.select(options=self.vm.get("roles"), label="Role") \
+                .bind_value(self.vm, "role") \
+                .classes("w-full")
             ui.textarea(label="Study Comments") \
                 .classes("w-full") \
                 .bind_value(self.vm, "study_comments")
@@ -47,9 +46,6 @@ class StudyResearcherDialog(View):
                 ui.button("Save", on_click=self.save)
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
             self.dialog = dialog
-
-    async def _on_select_change(self, event):
-        ui.notify(f"Researcher ID changed to {event.value}")
 
     async def save(self):
         await self.vm_message("save")
