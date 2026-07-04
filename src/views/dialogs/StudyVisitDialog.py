@@ -4,6 +4,12 @@ from viewmodels.ViewModel import ViewModel
 from views.View import View
 
 
+def validate_type(value: str) -> str | None:
+    if not value:
+        return "Visit type is required"
+    return None
+
+
 class StudyVisitDialog(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
@@ -26,23 +32,27 @@ class StudyVisitDialog(View):
                 .classes("w-full")
 
             ui.input(label="Status").props("readonly") \
-                .bind_value(selection, "status") \
+                .bind_value(selection, "status_text") \
                 .classes("w-full")
 
             ui.date_input(label="Visit Date").bind_value(self.vm, "visit_date") \
                 .classes("w-full")
 
-            ui.input(label="Visit Type").bind_value(self.vm, "visit_type") \
+            ui.input(label="Visit Type", validation=validate_type) \
+                .bind_value(self.vm, "visit_type") \
                 .classes("w-full")
 
             ui.textarea(label="Comments").bind_value(self.vm, "comments") \
                 .classes("w-full")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: dialog.submit("save"))
+                ui.button("Save", on_click=lambda: self.save())
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
             self.dialog = dialog
 
     async def show(self):
         await self.dialog
 
+    async def save(self):
+        await self.vm_message("save")
+        self.dialog.submit("save")

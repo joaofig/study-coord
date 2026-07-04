@@ -3,7 +3,9 @@ from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 
 from viewmodels.ViewModel import ViewModel
+from viewmodels.VisitViewModel import VisitViewModel
 from views.View import View
+from views.dialogs.StudyVisitDialog import StudyVisitDialog
 
 
 class StudyVisitGrid(View):
@@ -14,6 +16,22 @@ class StudyVisitGrid(View):
         if isinstance(self.visits, ObservableList):
             self.visits.on_change(self._update_grid)
         self.subscribe("visit", "saved", self._update_grid)
+
+    async def _edit_visit(self, visit_id: int):
+        visit_vm = VisitViewModel()
+        study_id = self.vm.get("study_id")
+        await visit_vm.message("load_patients", study_id=study_id)
+        await visit_vm.message("load", visit_id=visit_id)
+        dialog = StudyVisitDialog(visit_vm)
+        result = await dialog.show()
+        if result == "save":
+            await self.vm_message("load")
+            await self.broadcast("study_list", "load")
+
+    async def _on_edit(self, event):
+        row_data = event.args  # dict with the full row's data
+        if row_data:
+            await self._edit_visit(row_data["id"])
 
     def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("visits")
@@ -37,10 +55,10 @@ class StudyVisitGrid(View):
                 }
                 """
             },
-            {"headerName": "Date", "field": "date", "sortable": True, "align": "left", "width": 120},
-            {"headerName": "Type", "field": "type", "sortable": True, "align": "left"},
-            {"headerName": "Status", "field": "status_text", "sortable": True, "align": "left"},
-            {"headerName": "Patient", "field": "patient_number", "sortable": True, "align": "left"},
+            {"headerName": "Date", "field": "visit_date", "sortable": True, "align": "left", "width": 120},
+            {"headerName": "Type", "field": "visit_type", "sortable": True, "align": "left"},
+            {"headerName": "Patient Number", "field": "patient_number", "sortable": True, "align": "left"},
+            {"headerName": "Patient Name", "field": "patient_name", "sortable": True, "align": "left"},
         ]
         grid_def = {
             "columnDefs": columns,
@@ -50,7 +68,7 @@ class StudyVisitGrid(View):
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
             ":getRowId": "(params) => String(params.data.id)"
         }
-        # ui.on("visit-row-edit", self._handle_edit)
+        ui.on("visit-row-edit", self._on_edit)
         grid = ui.aggrid(grid_def).classes("w-full h-full")
         grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return grid

@@ -18,6 +18,7 @@ class PatientViewModel(ViewModel):
     start_date: str = date.today().isoformat()
     exit_date: str = ""
     status: str = "active"
+    status_text: str = ""
     comments: str = ""
     statuses = patient_statuses()
     changed: bool = False
@@ -33,6 +34,7 @@ class PatientViewModel(ViewModel):
         self.start_date = patient.start_date
         self.exit_date = patient.exit_date or ""
         self.status = patient.status
+        self.status_text = patient_statuses().get(patient.status, "")
         self.comments = patient.comments or ""
         self.changed = False
 
@@ -57,6 +59,7 @@ class PatientViewModel(ViewModel):
             "start_date": self.start_date,
             "exit_date": self.exit_date or "",
             "status": self.status,
+            "status_text": self.status_text,
             "comments": self.comments or ""
         }
 
@@ -68,6 +71,7 @@ class PatientViewModel(ViewModel):
         self.start_date = patient["start_date"]
         self.exit_date = patient["exit_date"] or ""
         self.status = patient["status"]
+        self.status_text = patient_statuses().get(patient["status"], "")
         self.comments = patient["comments"] or ""
         self.changed = False
 

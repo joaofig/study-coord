@@ -11,6 +11,8 @@ class Visit:
     visit_date: str                 # Date of the visit
     visit_type: str = "visit"       # Type of the visit
     comments: str = ""              # Additional comments about the visit
+    patient_number: str = ""
+    patient_name: str = ""
 
     def to_dict(self) -> dict:
         return {
@@ -20,6 +22,8 @@ class Visit:
             "visit_date": self.visit_date,
             "visit_type": self.visit_type,
             "comments": self.comments,
+            "patient_number": self.patient_number,
+            "patient_name": self.patient_name,
         }
 
     async def save(self):
