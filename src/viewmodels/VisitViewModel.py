@@ -59,6 +59,9 @@ class VisitViewModel(ViewModel):
             self.patient_name = visit.patient_name
             self.patient_number = visit.patient_number
 
+            patient = await Patient.load(self.patient_id)
+            self.selection.copy(patient)
+
     async def _on_call(self, msg: str, **kwargs):
         match msg:
             case "load":

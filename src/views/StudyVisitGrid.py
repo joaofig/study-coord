@@ -25,7 +25,7 @@ class StudyVisitGrid(View):
         dialog = StudyVisitDialog(visit_vm)
         result = await dialog.show()
         if result == "save":
-            await self.vm.call("load")
+            await self.vm.call("load", study_id=study_id)
             await self.broadcast("study_list", "load")
 
     async def _on_edit(self, event):
@@ -33,7 +33,7 @@ class StudyVisitGrid(View):
         if row_data:
             await self._edit_visit(row_data["id"])
 
-    def _update_grid(self):
+    async def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("visits")
         self.grid.update()
 
