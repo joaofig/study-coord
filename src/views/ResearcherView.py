@@ -29,7 +29,7 @@ class ResearcherView(View):
         dialog = ResearcherDialog(ResearcherViewModel())
         result = await dialog.show()
         if result == "save":
-            await self.vm_message("load")
+            await self.vm.call("load")
 
     async def _handle_notification(self, action: str, **kwargs):
         return

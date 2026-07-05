@@ -36,7 +36,7 @@ class ResearcherDialog(View):
             self.dialog = dialog
 
     async def save(self):
-        await self.vm_message("save")
+        await self.vm.call("save")
         self.dialog.submit("save")
 
     def validate(self) -> bool:

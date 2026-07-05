@@ -23,7 +23,7 @@ class PatientListViewModel(ViewModel):
             self.study_id = int(study_id)
             await self._load_patients(self.study_id)
 
-    async def _on_message(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs):
         match msg:
             case "load":
                 study_id = kwargs.get("study_id")

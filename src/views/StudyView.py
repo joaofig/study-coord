@@ -17,7 +17,7 @@ class StudyView(View):
         self.grid = StudyGrid(vm)
 
     async def load(self):
-        await self.vm_message("load")
+        await self.vm.call("load")
 
     def show(self):
         with ui.splitter(horizontal=True, value=50).classes("w-full h-full") as splitter:

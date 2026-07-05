@@ -19,7 +19,7 @@ class ResearcherListViewModel(ViewModel):
         self.researchers.clear()
         self.researchers.extend([Researcher(**s) for s in await repo.list()])
 
-    async def _on_message(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs):
         match msg:
             case "load":
                 await self.load()

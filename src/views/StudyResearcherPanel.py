@@ -28,7 +28,7 @@ class StudyResearcherPanel(View):
         dialog = StudyResearcherDialog(researcher_vm)
         result = await dialog.show()
         if result == "save":
-            await self.vm_message("load")
+            await self.vm.call("load")
             await self.broadcast("study_list", "load")
 
     async def _study_researcher_selected(self, **kwargs):
@@ -39,7 +39,7 @@ class StudyResearcherPanel(View):
         selected_id = self.vm.get("selected_id")
         if selected_id:
             researcher_id = selected_id
-            await self.vm_message("delete_researcher", researcher_id=researcher_id)
+            await self.vm.call("delete_researcher", researcher_id=researcher_id)
             await self.broadcast("study_list", "load")
 
     def show(self):

@@ -49,7 +49,7 @@ def main_view():
                 with ui.tab_panel(researchers):
                     vm = ResearcherListViewModel()
                     ResearcherView(vm)
-                    ManagedTasks().create(vm.message("load"))
+                    ManagedTasks().create(vm.call("load"))
 
                 with ui.tab_panel(reports):
                     ui.label("Reports").classes("text-h4")

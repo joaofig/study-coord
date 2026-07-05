@@ -27,11 +27,11 @@ class StudyEditor(View):
         self.study = Study.empty()
 
     async def save(self):
-        await self.vm_message("save_study")
+        await self.vm.call("save_study")
 
     async def load(self, study: Study):
         self.study = study
-        await self.vm_message("copy", study=study)
+        await self.vm.call("copy", study=study)
 
     def patient_panel(self):
         panel = StudyPatientPanel(PatientListViewModel())
@@ -71,33 +71,33 @@ class StudyEditor(View):
                 .disable()
 
         ui.input(label="Name", validation=validate_name,
-                 on_change=lambda: self.vm_message("mark_changed", field_name="name")) \
+                 on_change=lambda: self.vm.call("mark_changed", field_name="name")) \
              .classes("w-full") \
              .bind_value(self.vm, "name")
 
         ui.input(label="Sponsor",
-                 on_change=lambda: self.vm_message("mark_changed", field_name="sponsor")) \
+                 on_change=lambda: self.vm.call("mark_changed", field_name="sponsor")) \
              .classes("w-full") \
              .bind_value(self.vm, "sponsor")
 
         with ui.row().classes("gap-2"):
             ui.date_input(label="Start Date",
-                          on_change=lambda: self.vm_message("mark_changed", field_name="start_date")) \
+                          on_change=lambda: self.vm.call("mark_changed", field_name="start_date")) \
                 .bind_value(self.vm, "start_date")
             ui.date_input(label="End Date",
-                          on_change=lambda: self.vm_message("mark_changed", field_name="end_date")) \
+                          on_change=lambda: self.vm.call("mark_changed", field_name="end_date")) \
                 .bind_value(self.vm, "end_date")
 
         with ui.row().classes("gap-2"):
             ui.number(label="Protocol Visits", value=1,
-                      on_change=lambda: self.vm_message("mark_changed", field_name="visits")) \
+                      on_change=lambda: self.vm.call("mark_changed", field_name="visits")) \
                  .props('clearable') \
                  .classes("w-full") \
                  .bind_value(self.vm, "visits", strict=True)
 
         with ui.row().classes("gap-2 w-full"):
             ui.textarea(label="Comments",
-                        on_change=lambda: self.vm_message("mark_changed", field_name="comments")) \
+                        on_change=lambda: self.vm.call("mark_changed", field_name="comments")) \
                  .classes("w-full") \
                  .bind_value(self.vm, "comments")
 

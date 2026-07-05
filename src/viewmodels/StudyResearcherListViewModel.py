@@ -40,7 +40,7 @@ class StudyResearcherListViewModel(ViewModel):
         repo = StudyResearcherRepository()
         self.researchers = [StudyResearcher(**s) for s in await repo.list(self.study_id)]
 
-    async def _on_message(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs):
         match msg:
             case "load":
                 await self.load()

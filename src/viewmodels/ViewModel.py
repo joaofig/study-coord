@@ -25,15 +25,15 @@ class ViewModel(ABC):
         messenger.subscribe(message, handler)
 
 
-    async def message(self, msg: str, **kwargs):
-        """Use this method to send messages to the ViewModel. It will call the _on_message method and return the result."""
-        result = self._on_message(msg, **kwargs)
+    async def call(self, msg: str, **kwargs):
+        """Use this method to call methods in the ViewModel. It will call the _on_message method and return the result."""
+        result = self._on_call(msg, **kwargs)
         if asyncio.iscoroutine(result):
             return await result
         return result
 
     @abstractmethod
-    async def _on_message(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs):
         """Base method for handling messages sent to the ViewModel"""
         return None
 

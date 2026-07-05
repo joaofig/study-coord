@@ -14,10 +14,6 @@ class View:
         # This method can be overridden in subclasses to handle notifications
         pass
 
-    async def vm_message(self, cmd: str, **kwargs):
-        """Send a command to the ViewModel"""
-        return await self.vm.message(cmd, **kwargs)
-
     @staticmethod
     async def broadcast(channel: str, message: str, **kwargs):
         """Broadcast a message to all registered handlers on the given channel"""

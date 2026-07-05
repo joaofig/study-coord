@@ -705,12 +705,13 @@ ui.notify('Saved!', type='positive')
 ui.notify('Error!', type='negative', position='top')
 ui.notify('Warning', type='warning', close_button='Dismiss')
 ui.notify('Loading…', type='ongoing')
-ui.notify('Saved!', group='save')   # `group` is forwarded to Quasar's Notify via **kwargs; identical groups merge with a counter
+ui.notify('Saved!',
+          group='save')  # `group` is forwarded to Quasar's Notify via **kwargs; identical groups merge with a counter
 
 # Persistent notification object
 n = ui.notification('Processing…', spinner=True)
 # later:
-n.message = 'Done!'
+n.call = 'Done!'
 n.spinner = False
 n.type = 'positive'
 n.dismiss()

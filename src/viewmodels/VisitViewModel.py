@@ -45,7 +45,7 @@ class VisitViewModel(ViewModel):
         if visit.id:
             self.visit_id =visit.id
         self.changed = False
-        # await self.broadcast("visit", "saved")
+        await self.broadcast("visit", "saved")
 
     async def load(self, visit_id: int):
         visit = await load_visit(visit_id)
@@ -59,17 +59,22 @@ class VisitViewModel(ViewModel):
             self.patient_name = visit.patient_name
             self.patient_number = visit.patient_number
 
-    async def _on_message(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs):
         match msg:
             case "load":
                 visit_id = kwargs.get("visit_id")
                 if visit_id:
                     await self.load(visit_id)
+
+            case "load_patient":
+                patient_id = kwargs.get("patient_id")
+                if patient_id:
                     patient = await Patient.load(self.patient_id)
                     self.selection.copy(patient)
 
             case "load_patients":
                 await self.load_patients(kwargs["study_id"])
+
             case "save":
                 await self.save()
 

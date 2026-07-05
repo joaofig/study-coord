@@ -187,7 +187,7 @@ async def test_message_load_study_copies_repository_result(fake_repository) -> N
     view_model = StudyViewModel()
 
     with patch("src.models.study.StudyRepository", fake_repository):
-        await view_model.message("load_study", str(EXISTING_STUDY_ID))
+        await view_model.call("load_study", str(EXISTING_STUDY_ID))
 
     assert fake_repository.requested_ids == [EXISTING_STUDY_ID]
     assert_view_model_matches_study(view_model, study)
@@ -198,7 +198,7 @@ async def test_message_load_study_keeps_state_when_missing(fake_repository) -> N
     view_model = StudyViewModel(name=STUDY_NAME)
 
     with patch("src.models.study.StudyRepository", fake_repository):
-        await view_model.message("load_study", MISSING_STUDY_ID)
+        await view_model.call("load_study", MISSING_STUDY_ID)
 
     assert fake_repository.requested_ids == [MISSING_STUDY_ID]
     assert view_model.name == STUDY_NAME
@@ -209,7 +209,7 @@ async def test_message_save_study_delegates_to_save() -> None:
     view_model = StudyViewModel()
     view_model.save = AsyncMock()
 
-    await view_model.message("save_study")
+    await view_model.call("save_study")
 
     view_model.save.assert_awaited_once_with()
 
@@ -234,7 +234,7 @@ async def test_study_list_reloads_after_study_saved() -> None:
     view_model = StudyListViewModel(StudyViewModel())
     view_model.load = AsyncMock()
 
-    await view_model.message("study_saved")
+    await view_model.call("study_saved")
 
     view_model.load.assert_awaited_once_with()
 
@@ -245,6 +245,6 @@ async def test_study_list_loads_selected_study_into_child_view_model() -> None:
     child_view_model.message = AsyncMock()
     view_model = StudyListViewModel(child_view_model)
 
-    await view_model.message("study_selected", {"id": SELECTED_STUDY_ID})
+    await view_model.call("study_selected", {"id": SELECTED_STUDY_ID})
 
     child_view_model.message.assert_awaited_once_with("load_study", SELECTED_STUDY_ID)

@@ -26,7 +26,7 @@ class StudyPatientPanel(View):
         dialog = StudyPatientDialog(patient_vm)
         result = await dialog.show()
         if result == "save":
-            await self.vm_message("load", study_id=self.study_id)
+            await self.vm.call("load", study_id=self.study_id)
             await self.broadcast("study_list", "load")
 
     def show(self):

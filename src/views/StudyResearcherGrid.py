@@ -27,7 +27,7 @@ class StudyResearcherGrid(View):
                        handler=self._refresh_grid)
 
     async def _refresh_grid(self, **kwargs):
-        await self.vm_message("load")
+        await self.vm.call("load")
         self._update_grid()
 
     def _update_grid(self):
@@ -75,7 +75,7 @@ class StudyResearcherGrid(View):
     async def _edit_researcher(self, researcher: dict) -> dict:
         researcher_vm = StudyResearcherViewModel()
         await researcher_vm.load_researchers()
-        await researcher_vm.message("load", researcher_id=researcher["id"])
+        await researcher_vm.call("load", researcher_id=researcher["id"])
 
         dialog = StudyResearcherDialog(vm=researcher_vm)
         result = await dialog.show()
@@ -94,6 +94,6 @@ class StudyResearcherGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a study has been selected
-            await self.vm_message("researcher_selected", researcher_id=row["id"])
+            await self.vm.call("researcher_selected", researcher_id=row["id"])
         else:
-            await self.vm_message("researcher_unselected")
+            await self.vm.call("researcher_unselected")

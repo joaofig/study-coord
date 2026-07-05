@@ -16,6 +16,7 @@ class StudyViewModel(ViewModel):
     comments: str = ""
     data_changed: bool = False
     change_set = ObservableSet()
+    changed = False
     is_old: bool = False
 
     def __post_init__(self):
@@ -72,7 +73,7 @@ class StudyViewModel(ViewModel):
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
 
-    async def _on_message(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs):
         match msg:
             case "copy":
                 self.copy(kwargs.get("study"))

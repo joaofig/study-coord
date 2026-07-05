@@ -62,7 +62,7 @@ class StudyResearcherViewModel(ViewModel):
         self.changed = False
         await self.broadcast("study_researcher", "saved")
 
-    async def _on_message(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs):
         """
         Handle incoming messages from the attached View.
 

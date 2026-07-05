@@ -19,7 +19,7 @@ class StudyVisitDialog(View):
 
             self.select = ui.select(options=self.vm.get("patients"), label="Patient") \
                 .bind_value(self.vm, "patient_id") \
-                .on_value_change(lambda: self.vm_message(cmd="load")) \
+                .on_value_change(lambda: self.vm.call(msg="load_patient", patient_id=self.vm.get("patient_id"))) \
                 .classes("w-full")
 
             selection = self.vm.get("selection")
@@ -54,5 +54,5 @@ class StudyVisitDialog(View):
         await self.dialog
 
     async def save(self):
-        await self.vm_message("save")
+        await self.vm.call("save")
         self.dialog.submit("save")

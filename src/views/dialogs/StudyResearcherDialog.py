@@ -19,7 +19,7 @@ class StudyResearcherDialog(View):
 
             self.select = ui.select(options=self.vm.get("researchers"), label="Researcher") \
                 .bind_value(self.vm, "researcher_id") \
-                .on_value_change(lambda: self.vm_message(cmd="load")) \
+                .on_value_change(lambda: self.vm.call(cmd="load")) \
                 .classes("w-full")
 
             selection = self.vm.get("selection")
@@ -46,7 +46,7 @@ class StudyResearcherDialog(View):
             self.dialog = dialog
 
     async def save(self):
-        await self.vm_message("save")
+        await self.vm.call("save")
         self.dialog.submit("save")
 
     async def show(self):

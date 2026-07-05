@@ -15,7 +15,7 @@ class StudyListViewModel(ViewModel):
         self.studies = [StudyRow(**s) for s in await repo.list()]
         await self.notify("list_changed")
 
-    async def _on_message(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs):
         match msg:
             case "load":
                 await self.load()

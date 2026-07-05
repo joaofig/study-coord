@@ -35,7 +35,7 @@ class ResearcherViewModel(ViewModel):
                 if researcher:
                     self.copy(researcher)
 
-    async def _on_message(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs):
         match msg:
             case "copy":
                 self.copy(kwargs.get("researcher"))

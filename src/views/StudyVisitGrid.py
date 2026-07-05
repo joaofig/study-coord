@@ -20,12 +20,12 @@ class StudyVisitGrid(View):
     async def _edit_visit(self, visit_id: int):
         visit_vm = VisitViewModel()
         study_id = self.vm.get("study_id")
-        await visit_vm.message("load_patients", study_id=study_id)
-        await visit_vm.message("load", visit_id=visit_id)
+        await visit_vm.call("load_patients", study_id=study_id)
+        await visit_vm.call("load", visit_id=visit_id)
         dialog = StudyVisitDialog(visit_vm)
         result = await dialog.show()
         if result == "save":
-            await self.vm_message("load")
+            await self.vm.call("load")
             await self.broadcast("study_list", "load")
 
     async def _on_edit(self, event):
@@ -78,9 +78,9 @@ class StudyVisitGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify the ViewModel that a visit has been selected
-            await self.vm_message("visit_selected", visit_id=row["id"])
+            await self.vm.call("visit_selected", visit_id=row["id"])
         else:
-            await self.vm_message("visit_unselected")
+            await self.vm.call("visit_unselected")
 
     def show(self) -> AgGrid:
         return self.grid
