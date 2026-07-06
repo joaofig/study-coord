@@ -89,6 +89,8 @@ Stores researcher information.
 | `id` | `INTEGER PRIMARY KEY` | Yes | Unique identifier for the researcher. |
 | `number` | `TEXT` | Yes | Researcher number or identifier. |
 | `name` | `TEXT` | No | Researcher name. |
+| `phone` | `TEXT` | No | Researcher phone number. |
+| `email` | `TEXT` | No | Researcher email address. |
 | `comments` | `TEXT` | No | Free-form notes about the researcher. |
 
 ### Purpose
@@ -290,6 +292,8 @@ CREATE TABLE IF NOT EXISTS researcher (
     id          INTEGER PRIMARY KEY,
     number      TEXT NOT NULL,
     name        TEXT,
+    phone       TEXT,
+    email       TEXT,
     comments    TEXT
 );
 
@@ -333,16 +337,3 @@ CREATE INDEX IF NOT EXISTS visit_patient_idx ON visit (patient_id);
 CREATE INDEX IF NOT EXISTS visit_study_idx ON visit (study_id);
 ```
 
-
-You can create it from the project root with:
-
-```bash
-mkdir -p doc
-cat > doc/database-schema.md <<'EOF'
-# Database Schema
-
-This document describes the current database schema for the `study-coord` application and explains the purpose of each table, relationship, and index.
-
-See the generated schema documentation content above.
-EOF
-```

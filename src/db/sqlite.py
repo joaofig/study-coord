@@ -28,9 +28,9 @@ def initialize_database(database_path: Path | None = None) -> None:
         "ct_patient.sql",
         "ct_study_researcher.sql",
         "ct_visit.sql",
-        "ct_visit.sql",
         "ct_adverse_event.sql",
         "ci_patient_study.sql",
+        "ci_researcher_number.sql",
         "ci_visit_patient.sql",
         "ci_visit_study.sql",
     ]

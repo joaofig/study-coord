@@ -4,6 +4,7 @@ from viewmodels.ViewModel import ViewModel
 from viewmodels.VisitViewModel import VisitViewModel
 from views.StudyVisitGrid import StudyVisitGrid
 from views.View import View
+from views.dialogs.DeleteWarningDialog import DeleteWarningDialog
 from views.dialogs.StudyVisitDialog import StudyVisitDialog
 
 
@@ -28,6 +29,17 @@ class StudyVisitPanel(View):
             await self.vm.call("load", study_id=self.study_id)
             await self.broadcast("study_list", "load")
 
+    async def _on_delete_visit(self):
+        dialog = DeleteWarningDialog("Are you sure you want to delete this visit?")
+        result = await dialog.show()
+        if result == "delete":
+            dialog.close()
+            visit_id = self.vm.get("visit_id")
+            if visit_id:
+                await self.vm.call("delete_visit", visit_id=visit_id)
+                # await self.vm.call("load", study_id=self.study_id)
+            await self.broadcast("study_list", "load")
+
     def show(self):
         with ui.row().classes("w-full h-full"):
 
@@ -38,10 +50,7 @@ class StudyVisitPanel(View):
                 with ui.button(icon="add", on_click=self._new_visit_dialog):
                     ui.tooltip("Add Visit")
 
-                # with ui.button(icon="edit", on_click=lambda: self.edit_patient_dialog()):
-                #     ui.tooltip("Edit Visit")
-
-                with ui.button(icon="delete") \
+                with ui.button(icon="delete", on_click=self._on_delete_visit) \
                         .bind_enabled(self.vm, "visit_id") \
                         .props("color=red"):
                     ui.tooltip("Delete Visit")

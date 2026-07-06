@@ -33,5 +33,9 @@ def setup_app():
 
 
 setup_app()
-ui.run()
+ui.run(
+    favicon="images/science_24dp_1F1F1F.png",
+    title="Study Coordinator",
+    reload=True,
+)
 

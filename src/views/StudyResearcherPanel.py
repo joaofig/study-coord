@@ -5,6 +5,7 @@ from viewmodels.StudyResearcherViewModel import StudyResearcherViewModel
 from viewmodels.ViewModel import ViewModel
 from views.StudyResearcherGrid import StudyResearcherGrid
 from views.View import View
+from views.dialogs.DeleteWarningDialog import DeleteWarningDialog
 from views.dialogs.StudyResearcherDialog import StudyResearcherDialog
 
 
@@ -36,10 +37,14 @@ class StudyResearcherPanel(View):
             self.study_id = kwargs["study_id"]
 
     async def _on_delete_researcher(self):
-        selected_id = self.vm.get("selected_id")
-        if selected_id:
-            researcher_id = selected_id
-            await self.vm.call("delete_researcher", researcher_id=researcher_id)
+        dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")
+        result = await dialog.show()
+        if result == "delete":
+            dialog.close()
+            selected_id = self.vm.get("selected_id")
+            if selected_id:
+                researcher_id = selected_id
+                await self.vm.call("delete_researcher", researcher_id=researcher_id)
             await self.broadcast("study_list", "load")
 
     def show(self):
