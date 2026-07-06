@@ -7,6 +7,7 @@ from viewmodels.ViewModel import ViewModel
 
 class ResearcherListViewModel(ViewModel):
     researchers = ObservableList()
+    selected_id: int = 0
 
     def __init__(self):
         super().__init__()
@@ -26,6 +27,10 @@ class ResearcherListViewModel(ViewModel):
 
             case "study_saved":
                 await self.load()
+
+            case "researcher_selected":
+                if "researcher_id" in kwargs:
+                    self.selected_id = kwargs["researcher_id"]
 
     async def _on_load(self, **kwargs):
         await self.load()

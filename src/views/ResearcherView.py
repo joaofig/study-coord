@@ -18,7 +18,9 @@ class ResearcherView(View):
                 with ui.button(icon="add", on_click=self._show_dialog):
                     ui.tooltip("Add Researcher")
 
-                with ui.button(icon="delete"):
+                with ui.button(icon="delete") \
+                        .bind_enabled(self.vm, "selected_id") \
+                        .props("color=red"):
                     ui.tooltip("Delete Researcher")
 
                 with ui.button(icon="table_view"):
@@ -30,6 +32,3 @@ class ResearcherView(View):
         result = await dialog.show()
         if result == "save":
             await self.vm.call("load")
-
-    async def _handle_notification(self, action: str, **kwargs):
-        return

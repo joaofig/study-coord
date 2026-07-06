@@ -48,7 +48,10 @@ class ResearcherGrid(View):
             ":getRowId": "(params) => String(params.data.id)"
         }
         ui.on("researcher-row-edit", self._handle_edit)
-        return ui.aggrid(grid_def).classes("w-full h-full")
+
+        grid = ui.aggrid(grid_def).classes("w-full h-full")
+        grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
+        return grid
 
     async def _on_researcher_saved(self, **kwargs):
         await self.vm.call("load")  # Reload the grid after a researcher is saved
@@ -70,3 +73,9 @@ class ResearcherGrid(View):
             result = await dialog.show()
             if result == "save":
                 await self.vm.call("load")  # Reload the grid after saving
+
+    async def _row_selection_changed(self, event):
+        row = await self.grid.get_selected_row()
+        if row:
+            # Notify other components that a researcher has been selected
+            await self.vm.call("researcher_selected", researcher=row, researcher_id=row["id"])

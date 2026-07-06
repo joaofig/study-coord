@@ -45,6 +45,12 @@ class StudyEditor(View):
         panel = StudyVisitPanel(VisitListViewModel())
         panel.show()
 
+    def monitoring_panel(self):
+        ui.label("Monitoring")
+
+    def adverse_events_panel(self):
+        ui.label("Adverse Events")
+
     def study_pane(self):
         with ui.row().classes("mt-2 w-full"):
             ui.button("New",
@@ -104,8 +110,8 @@ class StudyEditor(View):
     def details_pane(self):
         with ui.tabs().props("horizontal").classes("p-0").bind_visibility(self.vm, "is_old") as tabs:
             visits = ui.tab("Visits", icon="event").classes("text-sky-800")
-            # monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
-            # adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
+            monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
+            adverse_events = ui.tab("Events", icon="dangerous").classes("text-sky-800")
             patients = ui.tab("Patients", icon="personal_injury").classes("text-sky-800")
             researchers = ui.tab("Researchers", icon="group").classes("text-sky-800")
         with (ui.tab_panels(tabs, value=visits)
@@ -114,6 +120,16 @@ class StudyEditor(View):
                     .classes("pl-2 pt-0 pb-0 pr-0")
                     .bind_visibility(self.vm, "is_old")):
                 self.visit_panel()
+
+            with (ui.tab_panel(monitoring)
+                    .classes("pl-2 pt-0 pb-0 pr-0")
+                    .bind_visibility(self.vm, "is_old")):
+                self.monitoring_panel()
+
+            with (ui.tab_panel(adverse_events)
+                    .classes("pl-2 pt-0 pb-0 pr-0")
+                    .bind_visibility(self.vm, "is_old")):
+                self.adverse_events_panel()
 
             with (ui.tab_panel(patients)
                     .classes("pl-2 pt-0 pb-0 pr-0")
