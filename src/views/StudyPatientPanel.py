@@ -42,7 +42,8 @@ class StudyPatientPanel(View):
                 # with ui.button(icon="edit", on_click=lambda: self.edit_patient_dialog()):
                 #     ui.tooltip("Edit Patient")
 
-                with ui.button(icon="delete"):
+                with ui.button(icon="delete") \
+                        .bind_enabled(self.vm, "patient_id"):
                     ui.tooltip("Delete Patient")
 
                 with ui.button(icon="table_view"):

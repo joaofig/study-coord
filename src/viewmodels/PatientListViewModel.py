@@ -5,6 +5,7 @@ from viewmodels.ViewModel import ViewModel
 class PatientListViewModel(ViewModel):
     patients: list[dict] = []
     study_id: int = 0
+    patient_id: int = 0
 
     def __init__(self):
         super().__init__()
@@ -32,9 +33,9 @@ class PatientListViewModel(ViewModel):
                 await self._load_patients(self.study_id)
 
             case "patient_selected":
-                patient = kwargs.get("patient")
-                if patient:
-                    self.patient_id = patient["id"]
+                patient_id = kwargs.get("patient_id")
+                if patient_id:
+                    self.patient_id = int(patient_id)
 
         return None
 

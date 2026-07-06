@@ -43,3 +43,7 @@ class VisitListViewModel(ViewModel):
 
             case "study_selected":
                 await self._handle_study_selected(**kwargs)
+
+            case "visit_selected":
+                self.visit_id = kwargs.get("visit_id")
+

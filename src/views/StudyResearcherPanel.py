@@ -51,7 +51,8 @@ class StudyResearcherPanel(View):
                 with ui.button(icon="add", on_click=lambda: self._new_researcher_dialog()):
                     ui.tooltip("Add Researcher")
 
-                with ui.button(icon="delete", on_click=lambda: self._on_delete_researcher()):
+                with ui.button(icon="delete", on_click=lambda: self._on_delete_researcher()) \
+                        .bind_enabled(self.vm, "selected_id"):
                     ui.tooltip("Delete Researcher")
 
                 with ui.button(icon="table_view"):

@@ -87,5 +87,4 @@ class StudyPatientGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a study has been selected
-            await self.messenger.send("patient_selected", patient=row, patient_id=row["id"])
             await self.vm.call("patient_selected", patient=row)
