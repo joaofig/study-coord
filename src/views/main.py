@@ -10,7 +10,7 @@ from views.ResearcherView import ResearcherView
 def main_view():
     with ui.splitter(value=10).classes("w-full h-screen p-0") as splitter:
         with splitter.before:
-            with ui.tabs().props("vertical").classes("w-full") as tabs:
+            with ui.tabs().props("vertical").classes("w-full").props("dense no-caps") as tabs:
                 studies = ui.tab("Studies", icon="science").classes("text-sky-800")
                 # visits = ui.tab("Visits", icon="event").classes("text-sky-800")
                 # monitoring = ui.tab("Monitoring", icon="monitor_heart").classes("text-sky-800")
@@ -30,22 +30,6 @@ def main_view():
                     view.show()
                     ManagedTasks().create(view.load())
 
-                # with ui.tab_panel(visits):
-                #     ui.label("Visits").classes("text-h4")
-                #     ui.label("Content of visits")
-                #
-                # with ui.tab_panel(monitoring):
-                #     ui.label("Monitoring").classes("text-h4")
-                #     ui.label("Content of monitoring")
-                #
-                # with ui.tab_panel(adverse_events):
-                #     ui.label("Adverse Events").classes("text-h4")
-                #     ui.label("Content of adverse events")
-                #
-                # with ui.tab_panel(patients):
-                #     ui.label("Patients").classes("text-h4")
-                #     ui.label("Content of patients")
-
                 with ui.tab_panel(researchers):
                     vm = ResearcherListViewModel()
                     ResearcherView(vm)
@@ -54,6 +38,7 @@ def main_view():
                 with ui.tab_panel(reports):
                     ui.label("Reports").classes("text-h4")
                     ui.label("Content of reports")
+
                 with ui.tab_panel(settings):
                     ui.label("Settings").classes("text-h4")
                     ui.label("Content of settings")

@@ -5,6 +5,7 @@ from viewmodels.ViewModel import ViewModel
 
 class StudyListViewModel(ViewModel):
     studies: list[StudyRow] = []
+    selected_id: int = 0
 
     def __init__(self):
         super().__init__()
@@ -22,6 +23,12 @@ class StudyListViewModel(ViewModel):
 
             case "study_saved":
                 await self.load()
+
+            case "study_selected":
+                self.selected_id = kwargs["study_id"]
+                await self.broadcast(channel="study",
+                                     message="study_selected",
+                                     study_id=self.selected_id)
 
     async def _on_load(self, **kwargs):
         await self.load()

@@ -4,6 +4,7 @@ from viewmodels.StudyViewModel import StudyViewModel
 from viewmodels.ViewModel import ViewModel
 from views.StudyEditor import StudyEditor
 from views.StudyGrid import StudyGrid
+from views.StudyPanel import StudyPanel
 from views.View import View
 
 
@@ -15,15 +16,15 @@ class StudyView(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.grid = StudyGrid(vm)
+        self.view = StudyPanel(vm)
 
     async def load(self):
         await self.vm.call("load")
 
     def show(self):
-        with ui.splitter(horizontal=True, value=50).classes("w-full h-full") as splitter:
+        with ui.splitter(horizontal=True).classes("w-full h-full") as splitter:
             with splitter.before:
                 self.grid.show()
+
             with splitter.after:
-                vm = StudyViewModel()
-                editor = StudyEditor(vm)
-                editor.show()
+                self.view.show()

@@ -1,9 +1,11 @@
+from nicegui.observables import ObservableList
+
 from models.patient import PatientList
 from viewmodels.ViewModel import ViewModel
 
 
 class PatientListViewModel(ViewModel):
-    patients: list[dict] = []
+    patients = ObservableList()
     study_id: int = 0
     patient_id: int = 0
 
@@ -15,11 +17,12 @@ class PatientListViewModel(ViewModel):
 
     async def _load_patients(self, study_id: int):
         patients = PatientList()
-        self.patients = [p.to_dict() for p in await patients.load_from_study(study_id)]
-        await self.notify("patients_loaded")
+        self.patients.clear()
+        self.patients.extend([p.to_dict() for p in await patients.load_from_study(study_id)])
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")
+        print(f"Study selected: {study_id}")
         if study_id:
             self.study_id = int(study_id)
             await self._load_patients(self.study_id)

@@ -1,5 +1,6 @@
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
+from nicegui.observables import ObservableList
 
 from tools.messenger import get_messenger
 from viewmodels import PatientViewModel
@@ -14,11 +15,16 @@ class StudyPatientGrid(View):
         self.grid: AgGrid = self._build_grid()
         self.subscribe("patient", "saved", self._on_patient_saved)
 
+        self.patients = self.vm.get("patients")
+        if isinstance(self.patients, ObservableList):
+            self.patients.on_change(self._update_grid)
+
     async def _on_patient_saved(self, **kwargs):
         await self.vm.call("load")
         self._update_grid()
 
     def _update_grid(self):
+        print("Updating patient grid")
         self.grid.options["rowData"] = self.vm.get("patients")
         self.grid.update()
 

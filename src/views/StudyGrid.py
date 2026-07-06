@@ -3,7 +3,6 @@ from typing import Any
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
-from tools.messenger import get_messenger
 from viewmodels.ViewModel import ViewModel
 from views.View import View
 
@@ -12,7 +11,6 @@ class StudyGrid(View):
     def __init__(self, vm: ViewModel) -> None:
         super().__init__(vm)
         self.grid: Any = None
-        self.messenger = get_messenger("study")
 
     async def load(self):
         await self.vm.call("load")
@@ -32,7 +30,8 @@ class StudyGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a study has been selected
-            await self.messenger.send("study_selected", study=row, study_id=row["id"])
+            await self.vm.call("study_selected", study=row, study_id=row["id"])
+
         else:
             await self.vm.call("study_unselected")
 
