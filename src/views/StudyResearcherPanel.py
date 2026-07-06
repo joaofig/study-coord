@@ -52,7 +52,8 @@ class StudyResearcherPanel(View):
                     ui.tooltip("Add Researcher")
 
                 with ui.button(icon="delete", on_click=lambda: self._on_delete_researcher()) \
-                        .bind_enabled(self.vm, "selected_id"):
+                        .bind_enabled(self.vm, "selected_id") \
+                        .props("color=red"):
                     ui.tooltip("Delete Researcher")
 
                 with ui.button(icon="table_view"):

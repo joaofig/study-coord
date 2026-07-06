@@ -41,7 +41,9 @@ class StudyVisitPanel(View):
                 # with ui.button(icon="edit", on_click=lambda: self.edit_patient_dialog()):
                 #     ui.tooltip("Edit Visit")
 
-                with ui.button(icon="delete").bind_enabled(self.vm, "visit_id"):
+                with ui.button(icon="delete") \
+                        .bind_enabled(self.vm, "visit_id") \
+                        .props("color=red"):
                     ui.tooltip("Delete Visit")
 
                 with ui.button(icon="table_view"):

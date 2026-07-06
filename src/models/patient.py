@@ -60,3 +60,8 @@ class PatientList:
         repo = PatientRepository()
         self.patients = [Patient(**patient) for patient in await repo.get_by_study_id(study_id)]
         return self.patients
+
+    @classmethod
+    async def delete(cls, patient_id: int):
+        repo = PatientRepository()
+        await repo.delete(patient_id)

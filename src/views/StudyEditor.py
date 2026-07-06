@@ -67,7 +67,7 @@ class StudyEditor(View):
             ui.button("Delete", on_click=lambda: ui.notify("Study deleted")) \
                 .classes("text-xs mr-2") \
                 .props("icon=delete") \
-                .props("color=red") \
+                 \
                 .disable()
 
         ui.input(label="Name", validation=validate_name,

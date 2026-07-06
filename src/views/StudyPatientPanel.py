@@ -29,6 +29,27 @@ class StudyPatientPanel(View):
             await self.vm.call("load", study_id=self.study_id)
             await self.broadcast("study_list", "load")
 
+    async def _confirm_delete_patient(self, dialog):
+        dialog.close()
+        patient_id = self.vm.get("patient_id")
+        await self.vm.call("delete_patient", patient_id=patient_id)
+        await self.vm.call("load", study_id=self.study_id)
+        await self.broadcast("study_list", "load")
+
+    async def _on_delete_patient(self):
+        with ui.dialog() as dialog, ui.card():
+            with ui.row():
+                ui.icon("warning", color="orange", size="md")
+                ui.label("Warning").classes("text-lg font-bold")
+            with ui.row():
+                ui.label("Are you sure you want to delete this patient?")
+            with ui.row().classes("justify-end"):
+                ui.button("Delete", on_click=lambda: dialog.submit("delete")).props("color=red")
+                ui.button("Cancel", on_click=dialog.close)
+            result = await dialog
+            if result == "delete":
+                await self._confirm_delete_patient(dialog)
+
     def show(self):
         with ui.row().classes("w-full h-full"):
 
@@ -42,8 +63,9 @@ class StudyPatientPanel(View):
                 # with ui.button(icon="edit", on_click=lambda: self.edit_patient_dialog()):
                 #     ui.tooltip("Edit Patient")
 
-                with ui.button(icon="delete") \
-                        .bind_enabled(self.vm, "patient_id"):
+                with ui.button(icon="delete", on_click=lambda: self._on_delete_patient()) \
+                        .bind_enabled(self.vm, "patient_id") \
+                        .props("color=red"):
                     ui.tooltip("Delete Patient")
 
                 with ui.button(icon="table_view"):
