@@ -24,7 +24,6 @@ class StudyPatientGrid(View):
         self._update_grid()
 
     def _update_grid(self):
-        print("Updating patient grid")
         self.grid.options["rowData"] = self.vm.get("patients")
         self.grid.update()
 
@@ -66,7 +65,7 @@ class StudyPatientGrid(View):
             ":getRowId": "(params) => String(params.data.id)"
         }
         ui.on("patient-row-edit", self._handle_edit)
-        grid = ui.aggrid(grid_def).classes("w-full h-full")
+        grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
         grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return grid
 

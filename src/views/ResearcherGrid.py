@@ -47,9 +47,9 @@ class ResearcherGrid(View):
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
             ":getRowId": "(params) => String(params.data.id)"
         }
-        ui.on("researcher-row-edit", self._handle_edit)
+        ui.on("researcher-row-edit", self._on_edit)
 
-        grid = ui.aggrid(grid_def).classes("w-full h-full")
+        grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
         grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return grid
 
@@ -62,7 +62,7 @@ class ResearcherGrid(View):
         self.grid.options["rowData"] = [s.to_dict() for s in self.researchers]
         self.grid.update()
 
-    async def _handle_edit(self, event):
+    async def _on_edit(self, event):
         row_data = event.args  # dict with the full row's data
         if row_data:
             from views.dialogs.ResearcherDialog import ResearcherDialog

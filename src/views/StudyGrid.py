@@ -3,8 +3,10 @@ from typing import Any
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 
+from viewmodels import StudyViewModel
 from viewmodels.ViewModel import ViewModel
 from views.View import View
+from views.dialogs.StudyDialog import StudyDialog
 
 
 class StudyGrid(View):
@@ -35,9 +37,35 @@ class StudyGrid(View):
         else:
             await self.vm.call("study_unselected")
 
+    async def _on_edit(self, event):
+        # Handle the edit button click event from the AgGrid component
+        row = event.args
+        if row:
+            vm = StudyViewModel()
+            dialog = StudyDialog(vm)
+            await vm.call("load", study_id=row["id"])
+            result = await dialog.show()
+            if result == "save":
+                await self.vm.call("load")  # Reload the grid after saving
+
     def show(self) -> AgGrid:
         columns = [
-            {"headerName": "ID", "field": "id", "hide": True},
+            {
+                "headerName": "Edit",
+                "field": "id",
+                "width": 80,
+                ":cellRenderer": """
+            (params) => {
+                const btn = document.createElement('button');
+                btn.innerText = '✏️';
+                btn.style.cssText = 'cursor:pointer; padding:2px 8px;';
+                btn.addEventListener('click', () => {
+                    emitEvent('study-row-edit', params.data);
+                });
+                return btn;
+            }
+            """
+            },
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
             {"headerName": "Sponsor", "field": "sponsor", "sortable": True, "align": "left"},
             {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left"},
@@ -55,7 +83,8 @@ class StudyGrid(View):
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
             ":getRowId": "(params) => String(params.data.id)"
         }
-        self.grid = ui.aggrid(grid_def).classes("w-full h-full")
+        ui.on("study-row-edit", self._on_edit)
+        self.grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
         # self.grid.on("rowClicked",
         #              self._row_selected, # ui.notify(event.args["data"]),
         #              ["data"]

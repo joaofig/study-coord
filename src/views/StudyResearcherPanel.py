@@ -49,17 +49,22 @@ class StudyResearcherPanel(View):
 
     def show(self):
         with ui.row().classes("w-full h-full"):
-            with ui.column().classes("h-full flex-1"):
-                StudyResearcherGrid(self.vm).show()
             with ui.column().classes("h-full flex-none"):
-
-                with ui.button(icon="add", on_click=lambda: self._new_researcher_dialog()):
+                with ui.button(icon="add", on_click=lambda: self._new_researcher_dialog()) \
+                        .props("padding=xs") \
+                        .classes("text-xs"):
                     ui.tooltip("Add Researcher")
 
                 with ui.button(icon="delete", on_click=lambda: self._on_delete_researcher()) \
                         .bind_enabled(self.vm, "selected_id") \
-                        .props("color=red"):
+                        .props("color=red padding=xs") \
+                        .classes("text-xs"):
                     ui.tooltip("Delete Researcher")
 
-                with ui.button(icon="table_view"):
+                with ui.button(icon="table_view") \
+                        .props("padding=xs") \
+                        .classes("text-xs"):
                     ui.tooltip("Export to Excel")
+
+            with ui.column().classes("h-full flex-1"):
+                StudyResearcherGrid(self.vm).show()

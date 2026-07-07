@@ -15,7 +15,8 @@ class StudyVisitDialog(View):
         super().__init__(vm)
 
         with ui.dialog() as dialog, ui.card().classes("w-240"):
-            ui.label("Study Visit Details").classes("text-base")
+            with ui.row().classes("w-full  bg-gray-200 p-2"):
+                ui.label("Study Visit Details").classes("text-base")
 
             with ui.row().classes("w-full"):
                 with ui.column().classes("flex-1"):

@@ -16,8 +16,10 @@ class ResearcherDialog(View):
         self.number = None
         self.name = None
 
-        with ui.dialog() as dialog, ui.card().classes("w-100"):
-            ui.label("Researcher Details").classes("text-h5")
+        with ui.dialog() as dialog, ui.card().classes("w-120"):
+            with ui.row().classes("w-full  bg-gray-200 p-2"):
+                ui.label("Researcher Details").classes("text-base")
+
             self.number = ui.input(
                 label="Number",
                 validation = validate_number,

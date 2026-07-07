@@ -15,7 +15,8 @@ class StudyResearcherDialog(View):
         super().__init__(vm)
 
         with ui.dialog() as dialog, ui.card().classes("w-100"):
-            ui.label("Study Researcher Details").classes("text-base")
+            with ui.row().classes("w-full  bg-gray-200 p-2"):
+                ui.label("Study Researcher Details").classes("text-base")
 
             self.select = ui.select(options=self.vm.get("researchers"), label="Researcher") \
                 .bind_value(self.vm, "researcher_id") \

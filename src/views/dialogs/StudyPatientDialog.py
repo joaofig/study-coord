@@ -26,7 +26,8 @@ class StudyPatientDialog(View):
     def _build_dialog(self) -> Dialog:
         statuses = self.vm.get("statuses")
         with ui.dialog() as dialog, ui.card():
-            ui.label("Study Patient Details").classes("text-base")
+            with ui.row().classes("w-full  bg-gray-200 p-2"):
+                ui.label("Study Patient Details").classes("text-base")
 
             (ui.input("Number", validation=validate_patient_number)
                  .classes("w-full")

@@ -22,7 +22,6 @@ class PatientListViewModel(ViewModel):
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")
-        print(f"Study selected: {study_id}")
         if study_id:
             self.study_id = int(study_id)
             await self._load_patients(self.study_id)

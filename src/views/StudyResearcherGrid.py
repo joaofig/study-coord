@@ -68,7 +68,7 @@ class StudyResearcherGrid(View):
             ":getRowId": "(params) => String(params.data.id)"
         }
         ui.on("study-researcher-row-edit", self._on_edit)
-        self.grid = ui.aggrid(grid_def).classes("w-full h-full")
+        self.grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
         self.grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return self.grid
 

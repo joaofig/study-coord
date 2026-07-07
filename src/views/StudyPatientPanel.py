@@ -42,19 +42,21 @@ class StudyPatientPanel(View):
     def show(self):
         with ui.row().classes("w-full h-full"):
 
-            with ui.column().classes("h-full flex-1"):
-                StudyPatientGrid(self.vm).show()
-
-            with ui.column().classes("h-full flex-none"):
+            with ui.column().classes("h-full flex-none pl-0"):
                 with ui.button(icon="add", on_click=lambda: self._new_patient_dialog()) \
-                        .classes("text-xs"):
+                        .classes("text-xs") \
+                        .props("padding=xs"):
                     ui.tooltip("Add Patient")
 
                 with ui.button(icon="delete", on_click=lambda: self._on_delete_patient()) \
                         .bind_enabled(self.vm, "patient_id") \
                         .classes("text-xs") \
-                        .props("color=red"):
+                        .props("color=red padding=xs"):
                     ui.tooltip("Delete Patient")
 
-                with ui.button(icon="table_view").classes("text-xs"):
+                with ui.button(icon="table_view").classes("text-xs") \
+                        .props("padding=xs"):
                     ui.tooltip("Export to Excel")
+
+            with ui.column().classes("h-full flex-1"):
+                StudyPatientGrid(self.vm).show()

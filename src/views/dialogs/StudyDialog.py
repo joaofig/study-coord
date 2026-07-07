@@ -10,11 +10,14 @@ def validate_name(value: str | None) -> str | None:
     return None
 
 
-class ResearcherDialog(View):
+class StudyDialog(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
 
         with ui.dialog() as dialog, ui.card():
+            with ui.row().classes("w-full  bg-gray-200 p-2"):
+                ui.label("Study Details").classes("text-base")
+
             ui.input(label="Name", validation=validate_name,
                      on_change=lambda: self.vm.call("mark_changed", field_name="name")) \
                 .classes("w-full") \
