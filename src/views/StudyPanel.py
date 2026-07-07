@@ -12,14 +12,12 @@ from views.View import View
 class StudyPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-
-    def show(self):
-        with ui.splitter(value=50).classes("w-full") as splitter:
+        with ui.splitter(value=50).classes("w-full h-full") as splitter:
             with splitter.before:
                 self.study_pane()
 
             with splitter.after:
-                self.details_pane()
+                self.container = self.details_pane()
 
     def patient_panel(self):
         panel = StudyPatientPanel(PatientListViewModel())
@@ -41,17 +39,17 @@ class StudyPanel(View):
 
         with ui.tab_panels(tabs, value=patients).classes("w-full h-full"):
             with ui.tab_panel(patients) \
-                    .classes("pl-2 pt-0 pb-0 pr-0") \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
                 self.patient_panel()
 
             with ui.tab_panel(monitoring) \
-                    .classes("pl-2 pt-0 pb-0 pr-0") \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
                 self.monitoring_panel()
 
             with ui.tab_panel(researchers) \
-                    .classes("pl-2 pt-0 pb-0 pr-0") \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
                 self.researcher_panel()
 

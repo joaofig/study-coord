@@ -1,8 +1,6 @@
 from nicegui import ui
 
-from viewmodels.StudyViewModel import StudyViewModel
 from viewmodels.ViewModel import ViewModel
-from views.StudyEditor import StudyEditor
 from views.StudyGrid import StudyGrid
 from views.StudyPanel import StudyPanel
 from views.View import View
@@ -16,7 +14,6 @@ class StudyView(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.grid = StudyGrid(vm)
-        self.view = StudyPanel(vm)
 
     async def load(self):
         await self.vm.call("load")
@@ -27,4 +24,4 @@ class StudyView(View):
                 self.grid.show()
 
             with splitter.after:
-                self.view.show()
+                StudyPanel(self.vm)
