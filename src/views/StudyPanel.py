@@ -1,8 +1,9 @@
 from nicegui import ui
 
-from viewmodels import PatientListViewModel
+from viewmodels import PatientListViewModel, MonitoringListViewModel
 from viewmodels.StudyResearcherListViewModel import StudyResearcherListViewModel
 from viewmodels.ViewModel import ViewModel
+from views.StudyMonitoringPanel import StudyMonitoringPanel
 from views.StudyPatientPanel import StudyPatientPanel
 from views.StudyResearcherPanel import StudyResearcherPanel
 from views.View import View
@@ -25,7 +26,8 @@ class StudyPanel(View):
         panel.show()
 
     def monitoring_panel(self):
-        ui.label("Monitoring")
+        panel = StudyMonitoringPanel(MonitoringListViewModel())
+        panel.show()
 
     def researcher_panel(self):
         panel = StudyResearcherPanel(StudyResearcherListViewModel())

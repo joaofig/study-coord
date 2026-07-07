@@ -21,6 +21,7 @@ The current schema contains the following tables:
 | `researcher` | Stores researcher records. |
 | `study_researcher` | Links researchers to studies and records their study-specific role. |
 | `visit` | Stores patient visits for a study. |
+| `monitoring` | Stores monitoring visits for a study. |
 | `adverse_event` | Stores adverse events reported for a study. |
 
 ---
@@ -158,6 +159,32 @@ Each visit belongs to both a study and a patient.
 
 ---
 
+## `monitoring`
+
+Stores monitoring visits for a study.
+
+### Columns
+
+| Column | Type | Required | Description |
+|---|---:|---:|---|
+| `id` | `INTEGER PRIMARY KEY` | Yes | Unique identifier for the monitoring visit. |
+| `study_id` | `INTEGER` | Yes | Study associated with the monitoring visit. References `study(id)`. |
+| `date` | `TEXT` | Yes | Date of the monitoring visit. |
+| `monitor` | `TEXT` | Yes | Name of the monitor. |
+| `comments` | `TEXT` | No | Free-form notes about the monitoring visit. |
+
+### Foreign Keys
+
+| Column | References |
+|---|---|
+| `study_id` | `study(id)` |
+
+### Purpose
+
+The `monitoring` table tracks visits performed by monitors to ensure study compliance.
+
+---
+
 ## `adverse_event`
 
 Stores adverse events related to a study.
@@ -207,6 +234,7 @@ study
  ├── patient
  │    └── visit
  ├── visit
+ ├── monitoring
  ├── adverse_event
  └── study_researcher
       └── researcher
@@ -218,6 +246,7 @@ study
 | `study` → `patient` | One-to-many | A study can have many patients. |
 | `study` → `visit` | One-to-many | A study can have many visits. |
 | `patient` → `visit` | One-to-many | A patient can have many visits. |
+| `study` → `monitoring` | One-to-many | A study can have many monitoring visits. |
 | `study` → `adverse_event` | One-to-many | A study can have many adverse events. |
 | `study` → `study_researcher` | One-to-many | A study can have many researcher assignments. |
 | `researcher` → `study_researcher` | One-to-many | A researcher can be assigned to many studies. |
@@ -316,6 +345,15 @@ CREATE TABLE IF NOT EXISTS visit (
     comments    TEXT,
     FOREIGN KEY(study_id) REFERENCES study(id),
     FOREIGN KEY(patient_id) REFERENCES patient(id)
+);
+
+CREATE TABLE IF NOT EXISTS monitoring (
+    id          INTEGER PRIMARY KEY,
+    study_id    INTEGER NOT NULL,
+    date        TEXT NOT NULL,
+    monitor     TEXT NOT NULL,
+    comments    TEXT,
+    FOREIGN KEY(study_id) REFERENCES study(id)
 );
 
 CREATE TABLE IF NOT EXISTS adverse_event (

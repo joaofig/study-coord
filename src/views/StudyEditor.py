@@ -1,10 +1,11 @@
 from nicegui import ui
 
 from models import Study
-from src.viewmodels import PatientListViewModel
+from src.viewmodels import PatientListViewModel, MonitoringListViewModel
 from src.viewmodels import PatientViewModel
 from src.viewmodels.ViewModel import ViewModel
 from src.views.dialogs.StudyPatientDialog import StudyPatientDialog
+from src.views.StudyMonitoringPanel import StudyMonitoringPanel
 from src.views.StudyPatientPanel import StudyPatientPanel
 from src.views.StudyResearcherGrid import StudyResearcherGrid
 from src.views.View import View
@@ -46,7 +47,8 @@ class StudyEditor(View):
         panel.show()
 
     def monitoring_panel(self):
-        ui.label("Monitoring")
+        panel = StudyMonitoringPanel(MonitoringListViewModel())
+        panel.show()
 
     def adverse_events_panel(self):
         ui.label("Adverse Events")

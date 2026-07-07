@@ -1,5 +1,7 @@
 from .StudyViewModel import StudyViewModel
 from .PatientListViewModel import PatientListViewModel
 from .PatientViewModel import PatientViewModel
+from .MonitoringViewModel import MonitoringViewModel
+from .MonitoringListViewModel import MonitoringListViewModel
 from .ResearcherViewModel import ResearcherViewModel
 from .StudyListViewModel import StudyListViewModel
