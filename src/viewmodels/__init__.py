@@ -4,4 +4,11 @@ from .PatientViewModel import PatientViewModel
 from .MonitoringViewModel import MonitoringViewModel
 from .MonitoringListViewModel import MonitoringListViewModel
 from .ResearcherViewModel import ResearcherViewModel
+from .ResearcherListViewModel import ResearcherListViewModel
 from .StudyListViewModel import StudyListViewModel
+from .StudyResearcherViewModel import StudyResearcherViewModel
+from .StudyResearcherListViewModel import StudyResearcherListViewModel
+from .VisitViewModel import VisitViewModel
+from .VisitListViewModel import VisitListViewModel
+from .EventViewModel import EventViewModel
+from .EventListViewModel import EventListViewModel

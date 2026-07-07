@@ -12,8 +12,10 @@ from src.views.View import View
 from viewmodels.StudyResearcherListViewModel import StudyResearcherListViewModel
 from viewmodels.StudyResearcherViewModel import StudyResearcherViewModel
 from viewmodels.VisitListViewModel import VisitListViewModel
+from viewmodels import EventListViewModel
 from views.StudyResearcherPanel import StudyResearcherPanel
 from views.StudyVisitPanel import StudyVisitPanel
+from views.EventPanel import EventPanel
 
 
 def validate_name(value: str | None) -> str | None:
@@ -51,7 +53,8 @@ class StudyEditor(View):
         panel.show()
 
     def adverse_events_panel(self):
-        ui.label("Adverse Events")
+        panel = EventPanel(EventListViewModel())
+        panel.show()
 
     def study_pane(self):
         with ui.row().classes("mt-2 w-full"):
