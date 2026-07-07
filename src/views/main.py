@@ -14,14 +14,13 @@ def main_view():
         reports = ui.tab("Reports").classes("text-sky-800")
         settings = ui.tab("Settings").classes("text-sky-800")
 
-    with ui.tab_panels(tabs, value=studies).classes("w-full h-full"):
+    with ui.tab_panels(tabs, value=studies).classes("h-screen w-full"):
+
         with ui.tab_panel(studies):
-            ui.label("Studies").classes("text-h4")
-            ui.label("Content of studies")
-            # vm = StudyListViewModel()
-            # ManagedTasks().create(vm.load())
-            # view = StudyView(vm)
-            # view.show()
+            vm = StudyListViewModel()
+            ManagedTasks().create(vm.load())
+            view = StudyView(vm)
+            view.show()
 
         with ui.tab_panel(researchers):
             # ui.label("Researchers").classes("text-h4")
