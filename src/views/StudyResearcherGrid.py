@@ -75,7 +75,7 @@ class StudyResearcherGrid(View):
     async def _edit_researcher(self, researcher: dict) -> dict:
         researcher_vm = StudyResearcherViewModel()
         await researcher_vm.load_researchers()
-        await researcher_vm.call("load", researcher_id=researcher["id"])
+        researcher_vm.from_dict(researcher)
 
         dialog = StudyResearcherDialog(vm=researcher_vm)
         result = await dialog.show()

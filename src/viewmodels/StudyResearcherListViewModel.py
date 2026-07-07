@@ -21,7 +21,7 @@ class StudyResearcherListViewModel(ViewModel):
 
     async def _load_study_researchers(self, study_id: int):
         researchers = StudyResearcherList()
-        self.researchers = [sr.to_dict() for sr in await researchers.load_from_study(study_id)]
+        self.researchers = await researchers.load_from_study(study_id)
 
     async def _delete_researcher(self, researcher_id: int):
         repo = StudyResearcherRepository()

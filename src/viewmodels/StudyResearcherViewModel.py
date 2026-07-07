@@ -23,7 +23,7 @@ class StudyResearcherViewModel(ViewModel):
     roles: dict = field(default_factory=study_researcher_roles)
 
     researchers: Dict[int, str] = field(default_factory=dict)
-    selection = ResearcherViewModel()
+    selection: ResearcherViewModel = field(default_factory=ResearcherViewModel)
 
     def __post_init__(self):
         super().__init__()
@@ -54,6 +54,23 @@ class StudyResearcherViewModel(ViewModel):
             "email": self.email,
         }
 
+    def from_dict(self, data: dict):
+        self.id = data.get("id", 0)
+        self.study_id = data.get("study_id", 0)
+        self.researcher_id = data.get("researcher_id", 0)
+        self.role = data.get("role", "standard")
+        self.study_comments = data.get("study_comments", "")
+        self.number = data.get("number", "")
+        self.name = data.get("name", "")
+        self.phone = data.get("phone", "")
+        self.email = data.get("email", "")
+        
+        self.selection.id = self.researcher_id
+        self.selection.name = self.name
+        self.selection.number = self.number
+        self.selection.phone = self.phone
+        self.selection.email = self.email
+
     async def save(self):
         sr = self.to_study_researcher()
         await sr.save()
@@ -78,6 +95,10 @@ class StudyResearcherViewModel(ViewModel):
                 researcher = await Researcher.load(self.researcher_id)
                 if researcher:
                     self.selection.copy(researcher)
+                    self.number = researcher.number
+                    self.name = researcher.name
+                    self.phone = researcher.phone
+                    self.email = researcher.email
 
         return None
 
