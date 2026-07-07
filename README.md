@@ -11,8 +11,11 @@ Research study coordination manager.
 - **Study Management**: Detailed tracking of study information including name, sponsor, dates, protocol visits, and comments.
 - **Researcher Management**: Manage the team of researchers associated with each study with role-based details.
 - **Patient Management**: Comprehensive tracking of participants in studies with dedicated grids and dialogs.
+- **Visit & Event Tracking**: Log and manage study visits and clinical events with patient-specific history.
+- **Monitoring Reports**: Track monitoring activities and documentation for study compliance.
 - **Interactive UI**: Data-rich interface powered by NiceGUI and AgGrid for efficient data management.
 - **Clean Architecture**: Follows MVVM (Model-View-ViewModel) pattern and Repository pattern for better maintainability and testability.
+- **Developer Guides**: Comprehensive "Agent Skills" documentation for consistent implementation of new features.
 - **Knowledge Graph**: Integrated with `code-review-graph` for advanced code analysis and structural insights.
 
 ## Tech Stack
@@ -72,7 +75,8 @@ The web interface will typically be available at `http://localhost:8080`.
   - `views/`: UI components and layouts (NiceGUI)
   - `tools/`: Utility functions, observability, and infrastructure
 - `tests/`: Automated tests
-- `docs/`: Project documentation
+- `docs/`: Project documentation and architecture overviews
+- `ref/`: Reference materials and Agent Skills for development patterns
 - `main.py`: Application entry point
 - `study-coord.toml`: Database configuration
 - `AGENTS.md`: Development guidelines and project rules
