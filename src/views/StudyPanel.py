@@ -41,15 +41,18 @@ class StudyPanel(View):
 
         with ui.tab_panels(tabs, value=patients).classes("w-full h-full"):
             with ui.tab_panel(patients) \
-                    .classes("pl-2 pt-0 pb-0 pr-0"):
+                    .classes("pl-2 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
                 self.patient_panel()
 
             with ui.tab_panel(monitoring) \
-                    .classes("pl-2 pt-0 pb-0 pr-0"):
+                    .classes("pl-2 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
                 self.monitoring_panel()
 
             with ui.tab_panel(researchers) \
-                    .classes("pl-2 pt-0 pb-0 pr-0"):
+                    .classes("pl-2 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
                 self.researcher_panel()
 
     def details_pane(self):

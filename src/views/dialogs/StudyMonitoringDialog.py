@@ -24,7 +24,7 @@ class StudyMonitoringDialog(View):
         return await self.dialog
 
     def _build_dialog(self) -> Dialog:
-        with ui.dialog() as dialog, ui.card():
+        with ui.dialog() as dialog, ui.card().classes("w-120"):
             with ui.row().classes("w-full  bg-gray-200 p-2"):
                 ui.label("Monitoring Visit Details").classes("text-base")
 

@@ -14,7 +14,7 @@ class StudyResearcherDialog(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
 
-        with ui.dialog() as dialog, ui.card().classes("w-100"):
+        with ui.dialog() as dialog, ui.card().classes("w-120"):
             with ui.row().classes("w-full  bg-gray-200 p-2"):
                 ui.label("Study Researcher Details").classes("text-base")
 
