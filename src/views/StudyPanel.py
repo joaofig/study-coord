@@ -41,7 +41,7 @@ class StudyPanel(View):
             patients = ui.tab("Patients").classes("text-sky-800")
             monitoring = ui.tab("Monitoring").classes("text-sky-800")
             researchers = ui.tab("Researchers").classes("text-sky-800")
-            protocols = ui.tab("Protocols").classes("text-sky-800")
+            protocols = ui.tab("Protocol").classes("text-sky-800")
 
         with ui.tab_panels(tabs, value=patients).classes("w-full h-full"):
             with ui.tab_panel(patients) \
