@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS study_researcher_study_idx ON study_researcher(study_id);

@@ -37,6 +37,7 @@ def initialize_database(database_path: Path | None = None) -> None:
         "ci_visit_patient.sql",
         "ci_visit_study.sql",
         "ci_protocol_study.sql",
+        "ci_study_researcher_study.sql",
     ]
 
     with get_connection(database_path) as connection:
