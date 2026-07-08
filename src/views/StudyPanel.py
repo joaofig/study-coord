@@ -19,8 +19,9 @@ class StudyPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         with ui.splitter(value=50).classes("w-full h-full") as splitter:
-            with splitter.after:
-                self.container = self.details_pane()
+
+            with splitter.after as splitter_right:
+                self.container = splitter_right
 
             with splitter.before:
                 self.study_pane()
@@ -55,11 +56,11 @@ class StudyPanel(View):
             events = ui.tab("Events").classes("text-sky-800")
         with ui.tab_panels(tabs, value=visits).classes("w-full h-full"):
             with ui.tab_panel(visits) \
-                    .classes("pl-0 pt-0 pb-0 pr-0"):
+                    .classes("pl-4 pt-0 pb-0 pr-0"):
                 self.visits_panel()
 
             with ui.tab_panel(events) \
-                    .classes("pl-0 pt-0 pb-0 pr-0"):
+                    .classes("pl-4 pt-0 pb-0 pr-0"):
                 self.events_panel()
 
     def on_tab_change(self, tab: ValueChangeEventArguments):
@@ -97,6 +98,3 @@ class StudyPanel(View):
                     .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
                 self.protocol_panel()
-
-    def details_pane(self) -> Row:
-        return ui.row().classes("w-full h-full p-0 m-0")

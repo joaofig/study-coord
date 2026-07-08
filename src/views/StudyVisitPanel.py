@@ -43,17 +43,22 @@ class StudyVisitPanel(View):
     def show(self):
         with ui.row().classes("w-full h-full"):
 
-            with ui.column().classes("h-full flex-1"):
-                StudyVisitGrid(self.vm).show()
-
             with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add", on_click=self._new_visit_dialog):
+                with ui.button(icon="add", on_click=self._new_visit_dialog) \
+                        .classes("text-xs") \
+                        .props("padding=xs"):
                     ui.tooltip("Add Visit")
 
                 with ui.button(icon="delete", on_click=self._on_delete_visit) \
                         .bind_enabled(self.vm, "visit_id") \
-                        .props("color=red"):
+                        .classes("text-xs") \
+                        .props("padding=xs color=red"):
                     ui.tooltip("Delete Visit")
 
-                with ui.button(icon="table_view"):
+                with ui.button(icon="table_view") \
+                        .classes("text-xs") \
+                        .props("padding=xs"):
                     ui.tooltip("Export to Excel")
+
+            with ui.column().classes("h-full flex-1"):
+                StudyVisitGrid(self.vm).show()

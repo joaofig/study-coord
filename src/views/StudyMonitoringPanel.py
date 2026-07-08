@@ -54,7 +54,8 @@ class StudyMonitoringPanel(View):
                         .props("color=red padding=xs"):
                     ui.tooltip("Delete Monitoring Visit")
 
-                with ui.button(icon="table_view").classes("text-xs") \
+                with ui.button(icon="table_view") \
+                        .classes("text-xs") \
                         .props("padding=xs"):
                     ui.tooltip("Export to Excel")
 

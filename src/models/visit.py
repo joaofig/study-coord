@@ -51,3 +51,11 @@ class VisitList:
         visit_dicts = await repo.get_by_study_id(study_id)
         self.visits = [Visit(**v) for v in visit_dicts]
         return self.visits
+
+    async def load_from_study_and_patient(self, study_id: int, patient_id: int) -> list[Visit]:
+        from db.repository.VisitRepository import VisitRepository
+
+        repo = VisitRepository()
+        visit_dicts = await repo.get_by_study_id_and_patient_id(study_id, patient_id)
+        self.visits = [Visit(**v) for v in visit_dicts]
+        return self.visits

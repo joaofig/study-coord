@@ -83,7 +83,6 @@ class StudyPatientGrid(View):
         row_data = event.args  # dict with the full row's data
         if row_data:
             await self._edit_patient(row_data)
-        # ui.notify(f"Edit triggered for: {row_data["number"]} (id={row_data['id']})")
 
     def show(self) -> AgGrid:
         return self.grid

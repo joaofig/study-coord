@@ -55,17 +55,22 @@ class EventPanel(View):
     def show(self):
         with ui.row().classes("w-full h-full"):
 
-            with ui.column().classes("h-full flex-1"):
-                EventGrid(self.vm).show()
-
             with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add", on_click=self._new_event_dialog):
+                with ui.button(icon="add", on_click=self._new_event_dialog) \
+                        .classes("text-xs") \
+                        .props("padding=xs"):
                     ui.tooltip("Add Event")
 
                 with ui.button(icon="delete", on_click=self._on_delete_event) \
+                        .classes("text-xs") \
                         .bind_enabled(self.vm, "event_id") \
-                        .props("color=red"):
+                        .props("color=red padding=xs"):
                     ui.tooltip("Delete Event")
 
-                with ui.button(icon="table_view"):
+                with ui.button(icon="table_view") \
+                        .classes("text-xs") \
+                        .props("padding=xs"):
                     ui.tooltip("Export to Excel")
+
+            with ui.column().classes("h-full flex-1"):
+                EventGrid(self.vm).show()

@@ -9,6 +9,7 @@ class VisitListViewModel(ViewModel):
         super().__init__()
         self.visits = ObservableList()
         self.study_id: int = 0
+        self.patient_id: int = 0
         self.visit_id: int = 0
         self.subscribe(channel="study",
                        message="study_selected",
@@ -16,11 +17,14 @@ class VisitListViewModel(ViewModel):
         self.subscribe(channel="visit",
                        message="saved",
                        handler=self._handle_visit_saved)
+        self.subscribe(channel="patient",
+                       message="selected",
+                       handler=self._handle_patient_selected)
 
-    async def _load_visits(self, study_id: int):
+    async def _load_visits(self, study_id: int, patient_id: int):
         visits = VisitList()
         self.visits.clear()
-        self.visits.extend([v.to_dict() for v in await visits.load_from_study(study_id)])
+        self.visits.extend([v.to_dict() for v in await visits.load_from_study_and_patient(study_id, patient_id)])
         # await self.notify("visits_loaded")
 
     async def _handle_visit_saved(self, **kwargs):
@@ -30,7 +34,13 @@ class VisitListViewModel(ViewModel):
         study_id = kwargs.get("study_id")
         if study_id:
             self.study_id = int(study_id)
-            await self._load_visits(self.study_id)
+            # await self._load_visits(self.study_id)
+
+    async def _handle_patient_selected(self, **kwargs):
+        patient_id = kwargs.get("patient_id")
+        if patient_id:
+            self.patient_id = int(patient_id)
+            await self._load_visits(self.study_id, self.patient_id)
 
     async def _on_call(self, msg: str, **kwargs):
         match msg:

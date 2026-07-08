@@ -38,6 +38,21 @@ class VisitRepository:
         cursor = conn.execute(self.cache.get("visit/get_by_study_id.sql"), (study_id,))
         return cursor.fetchall()
 
+    def _get_by_study_id_and_patient_id(self, study_id: int, patient_id: int) -> List[dict] | None:
+        conn = get_connection()
+        conn.row_factory = lambda _, row: {
+            "id": row[0],
+            "study_id": row[1],
+            "patient_id": row[2],
+            "patient_number": row[3],
+            "patient_name": row[4],
+            "visit_date": row[5],
+            "visit_type": row[6],
+            "comments": row[7]
+        }
+        cursor = conn.execute(self.cache.get("visit/get_by_study_id_and_patient_id.sql"), (study_id, patient_id))
+        return cursor.fetchall()
+
     def _save(self, visit: dict) -> dict:
         conn = get_connection()
         if visit.get("id", 0) > 0:
@@ -69,6 +84,9 @@ class VisitRepository:
 
     async def get_by_study_id(self, study_id: int) -> List[dict]:
         return await asyncio.to_thread(self._get_by_study_id, study_id)
+
+    async def get_by_study_id_and_patient_id(self, study_id: int, patient_id: int) -> List[dict]:
+        return await asyncio.to_thread(self._get_by_study_id_and_patient_id, study_id, patient_id)
 
     async def save(self, visit: dict) -> dict:
         return await asyncio.to_thread(self._save, visit)

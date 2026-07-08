@@ -17,21 +17,21 @@ def main_view():
 
         with ui.tab_panels(tabs, value=studies).classes("h-full w-full"):
 
-            with ui.tab_panel(studies):
+            with ui.tab_panel(studies).classes("pl-4 pt-0 pb-0 pr-4"):
                 vm = StudyListViewModel()
                 ManagedTasks().create(vm.load())
                 view = StudyView(vm)
                 view.show()
 
-            with ui.tab_panel(researchers):
+            with ui.tab_panel(researchers).classes("pl-4 pt-0 pb-0 pr-4"):
                 vm = ResearcherListViewModel()
                 ResearcherView(vm)
                 ManagedTasks().create(vm.call("load"))
 
-            with ui.tab_panel(reports):
+            with ui.tab_panel(reports).classes("pl-4 pt-0 pb-0 pr-4"):
                 ui.label("Reports").classes("text-h4")
                 ui.label("Content of reports")
 
-            with ui.tab_panel(settings):
+            with ui.tab_panel(settings).classes("pl-4 pt-0 pb-0 pr-4"):
                 ui.label("Settings").classes("text-h4")
                 ui.label("Content of settings")

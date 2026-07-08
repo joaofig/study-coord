@@ -38,6 +38,9 @@ class PatientListViewModel(ViewModel):
                 patient_id = kwargs.get("patient_id")
                 if patient_id:
                     self.patient_id = int(patient_id)
+                    await self.broadcast(channel="patient",
+                                         message="selected",
+                                         patient_id=patient_id)
 
             case "delete_patient":
                 patient_id = kwargs.get("patient_id")
