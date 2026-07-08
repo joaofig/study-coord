@@ -6,8 +6,8 @@ from nicegui import binding
 from models import Visit
 from models.patient import PatientList, Patient
 from models.visit import load_visit
-from viewmodels import PatientViewModel
-from viewmodels.ViewModel import ViewModel
+from .PatientViewModel import PatientViewModel
+from .ViewModel import ViewModel
 
 
 @binding.bindable_dataclass
@@ -24,7 +24,7 @@ class VisitViewModel(ViewModel):
     patient_number: str = ""
 
     patients: Dict[int, str] = field(default_factory=dict)
-    selection = PatientViewModel()
+    selection: PatientViewModel = field(default_factory=PatientViewModel)
 
     def __post_init__(self):
         super().__init__()

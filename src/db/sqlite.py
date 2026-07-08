@@ -30,6 +30,7 @@ def initialize_database(database_path: Path | None = None) -> None:
         "ct_visit.sql",
         "ct_event.sql",
         "ct_monitoring.sql",
+        "ct_protocol.sql",
 
         "ci_patient_study.sql",
         "ci_researcher_number.sql",

@@ -12,3 +12,5 @@ from .VisitViewModel import VisitViewModel
 from .VisitListViewModel import VisitListViewModel
 from .EventViewModel import EventViewModel
 from .EventListViewModel import EventListViewModel
+from .ProtocolViewModel import ProtocolViewModel
+from .ProtocolListViewModel import ProtocolListViewModel

@@ -1,11 +1,12 @@
 from nicegui import ui
 
-from viewmodels import PatientListViewModel, MonitoringListViewModel
+from viewmodels import PatientListViewModel, MonitoringListViewModel, ProtocolListViewModel
 from viewmodels.StudyResearcherListViewModel import StudyResearcherListViewModel
 from viewmodels.ViewModel import ViewModel
 from views.StudyMonitoringPanel import StudyMonitoringPanel
 from views.StudyPatientPanel import StudyPatientPanel
 from views.StudyResearcherPanel import StudyResearcherPanel
+from views.ProtocolPanel import ProtocolPanel
 from views.View import View
 
 
@@ -31,11 +32,16 @@ class StudyPanel(View):
         panel = StudyResearcherPanel(StudyResearcherListViewModel())
         panel.show()
 
+    def protocol_panel(self):
+        panel = ProtocolPanel(ProtocolListViewModel())
+        panel.show()
+
     def study_pane(self):
         with ui.tabs().classes("p-0").props("dense no-caps") as tabs:
             patients = ui.tab("Patients").classes("text-sky-800")
             monitoring = ui.tab("Monitoring").classes("text-sky-800")
             researchers = ui.tab("Researchers").classes("text-sky-800")
+            protocols = ui.tab("Protocols").classes("text-sky-800")
 
         with ui.tab_panels(tabs, value=patients).classes("w-full h-full"):
             with ui.tab_panel(patients) \
@@ -52,6 +58,11 @@ class StudyPanel(View):
                     .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
                 self.researcher_panel()
+
+            with ui.tab_panel(protocols) \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
+                self.protocol_panel()
 
     def details_pane(self):
         return ui.row().classes("w-full h-full p-0 m-0")
