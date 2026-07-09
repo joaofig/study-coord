@@ -1,6 +1,12 @@
 import asyncio
 from typing import List
 
+from db.repository.EventRepository import EventRepository
+from db.repository.MonitoringRepository import MonitoringRepository
+from db.repository.PatientRepository import PatientRepository
+from db.repository.ProtocolRepository import ProtocolRepository
+from db.repository.StudyResearcherRepository import StudyResearcherRepository
+from db.repository.VisitRepository import VisitRepository
 from src.db.sqlite import get_connection
 from src.db import SQLCache
 
@@ -85,3 +91,12 @@ class StudyRepository:
 
     async def delete(self, study_id: int) -> None:
         await asyncio.to_thread(self._delete, study_id)
+
+        await asyncio.gather(
+            EventRepository().delete_by_study_id(study_id),
+            MonitoringRepository().delete_by_study_id(study_id),
+            PatientRepository().delete_by_study_id(study_id),
+            ProtocolRepository().delete_by_study_id(study_id),
+            StudyResearcherRepository().delete_by_study_id(study_id),
+            VisitRepository().delete_by_study_id(study_id)
+        )

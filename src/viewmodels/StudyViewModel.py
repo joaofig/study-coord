@@ -86,6 +86,7 @@ class StudyViewModel(ViewModel):
 
             case "save":
                 await self.save()
+                await self.broadcast("study_list", "load")
 
             case "mark_changed":
                 field_name = kwargs.get("field_name")

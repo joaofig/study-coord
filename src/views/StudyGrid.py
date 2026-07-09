@@ -2,6 +2,7 @@ from typing import Any
 
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
+from nicegui.observables import ObservableList
 
 from viewmodels import StudyViewModel
 from viewmodels.ViewModel import ViewModel
@@ -12,19 +13,17 @@ from views.dialogs.StudyDialog import StudyDialog
 class StudyGrid(View):
     def __init__(self, vm: ViewModel) -> None:
         super().__init__(vm)
-        self.grid: Any = None
+        self.grid = self._build_grid()
+        self.studies = self.vm.get("studies")
+        if isinstance(self.studies, ObservableList):
+            self.studies.on_change(self._update_grid)
 
     async def load(self):
         await self.vm.call("load")
 
-    def _handle_notification(self, action: str, **kwargs):
-        """Handle notifications from the ViewModel"""
-        if action == "list_changed":
-            self._update_grid()
-
     def _update_grid(self):
         # Update the grid's rowData with the new list of studies from the ViewModel
-        self.grid.options["rowData"] = [s.to_dict() for s in self.vm.get("studies")]
+        self.grid.options["rowData"] = self.vm.get("studies")
         self.grid.update()
 
     async def _row_selection_changed(self, event):
@@ -33,7 +32,6 @@ class StudyGrid(View):
         if row:
             # Notify other components that a study has been selected
             await self.vm.call("study_selected", study=row, study_id=row["id"])
-
         else:
             await self.vm.call("study_unselected")
 
@@ -48,7 +46,7 @@ class StudyGrid(View):
             if result == "save":
                 await self.vm.call("load")  # Reload the grid after saving
 
-    def show(self) -> AgGrid:
+    def _build_grid(self) -> AgGrid:
         columns = [
             {
                 "headerName": "Edit",
@@ -90,4 +88,7 @@ class StudyGrid(View):
         #              ["data"]
         #             )
         self.grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
+        return self.grid
+
+    def show(self) -> AgGrid:
         return self.grid

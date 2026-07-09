@@ -1,9 +1,12 @@
 from nicegui import ui
 
+from viewmodels import StudyViewModel
 from viewmodels.ViewModel import ViewModel
 from views.StudyGrid import StudyGrid
 from views.StudyPanel import StudyPanel
 from views.View import View
+from views.dialogs.DeleteWarningDialog import DeleteWarningDialog
+from views.dialogs.StudyDialog import StudyDialog
 
 
 class StudyView(View):
@@ -13,16 +16,26 @@ class StudyView(View):
     """
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.grid = StudyGrid(vm)
 
     async def load(self):
         await self.vm.call("load")
 
     async def _on_delete_study(self):
-        pass
+        dialog = DeleteWarningDialog("Are you sure you want to delete this study?")
+        result = await dialog.show()
+        if result == "delete":
+            dialog.close()
+            study_id = self.vm.get("study_id")
+            await self.vm.call("delete_study", study_id=study_id)
+            await self.vm.call("load")
 
     async def _new_study_dialog(self):
-        pass
+        study_vm = StudyViewModel()
+        dialog = StudyDialog(study_vm)
+        result = await dialog.show()
+        if result == "save":
+            await self.vm.call("load")
+
 
     def show(self):
         with ui.splitter(horizontal=True).classes("w-full h-full") as splitter:
@@ -43,7 +56,8 @@ class StudyView(View):
                             ui.tooltip("Export to Excel")
 
                     with ui.column().classes("h-full flex-1"):
-                        self.grid.show()
+                        grid = StudyGrid(self.vm)
+                        grid.show()
 
             with splitter.after:
                 StudyPanel(self.vm)

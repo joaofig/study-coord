@@ -1,10 +1,12 @@
+from nicegui.observables import ObservableList
+
 from db.repository import StudyRepository
-from models.study import StudyRow
+from models.study import StudyRow, Study
 from viewmodels.ViewModel import ViewModel
 
 
 class StudyListViewModel(ViewModel):
-    studies: list[StudyRow] = []
+    studies = ObservableList()
     selected_id: int = 0
 
     def __init__(self):
@@ -14,7 +16,8 @@ class StudyListViewModel(ViewModel):
 
     async def load(self):
         repo = StudyRepository()
-        self.studies = [StudyRow(**s) for s in await repo.list()]
+        self.studies.clear()
+        self.studies.extend(await repo.list())
         await self.notify("list_changed")
 
     async def _on_call(self, msg: str, **kwargs):
@@ -23,6 +26,11 @@ class StudyListViewModel(ViewModel):
                 await self.load()
 
             case "study_saved":
+                await self.load()
+
+            case "delete_study":
+                study_id = kwargs["study_id"]
+                await Study.delete(study_id)
                 await self.load()
 
             case "study_selected":

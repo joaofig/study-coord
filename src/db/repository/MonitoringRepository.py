@@ -57,6 +57,14 @@ class MonitoringRepository:
         )
         conn.commit()
 
+    def _delete_by_study_id(self, study_id: int) -> None:
+        conn = get_connection()
+        conn.execute(
+            self.cache.get("monitoring/delete_by_study_id.sql"),
+            (study_id,)
+        )
+        conn.commit()
+
     async def get(self, monitoring_id: int) -> dict | None:
         return await asyncio.to_thread(self._get_by_id, monitoring_id)
 
@@ -68,3 +76,6 @@ class MonitoringRepository:
 
     async def delete(self, monitoring_id: int) -> None:
         await asyncio.to_thread(self._delete, monitoring_id)
+
+    async def delete_by_study_id(self, study_id: int) -> None:
+        await asyncio.to_thread(self._delete_by_study_id, study_id)

@@ -1,5 +1,5 @@
 from typing import List
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import ANY, AsyncMock, Mock, patch
 
 import pytest
 from nicegui import ui
@@ -115,7 +115,7 @@ async def test_study_view_model_copy_populates_editable_fields() -> None:
     view_model = StudyViewModel()
     study = make_study(end_date=None, comments=None)
 
-    await view_model.copy(study)
+    view_model.copy(study)
 
     assert_view_model_matches_study(view_model, study)
 
@@ -156,7 +156,7 @@ async def test_save_persists_valid_study_updates_id_and_notifies(fake_repository
     assert saved_study["name"] == STUDY_NAME
     assert saved_study["sponsor"] == STUDY_SPONSOR
     assert saved_study["proto_visits"] == PROTOCOL_VISITS
-    handler.assert_awaited_once_with("study_saved", {})
+    handler.assert_awaited_once_with("study_saved", study=ANY)
 
 
 @pytest.mark.asyncio
@@ -188,7 +188,7 @@ async def test_message_load_study_copies_repository_result(fake_repository) -> N
     view_model = StudyViewModel()
 
     with patch("src.models.study.StudyRepository", fake_repository):
-        await view_model.call("load_study", str(EXISTING_STUDY_ID))
+        await view_model.call("load", study_id=str(EXISTING_STUDY_ID))
 
     assert fake_repository.requested_ids == [EXISTING_STUDY_ID]
     assert_view_model_matches_study(view_model, study)
@@ -199,7 +199,7 @@ async def test_message_load_study_keeps_state_when_missing(fake_repository) -> N
     view_model = StudyViewModel(name=STUDY_NAME)
 
     with patch("src.models.study.StudyRepository", fake_repository):
-        await view_model.call("load_study", MISSING_STUDY_ID)
+        await view_model.call("load", study_id=MISSING_STUDY_ID)
 
     assert fake_repository.requested_ids == [MISSING_STUDY_ID]
     assert view_model.name == STUDY_NAME
@@ -210,7 +210,7 @@ async def test_message_save_study_delegates_to_save() -> None:
     view_model = StudyViewModel()
     view_model.save = AsyncMock()
 
-    await view_model.call("save_study")
+    await view_model.call("save")
 
     view_model.save.assert_awaited_once_with()
 
@@ -219,20 +219,20 @@ async def test_message_save_study_delegates_to_save() -> None:
 async def test_study_list_load_replaces_rows_and_notifies(fake_repository) -> None:
     rows = [make_study_row(EXISTING_STUDY_ID), make_study_row(SELECTED_STUDY_ID)]
     fake_repository.rows = rows
-    view_model = StudyListViewModel(StudyViewModel())
+    view_model = StudyListViewModel()
     handler = AsyncMock()
     view_model.register(handler)
 
-    with patch("src.viewmodels.study.StudyRepository", fake_repository):
+    with patch("src.viewmodels.StudyListViewModel.StudyRepository", fake_repository):
         await view_model.load()
 
     assert view_model.studies == rows
-    handler.assert_awaited_once_with("list_changed", {})
+    handler.assert_awaited_once_with("list_changed")
 
 
 @pytest.mark.asyncio
 async def test_study_list_reloads_after_study_saved() -> None:
-    view_model = StudyListViewModel(StudyViewModel())
+    view_model = StudyListViewModel()
     view_model.load = AsyncMock()
 
     await view_model.call("study_saved")
@@ -242,10 +242,12 @@ async def test_study_list_reloads_after_study_saved() -> None:
 
 @pytest.mark.asyncio
 async def test_study_list_loads_selected_study_into_child_view_model() -> None:
-    child_view_model = Mock()
-    child_view_model.message = AsyncMock()
-    view_model = StudyListViewModel(child_view_model)
+    view_model = StudyListViewModel()
+    with patch("viewmodels.ViewModel.get_messenger") as mock_get_messenger:
+        mock_messenger = AsyncMock()
+        mock_get_messenger.return_value = mock_messenger
 
-    await view_model.call("study_selected", {"id": SELECTED_STUDY_ID})
+        await view_model.call("study_selected", study_id=SELECTED_STUDY_ID)
 
-    child_view_model.message.assert_awaited_once_with("load_study", SELECTED_STUDY_ID)
+        mock_get_messenger.assert_called_once_with("study")
+        mock_messenger.send.assert_awaited_once_with("selected", study_id=SELECTED_STUDY_ID)

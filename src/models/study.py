@@ -64,7 +64,7 @@ class Study:
 
     async def save(self):
         repo = StudyRepository()
-        study: dict = await repo.save(self)
+        study: dict = await repo.save(self.to_dict())
         self.id = study["id"]
 
     @classmethod
@@ -72,6 +72,12 @@ class Study:
         repo = StudyRepository()
         study = await repo.get(study_id)
         return Study.from_dict(study) if study else None
+
+    @classmethod
+    async def delete(cls, study_id: int):
+        repo = StudyRepository()
+        await repo.delete(study_id)
+
 
 @dataclass
 class StudyRow(Study):

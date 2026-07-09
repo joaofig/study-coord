@@ -79,6 +79,14 @@ class VisitRepository:
         )
         conn.commit()
 
+    def _delete_by_study_id(self, study_id: int) -> None:
+        conn = get_connection()
+        conn.execute(
+            self.cache.get("visit/delete_by_study_id.sql"),
+            (study_id,)
+        )
+        conn.commit()
+
     async def get(self, visit_id: int) -> dict | None:
         return await asyncio.to_thread(self._get_by_id, visit_id)
 
@@ -93,3 +101,6 @@ class VisitRepository:
 
     async def delete(self, visit_id: int) -> None:
         await asyncio.to_thread(self._delete, visit_id)
+
+    async def delete_by_study_id(self, study_id: int) -> None:
+        await asyncio.to_thread(self._delete_by_study_id, study_id)

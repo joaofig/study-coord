@@ -50,7 +50,7 @@ class StudyDialog(View):
                     .bind_value(self.vm, "comments")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save())
+                ui.button("Save", on_click=self.save)
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
             self.dialog = dialog
 
@@ -59,3 +59,4 @@ class StudyDialog(View):
 
     async def save(self):
         await self.vm.call("save")
+        self.dialog.submit("save")
