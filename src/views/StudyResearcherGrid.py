@@ -23,7 +23,7 @@ class StudyResearcherGrid(View):
                        message="saved",
                        handler=self._refresh_grid)
         self.subscribe(channel="study",
-                       message="study_selected",
+                       message="selected",
                        handler=self._refresh_grid)
 
     async def _refresh_grid(self, **kwargs):

@@ -13,7 +13,7 @@ class EventListViewModel(ViewModel):
         self.event_id: int = 0
 
         self.subscribe(channel="study",
-                       message="study_selected",
+                       message="selected",
                        handler=self._handle_study_selected)
         self.subscribe(channel="patient",
                        message="patient_selected",

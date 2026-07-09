@@ -27,7 +27,7 @@ class StudyListViewModel(ViewModel):
             case "study_selected":
                 self.selected_id = kwargs["study_id"]
                 await self.broadcast(channel="study",
-                                     message="study_selected",
+                                     message="selected",
                                      study_id=self.selected_id)
 
     async def _on_load(self, **kwargs):

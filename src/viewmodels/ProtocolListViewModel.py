@@ -12,7 +12,7 @@ class ProtocolListViewModel(ViewModel):
     def __init__(self):
         super().__init__()
         self.subscribe(channel="study",
-                       message="study_selected",
+                       message="selected",
                        handler=self._handle_study_selected)
         self.subscribe(channel="protocol_list",
                        message="load",

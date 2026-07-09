@@ -16,7 +16,7 @@ class StudyResearcherListViewModel(ViewModel):
                        message="load",
                        handler=self._on_load)
         self.subscribe(channel="study",
-                       message="study_selected",
+                       message="selected",
                        handler=self._on_study_selected)
 
     async def _load_study_researchers(self, study_id: int):

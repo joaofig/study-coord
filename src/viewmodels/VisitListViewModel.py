@@ -12,7 +12,7 @@ class VisitListViewModel(ViewModel):
         self.patient_id: int = 0
         self.visit_id: int = 0
         self.subscribe(channel="study",
-                       message="study_selected",
+                       message="selected",
                        handler=self._handle_study_selected)
         self.subscribe(channel="visit",
                        message="saved",

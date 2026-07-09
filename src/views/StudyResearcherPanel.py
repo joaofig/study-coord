@@ -1,5 +1,6 @@
 from nicegui import ui
 
+from tests.viewmodels.test_study import SELECTED_STUDY_ID
 from tools.messenger import get_messenger
 from viewmodels.StudyResearcherViewModel import StudyResearcherViewModel
 from viewmodels.ViewModel import ViewModel
@@ -15,8 +16,8 @@ class StudyResearcherPanel(View):
         self.study_id = 0
         self.messenger = get_messenger("study_researcher")
         self.messenger.subscribe("study_researcher_selected", self._study_researcher_selected)
-        self.study_messenger = get_messenger("study")
-        self.study_messenger.subscribe("study_selected", self._study_selected)
+
+        self.subscribe("study", "selected", self._study_selected)
 
     async def _study_selected(self, **kwargs):
         if "study_id" in kwargs:

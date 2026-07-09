@@ -12,7 +12,7 @@ class MonitoringListViewModel(ViewModel):
     def __init__(self):
         super().__init__()
         self.subscribe(channel="study",
-                       message="study_selected",
+                       message="selected",
                        handler=self._handle_study_selected)
 
     async def _load_monitoring(self, study_id: int):

@@ -13,7 +13,7 @@ class ProtocolPanel(View):
         super().__init__(vm)
         self.study_id = 0
         self.subscribe(channel="study",
-                       message="study_selected",
+                       message="selected",
                        handler=self._study_selected)
 
     async def _study_selected(self, **kwargs):

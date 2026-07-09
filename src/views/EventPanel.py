@@ -14,10 +14,10 @@ class EventPanel(View):
         self.study_id = 0
         self.patient_id = 0
         self.subscribe(channel="study",
-                       message="study_selected",
+                       message="selected",
                        handler=self._study_selected)
         self.subscribe(channel="patient",
-                       message="patient_selected",
+                       message="selected",
                        handler=self._patient_selected)
 
     async def _study_selected(self, **kwargs):
