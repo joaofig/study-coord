@@ -9,6 +9,7 @@ class StudyListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
+        self.selected_id: int = 0
         self.subscribe("study_list", "load", self._on_load)
 
     async def load(self):

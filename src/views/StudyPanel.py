@@ -18,10 +18,13 @@ from views.View import View
 class StudyPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
+        self.children = {}
+
         with ui.splitter(value=50).classes("w-full h-full") as splitter:
 
             with splitter.after as splitter_right:
-                self.container = splitter_right
+                self.patient_detail_panel()
+                # self.container = ui.column().classes("h-full w-full pl-0 pt-0 pb-0 pr-0")
 
             with splitter.before:
                 self.study_pane()
@@ -51,28 +54,28 @@ class StudyPanel(View):
         panel.show()
 
     def patient_detail_panel(self):
-        with ui.tabs().props("dense no-caps") as tabs:
-            visits = ui.tab("Visits").classes("text-sky-800")
-            events = ui.tab("Events").classes("text-sky-800")
-        with ui.tab_panels(tabs, value=visits).classes("w-full h-full"):
-            with ui.tab_panel(visits) \
-                    .classes("pl-4 pt-0 pb-0 pr-0"):
-                self.visits_panel()
+        with ui.column().classes("h-full w-full pl-0 pt-0 pb-0 pr-0") as container:
+            with ui.tabs().props("dense no-caps") as tabs:
+                visits = ui.tab("Visits").classes("text-sky-800")
+                events = ui.tab("Events").classes("text-sky-800")
+            with ui.tab_panels(tabs, value=visits).classes("w-full h-full"):
+                with ui.tab_panel(visits) \
+                        .classes("pl-4 pt-0 pb-0 pr-0"):
+                    self.visits_panel()
 
-            with ui.tab_panel(events) \
-                    .classes("pl-4 pt-0 pb-0 pr-0"):
-                self.events_panel()
+                with ui.tab_panel(events) \
+                        .classes("pl-4 pt-0 pb-0 pr-0"):
+                    self.events_panel()
+        self.children["Patients"] = container
 
     def on_tab_change(self, tab: ValueChangeEventArguments):
-        if tab.value == "Patients":
-            with self.container:
-                self.patient_detail_panel()
-        else:
-            self.container.clear()
+        for (name, view) in self.children.items():
+            view.set_visibility(name == tab.value)
 
     def study_pane(self):
         with ui.tabs(on_change=self.on_tab_change) \
-                .props("dense no-caps") as tabs:
+                .props("dense no-caps") \
+                .bind_visibility(self.vm, "selected_id") as tabs:
             patients = ui.tab("Patients").classes("text-sky-800")
             monitoring = ui.tab("Monitoring").classes("text-sky-800")
             researchers = ui.tab("Researchers").classes("text-sky-800")
