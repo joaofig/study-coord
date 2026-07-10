@@ -17,6 +17,7 @@ class ResearcherRepository:
             "phone": row[3],
             "email": row[4],
             "comments": row[5],
+            "study_count": row[6],
         }
         sql = self.cache.get("researcher/get_all.sql")
         return conn.execute(sql).fetchall()
@@ -30,6 +31,7 @@ class ResearcherRepository:
             "phone": row[3],
             "email": row[4],
             "comments": row[5],
+            "study_count": row[6],
         }
         sql = self.cache.get("researcher/get_by_id.sql")
         return conn.execute(sql, (researcher_id,)).fetchone()

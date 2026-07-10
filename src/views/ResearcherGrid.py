@@ -40,6 +40,7 @@ class ResearcherGrid(View):
             {"headerName": "Phone", "field": "phone", "sortable": True, "align": "left"},
             {"headerName": "Email", "field": "email", "sortable": True, "align": "left"},
             {"headerName": "Comments", "field": "comments", "sortable": True, "align": "left"},
+            {"headerName": "Studies", "field": "study_count", "sortable": True, "align": "left"},
         ]
         grid_def = {
             "columnDefs": columns,

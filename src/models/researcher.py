@@ -13,10 +13,11 @@ class Researcher:
     phone: str = ""
     email: str = ""
     comments: str = ""
+    study_count: int = 0
 
     @classmethod
     def empty(cls) -> Researcher:
-        return Researcher(0, "", "", "", "", "")
+        return Researcher(0, "", "", "", "", "", 0)
 
     def to_dict(self):
         return {
@@ -26,6 +27,7 @@ class Researcher:
             "phone": self.phone,
             "email": self.email,
             "comments": self.comments,
+            "study_count": self.study_count,
         }
 
     @classmethod
