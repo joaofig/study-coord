@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from tests.viewmodels.test_study import SELECTED_STUDY_ID
+from tools.excel import export_to_excel
 from tools.messenger import get_messenger
 from viewmodels.StudyResearcherViewModel import StudyResearcherViewModel
 from viewmodels.ViewModel import ViewModel
@@ -62,10 +62,14 @@ class StudyResearcherPanel(View):
                         .classes("text-xs"):
                     ui.tooltip("Delete Researcher")
 
-                with ui.button(icon="table_view") \
+                with ui.button(icon="table_view", on_click=self._export_to_excel) \
                         .props("padding=xs") \
                         .classes("text-xs"):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):
                 StudyResearcherGrid(self.vm).show()
+
+    def _export_to_excel(self):
+        researchers = [r.to_dict() for r in self.vm.get("researchers")]
+        export_to_excel(researchers, "study_researchers.xlsx")

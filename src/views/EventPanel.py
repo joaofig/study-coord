@@ -1,5 +1,6 @@
 from nicegui import ui
 
+from tools.excel import export_to_excel
 from viewmodels.ViewModel import ViewModel
 from viewmodels.EventViewModel import EventViewModel
 from views.EventGrid import EventGrid
@@ -67,10 +68,15 @@ class EventPanel(View):
                         .props("color=red padding=xs"):
                     ui.tooltip("Delete Event")
 
-                with ui.button(icon="table_view") \
+                with ui.button(icon="table_view", on_click=self._export_to_excel) \
                         .classes("text-xs") \
                         .props("padding=xs"):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):
                 EventGrid(self.vm).show()
+
+    def _export_to_excel(self):
+        events = self.vm.get("events")
+        if events:
+            export_to_excel(events, "events.xlsx")

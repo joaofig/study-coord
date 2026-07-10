@@ -1,5 +1,6 @@
 from nicegui import ui
 
+from tools.excel import export_to_excel
 from viewmodels.ViewModel import ViewModel
 from viewmodels.VisitViewModel import VisitViewModel
 from views.StudyVisitGrid import StudyVisitGrid
@@ -65,7 +66,7 @@ class StudyVisitPanel(View):
                         .props("padding=xs color=red"):
                     ui.tooltip("Delete Visit")
 
-                with ui.button(icon="table_view") \
+                with ui.button(icon="table_view", on_click=lambda: export_to_excel(self.vm.get("visits"), "visits.xlsx")) \
                         .classes("text-xs") \
                         .props("padding=xs"):
                     ui.tooltip("Export to Excel")

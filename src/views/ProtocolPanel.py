@@ -6,6 +6,7 @@ from src.views.ProtocolGrid import ProtocolGrid
 from src.views.dialogs.ProtocolDialog import ProtocolDialog
 from src.views.View import View
 from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog
+from tools.excel import export_to_excel
 
 
 class ProtocolPanel(View):
@@ -52,7 +53,9 @@ class ProtocolPanel(View):
                         .props("color=red padding=xs"):
                     ui.tooltip("Delete Protocol Deviation")
 
-                with ui.button(icon="table_view").classes("text-xs") \
+                with ui.button(icon="table_view",
+                               on_click=lambda: export_to_excel(self.vm.get("protocols"), "protocols.xlsx")) \
+                        .classes("text-xs") \
                         .props("padding=xs"):
                     ui.tooltip("Export to Excel")
 

@@ -6,6 +6,7 @@ from src.views.StudyMonitoringGrid import StudyMonitoringGrid
 from src.views.dialogs.StudyMonitoringDialog import StudyMonitoringDialog
 from src.views.View import View
 from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog
+from tools.excel import export_to_excel
 
 
 class StudyMonitoringPanel(View):
@@ -54,7 +55,8 @@ class StudyMonitoringPanel(View):
                         .props("color=red padding=xs"):
                     ui.tooltip("Delete Monitoring Visit")
 
-                with ui.button(icon="table_view") \
+                with ui.button(icon="table_view",
+                               on_click=lambda: export_to_excel(self.vm.get("monitorings"), "monitorings.xlsx")) \
                         .classes("text-xs") \
                         .props("padding=xs"):
                     ui.tooltip("Export to Excel")

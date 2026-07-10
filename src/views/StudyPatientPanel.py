@@ -6,6 +6,7 @@ from src.views.StudyPatientGrid import StudyPatientGrid
 from src.views.dialogs.StudyPatientDialog import StudyPatientDialog
 from src.views.View import View
 from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog
+from tools.excel import export_to_excel
 
 
 class StudyPatientPanel(View):
@@ -54,7 +55,9 @@ class StudyPatientPanel(View):
                         .props("color=red padding=xs"):
                     ui.tooltip("Delete Patient")
 
-                with ui.button(icon="table_view").classes("text-xs") \
+                with ui.button(icon="table_view",
+                               on_click=lambda: export_to_excel(self.vm.get("patients"), "patients.xlsx")) \
+                        .classes("text-xs") \
                         .props("padding=xs"):
                     ui.tooltip("Export to Excel")
 
