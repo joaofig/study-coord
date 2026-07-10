@@ -25,7 +25,6 @@ class VisitListViewModel(ViewModel):
         visits = VisitList()
         self.visits.clear()
         self.visits.extend([v.to_dict() for v in await visits.load_from_study_and_patient(study_id, patient_id)])
-        # await self.notify("visits_loaded")
 
     async def _handle_visit_saved(self, **kwargs):
         await self._load_visits(self.study_id)

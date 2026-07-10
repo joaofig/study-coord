@@ -8,7 +8,9 @@ dependencies = [
     "code-review-graph>=2.3.6",
     "nicegui>=3.13.0",
     "openpyxl>=3.1.5",
+    "pandas>=3.0.3",
     "pytest-asyncio>=1.4.0",
+    "xlsxwriter>=3.2.9",
 ]
 
 [dependency-groups]
