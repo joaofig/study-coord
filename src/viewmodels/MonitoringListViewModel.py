@@ -25,6 +25,10 @@ class MonitoringListViewModel(ViewModel):
         if study_id:
             self.study_id = int(study_id)
             await self._load_monitoring(self.study_id)
+        else:
+            self.study_id = 0
+            self.monitoring_id = 0
+            self.monitoring_visits.clear()
 
     async def _on_call(self, msg: str, **kwargs):
         match msg:

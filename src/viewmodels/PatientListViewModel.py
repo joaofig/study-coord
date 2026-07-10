@@ -25,6 +25,10 @@ class PatientListViewModel(ViewModel):
         if study_id:
             self.study_id = int(study_id)
             await self._load_patients(self.study_id)
+        else:
+            self.study_id = 0
+            self.patients.clear()
+        self.patient_id = 0
 
     async def _on_call(self, msg: str, **kwargs):
         match msg:

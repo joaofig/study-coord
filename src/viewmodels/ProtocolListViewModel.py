@@ -28,6 +28,10 @@ class ProtocolListViewModel(ViewModel):
         if study_id:
             self.study_id = int(study_id)
             await self._load_protocols(self.study_id)
+        else:
+            self.study_id = 0
+            self.protocol_id = 0
+            self.protocols.clear()
 
     async def _handle_load(self, **kwargs):
         study_id = kwargs.get("study_id")

@@ -12,17 +12,27 @@ class StudyVisitPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.study_id = 0
+        self.patient_id = 0
         self.subscribe(channel="study",
                        message="selected",
                        handler=self._study_selected)
+        self.subscribe(channel="patient",
+                       message="selected",
+                       handler=self._patient_selected)
 
     async def _study_selected(self, **kwargs):
         if "study_id" in kwargs:
             self.study_id = kwargs["study_id"]
 
+    async def _patient_selected(self, **kwargs):
+        if "patient_id" in kwargs:
+            self.patient_id = kwargs["patient_id"]
+
     async def _new_visit_dialog(self):
         visit_vm = VisitViewModel()
         await visit_vm.load_patients(self.study_id)
+        visit_vm.patient_id = self.patient_id
+        await visit_vm.call("load_patient", patient_id=self.patient_id)
         dialog = StudyVisitDialog(visit_vm)
         result = await dialog.show()
         if result == "save":

@@ -16,7 +16,7 @@ class EventListViewModel(ViewModel):
                        message="selected",
                        handler=self._handle_study_selected)
         self.subscribe(channel="patient",
-                       message="patient_selected",
+                       message="selected",
                        handler=self._handle_patient_selected)
         self.subscribe(channel="event",
                        message="saved",
@@ -25,9 +25,8 @@ class EventListViewModel(ViewModel):
     async def _load_events(self, study_id: int, patient_id: int):
         events = EventList()
         self.events.clear()
-        if study_id and patient_id:
-            loaded_events = await events.load_from_study_and_patient(study_id, patient_id)
-            self.events.extend([e.to_dict() for e in loaded_events])
+        loaded_events = await events.load_from_study_and_patient(study_id, patient_id)
+        self.events.extend([e.to_dict() for e in loaded_events])
 
     async def _handle_event_saved(self, **kwargs):
         await self._load_events(self.study_id, self.patient_id)
@@ -36,17 +35,21 @@ class EventListViewModel(ViewModel):
         study_id = kwargs.get("study_id")
         if study_id:
             self.study_id = int(study_id)
-            self.patient_id = 0
-            self.events.clear()
+        else:
+            self.study_id = 0
+            self.event_id = 0
+        self.patient_id = 0
+        self.events.clear()
 
     async def _handle_patient_selected(self, **kwargs):
         patient_id = kwargs.get("patient_id")
-        study_id = kwargs.get("study_id")
         if patient_id:
             self.patient_id = int(patient_id)
-            if study_id:
-                self.study_id = int(study_id)
             await self._load_events(self.study_id, self.patient_id)
+        else:
+            self.patient_id = 0
+            self.event_id = 0
+            self.events.clear()
 
     async def _on_call(self, msg: str, **kwargs):
         match msg:

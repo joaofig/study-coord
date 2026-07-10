@@ -34,20 +34,28 @@ class VisitListViewModel(ViewModel):
         study_id = kwargs.get("study_id")
         if study_id:
             self.study_id = int(study_id)
-            # await self._load_visits(self.study_id)
+        else:
+            self.study_id = 0
+        self.patient_id = 0
+        self.visit_id = 0
+        self.visits.clear()
 
     async def _handle_patient_selected(self, **kwargs):
         patient_id = kwargs.get("patient_id")
         if patient_id:
             self.patient_id = int(patient_id)
             await self._load_visits(self.study_id, self.patient_id)
+        else:
+            self.patient_id = 0
+            self.visit_id = 0
+            self.visits.clear()
 
     async def _on_call(self, msg: str, **kwargs):
         match msg:
             case "load":
                 self.study_id = kwargs.get("study_id")
                 if self.study_id:
-                    await self._load_visits(self.study_id)
+                    await self._load_visits(self.study_id, self.patient_id)
                 else:
                     print("Missing study_id parameter.")
 

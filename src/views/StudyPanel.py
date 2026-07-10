@@ -1,5 +1,4 @@
 from nicegui import ui
-from nicegui.elements.row import Row
 from nicegui.events import ValueChangeEventArguments
 
 from viewmodels import PatientListViewModel, MonitoringListViewModel, ProtocolListViewModel, VisitListViewModel, \

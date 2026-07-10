@@ -35,6 +35,10 @@ class StudyResearcherListViewModel(ViewModel):
         if study_id:
             self.study_id = int(study_id)
             await self._load_study_researchers(self.study_id)
+        else:
+            self.study_id = 0
+            self.selected_id = 0
+            self.researchers.clear()
 
     async def load(self):
         repo = StudyResearcherRepository()
