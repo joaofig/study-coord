@@ -1,5 +1,6 @@
 from nicegui import ui
 
+from tools.excel import export_to_excel
 from viewmodels import StudyViewModel
 from viewmodels.ViewModel import ViewModel
 from views.StudyGrid import StudyGrid
@@ -64,22 +65,6 @@ class StudyView(View):
                 StudyPanel(self.vm)
 
     def _on_export_to_excel(self):
-        # Implement the logic to export the study data to Excel
-        # This could involve calling a method on the ViewModel to get the data
-        # and then using a library like pandas or openpyxl to create an Excel file.
         studies = self.vm.get("studies")
         if studies:
-            import pandas as pd
-            from io import BytesIO
-
-            # Convert studies to a DataFrame
-            df = pd.DataFrame(studies)
-
-            # Create an Excel file in memory
-            output = BytesIO()
-            with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-                df.to_excel(writer, index=False, sheet_name='Studies')
-
-            # Prepare the file for download
-            output.seek(0)
-            ui.download.content(output.getvalue(), filename="studies.xlsx")
+            export_to_excel(studies, filename="studies.xlsx")

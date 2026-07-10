@@ -1,5 +1,6 @@
 from nicegui import ui
 
+from tools.excel import export_to_excel
 from viewmodels import ResearcherViewModel
 from viewmodels.ViewModel import ViewModel
 from views.ResearcherGrid import ResearcherGrid
@@ -23,7 +24,7 @@ class ResearcherView(View):
                         .props("color=red"):
                     ui.tooltip("Delete Researcher")
 
-                with ui.button(icon="table_view"):
+                with ui.button(icon="table_view", on_click=self._on_export_to_excel):
                     ui.tooltip("Export to Excel")
 
     async def _show_dialog(self):
@@ -32,3 +33,8 @@ class ResearcherView(View):
         result = await dialog.show()
         if result == "save":
             await self.vm.call("load")
+
+    def _on_export_to_excel(self):
+        researchers = [r.to_dict() for r in self.vm.get("researchers")]
+        if researchers:
+            export_to_excel(researchers, filename="researchers.xlsx")
