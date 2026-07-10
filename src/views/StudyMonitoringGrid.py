@@ -35,7 +35,7 @@ class StudyMonitoringGrid(View):
             {
                 "headerName": "Edit",
                 "field": "id",
-                "width": 80,
+                "width": 50,
                 ":cellRenderer": """
                 (params) => {
                     const btn = document.createElement('button');

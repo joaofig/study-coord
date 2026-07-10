@@ -37,7 +37,6 @@ class StudyView(View):
         if result == "save":
             await self.vm.call("load")
 
-
     def show(self):
         with ui.splitter(horizontal=True).classes("w-full h-full") as splitter:
             with splitter.before:
