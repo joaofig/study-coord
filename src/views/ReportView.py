@@ -9,9 +9,11 @@ class ReportView(View):
         super().__init__(vm)
 
         with ui.row().classes("w-full"):
-            self._add_count_card("Total Studies", "study_count")
-            self._add_count_card("Total Patients", "patient_count")
-            self._add_count_card("Total Researchers", "researcher_count")
+            self._add_count_card("Studies", "study_count")
+            self._add_count_card("Patients", "patient_count")
+            self._add_count_card("Researchers", "researcher_count")
+            self._add_count_card("Visits", "visit_count")
+            self._add_count_card("Events", "event_count")
 
         with ui.row().classes("w-full"):
             ui.button("Refresh", icon="change_circle", on_click=self._on_refresh)

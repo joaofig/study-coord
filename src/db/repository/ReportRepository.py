@@ -25,6 +25,18 @@ class ReportRepository:
         sql = self.cache.get("report/get_researcher_count.sql")
         return conn.execute(sql).fetchone()
 
+    def _get_visit_count(self) -> int:
+        conn = get_connection()
+        conn.row_factory = lambda _, row: int(row[0])
+        sql = self.cache.get("report/get_visit_count.sql")
+        return conn.execute(sql).fetchone()
+
+    def _get_event_count(self) -> int:
+        conn = get_connection()
+        conn.row_factory = lambda _, row: int(row[0])
+        sql = self.cache.get("report/get_event_count.sql")
+        return conn.execute(sql).fetchone()
+
     async def get_study_count(self) -> int:
         return await asyncio.to_thread(self._get_study_count)
 
@@ -33,3 +45,9 @@ class ReportRepository:
 
     async def get_researcher_count(self) -> int:
         return await asyncio.to_thread(self._get_researcher_count)
+
+    async def get_visit_count(self) -> int:
+        return await asyncio.to_thread(self._get_visit_count)
+
+    async def get_event_count(self) -> int:
+        return await asyncio.to_thread(self._get_event_count)
