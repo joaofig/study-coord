@@ -69,6 +69,7 @@ class ResearcherRepository:
 
     def _delete(self, researcher_id: int) -> None:
         conn = get_connection()
+        conn.execute(self.cache.get("researcher/delete_studies.sql"), (researcher_id,))
         conn.execute(self.cache.get("researcher/delete.sql"), (researcher_id,))
         conn.commit()
 

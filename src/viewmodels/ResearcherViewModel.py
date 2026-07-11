@@ -47,6 +47,7 @@ class ResearcherViewModel(ViewModel):
                 r = await Researcher.load(researcher_id=int(kwargs.get("researcher_id")))
                 if r:
                     self.copy(r)
+
         return None
 
     def copy(self, researcher: Researcher):

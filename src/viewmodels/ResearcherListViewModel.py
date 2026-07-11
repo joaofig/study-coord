@@ -32,5 +32,11 @@ class ResearcherListViewModel(ViewModel):
                 if "researcher_id" in kwargs:
                     self.selected_id = kwargs["researcher_id"]
 
+            case "delete":
+                researcher_id = kwargs.get("researcher_id")
+                await Researcher.delete(researcher_id=researcher_id)
+                await self.load()
+                await self.broadcast("researcher_list", "load")
+
     async def _on_load(self, **kwargs):
         await self.load()

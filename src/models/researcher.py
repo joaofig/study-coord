@@ -40,6 +40,11 @@ class Researcher:
         self.id = researcher["id"]
 
     @classmethod
+    async def delete(cls, researcher_id: int):
+        repo = ResearcherRepository()
+        await repo.delete(researcher_id)
+
+    @classmethod
     async def load(cls, researcher_id: int) -> Researcher | None:
         repo = ResearcherRepository()
         researcher = await repo.get(researcher_id)
