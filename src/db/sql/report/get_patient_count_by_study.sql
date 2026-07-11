@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM patient where study_id = ?;

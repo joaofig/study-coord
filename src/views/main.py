@@ -25,7 +25,7 @@ def main_view():
             reports = ui.tab("Reports").classes("text-sky-800")
             settings = ui.tab("Settings").classes("text-sky-800")
 
-        with ui.tab_panels(tabs, value=studies, on_change=on_tab_change).classes("h-full w-full"):
+        with ui.tab_panels(tabs, value=studies).classes("h-full w-full"):
 
             with ui.tab_panel(studies).classes("pl-4 pt-0 pb-0 pr-4"):
                 vm = StudyListViewModel()

@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM visit WHERE study_id=?;
