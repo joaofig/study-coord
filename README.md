@@ -8,13 +8,13 @@ Research study coordination manager.
 
 ## Features
 
-- **Study Management**: Detailed tracking of study information including name, sponsor, dates, protocol visits, and comments.
-- **Researcher Management**: Manage the team of researchers associated with each study with role-based details.
-- **Patient Management**: Comprehensive tracking of participants in studies with dedicated grids and dialogs.
-- **Visit & Event Tracking**: Log and manage study visits and clinical events with patient-specific history.
-- **Monitoring Reports**: Track monitoring activities and documentation for study compliance.
-- **Interactive UI**: Data-rich interface powered by NiceGUI and AgGrid for efficient data management.
-- **Clean Architecture**: Follows MVVM (Model-View-ViewModel) pattern and Repository pattern for better maintainability and testability.
+- **Study Management**: Detailed tracking of study information including name, sponsor, dates, and comments. Now includes **Protocol Deviation** and **Monitoring Visit** tracking.
+- **Researcher Management**: Manage teams of researchers with role-based details and contact information.
+- **Patient Management**: Comprehensive tracking of participants with dedicated sub-grids for **Visits** and **Clinical Events**.
+- **Global Dashboard**: Real-time summary of studies, patients, researchers, visits, and events across the entire project or per-study metrics.
+- **Data Export**: Built-in support for exporting study data, monitoring logs, and event records to **Excel** for external reporting and analysis.
+- **Interactive UI**: Data-rich interface powered by NiceGUI and AgGrid with flexible layouts and splitters for efficient data navigation.
+- **Clean Architecture**: Strictly follows the **MVVM** (Model-View-ViewModel) and **Repository** patterns, utilizing asynchronous database operations and externalized SQL scripts.
 - **Developer Guides**: Comprehensive "Agent Skills" documentation for consistent implementation of new features.
 - **Knowledge Graph**: Integrated with `code-review-graph` for advanced code analysis and structural insights.
 
@@ -69,17 +69,19 @@ The web interface will typically be available at `http://localhost:8080`.
 ## Project Structure
 
 - `src/`: Main source code
-  - `db/`: Database configuration, repositories, and SQL scripts
+  - `db/`: Database configuration, repositories, and externalized SQL scripts
   - `models/`: Core data models (dataclasses)
   - `viewmodels/`: ViewModels handling logic and state (MVVM)
-  - `views/`: UI components and layouts (NiceGUI)
-  - `tools/`: Utility functions, observability, and infrastructure
-- `tests/`: Automated tests
-- `docs/`: Project documentation and architecture overviews
+  - `views/`: UI components, layouts, and dialogs (NiceGUI)
+  - `tools/`: Utility functions (Excel export, task management, etc.)
+- `tests/`: Automated test suite
+- `docs/`: Project documentation (Architecture, Schema, Messaging)
+- `images/`: Application assets and icons
 - `ref/`: Reference materials and Agent Skills for development patterns
 - `main.py`: Application entry point
 - `study-coord.toml`: Database configuration
 - `AGENTS.md`: Development guidelines and project rules
+- `study-coord.db`: SQLite database file (generated)
 
 ## Knowledge Graph
 
