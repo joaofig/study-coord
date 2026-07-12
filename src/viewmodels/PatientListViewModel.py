@@ -1,3 +1,5 @@
+from typing import Any
+
 from nicegui.observables import ObservableList
 
 from models.patient import PatientList
@@ -30,7 +32,7 @@ class PatientListViewModel(ViewModel):
             self.patients.clear()
         self.patient_id = 0
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 study_id = kwargs.get("study_id")
@@ -52,6 +54,5 @@ class PatientListViewModel(ViewModel):
                     self.patient_id = int(patient_id)
                     await PatientList.delete(self.patient_id)
                     await self._load_patients(self.study_id)
-
         return None
 

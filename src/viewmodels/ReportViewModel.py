@@ -1,3 +1,5 @@
+from typing import Any
+
 from nicegui.observables import ObservableDict
 
 from db.repository.ReportRepository import ReportRepository
@@ -40,13 +42,14 @@ class ReportViewModel(ViewModel):
     async def _on_load(self, **kwargs):
         await self.load()
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 await self.load()
 
             case "load_detail":
                 await self._load_detail()
+        return None
 
     async def _load_detail(self):
         repo = ReportRepository()

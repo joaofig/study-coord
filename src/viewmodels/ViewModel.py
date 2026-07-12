@@ -33,7 +33,7 @@ class ViewModel(ABC):
         return result
 
     @abstractmethod
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         """Base method for handling messages sent to the ViewModel"""
         return None
 

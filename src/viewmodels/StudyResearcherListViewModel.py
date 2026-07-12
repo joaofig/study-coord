@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any
 
 from db.repository.StudyResearcherRepository import StudyResearcherRepository
 from models.researcher import StudyResearcher, StudyResearcherList
@@ -44,7 +44,7 @@ class StudyResearcherListViewModel(ViewModel):
         repo = StudyResearcherRepository()
         self.researchers = [StudyResearcher(**s) for s in await repo.list(self.study_id)]
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 await self.load()
@@ -63,6 +63,7 @@ class StudyResearcherListViewModel(ViewModel):
                 if "researcher_id" in kwargs:
                     researcher_id = kwargs["researcher_id"]
                     await self._delete_researcher(researcher_id)
+        return None
 
     async def _on_load(self, **kwargs):
         await self.load()

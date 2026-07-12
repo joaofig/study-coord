@@ -1,3 +1,4 @@
+from typing import Any
 
 from nicegui import binding
 from nicegui.observables import ObservableSet
@@ -35,7 +36,7 @@ class ResearcherViewModel(ViewModel):
                 if researcher:
                     self.copy(researcher)
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "copy":
                 self.copy(kwargs.get("researcher"))
@@ -47,7 +48,6 @@ class ResearcherViewModel(ViewModel):
                 r = await Researcher.load(researcher_id=int(kwargs.get("researcher_id")))
                 if r:
                     self.copy(r)
-
         return None
 
     def copy(self, researcher: Researcher):

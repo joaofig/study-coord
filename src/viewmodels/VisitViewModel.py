@@ -1,5 +1,5 @@
 from dataclasses import field
-from typing import Dict
+from typing import Dict, Any
 
 from nicegui import binding
 
@@ -62,7 +62,7 @@ class VisitViewModel(ViewModel):
             patient = await Patient.load(self.patient_id)
             self.selection.copy(patient)
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 visit_id = kwargs.get("visit_id")
@@ -80,6 +80,7 @@ class VisitViewModel(ViewModel):
 
             case "save":
                 await self.save()
+        return None
 
     async def load_patients(self, study_id: int):
         patients = PatientList()

@@ -1,3 +1,5 @@
+from typing import Any
+
 from nicegui import binding
 from nicegui.observables import ObservableSet
 
@@ -73,7 +75,7 @@ class StudyViewModel(ViewModel):
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "copy":
                 self.copy(kwargs.get("study"))
@@ -92,3 +94,4 @@ class StudyViewModel(ViewModel):
                 field_name = kwargs.get("field_name")
                 if field_name:
                     self._field_changed(field_name)
+        return None

@@ -1,3 +1,5 @@
+from typing import Any
+
 from nicegui.observables import ObservableList
 
 from db.repository import StudyRepository
@@ -20,7 +22,7 @@ class StudyListViewModel(ViewModel):
         self.studies.extend(await repo.list())
         await self.notify("list_changed")
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 await self.load()
@@ -38,6 +40,7 @@ class StudyListViewModel(ViewModel):
                 await self.broadcast(channel="study",
                                      message="selected",
                                      study_id=self.selected_id)
+        return None
 
     async def _on_load(self, **kwargs):
         await self.load()

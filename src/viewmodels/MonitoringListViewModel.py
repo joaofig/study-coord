@@ -1,3 +1,5 @@
+from typing import Any
+
 from nicegui.observables import ObservableList
 
 from models.monitoring import MonitoringList
@@ -30,7 +32,7 @@ class MonitoringListViewModel(ViewModel):
             self.monitoring_id = 0
             self.monitoring_visits.clear()
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 study_id = kwargs.get("study_id")

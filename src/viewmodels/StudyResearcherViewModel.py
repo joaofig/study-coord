@@ -1,5 +1,5 @@
 from dataclasses import field
-from typing import Dict
+from typing import Dict, Any
 
 from nicegui import binding
 
@@ -79,7 +79,7 @@ class StudyResearcherViewModel(ViewModel):
         self.changed = False
         await self.broadcast("study_researcher", "saved")
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         """
         Handle incoming messages from the attached View.
 

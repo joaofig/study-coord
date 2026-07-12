@@ -1,3 +1,5 @@
+from typing import Any
+
 from nicegui.observables import ObservableList
 
 from models.event import EventList
@@ -51,7 +53,7 @@ class EventListViewModel(ViewModel):
             self.event_id = 0
             self.events.clear()
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 self.study_id = kwargs.get("study_id", self.study_id)
@@ -70,3 +72,4 @@ class EventListViewModel(ViewModel):
                 if event_id:
                     await EventList.delete(event_id)
                     await self._load_events(self.study_id, self.patient_id)
+        return None

@@ -1,3 +1,5 @@
+from typing import Any
+
 from nicegui.observables import ObservableList
 
 from models.visit import VisitList
@@ -49,7 +51,7 @@ class VisitListViewModel(ViewModel):
             self.visit_id = 0
             self.visits.clear()
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 self.study_id = kwargs.get("study_id")
@@ -63,4 +65,4 @@ class VisitListViewModel(ViewModel):
 
             case "visit_selected":
                 self.visit_id = kwargs.get("visit_id")
-
+        return None

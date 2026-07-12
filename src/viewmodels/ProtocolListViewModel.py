@@ -1,3 +1,5 @@
+from typing import Any
+
 from nicegui.observables import ObservableList
 
 from src.models.protocol import ProtocolList
@@ -39,7 +41,7 @@ class ProtocolListViewModel(ViewModel):
             self.study_id = int(study_id)
         await self._load_protocols(self.study_id)
 
-    async def _on_call(self, msg: str, **kwargs):
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 study_id = kwargs.get("study_id")
