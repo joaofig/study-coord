@@ -26,10 +26,6 @@ class StudyMonitoringGrid(View):
         self.grid.options["rowData"] = self.vm.get("monitoring_visits")
         self.grid.update()
 
-    async def _handle_notification(self, action: str, **kwargs):
-        if action == "monitoring_loaded":
-            self._update_grid()
-
     def _build_grid(self) -> AgGrid:
         columns = [
             {

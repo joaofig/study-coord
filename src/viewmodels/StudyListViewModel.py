@@ -20,7 +20,6 @@ class StudyListViewModel(ViewModel):
         repo = StudyRepository()
         self.studies.clear()
         self.studies.extend(await repo.list())
-        await self.notify("list_changed")
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

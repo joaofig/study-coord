@@ -7,12 +7,6 @@ from viewmodels.ViewModel import ViewModel
 class View:
     def __init__(self, vm: ViewModel):
         self.vm = vm
-        self.vm.register(self._handle_notification)
-
-    def _handle_notification(self, action: str, **kwargs):
-        """Handle notifications from the ViewModel"""
-        # This method can be overridden in subclasses to handle notifications
-        pass
 
     @staticmethod
     async def broadcast(channel: str, message: str, **kwargs):

@@ -144,8 +144,6 @@ async def test_save_persists_valid_study_updates_id_and_notifies(fake_repository
         visits=PROTOCOL_VISITS,
         start_date=STUDY_START_DATE,
     )
-    handler = AsyncMock()
-    view_model.register(handler)
 
     with patch("src.models.study.StudyRepository", fake_repository):
         await view_model.save()
@@ -156,7 +154,6 @@ async def test_save_persists_valid_study_updates_id_and_notifies(fake_repository
     assert saved_study["name"] == STUDY_NAME
     assert saved_study["sponsor"] == STUDY_SPONSOR
     assert saved_study["proto_visits"] == PROTOCOL_VISITS
-    handler.assert_awaited_once_with("study_saved", study=ANY)
 
 
 @pytest.mark.asyncio
@@ -167,14 +164,11 @@ async def test_save_rejects_invalid_study_without_persisting(fake_repository) ->
         visits=PROTOCOL_VISITS,
         start_date=STUDY_START_DATE,
     )
-    handler = AsyncMock()
-    view_model.register(handler)
 
     with patch("src.models.study.StudyRepository", fake_repository), patch.object(ui, "notify") as notify:
         await view_model.save()
 
     assert fake_repository.saved_studies == []
-    handler.assert_not_awaited()
     notify.assert_called_once()
     notification = notify.call_args.args[0]
     assert "Study name is required." in notification
@@ -220,14 +214,11 @@ async def test_study_list_load_replaces_rows_and_notifies(fake_repository) -> No
     rows = [make_study_row(EXISTING_STUDY_ID), make_study_row(SELECTED_STUDY_ID)]
     fake_repository.rows = rows
     view_model = StudyListViewModel()
-    handler = AsyncMock()
-    view_model.register(handler)
 
     with patch("src.viewmodels.StudyListViewModel.StudyRepository", fake_repository):
         await view_model.load()
 
     assert view_model.studies == rows
-    handler.assert_awaited_once_with("list_changed")
 
 
 @pytest.mark.asyncio
