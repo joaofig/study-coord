@@ -40,6 +40,6 @@ ui.run(
     port=int(os.getenv("NICEGUI_PORT", "8080")),
     favicon="images/science_24dp_1F1F1F.png",
     title="Study Coordinator",
-    reload=os.getenv("NICEGUI_RELOAD", "true").lower() == "true",
+    reload=False,
 )
 
