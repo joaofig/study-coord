@@ -3,7 +3,7 @@ from src.tools.singleton import singleton
 
 
 def get_script(script_name: str) -> str:
-    path = Path("app/src/db/sql") / script_name
+    path = Path("src/db/sql") / script_name
     return path.read_text(
         encoding="utf-8"
     )
