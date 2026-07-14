@@ -53,7 +53,8 @@ Keep SQLite access behind repositories:
 
 ```python
 # src/db/repositories/StudyRepository.py
-from src.models.study import Study
+from models.study import Study
+
 
 class StudyRepository:
     def __init__(self, db):
@@ -77,8 +78,8 @@ The ViewModel depends on repositories, not SQLite details:
 ```python
 # src/viewmodels/study_list_vm.py
 from dataclasses import dataclass, field
-from src.models.study import Study
-from src.db.repositories.study_repository import StudyRepository
+from models.study import Study
+from db import StudyRepository
 
 
 @dataclass
@@ -121,9 +122,10 @@ Views should create elements and bind them to ViewModel properties:
 ```python
 # src/views/pages/studies_page.py
 from nicegui import ui, background_tasks
-from src.viewmodels.study_list_vm import StudyListViewModel
-from src.views.components.study_master_list import StudyMasterList
-from src.views.components.study_detail_panel import StudyDetailPanel
+from viewmodels import StudyListViewModel
+from views import StudyMasterList
+from views import StudyDetailPanel
+
 
 class StudiesPage:
     def __init__(self, vm: StudyListViewModel):
@@ -149,16 +151,18 @@ Prefer page-local ViewModel instances. NiceGUI module-level state is shared acro
 ```python
 # src/main.py
 from nicegui import ui
-from src.db.connection import create_db
-from src.db.repositories.study_repository import StudyRepository
-from src.viewmodels.study_list_vm import StudyListViewModel
-from src.views.pages.studies_page import StudiesPage
+from db import create_db
+from db import StudyRepository
+from viewmodels import StudyListViewModel
+from views import StudiesPage
+
 
 @ui.page('/studies')
 def studies_page():
     db = create_db()
     vm = StudyListViewModel(StudyRepository(db))
     StudiesPage(vm).render()
+
 
 ui.run()
 ```
