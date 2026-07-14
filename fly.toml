@@ -4,7 +4,7 @@
 #
 
 app = 'study-coord'
-primary_region = 'iad'
+primary_region = 'ams'
 
 [build]
   builder = 'paketobuildpacks/builder:base'
