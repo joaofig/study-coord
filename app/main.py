@@ -36,8 +36,8 @@ def setup_app():
 
 setup_app()
 ui.run(
-    host=os.getenv("NICEGUI_HOST"),
-    port=int(os.getenv("NICEGUI_PORT", "8080")),
+    host="0.0.0.0",
+    port=8080,
     favicon="images/science_24dp_1F1F1F.png",
     title="Study Coordinator",
     reload=False,
