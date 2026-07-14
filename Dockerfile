@@ -24,4 +24,4 @@ ENV NICEGUI_RELOAD=false
 ENV PYTHONUNBUFFERED=1
 
 # Start the application using uv run to ensure the correct environment
-CMD ["uv", "run", "python", "main.py"]
+CMD ["uv", "run", "python", "app/main.py"]
