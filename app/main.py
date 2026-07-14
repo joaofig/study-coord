@@ -1,3 +1,5 @@
+import os
+
 from nicegui import context, ui
 
 from src.db.sqlite import initialize_database
@@ -34,7 +36,10 @@ def setup_app():
 
 setup_app()
 ui.run(
+    host=os.getenv("NICEGUI_HOST"),
+    port=int(os.getenv("NICEGUI_PORT", "8080")),
     favicon="images/science_24dp_1F1F1F.png",
     title="Study Coordinator",
+    reload=os.getenv("NICEGUI_RELOAD", "true").lower() == "true",
 )
 
