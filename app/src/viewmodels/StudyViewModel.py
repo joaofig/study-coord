@@ -70,7 +70,6 @@ class StudyViewModel(ViewModel):
             self.changed = False
             self.is_old = True
             await self.broadcast("study", "study_saved", study=study)
-            await self.notify("study_saved", study=study)
         else:
             from nicegui import ui
             ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
