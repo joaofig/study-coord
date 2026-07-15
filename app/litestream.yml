@@ -1,0 +1,4 @@
+dbs:
+  - path: /study-coord.db
+    replica:
+      url: s3://study-storage?endpoint=fly.storage.tigris.dev&region=auto

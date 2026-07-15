@@ -1,2 +1,11 @@
-fly.toml
+.git
+.gitignore
 .venv
+__pycache__
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.idea
+.vscode
+.DS_Store
+fly.toml.bak
