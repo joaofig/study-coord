@@ -2,7 +2,7 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.models.event import EventList
+from repositories.RepositoryHub import RepositoryHub
 from src.viewmodels.ViewModel import ViewModel
 
 
@@ -13,6 +13,7 @@ class EventListViewModel(ViewModel):
         self.study_id: int = 0
         self.patient_id: int = 0
         self.event_id: int = 0
+        self.repo_hub = RepositoryHub()
 
         self.subscribe(channel="study",
                        message="selected",
@@ -25,9 +26,9 @@ class EventListViewModel(ViewModel):
                        handler=self._handle_event_saved)
 
     async def _load_events(self, study_id: int, patient_id: int):
-        events = EventList()
         self.events.clear()
-        loaded_events = await events.load_from_study_and_patient(study_id, patient_id)
+        repo = self.repo_hub.get_event_repository()
+        loaded_events = await repo.get_by_study_and_patient(study_id, patient_id)
         self.events.extend([e.to_dict() for e in loaded_events])
 
     async def _handle_event_saved(self, **kwargs):
@@ -70,6 +71,7 @@ class EventListViewModel(ViewModel):
             case "delete":
                 event_id = kwargs.get("event_id")
                 if event_id:
-                    await EventList.delete(event_id)
+                    repo = self.repo_hub.get_event_repository()
+                    await repo.delete(event_id)
                     await self._load_events(self.study_id, self.patient_id)
         return None
