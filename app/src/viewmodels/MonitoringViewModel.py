@@ -3,7 +3,7 @@ from typing import Any
 
 from nicegui import binding
 
-from src.models import Monitoring
+from repositories.RepositoryHub import RepositoryHub
 from src.tools.messenger import send_message
 from src.viewmodels.ViewModel import ViewModel
 
@@ -16,26 +16,10 @@ class MonitoringViewModel(ViewModel):
     monitor: str = ""
     comments: str = ""
     changed: bool = False
+    repo_hub = RepositoryHub()
 
     def __post_init__(self):
         super().__init__()
-
-    def copy(self, monitoring: Monitoring):
-        self.id = monitoring.id or 0
-        self.study_id = monitoring.study_id
-        self.date = monitoring.date
-        self.monitor = monitoring.monitor
-        self.comments = monitoring.comments or ""
-        self.changed = False
-
-    def to_monitoring(self) -> Monitoring:
-        return Monitoring(
-            id=self.id,
-            study_id=self.study_id,
-            date=self.date,
-            monitor=self.monitor,
-            comments=self.comments or ""
-        )
 
     def to_dict(self) -> dict:
         return {
@@ -55,8 +39,9 @@ class MonitoringViewModel(ViewModel):
         self.changed = False
 
     async def save(self):
-        monitoring = self.to_monitoring()
-        await monitoring.save()
+        repo = self.repo_hub.get_monitoring_repository()
+        monitoring = self.to_dict()
+        monitoring = await repo.save(monitoring)
         if monitoring.id:
             self.id = monitoring.id
         await send_message("study_list", "load")

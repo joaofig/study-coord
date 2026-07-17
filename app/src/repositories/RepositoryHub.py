@@ -1,9 +1,10 @@
 import os
 from typing import Any
 
-from src.repositories.supabase.EventRepository import EventRepoSupabase
-from src.repositories.supabase.PatientRepository import PatientRepoSupabase
-from src.repositories.supabase.StudyRepository import StudyRepoSupabase
+from src.repositories.supabase.Monitoring import MonitoringRepoSupabase
+from src.repositories.supabase.Event import EventRepoSupabase
+from src.repositories.supabase.Patient import PatientRepoSupabase
+from src.repositories.supabase.Study import StudyRepoSupabase
 from src.tools import singleton
 
 DATABASE_ENV_VAR = "DATABASE"
@@ -25,6 +26,9 @@ class RepositoryHub:
         self._event_repository_factories = {
             SUPABASE: EventRepoSupabase,
         }
+        self._monitoring_repository_factories = {
+            SUPABASE: MonitoringRepoSupabase,
+        }
 
     def get_study_repository(self) -> Any:
         repository_factory = self._study_repository_factories.get(self.database_type)
@@ -44,6 +48,14 @@ class RepositoryHub:
 
     def get_event_repository(self) -> Any:
         repository_factory = self._event_repository_factories.get(self.database_type)
+
+        if repository_factory is None:
+            raise ValueError(f"Invalid database type: {self.database_type}")
+
+        return repository_factory()
+
+    def get_monitoring_repository(self) -> Any:
+        repository_factory = self._monitoring_repository_factories.get(self.database_type)
 
         if repository_factory is None:
             raise ValueError(f"Invalid database type: {self.database_type}")
