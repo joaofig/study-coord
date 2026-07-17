@@ -34,9 +34,11 @@ class MonitoringRepoSupabase(MonitoringRepository):
             if monitoring.get("id", 0) > 0:
                 await self.supabase.table("monitoring").update(monitoring).eq("id", monitoring["id"]).execute()
                 return monitoring
-            result = (await self.supabase.table("monitoring").insert(monitoring).execute()).data
-            if result:
-                return result[0]
+            else:
+                monitoring.pop("id", None)
+                result = (await self.supabase.table("monitoring").insert(monitoring).execute()).data
+                if result:
+                    return result[0]
         return {}
 
     async def delete(self, monitoring_id: int) -> None:

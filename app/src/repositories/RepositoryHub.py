@@ -1,6 +1,8 @@
 import os
 from typing import Any
 
+from dotenv import load_dotenv
+
 from src.repositories.supabase.Monitoring import MonitoringRepoSupabase
 from src.repositories.supabase.Event import EventRepoSupabase
 from src.repositories.supabase.Patient import PatientRepoSupabase
@@ -8,56 +10,38 @@ from src.repositories.supabase.Study import StudyRepoSupabase
 from src.tools import singleton
 
 DATABASE_ENV_VAR = "DATABASE"
-SUPABASE = "supabase"
-POSTGRES = "postgres"
-SQLITE = "sqlite"
 
 
 @singleton
 class RepositoryHub:
     def __init__(self):
-        self.database_type = os.getenv(DATABASE_ENV_VAR, SUPABASE)
-        self._study_repository_factories = {
-            SUPABASE: StudyRepoSupabase,
-        }
-        self._patient_repository_factories = {
-            SUPABASE: PatientRepoSupabase,
-        }
-        self._event_repository_factories = {
-            SUPABASE: EventRepoSupabase,
-        }
-        self._monitoring_repository_factories = {
-            SUPABASE: MonitoringRepoSupabase,
-        }
+        load_dotenv()
+        self.database_type = os.getenv(DATABASE_ENV_VAR, "local")
 
     def get_study_repository(self) -> Any:
-        repository_factory = self._study_repository_factories.get(self.database_type)
-
-        if repository_factory is None:
-            raise ValueError(f"Invalid database type: {self.database_type}")
-
-        return repository_factory()
+        match self.database_type:
+            case "supabase":
+                return StudyRepoSupabase()
+            case _:
+                raise ValueError(f"Invalid database type: {self.database_type}")
 
     def get_patient_repository(self) -> Any:
-        repository_factory = self._patient_repository_factories.get(self.database_type)
-
-        if repository_factory is None:
-            raise ValueError(f"Invalid database type: {self.database_type}")
-
-        return repository_factory()
+        match self.database_type:
+            case "supabase":
+                return PatientRepoSupabase()
+            case _:
+                raise ValueError(f"Invalid database type: {self.database_type}")
 
     def get_event_repository(self) -> Any:
-        repository_factory = self._event_repository_factories.get(self.database_type)
-
-        if repository_factory is None:
-            raise ValueError(f"Invalid database type: {self.database_type}")
-
-        return repository_factory()
+        match self.database_type:
+            case "supabase":
+                return EventRepoSupabase()
+            case _:
+                raise ValueError(f"Invalid database type: {self.database_type}")
 
     def get_monitoring_repository(self) -> Any:
-        repository_factory = self._monitoring_repository_factories.get(self.database_type)
-
-        if repository_factory is None:
-            raise ValueError(f"Invalid database type: {self.database_type}")
-
-        return repository_factory()
+        match self.database_type:
+            case "supabase":
+                return MonitoringRepoSupabase()
+            case _:
+                raise ValueError(f"Invalid database type: {self.database_type}")

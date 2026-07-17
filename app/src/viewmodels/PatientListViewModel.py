@@ -2,7 +2,7 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.repositories import RepositoryHub
+from src.repositories.RepositoryHub import RepositoryHub
 from src.viewmodels.ViewModel import ViewModel
 
 

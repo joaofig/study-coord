@@ -3,6 +3,7 @@ from typing import Any
 from nicegui import binding
 from nicegui.observables import ObservableSet
 
+from src.repositories.RepositoryHub import RepositoryHub
 from src.models import Study
 from src.viewmodels.ViewModel import ViewModel
 
@@ -24,6 +25,7 @@ class StudyViewModel(ViewModel):
     def __post_init__(self):
         super().__init__()
         self.subscribe(channel="study", message="selected", handler=self._handle_study_selected)
+        self.repo_hub = RepositoryHub()
 
     def _field_changed(self, field_name: str):
         self.changed = True
@@ -50,29 +52,33 @@ class StudyViewModel(ViewModel):
         self.is_old = study.id is not None
         self.change_set.clear()
 
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "sponsor": self.sponsor,
+            "protocol_visits": int(self.visits),
+            "start_date": self.start_date,
+            "end_date": None if self.end_date == "" else self.end_date,
+            "comments": self.comments,
+        }
+
     def to_study(self) -> Study:
         return Study(
             id=self.id,
             name=self.name,
             sponsor=self.sponsor,
-            proto_visits=self.visits,
+            proto_visits=int(self.visits),
             start_date=self.start_date,
-            end_date=self.end_date,
+            end_date=None if self.end_date == "" else self.end_date,
             comments=self.comments,
         )
 
     async def save(self):
-        study = self.to_study()
-        if study.is_valid():
-            await study.save()
-            if study.id:
-                self.id = study.id
-            self.changed = False
-            self.is_old = True
-            await self.broadcast("study", "study_saved", study=study)
-        else:
-            from nicegui import ui
-            ui.notify(f"Study is not valid. {study.validation_message()}", color="negative")
+        study = self.to_dict()
+        repo = self.repo_hub.get_study_repository()
+        study = await repo.save(study)
+        await self.broadcast("study", "study_saved", study=study)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

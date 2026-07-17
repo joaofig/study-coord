@@ -3,7 +3,7 @@ from typing import Any
 
 from nicegui import binding
 
-from repositories.RepositoryHub import RepositoryHub
+from src.repositories.RepositoryHub import RepositoryHub
 from src.tools.messenger import send_message
 from src.viewmodels.ViewModel import ViewModel
 

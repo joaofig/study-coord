@@ -3,7 +3,7 @@ from typing import List
 from supabase import AsyncClient
 
 from src.repositories.supabase.client import get_supabase_client
-from src.repositories import StudyRepository
+from src.repositories.StudyRepository import StudyRepository
 
 
 class StudyRepoSupabase(StudyRepository):
@@ -35,6 +35,7 @@ class StudyRepoSupabase(StudyRepository):
                 await self.supabase.table("study").update(study).eq("id", study["id"]).execute()
                 return study
             else:
+                study.pop("id", None)  # Remove id if present to avoid conflicts
                 return (await self.supabase.table("study").insert(study).execute()).data[0]
         return {}
 

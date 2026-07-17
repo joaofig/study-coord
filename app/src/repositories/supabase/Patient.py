@@ -2,8 +2,8 @@ from typing import List
 
 from supabase import AsyncClient
 
-from repositories.PatientRepository import PatientRepository
-from repositories.supabase.client import get_supabase_client
+from src.repositories.PatientRepository import PatientRepository
+from src.repositories.supabase.client import get_supabase_client
 
 
 class PatientRepoSupabase(PatientRepository):
@@ -36,9 +36,11 @@ class PatientRepoSupabase(PatientRepository):
             if patient.get("id", 0) > 0:
                 await self.supabase.table("patient").update(patient).eq("id", patient["id"]).execute()
                 return patient
-            result = (await self.supabase.table("patient").insert(patient).execute()).data
-            if result:
-                return result[0]
+            else:
+                patient.pop("id", None)
+                result = (await self.supabase.table("patient").insert(patient).execute()).data
+                if result:
+                    return result[0]
         return {}
 
     async def delete(self, patient_id: int) -> None:

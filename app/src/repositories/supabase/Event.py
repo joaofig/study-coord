@@ -1,3 +1,4 @@
+from aiohttp.web_routedef import delete
 from supabase import AsyncClient
 
 from src.repositories.supabase.client import get_supabase_client
@@ -37,9 +38,11 @@ class EventRepoSupabase(EventRepository):
             if event.get("id", 0) > 0:
                 await self.supabase.table("event").update(event).eq("id", event["id"]).execute()
                 return event
-            result = (await self.supabase.table("event").insert(event).execute()).data
-            if result:
-                return result[0]
+            else:
+                event.pop("id", None)
+                result = (await self.supabase.table("event").insert(event).execute()).data
+                if result:
+                    return result[0]
         return {}
 
     async def delete(self, event_id: int) -> None:
