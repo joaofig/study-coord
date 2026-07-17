@@ -2,7 +2,7 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.models.patient import PatientList
+from src.repositories import RepositoryHub
 from src.viewmodels.ViewModel import ViewModel
 
 
@@ -13,14 +13,15 @@ class PatientListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
+        self.repo_hub = RepositoryHub()
         self.subscribe(channel="study",
                        message="selected",
                        handler=self._handle_study_selected)
 
     async def _load_patients(self, study_id: int):
-        patients = PatientList()
+        repo = self.repo_hub.get_patient_repository()
         self.patients.clear()
-        self.patients.extend([p.to_dict() for p in await patients.load_from_study(study_id)])
+        self.patients.extend([p.to_dict() for p in await repo.load_from_study(study_id)])
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")
@@ -46,13 +47,14 @@ class PatientListViewModel(ViewModel):
                     self.patient_id = int(patient_id)
                     await self.broadcast(channel="patient",
                                          message="selected",
-                                         patient_id=patient_id)
+                                         patient_id=self.patient_id)
 
             case "delete_patient":
                 patient_id = kwargs.get("patient_id")
                 if patient_id:
                     self.patient_id = int(patient_id)
-                    await PatientList.delete(self.patient_id)
+                    repo = self.repo_hub.get_patient_repository()
+                    await repo.delete(self.patient_id)
                     await self._load_patients(self.study_id)
         return None
 

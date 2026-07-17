@@ -2,8 +2,7 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.db.repository import StudyRepository
-from src.models.study import Study
+from src.repositories.RepositoryHub import RepositoryHub
 from src.viewmodels.ViewModel import ViewModel
 
 
@@ -13,11 +12,12 @@ class StudyListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
+        self.repo_hub = RepositoryHub()
         self.selected_id: int = 0
         self.subscribe("study_list", "load", self._on_load)
 
     async def load(self):
-        repo = StudyRepository()
+        repo = self.repo_hub.get_study_repository()
         self.studies.clear()
         self.studies.extend(await repo.list())
 
@@ -31,7 +31,8 @@ class StudyListViewModel(ViewModel):
 
             case "delete_study":
                 study_id = kwargs["study_id"]
-                await Study.delete(study_id)
+                repo = self.repo_hub.get_study_repository()
+                await repo.delete(study_id)
                 await self.load()
 
             case "study_selected":

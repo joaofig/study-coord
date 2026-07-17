@@ -9,6 +9,9 @@ ENV UV_LINK_MODE=copy
 ENV PORT=8080
 
 COPY app/pyproject.toml app/uv.lock* app/requirements.txt* ./
+# grab the litestream binary
+COPY --from=litestream/litestream:0.5.4 /usr/local/bin/litestream /usr/local/bin/litestream
+COPY litestream.yml /etc/litestream.yml
 
 RUN if [ -f uv.lock ]; then \
       uv sync --frozen --no-dev; \

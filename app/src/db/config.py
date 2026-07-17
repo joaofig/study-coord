@@ -21,7 +21,13 @@ def load_database_config(config_path: Path | None = None) -> DatabaseConfig:
         raw_config = tomllib.load(config_file)
 
     database_section = raw_config.get("database", {})
-    configured_path = database_section.get("path", "study-coord.db")
+    database_type = database_section.get("type", "sqlite")
+
+    match database_type:
+        case "sqlite":
+            configured_path = database_section.get("path", "study-coord.db")
+        case _:
+            raise ValueError(f"Unsupported database type: {database_type}")
 
     path = Path(configured_path)
     if not path.is_absolute():
