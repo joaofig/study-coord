@@ -9,7 +9,6 @@ ENV UV_LINK_MODE=copy
 ENV PORT=8080
 
 COPY ../pyproject.toml .
-COPY ../uv.lock .
 
 
 RUN if [ -f uv.lock ]; then \
