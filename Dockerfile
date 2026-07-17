@@ -1,14 +1,12 @@
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-WORKDIR /app
-
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
 ENV PORT=8080
 
-COPY ../pyproject.toml .
+COPY pyproject.toml .
 
 
 RUN if [ -f uv.lock ]; then \
@@ -21,8 +19,10 @@ RUN if [ -f uv.lock ]; then \
       echo "No pyproject.toml, uv.lock, or requirements.txt found" && exit 1; \
     fi
 
+WORKDIR /app
+
 COPY . .
 
 EXPOSE 8080
 
-CMD ["uv", "run", "python", "app/main.py"]
+CMD ["uv", "run", "python", "main.py"]
