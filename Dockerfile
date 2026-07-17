@@ -8,7 +8,8 @@ ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
 ENV PORT=8080
 
-COPY ./pyproject.toml .
+COPY ../pyproject.toml .
+COPY ../uv.lock .
 
 
 RUN if [ -f uv.lock ]; then \
