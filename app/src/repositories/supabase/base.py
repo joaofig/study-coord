@@ -1,15 +1,26 @@
 from supabase import AsyncClient
 
 from repositories.supabase.client import get_supabase_client
+from src.tools import singleton
+
+
+@singleton
+class SupabaseCentral:
+    supabase: AsyncClient | None = None
+
+    async def connect(self) -> AsyncClient | None:
+        if not self.supabase:
+            self.supabase = await get_supabase_client()
+        return self.supabase
 
 
 class SupabaseRepository:
     def __init__(self):
         self.supabase: AsyncClient | None = None
 
-    async def connect(self):
-        if not self.supabase:
-            self.supabase = await get_supabase_client()
+    async def connect(self) -> AsyncClient | None:
+        self.supabase = await SupabaseCentral().connect()
+        return self.supabase
 
     async def insert_or_update(self, table: str, event: dict) -> dict:
         await self.connect()

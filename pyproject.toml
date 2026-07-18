@@ -11,6 +11,7 @@ dependencies = [
     "pandas>=3.0.3",
     "pandas-stubs~=3.0.3",
     "psycopg[binary]>=3.3.4",
+    "pydantic[email,timezone]>=2.13.4",
     "pytest-asyncio>=1.4.0",
     "python-dotenv>=1.2.2",
     "supabase>=2.31.0",
