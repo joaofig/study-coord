@@ -1,7 +1,5 @@
 from typing import List
 
-from nicegui.helpers import await_with_context
-
 from repositories.supabase.base import SupabaseRepository
 
 

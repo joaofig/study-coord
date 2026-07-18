@@ -2,11 +2,12 @@ from dataclasses import dataclass
 from typing import List
 
 from src.db.repository.StudyResearcherRepository import StudyResearcherRepository
-from src.db.repository.ResearcherRepository import ResearcherRepository
+from src.repositories import ResearcherRepository
 
 
-@dataclass
-class Researcher:
+class ResearcherModel:
+    repo = ResearcherRepository()
+
     id: int = 0
     number: str = ""
     name: str = ""
