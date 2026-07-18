@@ -1,6 +1,6 @@
-from dataclasses import dataclass
 from typing import List
 
+from dtos.patient import PatientDTO
 from src.repositories import PatientRepository
 
 
@@ -18,53 +18,22 @@ def patient_status_name(status:str) -> str:
     return patient_statuses().get(status, "Unknown")
 
 
-@dataclass
-class Patient:
-    id: int = 0
-    study_id: int = 0
-    number: str = ""
-    name: str = ""
-    start_date: str = ""
-    exit_date: str = ""
-    status: str = "active"
-    comments: str = ""
+class PatientModel:
+    repo = PatientRepository()
 
-    def to_dict(self) -> dict:
-        return {
-            "id": self.id,
-            "study_id": self.study_id,
-            "number": self.number,
-            "name": self.name,
-            "start_date": self.start_date,
-            "exit_date": self.exit_date,
-            "status": self.status,
-            "status_text": patient_status_name(self.status),
-            "comments": self.comments,
-        }
+    async def save(self, dto: PatientDTO):
+        patient = await self.repo.save(dto.to_dict())
+        dto.id = patient["id"]
 
-    async def save(self):
-        repo = PatientRepository()
-        study = await repo.save(self.to_dict())
-        self.id = study["id"]
-
-    @classmethod
-    async def load(cls, patient_id: int) -> Patient | None:
-        repo = PatientRepository()
-        patient = await repo.get(patient_id)
+    async def load(self, patient_id: int) -> PatientDTO | None:
+        patient = await self.repo.get(patient_id)
         if patient:
-            return Patient(**patient)
+            return PatientDTO(**patient)
         return None
 
+    async def delete(self, patient_id: int):
+        await self.repo.delete(patient_id)
 
-class PatientList:
-    patients: list[Patient] = []
-
-    async def load_from_study(self, study_id: int) -> List[Patient]:
-        repo = PatientRepository()
-        self.patients = [Patient(**patient) for patient in await repo.load_from_study(study_id)]
-        return self.patients
-
-    @classmethod
-    async def delete(cls, patient_id: int):
-        repo = PatientRepository()
-        await repo.delete(patient_id)
+    async def list(self, study_id: int) -> List[PatientDTO]:
+        patients = await self.repo.load_from_study(study_id)
+        return [PatientDTO(**patient) for patient in patients]
