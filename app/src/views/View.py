@@ -1,7 +1,7 @@
 from typing import Callable, Awaitable
 
 from src.tools.messenger import get_messenger
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 class View:

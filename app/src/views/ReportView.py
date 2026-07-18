@@ -1,7 +1,7 @@
 from nicegui import ui
 from nicegui.observables import ObservableDict
 
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 from src.views.View import View
 
 

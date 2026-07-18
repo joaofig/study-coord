@@ -2,8 +2,8 @@ from nicegui import ui
 
 from src.tools.excel import export_to_excel
 from src.tools.messenger import get_messenger
-from src.viewmodels.StudyResearcherViewModel import StudyResearcherViewModel
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.study_researcher import StudyResearcherViewModel
+from src.viewmodels.view_model import ViewModel
 from src.views.StudyResearcherGrid import StudyResearcherGrid
 from src.views.View import View
 from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog

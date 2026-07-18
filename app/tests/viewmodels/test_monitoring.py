@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, patch
-from viewmodels.MonitoringViewModel import MonitoringViewModel
-from viewmodels.MonitoringListViewModel import MonitoringListViewModel
+from viewmodels.monitoring import MonitoringViewModel
+from viewmodels.monitoring_list import MonitoringListViewModel
 
 
 @pytest.mark.asyncio

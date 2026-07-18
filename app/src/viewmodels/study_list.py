@@ -3,7 +3,7 @@ from typing import Any
 from nicegui.observables import ObservableList
 
 from src.repositories.RepositoryHub import RepositoryHub
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 class StudyListViewModel(ViewModel):

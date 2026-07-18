@@ -2,12 +2,12 @@ from nicegui import ui
 
 from models import Study
 from viewmodels import PatientListViewModel, MonitoringListViewModel
-from viewmodels.ViewModel import ViewModel
+from viewmodels.view_model import ViewModel
 from views.StudyMonitoringPanel import StudyMonitoringPanel
 from views.StudyPatientPanel import StudyPatientPanel
 from views.View import View
-from viewmodels.StudyResearcherListViewModel import StudyResearcherListViewModel
-from viewmodels.VisitListViewModel import VisitListViewModel
+from viewmodels.study_researcher_list import StudyResearcherListViewModel
+from viewmodels.visit_list import VisitListViewModel
 from viewmodels import EventListViewModel
 from views.StudyResearcherPanel import StudyResearcherPanel
 from views.StudyVisitPanel import StudyVisitPanel

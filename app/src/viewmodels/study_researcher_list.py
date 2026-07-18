@@ -2,7 +2,7 @@ from typing import List, Any
 
 from src.db.repository.StudyResearcherRepository import StudyResearcherRepository
 from src.models.researcher import StudyResearcher, StudyResearcherList
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 class StudyResearcherListViewModel(ViewModel):

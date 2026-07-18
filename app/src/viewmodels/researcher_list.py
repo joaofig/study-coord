@@ -4,7 +4,7 @@ from nicegui.observables import ObservableList
 
 from src.db.repository.ResearcherRepository import ResearcherRepository
 from src.models import Researcher
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 class ResearcherListViewModel(ViewModel):

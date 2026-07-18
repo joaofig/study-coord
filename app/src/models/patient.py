@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from src.db.repository.PatientRepository import PatientRepository
+from src.repositories import PatientRepository
 
 
 def patient_statuses() -> dict:
@@ -48,17 +48,20 @@ class Patient:
         self.id = study["id"]
 
     @classmethod
-    async def load(cls, patient_id: int) -> Patient:
+    async def load(cls, patient_id: int) -> Patient | None:
         repo = PatientRepository()
         patient = await repo.get(patient_id)
-        return Patient(**patient)
+        if patient:
+            return Patient(**patient)
+        return None
+
 
 class PatientList:
     patients: list[Patient] = []
 
     async def load_from_study(self, study_id: int) -> List[Patient]:
         repo = PatientRepository()
-        self.patients = [Patient(**patient) for patient in await repo.get_by_study_id(study_id)]
+        self.patients = [Patient(**patient) for patient in await repo.load_from_study(study_id)]
         return self.patients
 
     @classmethod

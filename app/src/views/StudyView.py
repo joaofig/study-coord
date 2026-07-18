@@ -2,7 +2,7 @@ from nicegui import ui
 
 from src.tools.excel import export_to_excel
 from src.viewmodels import StudyViewModel
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 from src.views.StudyGrid import StudyGrid
 from src.views.StudyPanel import StudyPanel
 from src.views.View import View

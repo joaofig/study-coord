@@ -4,8 +4,8 @@ from typing import Dict, Any
 from nicegui import binding
 
 from src.models.researcher import StudyResearcher, Researcher, ResearcherList, study_researcher_roles
-from .ResearcherViewModel import ResearcherViewModel
-from .ViewModel import ViewModel
+from .researcher import ResearcherViewModel
+from .view_model import ViewModel
 
 
 @binding.bindable_dataclass

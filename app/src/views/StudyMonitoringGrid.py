@@ -2,8 +2,8 @@ from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 
-from src.viewmodels.MonitoringViewModel import MonitoringViewModel
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.monitoring import MonitoringViewModel
+from src.viewmodels.view_model import ViewModel
 from src.views.View import View
 from src.views.dialogs.StudyMonitoringDialog import StudyMonitoringDialog
 

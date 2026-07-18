@@ -2,8 +2,8 @@ from nicegui import ui
 from nicegui.events import ValueChangeEventArguments
 
 from src.viewmodels import PatientListViewModel, MonitoringListViewModel, ProtocolListViewModel, VisitListViewModel, EventListViewModel
-from src.viewmodels.StudyResearcherListViewModel import StudyResearcherListViewModel
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
+from src.viewmodels.view_model import ViewModel
 from src.views.EventPanel import EventPanel
 from src.views.StudyMonitoringPanel import StudyMonitoringPanel
 from src.views.StudyPatientPanel import StudyPatientPanel

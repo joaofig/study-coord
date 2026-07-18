@@ -1,7 +1,7 @@
 from nicegui import ui
 
 from src.viewmodels import ProtocolViewModel
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 from src.views.ProtocolGrid import ProtocolGrid
 from src.views.dialogs.ProtocolDialog import ProtocolDialog
 from src.views.View import View

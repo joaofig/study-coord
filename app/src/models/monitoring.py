@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from src.db.repository.MonitoringRepository import MonitoringRepository
+from src.repositories import MonitoringRepository
 
 
 @dataclass
@@ -27,10 +27,12 @@ class Monitoring:
         self.id = monitoring["id"]
 
     @classmethod
-    async def load(cls, monitoring_id: int) -> "Monitoring":
+    async def load(cls, monitoring_id: int) -> "Monitoring | None":
         repo = MonitoringRepository()
         monitoring = await repo.get(monitoring_id)
-        return Monitoring(**monitoring)
+        if monitoring:
+            return Monitoring(**monitoring)
+        return None
 
 
 class MonitoringList:

@@ -1,8 +1,8 @@
 from nicegui import ui
 
 from src.tools.excel import export_to_excel
-from src.viewmodels.ViewModel import ViewModel
-from src.viewmodels.VisitViewModel import VisitViewModel
+from src.viewmodels.view_model import ViewModel
+from src.viewmodels.visit import VisitViewModel
 from src.views.StudyVisitGrid import StudyVisitGrid
 from src.views.View import View
 from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog

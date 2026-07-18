@@ -5,7 +5,7 @@ from nicegui import binding
 
 from src.models.protocol import Protocol
 from src.tools.messenger import send_message
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

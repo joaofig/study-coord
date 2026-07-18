@@ -6,7 +6,7 @@ from nicegui import binding
 from src.models.patient import patient_statuses
 from src.models import Patient
 from src.tools.messenger import send_message
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

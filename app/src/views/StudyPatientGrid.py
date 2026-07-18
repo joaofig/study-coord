@@ -4,7 +4,7 @@ from nicegui.observables import ObservableList
 
 from src.tools.messenger import get_messenger
 from src.viewmodels import PatientViewModel
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 from src.views.View import View
 from src.views.dialogs.StudyPatientDialog import StudyPatientDialog
 

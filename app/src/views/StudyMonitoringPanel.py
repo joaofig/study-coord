@@ -1,7 +1,7 @@
 from nicegui import ui
 
-from src.viewmodels.MonitoringViewModel import MonitoringViewModel
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.monitoring import MonitoringViewModel
+from src.viewmodels.view_model import ViewModel
 from src.views.StudyMonitoringGrid import StudyMonitoringGrid
 from src.views.dialogs.StudyMonitoringDialog import StudyMonitoringDialog
 from src.views.View import View

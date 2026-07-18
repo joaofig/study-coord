@@ -4,8 +4,8 @@ from src.tools.tasks import ManagedTasks
 from src.viewmodels import StudyListViewModel
 from src.views.StudyView import StudyView
 from src.tools.messenger import get_messenger
-from src.viewmodels.ReportViewModel import ReportViewModel
-from src.viewmodels.ResearcherListViewModel import ResearcherListViewModel
+from src.viewmodels.report import ReportViewModel
+from src.viewmodels.researcher_list import ResearcherListViewModel
 from src.views.ReportView import ReportView
 from src.views.ResearcherView import ResearcherView
 

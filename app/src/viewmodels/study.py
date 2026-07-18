@@ -5,7 +5,7 @@ from nicegui.observables import ObservableSet
 
 from src.repositories.RepositoryHub import RepositoryHub
 from src.models import Study
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

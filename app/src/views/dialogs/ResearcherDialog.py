@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from viewmodels.ViewModel import ViewModel
+from viewmodels.view_model import ViewModel
 from views.View import View
 
 

@@ -3,9 +3,9 @@ from typing import Any
 
 from nicegui import binding
 
-from src.repositories.RepositoryHub import RepositoryHub
+from src.repositories import MonitoringRepository
 from src.tools.messenger import send_message
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass
@@ -16,7 +16,7 @@ class MonitoringViewModel(ViewModel):
     monitor: str = ""
     comments: str = ""
     changed: bool = False
-    repo_hub = RepositoryHub()
+    repo = MonitoringRepository()
 
     def __post_init__(self):
         super().__init__()
@@ -39,11 +39,10 @@ class MonitoringViewModel(ViewModel):
         self.changed = False
 
     async def save(self):
-        repo = self.repo_hub.get_monitoring_repository()
         monitoring = self.to_dict()
-        monitoring = await repo.save(monitoring)
-        if monitoring.id:
-            self.id = monitoring.id
+        monitoring = await self.repo.save(monitoring)
+        if monitoring["id"]:
+            self.id = monitoring["id"]
         await send_message("study_list", "load")
         self.changed = False
 

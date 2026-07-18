@@ -6,8 +6,8 @@ from nicegui import binding
 from src.models import Visit
 from src.models.patient import PatientList, Patient
 from src.models.visit import load_visit
-from .PatientViewModel import PatientViewModel
-from .ViewModel import ViewModel
+from .patient import PatientViewModel
+from .view_model import ViewModel
 
 
 @binding.bindable_dataclass

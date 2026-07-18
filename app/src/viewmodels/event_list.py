@@ -2,8 +2,8 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.repositories.RepositoryHub import RepositoryHub
-from src.viewmodels.ViewModel import ViewModel
+from repositories import EventRepository
+from src.viewmodels.view_model import ViewModel
 
 
 class EventListViewModel(ViewModel):
@@ -13,7 +13,7 @@ class EventListViewModel(ViewModel):
         self.study_id: int = 0
         self.patient_id: int = 0
         self.event_id: int = 0
-        self.repo_hub = RepositoryHub()
+        self.repo = EventRepository()
 
         self.subscribe(channel="study",
                        message="selected",
@@ -27,9 +27,8 @@ class EventListViewModel(ViewModel):
 
     async def _load_events(self, study_id: int, patient_id: int):
         self.events.clear()
-        repo = self.repo_hub.get_event_repository()
-        loaded_events = await repo.get_by_study_and_patient(study_id, patient_id)
-        self.events.extend([e.to_dict() for e in loaded_events])
+        loaded_events = await self.repo.get_by_study_and_patient(study_id, patient_id)
+        self.events.extend(loaded_events)
 
     async def _handle_event_saved(self, **kwargs):
         await self._load_events(self.study_id, self.patient_id)
@@ -71,7 +70,6 @@ class EventListViewModel(ViewModel):
             case "delete":
                 event_id = kwargs.get("event_id")
                 if event_id:
-                    repo = self.repo_hub.get_event_repository()
-                    await repo.delete(event_id)
+                    await self.repo.delete(int(event_id))
                     await self._load_events(self.study_id, self.patient_id)
         return None

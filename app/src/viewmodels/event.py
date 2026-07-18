@@ -5,8 +5,8 @@ from nicegui import binding
 
 from src.models import Event
 from src.models.patient import PatientList, Patient
-from src.viewmodels.PatientViewModel import PatientViewModel
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.patient import PatientViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

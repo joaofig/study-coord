@@ -1,7 +1,7 @@
 from nicegui import ui
 
 from src.viewmodels import PatientViewModel
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 from src.views.StudyPatientGrid import StudyPatientGrid
 from src.views.dialogs.StudyPatientDialog import StudyPatientDialog
 from src.views.View import View

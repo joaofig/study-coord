@@ -3,7 +3,7 @@ from typing import Any
 from nicegui.observables import ObservableDict
 
 from src.db.repository.ReportRepository import ReportRepository
-from src.viewmodels.ViewModel import ViewModel
+from src.viewmodels.view_model import ViewModel
 
 
 class ReportViewModel(ViewModel):
