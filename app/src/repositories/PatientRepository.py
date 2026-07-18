@@ -9,7 +9,7 @@ class PatientRepository(ABC):
         return None
 
     @abstractmethod
-    async def get_by_study_id(self, study_id: int) -> List[dict]:
+    async def load_from_study(self, study_id: int) -> List[dict]:
         return []
 
     @abstractmethod

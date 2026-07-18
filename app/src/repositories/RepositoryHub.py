@@ -3,10 +3,10 @@ from typing import Any
 
 from dotenv import load_dotenv
 
-from src.repositories.supabase.Monitoring import MonitoringRepoSupabase
-from src.repositories.supabase.Event import EventRepoSupabase
-from src.repositories.supabase.Patient import PatientRepoSupabase
-from src.repositories.supabase.Study import StudyRepoSupabase
+from src.repositories.supabase.monitoring import MonitoringRepoSupabase
+from src.repositories.supabase.event import EventRepoSupabase
+from src.repositories.supabase.patient import PatientRepoSupabase
+from src.repositories.supabase.study import StudyRepoSupabase
 from src.tools import singleton
 
 DATABASE_ENV_VAR = "DATABASE"
