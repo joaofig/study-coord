@@ -17,12 +17,5 @@ class StudyDTO(BaseModel):
         return StudyDTO(**data)
 
     def to_dict(self) -> dict[str, Any]:
-        return {
-            "id": self.id,
-            "name": self.name,
-            "sponsor": self.sponsor,
-            "start_date": self.start_date,
-            "end_date": self.end_date,
-            "proto_visits": self.proto_visits,
-            "comments": self.comments,
-        }
+        return self.model_dump()
+
