@@ -27,6 +27,15 @@ class EventRepository(SupabaseRepository):
                 return result
         return []
 
+    async def get_by_study(self, study_id: int) -> list[dict]:
+        await self.connect()
+        if self.supabase:
+            result = (await self.supabase.table(TABLE).select("*")
+                      .eq("study_id", study_id).execute()).data
+            if result:
+                return result
+        return []
+
     async def save(self, event: dict) -> dict:
         return await self.insert_or_update(TABLE, event)
 
