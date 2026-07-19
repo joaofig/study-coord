@@ -72,19 +72,19 @@ class AdverseEventViewModel(ViewModel):
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
-                event_id = kwargs.get("event_id")
+                event_id = kwargs.get("event_id", 0)
                 if event_id:
                     await self.load(event_id)
 
             case "load_patient":
-                patient_id = kwargs.get("patient_id")
+                patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
                     patient = await self.patient_model.load(patient_id)
                     if patient:
                         self.selection.copy(patient)
 
             case "load_patients":
-                study_id = kwargs.get("study_id")
+                study_id = kwargs.get("study_id", 0)
                 if study_id:
                     await self.load_patients(study_id)
 

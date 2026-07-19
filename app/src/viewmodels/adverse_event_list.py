@@ -2,7 +2,7 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from models import AdverseEventModel
+from src.models import AdverseEventModel
 from src.viewmodels.view_model import ViewModel
 
 

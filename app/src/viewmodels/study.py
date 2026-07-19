@@ -3,8 +3,8 @@ from typing import Any
 from nicegui import binding
 from nicegui.observables import ObservableSet
 
-from dtos.study import StudyDTO
-from models import StudyModel
+from src.dtos.study import StudyDTO
+from src.models import StudyModel
 from src.viewmodels.view_model import ViewModel
 
 

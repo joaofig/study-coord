@@ -7,3 +7,4 @@ from .study_researcher import StudyResearcherModel
 from .adverse_event import AdverseEventModel
 from .protocol import ProtocolModel
 from .researcher import ResearcherModel
+from .visit import VisitModel

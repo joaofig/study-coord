@@ -1,11 +1,11 @@
 from dataclasses import field
+from datetime import date
 from typing import Dict, Any
 
 from nicegui import binding
 
-from src.models import Visit
-from src.models.patient import PatientList, Patient
-from src.models.visit import load_visit
+from dtos.visit import VisitDTO
+from src.models.visit import load_visit, Visit
 from .patient import PatientViewModel
 from .view_model import ViewModel
 
@@ -15,7 +15,7 @@ class VisitViewModel(ViewModel):
     visit_id: int = 0
     study_id: int = 0
     patient_id: int = 0
-    visit_date: str = ""
+    visit_date: date = date.today()
     visit_type: str = ""
     comments: str = ""
     changed: bool = False
@@ -26,11 +26,13 @@ class VisitViewModel(ViewModel):
     patients: Dict[int, str] = field(default_factory=dict)
     selection: PatientViewModel = field(default_factory=PatientViewModel)
 
+    model = VisitModel()
+
     def __post_init__(self):
         super().__init__()
 
-    def to_visit(self) -> Visit:
-        return Visit(
+    def to_dto(self) -> VisitDTO:
+        return VisitDTO(
             id=self.visit_id,
             study_id=self.study_id,
             patient_id=self.patient_id,
@@ -40,7 +42,7 @@ class VisitViewModel(ViewModel):
         )
 
     async def save(self):
-        visit = self.to_visit()
+        visit = self.to_dto()
         await visit.save()
         if visit.id:
             self.visit_id =visit.id

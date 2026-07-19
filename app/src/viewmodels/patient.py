@@ -3,7 +3,7 @@ from typing import Any
 
 from nicegui import binding
 
-from dtos.patient import PatientDTO
+from src.dtos.patient import PatientDTO
 from src.models.patient import patient_statuses
 from src.models import PatientModel
 from src.tools.messenger import send_message

@@ -11,6 +11,13 @@ class VisitRepository(SupabaseRepository):
     def __init__(self):
         super().__init__()
 
+    async def load(self, visit_id: int) -> VisitDTO | None:
+        await self.connect()
+        if self.supabase:
+            result = (await self.supabase.table(TABLE).select("*").eq("id", visit_id).execute()).data[0]
+            return VisitDTO.from_dict(result) if result else None
+        return None
+
     async def list(self, study_id: int, patient_id: int = 0) -> List[VisitDTO]:
         await self.connect()
         if self.supabase:
