@@ -23,8 +23,9 @@ Research study coordination manager.
 - **Language**: Python 3.14+
 - **UI Framework**: [NiceGUI](https://nicegui.io/)
 - **Data Grid**: AgGrid (via NiceGUI)
-- **Database**: SQLite
+- **Database**: [Supabase](https://supabase.com/) (PostgreSQL)
 - **Build Tool**: [uv](https://github.com/astral-sh/uv)
+- **Deployment**: [Fly.io](https://fly.io/) with [Litestream](https://litestream.io/)
 - **Code Analysis**: [code-review-graph](https://github.com/astral-sh/code-review-graph)
 
 ## Getting Started
@@ -49,11 +50,11 @@ Research study coordination manager.
 
 ### Configuration
 
-The application uses a configuration file named `study-coord.toml` in the root directory for database settings.
+The application uses environment variables for configuration. You can create an `.env` file in the root directory:
 
-```toml
-[database]
-path = "./study-coord.db"
+```env
+SUPABASE_URL=your-project-url
+SUPABASE_KEY=your-anon-key
 ```
 
 ### Running the Application
@@ -61,27 +62,31 @@ path = "./study-coord.db"
 To start the application, run:
 
 ```bash
-uv run python main.py
+uv run python app/main.py
 ```
 
 The web interface will typically be available at `http://localhost:8080`.
 
 ## Project Structure
 
-- `src/`: Main source code
-  - `db/`: Database configuration, repositories, and externalized SQL scripts
-  - `models/`: Core data models (dataclasses)
-  - `viewmodels/`: ViewModels handling logic and state (MVVM)
-  - `views/`: UI components, layouts, and dialogs (NiceGUI)
-  - `tools/`: Utility functions (Excel export, task management, etc.)
-- `tests/`: Automated test suite
+- `app/`: Main application directory
+  - `src/`: Main source code
+    - `dtos/`: Data Transfer Objects for type-safe data handling
+    - `models/`: Core data models
+    - `repositories/`: Supabase repository implementations
+    - `viewmodels/`: ViewModels handling logic and state (MVVM)
+    - `views/`: UI components and layouts (NiceGUI)
+    - `db/`: Legacy SQLite database configuration and repositories
+    - `tools/`: Utility functions (Excel export, messaging, etc.)
+  - `tests/`: Automated test suite
+  - `images/`: Application assets and icons
+  - `main.py`: Application entry point
 - `docs/`: Project documentation (Architecture, Schema, Messaging)
-- `images/`: Application assets and icons
-- `ref/`: Reference materials and Agent Skills for development patterns
-- `main.py`: Application entry point
-- `study-coord.toml`: Database configuration
+- `supabase/`: SQL schema and migrations for Supabase
 - `AGENTS.md`: Development guidelines and project rules
-- `study-coord.db`: SQLite database file (generated)
+- `Dockerfile`: Container configuration
+- `fly.toml`: Fly.io deployment configuration
+- `litestream.yml`: SQLite backup configuration (if used)
 
 ## Knowledge Graph
 

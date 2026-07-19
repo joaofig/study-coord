@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from nicegui import ui
 
-from models.study import Study, StudyRow
+from src.dtos.study import StudyDTO as Study, StudyRowDTO as StudyRow
 from viewmodels.study import StudyViewModel
 from viewmodels.study_list import StudyListViewModel
 
