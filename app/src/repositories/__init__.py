@@ -6,3 +6,4 @@ from .supabase.researcher import ResearcherRepository
 from .supabase.study import StudyRepository
 from .supabase.study_researcher import StudyResearcherRepository
 from .supabase.visit import VisitRepository
+from .supabase.report import ReportRepository
