@@ -11,19 +11,23 @@ class ReportRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             response = await (self.supabase.table(table)
-                          .select("*", count=CountMethod.exact, head=True).execute())
-            if response.count:
+                          .select("*", count=CountMethod.exact).execute())
+            print(f"{table}: {response}")
+            if response.count is not None:
                 return response.count
         return 0
 
     async def get_count_by_study(self, table: str, study_id: int) -> int:
+        if study_id is None:
+            return 0
+        
         await self.connect()
         if self.supabase:
             response = await (self.supabase.table(table)
-                          .select("*", count=CountMethod.exact, head=True)
+                          .select("*", count=CountMethod.exact)
                           .eq("study_id", study_id)
                           .execute())
-            if response.count:
+            if response.count is not None:
                 return response.count
         return 0
 
@@ -49,7 +53,15 @@ class ReportRepository(SupabaseRepository):
         return await self.get_count_by_study("visit", study_id)
 
     async def get_event_count(self) -> int:
-        return await self.get_count("event")
+        return await self.get_count("adverse_event")
 
     async def get_event_count_by_study(self, study_id: int) -> int:
-        return await self.get_count_by_study("event", study_id)
+        return await self.get_count_by_study("adverse_event", study_id)
+
+    async def get_studies(self) -> list:
+        await self.connect()
+        if self.supabase:
+            response = await self.supabase.table("study").select("*").execute()
+            print(response)
+            return response.data
+        return []
