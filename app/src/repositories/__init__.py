@@ -1,4 +1,4 @@
-from .supabase.event import EventRepository
+from .supabase.adverse_event import AdverseEventRepository
 from .supabase.monitoring import MonitoringRepository
 from .supabase.patient import PatientRepository
 from .supabase.protocol import ProtocolRepository

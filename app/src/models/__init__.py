@@ -5,5 +5,5 @@ from .researcher import ResearcherModel
 from .adverse_event import AdverseEventModel
 from .monitoring import MonitoringModel
 from .study_researcher import StudyResearcherModel
-from .event import EventModel
+from .adverse_event import AdverseEventModel
 from .study_list import StudyListModel

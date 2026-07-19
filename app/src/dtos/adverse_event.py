@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class EventDTO(BaseModel):
+class AdverseEventDTO(BaseModel):
     id: int = 0
     study_id: int = 0
     patient_id: int = 0

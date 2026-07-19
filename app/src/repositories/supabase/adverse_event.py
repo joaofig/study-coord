@@ -1,10 +1,10 @@
 from repositories.supabase.base import SupabaseRepository
 
 
-TABLE = "event"
+TABLE = "adverse_event"
 
 
-class EventRepository(SupabaseRepository):
+class AdverseEventRepository(SupabaseRepository):
     def __init__(self):
         super().__init__()
 
