@@ -24,7 +24,7 @@ class ResearcherRepository(SupabaseRepository):
         if self.supabase:
             await self.supabase.table(TABLE).delete().eq("id", researcher_id).execute()
 
-    async def load(self) -> List[dict]:
+    async def list(self) -> List[dict]:
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table(TABLE).select("*").execute()).data

@@ -36,7 +36,7 @@ class StudyViewModel(ViewModel):
         if study_row:
             study_id = study_row.get("id")
             if study_id:
-                study = await Study.load(study_id=study_id)
+                study = await Study.list(study_id=study_id)
                 if study:
                     self.copy(study)
 
@@ -87,7 +87,7 @@ class StudyViewModel(ViewModel):
 
             case "load":
                 study_id = int(kwargs.get("study_id"))
-                study = await Study.load(study_id)
+                study = await Study.list(study_id)
                 if study:
                     self.copy(study)
 

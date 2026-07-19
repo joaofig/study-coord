@@ -59,7 +59,7 @@ class VisitViewModel(ViewModel):
             self.patient_name = visit.patient_name
             self.patient_number = visit.patient_number
 
-            patient = await Patient.load(self.patient_id)
+            patient = await Patient.list(self.patient_id)
             self.selection.copy(patient)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
@@ -72,7 +72,7 @@ class VisitViewModel(ViewModel):
             case "load_patient":
                 patient_id = kwargs.get("patient_id")
                 if patient_id:
-                    patient = await Patient.load(self.patient_id)
+                    patient = await Patient.list(self.patient_id)
                     self.selection.copy(patient)
 
             case "load_patients":

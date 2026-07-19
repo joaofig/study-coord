@@ -49,7 +49,7 @@ class EventViewModel(ViewModel):
         await self.broadcast("event", "saved")
 
     async def load(self, event_id: int):
-        event = await Event.load(event_id)
+        event = await Event.list(event_id)
         if event:
             self.event_id = event.id
             self.study_id = event.study_id
@@ -61,7 +61,7 @@ class EventViewModel(ViewModel):
             self.patient_name = event.patient_name
             self.patient_number = event.patient_number
 
-            patient = await Patient.load(self.patient_id)
+            patient = await Patient.list(self.patient_id)
             if patient:
                 self.selection.copy(patient)
 
@@ -75,7 +75,7 @@ class EventViewModel(ViewModel):
             case "load_patient":
                 patient_id = kwargs.get("patient_id")
                 if patient_id:
-                    patient = await Patient.load(patient_id)
+                    patient = await Patient.list(patient_id)
                     if patient:
                         self.selection.copy(patient)
 

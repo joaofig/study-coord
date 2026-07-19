@@ -22,15 +22,15 @@ class SupabaseRepository:
         self.supabase = await SupabaseCentral().connect()
         return self.supabase
 
-    async def insert_or_update(self, table: str, event: dict) -> dict:
+    async def insert_or_update(self, table: str, value: dict) -> dict:
         await self.connect()
         if self.supabase:
-            if event.get("id", 0) > 0:
-                await self.supabase.table(table).update(event).eq("id", event["id"]).execute()
-                return event
+            if value.get("id", 0) > 0:
+                await self.supabase.table(table).update(value).eq("id", value["id"]).execute()
+                return value
             else:
-                event.pop("id", None)
-                result = (await self.supabase.table(table).insert(event).execute()).data
+                value.pop("id", None)
+                result = (await self.supabase.table(table).insert(value).execute()).data
                 if result:
                     return result[0]
         return {}

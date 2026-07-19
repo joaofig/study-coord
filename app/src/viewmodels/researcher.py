@@ -32,7 +32,7 @@ class ResearcherViewModel(ViewModel):
         if researcher_row:
             researcher_id = researcher_row.get("id")
             if researcher_id:
-                researcher = await Researcher.load(researcher_id=int(researcher_id))
+                researcher = await Researcher.list(researcher_id=int(researcher_id))
                 if researcher:
                     self.copy(researcher)
 
@@ -45,7 +45,7 @@ class ResearcherViewModel(ViewModel):
                 await self.save()
 
             case "load":
-                r = await Researcher.load(researcher_id=int(kwargs.get("researcher_id")))
+                r = await Researcher.list(researcher_id=int(kwargs.get("researcher_id")))
                 if r:
                     self.copy(r)
         return None

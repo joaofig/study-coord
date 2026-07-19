@@ -92,7 +92,7 @@ class StudyResearcherViewModel(ViewModel):
                 return await self.save()
 
             case "load":
-                researcher = await Researcher.load(self.researcher_id)
+                researcher = await Researcher.list(self.researcher_id)
                 if researcher:
                     self.selection.copy(researcher)
                     self.number = researcher.number

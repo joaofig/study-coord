@@ -5,7 +5,7 @@ class EventDTO(BaseModel):
     id: int = 0
     study_id: int = 0
     patient_id: int = 0
-    date: str = ""
+    event_date: str = ""
     event_type: str = ""
     description: str = ""
     comments: str = ""
