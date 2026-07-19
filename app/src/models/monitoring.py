@@ -1,6 +1,6 @@
 from typing import List
 
-from dtos.monitoring import MonitoringDTO
+from src.dtos.monitoring import MonitoringDTO
 from src.repositories import MonitoringRepository
 
 

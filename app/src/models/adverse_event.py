@@ -1,6 +1,6 @@
 from typing import List
 
-from dtos.adverse_event import AdverseEventDTO
+from src.dtos.adverse_event import AdverseEventDTO
 from src.repositories import AdverseEventRepository
 
 

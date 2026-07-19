@@ -1,6 +1,6 @@
 from typing import List
 
-from dtos.researcher import ResearcherDTO
+from src.dtos.researcher import ResearcherDTO
 from src.repositories import ResearcherRepository
 
 

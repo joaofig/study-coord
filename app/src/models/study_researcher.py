@@ -1,7 +1,7 @@
 from typing import List
 
-from dtos.researcher import StudyResearcherDTO
-from models import StudyModel, ResearcherModel
+from src.dtos.researcher import StudyResearcherDTO
+from src.models import StudyModel, ResearcherModel
 from src.repositories import StudyResearcherRepository
 
 

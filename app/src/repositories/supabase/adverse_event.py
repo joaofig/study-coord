@@ -1,7 +1,7 @@
 from typing import List
 
-from dtos.adverse_event import AdverseEventDTO
-from repositories.supabase.base import SupabaseRepository
+from src.dtos.adverse_event import AdverseEventDTO
+from src.repositories.supabase.base import SupabaseRepository
 
 
 TABLE = "adverse_event"

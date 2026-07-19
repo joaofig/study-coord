@@ -11,7 +11,7 @@ class PatientRepository(SupabaseRepository):
     def __init__(self):
         super().__init__()
 
-    async def get(self, patient_id: int) -> PatientDTO | None:
+    async def load(self, patient_id: int) -> PatientDTO | None:
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table(TABLE).select("*").eq("id", patient_id).execute()).data

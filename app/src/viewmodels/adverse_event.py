@@ -4,8 +4,8 @@ from typing import Dict, Any
 
 from nicegui import binding
 
-from dtos.adverse_event import AdverseEventDTO
-from models import AdverseEventModel, PatientModel
+from src.dtos.adverse_event import AdverseEventDTO
+from src.models import AdverseEventModel, PatientModel
 from src.viewmodels.patient import PatientViewModel
 from src.viewmodels.view_model import ViewModel
 

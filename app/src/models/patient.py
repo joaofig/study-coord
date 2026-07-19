@@ -1,6 +1,6 @@
 from typing import List
 
-from dtos.patient import PatientDTO
+from src.dtos.patient import PatientDTO
 from src.repositories import PatientRepository
 
 
@@ -26,7 +26,7 @@ class PatientModel:
         dto.id = patient["id"]
 
     async def load(self, patient_id: int) -> PatientDTO | None:
-        patient = await self.repo.get(patient_id)
+        patient = await self.repo.load(patient_id)
         if patient:
             return PatientDTO(**patient)
         return None

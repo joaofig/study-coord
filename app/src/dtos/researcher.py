@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from dtos.study import StudyDTO
+from src.dtos.study import StudyDTO
 
 
 class ResearcherDTO(BaseModel):

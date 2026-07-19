@@ -1,7 +1,8 @@
 from typing import List
 
-from dtos.visit import VisitDTO
-from repositories.supabase.base import SupabaseRepository
+from src.repositories import PatientRepository
+from src.dtos.visit import VisitDTO
+from src.repositories.supabase.base import SupabaseRepository
 
 
 TABLE = "visit"
@@ -15,7 +16,11 @@ class VisitRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table(TABLE).select("*").eq("id", visit_id).execute()).data[0]
-            return VisitDTO.from_dict(result) if result else None
+            visit = VisitDTO.from_dict(result) if result else None
+            if visit:
+                repo = PatientRepository()
+                visit.patient = await repo.load(visit.patient_id)
+                return visit
         return None
 
     async def list(self, study_id: int, patient_id: int = 0) -> List[VisitDTO]:

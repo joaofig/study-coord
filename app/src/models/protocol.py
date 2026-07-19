@@ -1,6 +1,6 @@
 from typing import List
 
-from dtos.protocol import ProtocolDTO
+from src.dtos.protocol import ProtocolDTO
 from src.repositories import ProtocolRepository
 
 

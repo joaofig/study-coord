@@ -1,6 +1,6 @@
 from typing import List
 
-from dtos.study import StudyDTO, StudyRowDTO
+from src.dtos.study import StudyDTO, StudyRowDTO
 from src.repositories import StudyRepository
 
 

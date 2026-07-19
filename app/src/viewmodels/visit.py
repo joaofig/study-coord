@@ -4,8 +4,8 @@ from typing import Dict, Any
 
 from nicegui import binding
 
-from dtos.visit import VisitDTO
-from src.models.visit import load_visit, Visit
+from models import VisitModel
+from src.dtos.visit import VisitDTO
 from .patient import PatientViewModel
 from .view_model import ViewModel
 
@@ -43,14 +43,14 @@ class VisitViewModel(ViewModel):
 
     async def save(self):
         visit = self.to_dto()
-        await visit.save()
+        await self.model.save(visit)
         if visit.id:
             self.visit_id =visit.id
         self.changed = False
         await self.broadcast("visit", "saved")
 
     async def load(self, visit_id: int):
-        visit = await load_visit(visit_id)
+        visit = await self.model.load(visit_id)
         if visit:
             self.visit_id = visit.id
             self.study_id = visit.study_id

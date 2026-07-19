@@ -1,7 +1,7 @@
 from typing import List
 
-from dtos.monitoring import MonitoringDTO
-from repositories.supabase.base import SupabaseRepository
+from src.dtos.monitoring import MonitoringDTO
+from src.repositories.supabase.base import SupabaseRepository
 
 
 TABLE = "monitoring"
