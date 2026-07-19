@@ -1,7 +1,7 @@
 from typing import List
 
 from src.dtos.researcher import ResearcherDTO
-from repositories.supabase.base import SupabaseRepository
+from src.repositories.supabase.base import SupabaseRepository
 
 TABLE = "researcher"
 

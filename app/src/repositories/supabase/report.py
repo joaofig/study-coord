@@ -1,6 +1,6 @@
 from postgrest import CountMethod
 
-from repositories.supabase.base import SupabaseRepository
+from src.repositories.supabase.base import SupabaseRepository
 
 
 class ReportRepository(SupabaseRepository):

@@ -1,7 +1,7 @@
 from typing import List
 
 from src.dtos.protocol import ProtocolDTO
-from repositories.supabase.base import SupabaseRepository
+from src.repositories.supabase.base import SupabaseRepository
 
 
 TABLE = "protocol"
