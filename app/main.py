@@ -2,7 +2,6 @@ import os
 
 from nicegui import context, ui
 
-from src.db.sqlite import initialize_database
 from src.views.main import main_view
 
 
@@ -25,11 +24,12 @@ async def index():
 
     context.client.content.classes("p-0")
     ui.page_title("Study Coordinator")
+    ui.notify(f"{os.environ.get('SUPABASE_URL', 'MISSING URL')}")
     main_view()
 
 
-def setup_app():
-    initialize_database()
+# def setup_app():
+#     initialize_database()
     # locator = ResourceLocator()
     # locator["TripModel"] = TripModel()
 
