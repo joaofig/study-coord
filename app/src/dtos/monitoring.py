@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class MonitoringDTO(BaseModel):
     id: int = 0
     study_id: int = 0
-    date: date = date.today()
+    meeting_date: date = date.today()
     monitor: str = ""
     comments: str = ""
 
@@ -14,7 +14,7 @@ class MonitoringDTO(BaseModel):
         return MonitoringDTO(
             id=data.get("id", 0),
             study_id=data.get("study_id", 0),
-            date=date.fromisoformat(data.get("date", date.today().isoformat())),
+            meeting_date=date.fromisoformat(data.get("date", date.today().isoformat())),
             monitor=data.get("monitor", ""),
             comments=data.get("comments", ""),
         )
@@ -23,7 +23,7 @@ class MonitoringDTO(BaseModel):
         return {
             "id": self.id,
             "study_id": self.study_id,
-            "date": self.date.isoformat(),
+            "date": self.meeting_date.isoformat(),
             "monitor": self.monitor,
             "comments": self.comments,
         }
