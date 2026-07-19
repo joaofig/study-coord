@@ -2,14 +2,14 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.db.repository.ResearcherRepository import ResearcherRepository
-from src.models import Researcher
+from models import ResearcherModel
 from src.viewmodels.view_model import ViewModel
 
 
 class ResearcherListViewModel(ViewModel):
     researchers = ObservableList()
     selected_id: int = 0
+    model: ResearcherModel = ResearcherModel()
 
     def __init__(self):
         super().__init__()
@@ -18,9 +18,8 @@ class ResearcherListViewModel(ViewModel):
                        handler=self._on_load)
 
     async def load(self):
-        repo = ResearcherRepository()
         self.researchers.clear()
-        self.researchers.extend([Researcher(**s) for s in await repo.list()])
+        self.researchers.extend(await self.model.list())
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
@@ -36,7 +35,8 @@ class ResearcherListViewModel(ViewModel):
 
             case "delete":
                 researcher_id = kwargs.get("researcher_id")
-                await Researcher.delete(researcher_id=int(researcher_id))
+                if researcher_id:
+                    await self.model.delete(researcher_id=int(str(researcher_id)))
                 await self.load()
                 await self.broadcast("researcher_list", "load")
         return None

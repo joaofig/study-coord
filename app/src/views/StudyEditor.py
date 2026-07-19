@@ -8,7 +8,7 @@ from views.StudyPatientPanel import StudyPatientPanel
 from views.View import View
 from viewmodels.study_researcher_list import StudyResearcherListViewModel
 from viewmodels.visit_list import VisitListViewModel
-from viewmodels import EventListViewModel
+from viewmodels import AdverseEventListViewModel
 from views.StudyResearcherPanel import StudyResearcherPanel
 from views.StudyVisitPanel import StudyVisitPanel
 from views.EventPanel import EventPanel
@@ -49,7 +49,7 @@ class StudyEditor(View):
         panel.show()
 
     def adverse_events_panel(self):
-        panel = EventPanel(EventListViewModel())
+        panel = EventPanel(AdverseEventListViewModel())
         panel.show()
 
     def study_pane(self):

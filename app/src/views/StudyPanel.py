@@ -1,7 +1,7 @@
 from nicegui import ui
 from nicegui.events import ValueChangeEventArguments
 
-from src.viewmodels import PatientListViewModel, MonitoringListViewModel, ProtocolListViewModel, VisitListViewModel, EventListViewModel
+from src.viewmodels import PatientListViewModel, MonitoringListViewModel, ProtocolListViewModel, VisitListViewModel, AdverseEventListViewModel
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.EventPanel import EventPanel
@@ -48,7 +48,7 @@ class StudyPanel(View):
         panel.show()
 
     def events_panel(self):
-        panel = EventPanel(EventListViewModel())
+        panel = EventPanel(AdverseEventListViewModel())
         panel.show()
 
     def patient_detail_panel(self):

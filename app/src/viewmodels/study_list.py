@@ -9,7 +9,7 @@ from src.viewmodels.view_model import ViewModel
 class StudyListViewModel(ViewModel):
     studies = ObservableList()
     selected_id: int = 0
-    model = StudyModel()
+    model: StudyModel = StudyModel()
 
     def __init__(self):
         super().__init__()

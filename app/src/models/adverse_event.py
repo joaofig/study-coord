@@ -17,8 +17,8 @@ class AdverseEventModel:
             return AdverseEventDTO(**event_dict)
         return None
 
-    async def list(self, study_id: int) -> List[AdverseEventDTO]:
-        event_dicts = await self.repo.get_by_study(study_id)
+    async def list(self, study_id: int, patient_id: int) -> List[AdverseEventDTO]:
+        event_dicts = await self.repo.get_by_study_and_patient(study_id, patient_id)
         return [AdverseEventDTO(**e) for e in event_dicts]
 
     async def delete(self, event_id: int):

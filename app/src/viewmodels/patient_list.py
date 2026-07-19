@@ -2,7 +2,7 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.repositories.RepositoryHub import RepositoryHub
+from src.models import PatientModel
 from src.viewmodels.view_model import ViewModel
 
 
@@ -10,23 +10,22 @@ class PatientListViewModel(ViewModel):
     patients = ObservableList()
     study_id: int = 0
     patient_id: int = 0
+    model = PatientModel()
 
     def __init__(self):
         super().__init__()
-        self.repo_hub = RepositoryHub()
         self.subscribe(channel="study",
                        message="selected",
                        handler=self._handle_study_selected)
 
     async def _load_patients(self, study_id: int):
-        repo = self.repo_hub.get_patient_repository()
         self.patients.clear()
-        self.patients.extend([p.to_dict() for p in await repo.load_from_study(study_id)])
+        self.patients.extend([p.to_dict() for p in await self.model.list(study_id)])
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")
         if study_id:
-            self.study_id = int(study_id)
+            self.study_id = int(str(study_id))
             await self._load_patients(self.study_id)
         else:
             self.study_id = 0
@@ -38,13 +37,13 @@ class PatientListViewModel(ViewModel):
             case "load":
                 study_id = kwargs.get("study_id")
                 if study_id is not None:
-                    self.study_id = int(study_id)
-                await self._load_patients(self.study_id)
+                    self.study_id = int(str(study_id))
+                    await self._load_patients(self.study_id)
 
             case "patient_selected":
                 patient_id = kwargs.get("patient_id")
                 if patient_id:
-                    self.patient_id = int(patient_id)
+                    self.patient_id = int(str(patient_id))
                     await self.broadcast(channel="patient",
                                          message="selected",
                                          patient_id=self.patient_id)
@@ -52,9 +51,8 @@ class PatientListViewModel(ViewModel):
             case "delete_patient":
                 patient_id = kwargs.get("patient_id")
                 if patient_id:
-                    self.patient_id = int(patient_id)
-                    repo = self.repo_hub.get_patient_repository()
-                    await repo.delete(self.patient_id)
+                    self.patient_id = int(str(patient_id))
+                    await self.model.delete(self.patient_id)
                     await self._load_patients(self.study_id)
         return None
 

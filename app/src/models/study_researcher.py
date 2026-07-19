@@ -1,6 +1,7 @@
 from typing import List
 
 from dtos.researcher import StudyResearcherDTO
+from models import StudyModel, ResearcherModel
 from src.repositories import StudyResearcherRepository
 
 
@@ -8,9 +9,18 @@ class StudyResearcherModel:
     def __init__(self):
         self.repo = StudyResearcherRepository()
 
-    async def get(self, sr_id: int) -> StudyResearcherDTO | None:
+    async def load(self, sr_id: int) -> StudyResearcherDTO | None:
         researcher = await self.repo.get(sr_id)
-        return StudyResearcherDTO(**researcher) if researcher else None
+        dto = StudyResearcherDTO(**researcher) if researcher else None
+        if dto:
+            study_model = StudyModel()
+            researcher_model = ResearcherModel()
+            if dto.researcher_id:
+                dto.researcher = await researcher_model.load(dto.researcher_id)
+
+            if dto.study_id:
+                dto.study = await study_model.load(dto.study_id)
+        return dto
 
     async def list(self, study_id: int) -> List[StudyResearcherDTO]:
         researchers = await self.repo.list(study_id)
@@ -20,4 +30,4 @@ class StudyResearcherModel:
         await self.repo.delete(researcher_id)
 
     async def save(self, sr: StudyResearcherDTO) -> None:
-        await self.repo.save(sr)
+        await self.repo.save(sr.to_dict())

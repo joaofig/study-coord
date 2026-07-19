@@ -21,7 +21,7 @@ class StudyViewModel(ViewModel):
     change_set = ObservableSet()
     changed = False
     is_old: bool = False
-    model = StudyModel()
+    model: StudyModel = StudyModel()
 
     def __post_init__(self):
         super().__init__()

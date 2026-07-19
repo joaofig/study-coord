@@ -3,7 +3,8 @@ from typing import Any
 
 from nicegui import binding
 
-from src.models.protocol import Protocol
+from dtos.protocol import ProtocolDTO
+from src.models.protocol import ProtocolModel
 from src.tools.messenger import send_message
 from src.viewmodels.view_model import ViewModel
 
@@ -13,14 +14,15 @@ class ProtocolViewModel(ViewModel):
     id: int = 0
     study_id: int = 0
     title: str = ""
-    date: str = date.today().isoformat()
+    date: date = date.today()
     description: str = ""
     changed: bool = False
+    model = ProtocolModel()
 
     def __post_init__(self):
         super().__init__()
 
-    def copy(self, protocol: Protocol):
+    def copy(self, protocol: ProtocolDTO):
         self.id = protocol.id or 0
         self.study_id = protocol.study_id
         self.title = protocol.title
@@ -28,8 +30,8 @@ class ProtocolViewModel(ViewModel):
         self.description = protocol.description or ""
         self.changed = False
 
-    def to_protocol(self) -> Protocol:
-        return Protocol(
+    def to_protocol(self) -> ProtocolDTO:
+        return ProtocolDTO(
             id=self.id,
             study_id=self.study_id,
             title=self.title,
@@ -50,13 +52,13 @@ class ProtocolViewModel(ViewModel):
         self.id = protocol.get("id", 0)
         self.study_id = protocol.get("study_id", 0)
         self.title = protocol.get("title", "")
-        self.date = protocol.get("date", date.today().isoformat())
+        self.date = protocol.get("date", date.today())
         self.description = protocol.get("description", "")
         self.changed = False
 
     async def save(self):
         protocol = self.to_protocol()
-        await protocol.save()
+        await self.model.save(protocol)
         if protocol.id:
             self.id = protocol.id
         await send_message("protocol_list", "load", study_id=self.study_id)

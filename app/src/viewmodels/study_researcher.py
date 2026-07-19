@@ -3,7 +3,9 @@ from typing import Dict, Any
 
 from nicegui import binding
 
-from src.models.researcher import StudyResearcher, Researcher, ResearcherList, study_researcher_roles
+from dtos.researcher import StudyResearcherDTO
+from models import StudyResearcherModel
+from src.models.researcher import study_researcher_roles
 from .researcher import ResearcherViewModel
 from .view_model import ViewModel
 
@@ -22,23 +24,21 @@ class StudyResearcherViewModel(ViewModel):
     changed: bool = False
     roles: dict = field(default_factory=study_researcher_roles)
 
+    model: StudyResearcherModel = StudyResearcherModel()
+
     researchers: Dict[int, str] = field(default_factory=dict)
     selection: ResearcherViewModel = field(default_factory=ResearcherViewModel)
 
     def __post_init__(self):
         super().__init__()
 
-    def to_study_researcher(self) -> StudyResearcher:
-        return StudyResearcher(
+    def to_dto(self) -> StudyResearcherDTO:
+        return StudyResearcherDTO(
             id=self.id,
             study_id=self.study_id,
             researcher_id=self.researcher_id,
             role=self.role,
             study_comments=self.study_comments,
-            number=self.number,
-            name=self.name,
-            phone=self.phone,
-            email=self.email,
         )
 
     def to_dict(self):
@@ -72,8 +72,8 @@ class StudyResearcherViewModel(ViewModel):
         self.selection.email = self.email
 
     async def save(self):
-        sr = self.to_study_researcher()
-        await sr.save()
+        sr = self.to_dto()
+        await self.model.save(sr)
         if sr.id:
             self.id = sr.id
         self.changed = False
@@ -92,7 +92,7 @@ class StudyResearcherViewModel(ViewModel):
                 return await self.save()
 
             case "load":
-                researcher = await Researcher.list(self.researcher_id)
+                researcher = await self.model.load(self.researcher_id)
                 if researcher:
                     self.selection.copy(researcher)
                     self.number = researcher.number
@@ -103,6 +103,5 @@ class StudyResearcherViewModel(ViewModel):
         return None
 
     async def load_researchers(self):
-        researcher_list = ResearcherList()
-        await researcher_list.load()
-        self.researchers = {r.id: r.name for r in researcher_list.researchers}
+        researcher_list = await self.model.list(self.study_id)
+        self.researchers = {sr.id: sr.researcher.name for sr in researcher_list if sr.researcher}

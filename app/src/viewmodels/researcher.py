@@ -3,7 +3,8 @@ from typing import Any
 from nicegui import binding
 from nicegui.observables import ObservableSet
 
-from src.models import Researcher
+from dtos.researcher import ResearcherDTO
+from models import ResearcherModel
 from src.viewmodels.view_model import ViewModel
 
 
@@ -18,6 +19,7 @@ class ResearcherViewModel(ViewModel):
     data_changed: bool = False
     change_set = ObservableSet()
     is_old: bool = False
+    model: ResearcherModel = ResearcherModel()
 
     def __post_init__(self):
         super().__init__()
@@ -32,7 +34,7 @@ class ResearcherViewModel(ViewModel):
         if researcher_row:
             researcher_id = researcher_row.get("id")
             if researcher_id:
-                researcher = await Researcher.list(researcher_id=int(researcher_id))
+                researcher = await self.model.load(researcher_id=int(researcher_id))
                 if researcher:
                     self.copy(researcher)
 
@@ -45,12 +47,13 @@ class ResearcherViewModel(ViewModel):
                 await self.save()
 
             case "load":
-                r = await Researcher.list(researcher_id=int(kwargs.get("researcher_id")))
-                if r:
-                    self.copy(r)
+                if "researcher_id" in kwargs:
+                    r = await self.model.load(researcher_id=int(kwargs.get("researcher_id")))
+                    if r:
+                        self.copy(r)
         return None
 
-    def copy(self, researcher: Researcher):
+    def copy(self, researcher: ResearcherDTO):
         self.id = researcher.id
         self.name = researcher.name
         self.number = researcher.number
@@ -61,8 +64,8 @@ class ResearcherViewModel(ViewModel):
         self.is_old = researcher.id > 0
         self.change_set.clear()
         
-    def to_researcher(self):
-        return Researcher(
+    def to_dto(self) -> ResearcherDTO:
+        return ResearcherDTO(
             id=self.id,
             number=self.number,
             name=self.name,
@@ -72,8 +75,8 @@ class ResearcherViewModel(ViewModel):
         )
 
     async def save(self):
-        researcher = self.to_researcher()
-        await researcher.save()
+        researcher = self.to_dto()
+        await self.model.save(researcher)
         if researcher.id:
             self.id = researcher.id
         self.data_changed = False
