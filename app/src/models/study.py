@@ -10,10 +10,10 @@ class StudyModel:
 
     @classmethod
     def empty(cls) -> StudyDTO:
-        return StudyDTO(id=None, name="", sponsor="", start_date="", end_date=None, proto_visits=0, comments=None)
+        return StudyDTO(id=None, name="", sponsor="", start_date="", end_date=None, protocol_visits=0, comments=None)
 
     async def save(self, dto: StudyDTO):
-        study: dict = await self.repo.save(dto.to_dict())
+        study: dict = await self.repo.save(dto)
         return StudyDTO(**study)
 
     async def load(self, study_id: int) -> StudyDTO | None:

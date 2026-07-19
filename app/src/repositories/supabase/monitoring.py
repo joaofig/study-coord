@@ -27,8 +27,8 @@ class MonitoringRepository(SupabaseRepository):
                 return [MonitoringDTO.from_dict(m) for m in result]
         return []
 
-    async def save(self, monitoring: dict) -> dict:
-        return await self.insert_or_update(TABLE, monitoring)
+    async def save(self, monitoring: MonitoringDTO) -> dict:
+        return await self.insert_or_update(TABLE, monitoring.to_dict())
 
     async def delete(self, *, monitoring_id: int = 0, study_id: int = 0) -> None:
         await self.connect()

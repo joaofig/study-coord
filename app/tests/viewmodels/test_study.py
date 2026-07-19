@@ -94,7 +94,7 @@ def assert_view_model_matches_study(view_model: StudyViewModel, study: Study) ->
     assert view_model.id == (study.id or EMPTY_ID)
     assert view_model.name == study.name
     assert view_model.sponsor == study.sponsor
-    assert view_model.visits == study.proto_visits
+    assert view_model.protocol_visits == study.protocol_visits
     assert view_model.start_date == study.start_date
     assert view_model.end_date == (study.end_date or "")
     assert view_model.comments == (study.comments or "")
@@ -106,7 +106,7 @@ def assert_studies_match(actual: Study, expected: Study) -> None:
     assert actual.sponsor == expected.sponsor
     assert actual.start_date == expected.start_date
     assert actual.end_date == expected.end_date
-    assert actual.proto_visits == expected.proto_visits
+    assert actual.protocol_visits == expected.protocol_visits
     assert actual.comments == expected.comments
 
 
@@ -125,13 +125,13 @@ def test_study_view_model_to_study_preserves_current_fields() -> None:
         id=EXISTING_STUDY_ID,
         name=STUDY_NAME,
         sponsor=STUDY_SPONSOR,
-        visits=PROTOCOL_VISITS,
+        protocol_visits=PROTOCOL_VISITS,
         start_date=STUDY_START_DATE,
         end_date=STUDY_END_DATE,
         comments=STUDY_COMMENTS,
     )
 
-    study = view_model.to_study()
+    study = view_model.to_dto()
 
     assert_studies_match(study, make_study())
 
@@ -141,7 +141,7 @@ async def test_save_persists_valid_study_updates_id_and_notifies(fake_repository
     view_model = StudyViewModel(
         name=STUDY_NAME,
         sponsor=STUDY_SPONSOR,
-        visits=PROTOCOL_VISITS,
+        protocol_visits=PROTOCOL_VISITS,
         start_date=STUDY_START_DATE,
     )
 
@@ -161,7 +161,7 @@ async def test_save_rejects_invalid_study_without_persisting(fake_repository) ->
     view_model = StudyViewModel(
         name=EMPTY_STUDY_NAME,
         sponsor=STUDY_SPONSOR,
-        visits=PROTOCOL_VISITS,
+        protocol_visits=PROTOCOL_VISITS,
         start_date=STUDY_START_DATE,
     )
 

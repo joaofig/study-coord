@@ -38,10 +38,10 @@ class StudyDialog(View):
 
             with ui.row().classes("gap-2"):
                 ui.number(label="Protocol Visits", value=1,
-                          on_change=lambda: self.vm.call("mark_changed", field_name="visits")) \
+                          on_change=lambda: self.vm.call("mark_changed", field_name="protocol_visits")) \
                     .props('clearable') \
                     .classes("w-full") \
-                    .bind_value(self.vm, "visits", strict=True)
+                    .bind_value(self.vm, "protocol_visits", strict=True)
 
             with ui.row().classes("gap-2 w-full"):
                 ui.textarea(label="Comments",

@@ -8,7 +8,7 @@ class MonitoringModel:
     repo = MonitoringRepository()
 
     async def save(self, dto: MonitoringDTO):
-        monitoring = await self.repo.save(dto.to_dict())
+        monitoring = await self.repo.save(dto)
         dto.id = monitoring["id"]
 
     async def load(self, monitoring_id: int) -> MonitoringDTO | None:

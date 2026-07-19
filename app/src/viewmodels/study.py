@@ -1,3 +1,4 @@
+from datetime import date
 from typing import Any
 
 from nicegui import binding
@@ -13,9 +14,9 @@ class StudyViewModel(ViewModel):
     id: int = 0
     name: str = ""
     sponsor: str = ""
-    visits: int = 1
-    start_date: str = ""
-    end_date: str = ""
+    protocol_visits: int = 1
+    start_date: date = date.today()
+    end_date: date | None = None
     comments: str = ""
     data_changed: bool = False
     change_set = ObservableSet()
@@ -44,9 +45,9 @@ class StudyViewModel(ViewModel):
         self.id = study.id or 0
         self.name = study.name
         self.sponsor = study.sponsor
-        self.visits = study.proto_visits
+        self.protocol_visits = study.protocol_visits
         self.start_date = study.start_date
-        self.end_date = study.end_date or ""
+        self.end_date = study.end_date
         self.comments = study.comments or ""
         self.changed = False
         self.is_old = study.id is not None
@@ -57,25 +58,25 @@ class StudyViewModel(ViewModel):
             "id": self.id,
             "name": self.name,
             "sponsor": self.sponsor,
-            "protocol_visits": int(self.visits),
+            "protocol_visits": int(self.protocol_visits),
             "start_date": self.start_date,
             "end_date": None if self.end_date == "" else self.end_date,
             "comments": self.comments,
         }
 
-    def to_study(self) -> StudyDTO:
+    def to_dto(self) -> StudyDTO:
         return StudyDTO(
             id=self.id,
             name=self.name,
             sponsor=self.sponsor,
-            proto_visits=int(self.visits),
+            protocol_visits=int(self.protocol_visits),
             start_date=self.start_date,
             end_date=None if self.end_date == "" else self.end_date,
             comments=self.comments,
         )
 
     async def save(self):
-        study = await self.model.save(self.to_study())
+        study = await self.model.save(self.to_dto())
         await self.broadcast("study", "study_saved", study=study)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:

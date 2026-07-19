@@ -34,8 +34,8 @@ class AdverseEventRepository(SupabaseRepository):
                 return [AdverseEventDTO.from_dict(m) for m in result]
         return []
 
-    async def save(self, event: dict) -> dict:
-        return await self.insert_or_update(TABLE, event)
+    async def save(self, event: AdverseEventDTO) -> dict:
+        return await self.insert_or_update(TABLE, event.to_dict())
 
     async def delete(self, *, study_id: int = 0, event_id: int = 0) -> None:
         await self.connect()

@@ -29,7 +29,8 @@ class SupabaseRepository:
                 await self.supabase.table(table).update(value).eq("id", value["id"]).execute()
                 return value
             else:
-                value.pop("id", None)
+                del value["id"]
+                print(value)
                 result = (await self.supabase.table(table).insert(value).execute()).data
                 if result:
                     return result[0]

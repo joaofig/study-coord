@@ -8,7 +8,7 @@ class ProtocolModel:
     repo = ProtocolRepository()
 
     async def save(self, dto: ProtocolDTO):
-        result = await self.repo.save(dto.to_dict())
+        result = await self.repo.save(dto)
         dto.id = result["id"]
 
     async def load(self, protocol_id: int) -> ProtocolDTO | None:

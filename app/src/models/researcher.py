@@ -12,7 +12,7 @@ class ResearcherModel:
         return ResearcherDTO(id=0, number="", name="", phone="", email="", comments="", study_count=0)
 
     async def save(self, dto: ResearcherDTO):
-        researcher = await self.repo.save(dto.to_dict())
+        researcher = await self.repo.save(dto)
         dto.id = researcher["id"]
 
     async def delete(self, researcher_id: int):

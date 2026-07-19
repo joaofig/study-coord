@@ -11,8 +11,7 @@ class ReportRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             response = await (self.supabase.table(table)
-                          .select("*", count=CountMethod.exact).execute())
-            print(f"{table}: {response}")
+                          .select("*", count="exact").execute())
             if response.count is not None:
                 return response.count
         return 0
@@ -20,11 +19,11 @@ class ReportRepository(SupabaseRepository):
     async def get_count_by_study(self, table: str, study_id: int) -> int:
         if study_id is None:
             return 0
-        
+
         await self.connect()
         if self.supabase:
             response = await (self.supabase.table(table)
-                          .select("*", count=CountMethod.exact)
+                          .select("*", count="exact")
                           .eq("study_id", study_id)
                           .execute())
             if response.count is not None:
@@ -62,6 +61,5 @@ class ReportRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             response = await self.supabase.table("study").select("*").execute()
-            print(response)
             return response.data
         return []

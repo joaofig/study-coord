@@ -24,7 +24,7 @@ async def index():
 
     context.client.content.classes("p-0")
     ui.page_title("Study Coordinator")
-    ui.notify(f"{os.environ.get('SUPABASE_URL', 'MISSING URL')}")
+    # ui.notify(f"{os.environ.get('SUPABASE_URL', 'MISSING URL')}")
     main_view()
 
 
@@ -40,6 +40,6 @@ ui.run(
     port=int(os.environ.get("PORT", 8080)),
     favicon="images/science_24dp_1F1F1F.png",
     title="Study Coordinator",
-    reload=False,
+    reload=True,
 )
 

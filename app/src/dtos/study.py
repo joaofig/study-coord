@@ -10,7 +10,7 @@ class StudyDTO(BaseModel):
     sponsor: str
     start_date: date = date.today()
     end_date: date | None
-    proto_visits: int   # Protocol visits
+    protocol_visits: int   # Protocol visits
     comments: str | None
 
     @classmethod
@@ -22,7 +22,7 @@ class StudyDTO(BaseModel):
             start_date=date.fromisoformat(str(data.get("start_date", date.today().isoformat()))),
             end_date=date.fromisoformat(data.get("end_date", date.today().isoformat())) \
                 if data.get("end_date") else None,
-            proto_visits=data.get("proto_visits", 1),
+            protocol_visits=data.get("protocol_visits", 1),
             comments=data.get("comments", ""),
         )
 
@@ -33,7 +33,7 @@ class StudyDTO(BaseModel):
             "sponsor": self.sponsor,
             "start_date": self.start_date.isoformat(),
             "end_date": self.end_date.isoformat() if self.end_date else None,
-            "proto_visits": self.proto_visits,
+            "protocol_visits": self.protocol_visits,
             "comments": self.comments,
         }
 
@@ -44,7 +44,7 @@ class StudyRowDTO(BaseModel):
     sponsor: str
     start_date: date = date.today()
     end_date: date | None
-    proto_visits: int   # Protocol visits
+    protocol_visits: int   # Protocol visits
     comments: str | None
 
     patients: int = 0
@@ -61,7 +61,7 @@ class StudyRowDTO(BaseModel):
             start_date=date.fromisoformat(str(data.get("start_date", date.today().isoformat()))),
             end_date=date.fromisoformat(data.get("end_date", date.today().isoformat())) \
                 if data.get("end_date") else None,
-            proto_visits=data.get("proto_visits", 1),
+            protocol_visits=data.get("protocol_visits", 1),
             comments=data.get("comments", ""),
             patients=data.get("patients", 0),
             visits=data.get("visits", 0),
@@ -76,7 +76,7 @@ class StudyRowDTO(BaseModel):
             "sponsor": self.sponsor,
             "start_date": self.start_date.isoformat(),
             "end_date": self.end_date.isoformat() if self.end_date else None,
-            "proto_visits": self.proto_visits,
+            "protocol_visits": self.protocol_visits,
             "comments": self.comments,
             "patients": self.patients,
             "visits": self.visits,

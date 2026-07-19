@@ -22,7 +22,7 @@ class PatientModel:
     repo = PatientRepository()
 
     async def save(self, dto: PatientDTO):
-        patient = await self.repo.save(dto.to_dict())
+        patient = await self.repo.save(dto)
         dto.id = patient["id"]
 
     async def load(self, patient_id: int) -> PatientDTO | None:

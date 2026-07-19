@@ -10,7 +10,7 @@ class ResearcherDTO(BaseModel):
     phone: str = ""
     email: str = ""
     comments: str = ""
-    study_count: int = 0
+    # study_count: int = 0
 
     @classmethod
     def from_dict(cls, data: dict) -> ResearcherDTO:
@@ -21,7 +21,7 @@ class ResearcherDTO(BaseModel):
             phone=data.get("phone", ""),
             email=data.get("email", ""),
             comments=data.get("comments", ""),
-            study_count=data.get("study_count", 0),
+            # study_count=data.get("study_count", 0),
         )
 
     def to_dict(self) -> dict:
