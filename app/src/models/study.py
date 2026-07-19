@@ -17,8 +17,8 @@ class StudyModel:
         return StudyDTO(**study)
 
     async def load(self, study_id: int) -> StudyDTO | None:
-        study = await self.repo.get(study_id)
-        return StudyDTO(**study) if study else None
+        study = await self.repo.load(study_id)
+        return study
 
     async def delete(self, study_id: int):
         await self.repo.delete(study_id)

@@ -16,7 +16,6 @@ class StudyRepository(SupabaseRepository):
         if self.supabase:
             # We are reading from a view, not a table
             result = (await self.supabase.table("study_list").select("*").execute()).data
-            print(result)
             return [StudyRowDTO.from_dict(s) for s in result]
         return []
 

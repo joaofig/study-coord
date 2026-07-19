@@ -69,7 +69,7 @@ class StudyGrid(View):
             {"headerName": "Patients", "field": "patients", "sortable": True, "align": "right"},
             {"headerName": "Visits", "field": "visits", "sortable": True, "align": "right"},
             {"headerName": "Researchers", "field": "researchers", "sortable": True, "align": "right"},
-            {"headerName": "Events", "field": "adverse_events", "sortable": True, "align": "right"},
+            {"headerName": "Events", "field": "events", "sortable": True, "align": "right"},
         ]
         grid_def = {
             "columnDefs": columns,

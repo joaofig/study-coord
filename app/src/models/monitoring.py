@@ -12,14 +12,14 @@ class MonitoringModel:
         dto.id = monitoring["id"]
 
     async def load(self, monitoring_id: int) -> MonitoringDTO | None:
-        monitoring = await self.repo.get(monitoring_id)
+        monitoring = await self.repo.load(monitoring_id)
         if monitoring:
-            return MonitoringDTO(**monitoring)
+            return monitoring
         return None
 
     async def delete(self, monitoring_id: int):
-        await self.repo.delete(monitoring_id)
+        await self.repo.delete(monitoring_id=monitoring_id)
 
     async def list(self, study_id: int) -> List[MonitoringDTO]:
-        ms = await self.repo.get_by_study_id(study_id)
-        return [MonitoringDTO(**m) for m in ms]
+        ms = await self.repo.list(study_id)
+        return ms
