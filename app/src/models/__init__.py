@@ -1,7 +1,9 @@
-from .study import Study
-from .patient import Patient
-from .visit import Visit
-from .researcher import Researcher
-from .adverse_event import AdverseEvent
-from .monitoring import Monitoring
-from .event import Event, EventList
+from .study import StudyModel
+from .patient import PatientModel
+from .visit import VisitModel
+from .researcher import ResearcherModel
+from .adverse_event import AdverseEventModel
+from .monitoring import MonitoringModel
+from .study_researcher import StudyResearcherModel
+from .event import EventModel
+from .study_list import StudyListModel

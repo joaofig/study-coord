@@ -1,6 +1,6 @@
 from typing import List
 
-from dtos.study import StudyDTO
+from dtos.study import StudyDTO, StudyRowDTO
 from src.repositories import StudyRepository
 
 
@@ -23,6 +23,5 @@ class StudyModel:
     async def delete(self, study_id: int):
         await self.repo.delete(study_id)
 
-    async def list(self) -> List[StudyDTO]:
-        studies = await self.repo.list()
-        return [StudyDTO(**study) for study in studies]
+    async def list(self) -> List[StudyRowDTO]:
+        return await self.repo.list()

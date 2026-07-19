@@ -2,24 +2,24 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.repositories.RepositoryHub import RepositoryHub
+from models import StudyModel
 from src.viewmodels.view_model import ViewModel
 
 
 class StudyListViewModel(ViewModel):
     studies = ObservableList()
     selected_id: int = 0
+    model = StudyModel()
 
     def __init__(self):
         super().__init__()
-        self.repo_hub = RepositoryHub()
         self.selected_id: int = 0
         self.subscribe("study_list", "load", self._on_load)
 
     async def load(self):
-        repo = self.repo_hub.get_study_repository()
         self.studies.clear()
-        self.studies.extend(await repo.list())
+        studies = await self.model.list()
+        self.studies.extend([s.to_dict() for s in studies])
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
@@ -31,8 +31,7 @@ class StudyListViewModel(ViewModel):
 
             case "delete_study":
                 study_id = kwargs["study_id"]
-                repo = self.repo_hub.get_study_repository()
-                await repo.delete(study_id)
+                await self.model.delete(study_id)
                 await self.load()
 
             case "study_selected":

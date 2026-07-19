@@ -3,8 +3,8 @@ from typing import Any
 from nicegui import binding
 from nicegui.observables import ObservableSet
 
-from src.repositories.RepositoryHub import RepositoryHub
-from src.models import Study
+from dtos.study import StudyDTO
+from models import StudyModel
 from src.viewmodels.view_model import ViewModel
 
 
@@ -21,11 +21,11 @@ class StudyViewModel(ViewModel):
     change_set = ObservableSet()
     changed = False
     is_old: bool = False
+    model = StudyModel()
 
     def __post_init__(self):
         super().__init__()
         self.subscribe(channel="study", message="selected", handler=self._handle_study_selected)
-        self.repo_hub = RepositoryHub()
 
     def _field_changed(self, field_name: str):
         self.changed = True
@@ -36,11 +36,11 @@ class StudyViewModel(ViewModel):
         if study_row:
             study_id = study_row.get("id")
             if study_id:
-                study = await Study.list(study_id=study_id)
+                study = await self.model.load(study_id=study_id)
                 if study:
                     self.copy(study)
 
-    def copy(self, study: Study):
+    def copy(self, study: StudyDTO):
         self.id = study.id or 0
         self.name = study.name
         self.sponsor = study.sponsor
@@ -63,8 +63,8 @@ class StudyViewModel(ViewModel):
             "comments": self.comments,
         }
 
-    def to_study(self) -> Study:
-        return Study(
+    def to_study(self) -> StudyDTO:
+        return StudyDTO(
             id=self.id,
             name=self.name,
             sponsor=self.sponsor,
@@ -75,19 +75,14 @@ class StudyViewModel(ViewModel):
         )
 
     async def save(self):
-        study = self.to_dict()
-        repo = self.repo_hub.get_study_repository()
-        study = await repo.save(study)
+        study = await self.model.save(self.to_study())
         await self.broadcast("study", "study_saved", study=study)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
-            case "copy":
-                self.copy(kwargs.get("study"))
-
             case "load":
-                study_id = int(kwargs.get("study_id"))
-                study = await Study.list(study_id)
+                study_id = int(str(kwargs.get("study_id")))
+                study = await self.model.load(study_id)
                 if study:
                     self.copy(study)
 
@@ -98,5 +93,5 @@ class StudyViewModel(ViewModel):
             case "mark_changed":
                 field_name = kwargs.get("field_name")
                 if field_name:
-                    self._field_changed(field_name)
+                    self._field_changed(str(field_name))
         return None

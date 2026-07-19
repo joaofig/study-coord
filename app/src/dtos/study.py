@@ -19,3 +19,17 @@ class StudyDTO(BaseModel):
     def to_dict(self) -> dict[str, Any]:
         return self.model_dump()
 
+
+class StudyRowDTO(StudyDTO):
+    patients: int = 0
+    visits: int = 0
+    researcher: int = 0
+    events: int = 0
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> StudyRowDTO:
+        return StudyRowDTO(**data)
