@@ -2,7 +2,7 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.models.visit import VisitList
+from src.models import VisitModel
 from src.viewmodels.view_model import ViewModel
 
 
@@ -22,17 +22,17 @@ class VisitListViewModel(ViewModel):
         self.subscribe(channel="patient",
                        message="selected",
                        handler=self._handle_patient_selected)
+        self.model = VisitModel()
 
     async def _load_visits(self, study_id: int, patient_id: int):
-        visits = VisitList()
         self.visits.clear()
-        self.visits.extend([v.to_dict() for v in await visits.load_from_study_and_patient(study_id, patient_id)])
+        self.visits.extend([v.to_dict() for v in await self.model.list(study_id, patient_id)])
 
     async def _handle_visit_saved(self, **kwargs):
         await self._load_visits(self.study_id, self.patient_id)
 
     async def _handle_study_selected(self, **kwargs):
-        study_id = kwargs.get("study_id")
+        study_id = kwargs.get("study_id", 0)
         if study_id:
             self.study_id = int(study_id)
         else:
@@ -42,9 +42,9 @@ class VisitListViewModel(ViewModel):
         self.visits.clear()
 
     async def _handle_patient_selected(self, **kwargs):
-        patient_id = kwargs.get("patient_id")
+        patient_id = kwargs.get("patient_id", 0)
         if patient_id:
-            self.patient_id = int(patient_id)
+            self.patient_id = patient_id
             await self._load_visits(self.study_id, self.patient_id)
         else:
             self.patient_id = 0
@@ -54,7 +54,7 @@ class VisitListViewModel(ViewModel):
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
-                self.study_id = kwargs.get("study_id")
+                self.study_id = kwargs.get("study_id", 0)
                 if self.study_id:
                     await self._load_visits(self.study_id, self.patient_id)
                 else:
@@ -64,5 +64,5 @@ class VisitListViewModel(ViewModel):
                 await self._handle_study_selected(**kwargs)
 
             case "visit_selected":
-                self.visit_id = kwargs.get("visit_id")
+                self.visit_id = kwargs.get("visit_id", 0)
         return None
