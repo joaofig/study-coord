@@ -10,7 +10,7 @@ from .study_researcher import StudyResearcherViewModel
 from .study_researcher_list import StudyResearcherListViewModel
 from .visit import VisitViewModel
 from .visit_list import VisitListViewModel
-from .adverse_event import EventViewModel
+from .adverse_event import AdverseEventViewModel
 from .adverse_event_list import AdverseEventListViewModel
 from .protocol import ProtocolViewModel
 from .protocol_list import ProtocolListViewModel

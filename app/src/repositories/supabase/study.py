@@ -15,9 +15,9 @@ class StudyRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             # We are reading from a view, not a table
-            return [StudyRowDTO(**s) for s in
-                        (await self.supabase.table("study_list").select("*").execute()).data
-                    ]
+            result = (await self.supabase.table("study_list").select("*").execute()).data
+            print(result)
+            return [StudyRowDTO.from_dict(s) for s in result]
         return []
 
     async def load(self, study_id: int) -> StudyDTO | None:
@@ -25,7 +25,7 @@ class StudyRepository(SupabaseRepository):
         if self.supabase:
             result = (await self.supabase.table(TABLE).select("*").eq("id", study_id).execute()).data
             if result:
-                return result[0]
+                return StudyDTO.from_dict(result[0])
         return None
 
     async def save(self, study: StudyDTO) -> dict:
