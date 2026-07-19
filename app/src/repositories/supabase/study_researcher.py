@@ -1,5 +1,6 @@
 from typing import List
 
+from dtos.researcher import StudyResearcherDTO
 from repositories.supabase.base import SupabaseRepository
 
 TABLE = "study_researcher"
@@ -8,24 +9,24 @@ class StudyResearcherRepository(SupabaseRepository):
     def __init__(self):
         super().__init__()
 
-    async def get(self, researcher_id: int) -> dict | None:
+    async def load(self, researcher_id: int) -> StudyResearcherDTO | None:
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table(TABLE)
                       .select("*")
                       .eq("id", researcher_id).execute()).data
             if result:
-                return result[0]
+                return StudyResearcherDTO.from_dict(result[0])
         return None
 
-    async def list(self, study_id: int) -> List[dict]:
+    async def list(self, study_id: int) -> List[StudyResearcherDTO]:
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table(TABLE)
                       .select("*")
                       .eq("study_id", study_id).execute()).data
             if result:
-                return result
+                return [StudyResearcherDTO.from_dict(sr) for sr in result]
         return []
 
     async def delete(self, researcher_id: int) -> None:
@@ -34,8 +35,8 @@ class StudyResearcherRepository(SupabaseRepository):
             await self.supabase.table(TABLE).delete().eq("id", researcher_id).execute()
         return None
 
-    async def save(self, sr: dict) -> None:
-        await self.insert_or_update(TABLE, sr)
+    async def save(self, sr: StudyResearcherDTO) -> None:
+        await self.insert_or_update(TABLE, sr.to_dict())
 
     async def delete_by_study(self, study_id: int) -> None:
         await self.connect()

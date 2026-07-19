@@ -35,5 +35,5 @@ class PatientModel:
         await self.repo.delete(patient_id)
 
     async def list(self, study_id: int) -> List[PatientDTO]:
-        patients = await self.repo.load_from_study(study_id)
+        patients = await self.repo.list(study_id)
         return [PatientDTO(**patient) for patient in patients]

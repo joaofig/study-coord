@@ -1,14 +1,16 @@
 from typing import List, Any
 
-from src.db.repository.StudyResearcherRepository import StudyResearcherRepository
-from src.models.researcher import StudyResearcher, StudyResearcherList
+from src.dtos.researcher import StudyResearcherDTO
+from src.models import StudyResearcherModel
+from src.repositories import StudyResearcherRepository
 from src.viewmodels.view_model import ViewModel
 
 
 class StudyResearcherListViewModel(ViewModel):
-    researchers: List[StudyResearcher] = []
+    researchers: List[StudyResearcherDTO] = []
     study_id: int = 0
     selected_id: int = 0
+    model: StudyResearcherModel = StudyResearcherModel()
 
     def __init__(self):
         super().__init__()
@@ -20,18 +22,16 @@ class StudyResearcherListViewModel(ViewModel):
                        handler=self._on_study_selected)
 
     async def _load_study_researchers(self, study_id: int):
-        researchers = StudyResearcherList()
-        self.researchers = await researchers.load_from_study(study_id)
+        self.researchers = await self.model.list(study_id)
 
     async def _delete_researcher(self, researcher_id: int):
-        repo = StudyResearcherRepository()
-        await repo.delete(researcher_id)
+        await self.model.delete(researcher_id)
         await self.load()
         await self.broadcast(channel="study_researcher",
                              message="deleted")
 
     async def _on_study_selected(self, **kwargs):
-        study_id = kwargs.get("study_id")
+        study_id = kwargs.get("study_id", 0)
         if study_id:
             self.study_id = int(study_id)
             await self._load_study_researchers(self.study_id)
@@ -42,7 +42,7 @@ class StudyResearcherListViewModel(ViewModel):
 
     async def load(self):
         repo = StudyResearcherRepository()
-        self.researchers = [StudyResearcher(**s) for s in await repo.list(self.study_id)]
+        self.researchers = [StudyResearcherDTO.from_dict(**s) for s in await repo.list(self.study_id)]
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

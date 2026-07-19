@@ -3,8 +3,8 @@ from typing import Dict, Any
 
 from nicegui import binding
 
-from dtos.researcher import StudyResearcherDTO
-from models import StudyResearcherModel
+from src.dtos.researcher import StudyResearcherDTO
+from src.models import StudyResearcherModel
 from src.models.researcher import study_researcher_roles
 from .researcher import ResearcherViewModel
 from .view_model import ViewModel
@@ -92,13 +92,13 @@ class StudyResearcherViewModel(ViewModel):
                 return await self.save()
 
             case "load":
-                researcher = await self.model.load(self.researcher_id)
-                if researcher:
-                    self.selection.copy(researcher)
-                    self.number = researcher.number
-                    self.name = researcher.name
-                    self.phone = researcher.phone
-                    self.email = researcher.email
+                sr = await self.model.load(self.researcher_id)
+                if sr and sr.researcher:
+                    self.selection.copy(sr.researcher)
+                    self.number = sr.researcher.number
+                    self.name = sr.researcher.name
+                    self.phone = sr.researcher.phone
+                    self.email = sr.researcher.email
 
         return None
 

@@ -1,3 +1,6 @@
+from typing import List
+
+from dtos.monitoring import MonitoringDTO
 from repositories.supabase.base import SupabaseRepository
 
 
@@ -8,33 +11,30 @@ class MonitoringRepository(SupabaseRepository):
     def __init__(self):
         super().__init__()
 
-    async def get(self, monitoring_id: int) -> dict | None:
+    async def load(self, monitoring_id: int) -> MonitoringDTO | None:
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table(TABLE).select("*").eq("id", monitoring_id).execute()).data
             if result:
-                return result[0]
+                return MonitoringDTO.from_dict(result[0])
         return None
 
-    async def get_by_study_id(self, study_id: int) -> list[dict]:
+    async def list(self, study_id: int) -> List[MonitoringDTO]:
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table(TABLE).select("*").eq("study_id", study_id).execute()).data
             if result:
-                return result
+                return [MonitoringDTO.from_dict(m) for m in result]
         return []
 
     async def save(self, monitoring: dict) -> dict:
         return await self.insert_or_update(TABLE, monitoring)
 
-    async def delete(self, monitoring_id: int) -> None:
+    async def delete(self, *, monitoring_id: int = 0, study_id: int = 0) -> None:
         await self.connect()
         if self.supabase:
-            await self.supabase.table(TABLE).delete().eq("id", monitoring_id).execute()
-        return None
-
-    async def delete_by_study_id(self, study_id: int) -> None:
-        await self.connect()
-        if self.supabase:
-            await self.supabase.table(TABLE).delete().eq("study_id", study_id).execute()
+            if monitoring_id:
+                await self.supabase.table(TABLE).delete().eq("id", monitoring_id).execute()
+            elif study_id:
+                await self.supabase.table(TABLE).delete().eq("study_id", study_id).execute()
         return None
