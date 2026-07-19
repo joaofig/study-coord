@@ -13,8 +13,7 @@ class VisitModel:
         return VisitDTO(**study)
 
     async def load(self, study_id: int) -> VisitDTO | None:
-        study = await self.repo.load(study_id)
-        return VisitDTO(**study) if study else None
+        return await self.repo.load(study_id)
 
     async def delete(self, study_id: int):
         await self.repo.delete(study_id)
