@@ -2,7 +2,7 @@ from typing import Any
 
 from nicegui.observables import ObservableList
 
-from src.models.monitoring import MonitoringList
+from src.models import MonitoringModel
 from src.viewmodels.view_model import ViewModel
 
 
@@ -10,6 +10,7 @@ class MonitoringListViewModel(ViewModel):
     monitoring_visits = ObservableList()
     study_id: int = 0
     monitoring_id: int = 0
+    model = MonitoringModel()
 
     def __init__(self):
         super().__init__()
@@ -18,14 +19,13 @@ class MonitoringListViewModel(ViewModel):
                        handler=self._handle_study_selected)
 
     async def _load_monitoring(self, study_id: int):
-        monitoring_list = MonitoringList()
         self.monitoring_visits.clear()
-        self.monitoring_visits.extend([m.to_dict() for m in await monitoring_list.load_from_study(study_id)])
+        self.monitoring_visits.extend([m.to_dict() for m in await self.model.list(study_id)])
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")
         if study_id:
-            self.study_id = int(study_id)
+            self.study_id = int(str(study_id))
             await self._load_monitoring(self.study_id)
         else:
             self.study_id = 0
@@ -37,19 +37,19 @@ class MonitoringListViewModel(ViewModel):
             case "load":
                 study_id = kwargs.get("study_id")
                 if study_id is not None:
-                    self.study_id = int(study_id)
-                await self._load_monitoring(self.study_id)
+                    self.study_id = int(str(study_id))
+                    await self._load_monitoring(self.study_id)
 
             case "monitoring_selected":
                 monitoring_id = kwargs.get("monitoring_id")
                 if monitoring_id:
-                    self.monitoring_id = int(monitoring_id)
+                    self.monitoring_id = int(str(monitoring_id))
 
             case "delete_monitoring":
                 monitoring_id = kwargs.get("monitoring_id")
                 if monitoring_id:
-                    self.monitoring_id = int(monitoring_id)
-                    await MonitoringList.delete(self.monitoring_id)
+                    self.monitoring_id = int(str(monitoring_id))
+                    await self.model.delete(self.monitoring_id)
                     await self._load_monitoring(self.study_id)
 
         return None

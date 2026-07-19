@@ -14,3 +14,4 @@ from .event import EventViewModel
 from .event_list import EventListViewModel
 from .protocol import ProtocolViewModel
 from .protocol_list import ProtocolListViewModel
+from .view_model import ViewModel

@@ -1,11 +1,11 @@
 from typing import List
 
 from dtos.adverse_event import AdverseEventDTO
-from src.repositories import EventRepository
+from src.repositories import AdverseEventRepository
 
 
 class AdverseEventModel:
-    repo = EventRepository()
+    repo = AdverseEventRepository()
 
     async def save(self, dto: AdverseEventDTO):
         event_dict = await self.repo.save(dto.to_dict())
