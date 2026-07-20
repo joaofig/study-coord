@@ -14,4 +14,6 @@ from .adverse_event import AdverseEventViewModel
 from .adverse_event_list import AdverseEventListViewModel
 from .protocol import ProtocolViewModel
 from .protocol_list import ProtocolListViewModel
+from .user import UserViewModel
+from .user_list import UserListViewModel
 from .view_model import ViewModel

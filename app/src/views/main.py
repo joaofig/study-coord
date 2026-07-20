@@ -8,6 +8,8 @@ from src.viewmodels.report import ReportViewModel
 from src.viewmodels.researcher_list import ResearcherListViewModel
 from src.views.ReportView import ReportView
 from src.views.ResearcherView import ResearcherView
+from viewmodels import UserListViewModel
+from views.UserView import UserView
 
 
 async def on_tab_change(event):
@@ -24,8 +26,10 @@ def main_view():
             researchers = ui.tab("Researchers").classes("text-sky-800")
             reports = ui.tab("Reports").classes("text-sky-800")
             settings = ui.tab("Settings").classes("text-sky-800")
+            admin = ui.tab("Admin").classes("text-sky-800")
 
-        with ui.tab_panels(tabs, value=studies).classes("h-full w-full"):
+        with ui.tab_panels(tabs, value=studies, animated=False) \
+                .classes("h-full w-full"):
 
             with ui.tab_panel(studies).classes("pl-4 pt-0 pb-0 pr-4"):
                 vm = StudyListViewModel()
@@ -46,3 +50,10 @@ def main_view():
             with ui.tab_panel(settings).classes("pl-4 pt-0 pb-0 pr-4"):
                 ui.label("Settings").classes("text-h4")
                 ui.label("Content of settings")
+
+            with ui.tab_panel(admin).classes("pl-4 pt-0 pb-0 pr-4"):
+                vm = UserListViewModel()
+                UserView(vm)
+                ManagedTasks().create(vm.call("load"))
+
+

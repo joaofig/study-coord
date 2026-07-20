@@ -57,7 +57,7 @@ class StudyPanel(View):
                     .bind_visibility(self.vm, "selected_id") as tabs:
                 visits = ui.tab("Visits").classes("text-sky-800")
                 events = ui.tab("Events").classes("text-sky-800")
-            with ui.tab_panels(tabs, value=visits).classes("w-full h-full"):
+            with ui.tab_panels(tabs, value=visits, animated=False).classes("w-full h-full"):
                 with ui.tab_panel(visits) \
                         .bind_visibility(self.vm, "selected_id") \
                         .classes("pl-4 pt-0 pb-0 pr-0"):
@@ -83,7 +83,7 @@ class StudyPanel(View):
             researchers = ui.tab("Researchers").classes("text-sky-800")
             protocols = ui.tab("Protocol").classes("text-sky-800")
 
-        with ui.tab_panels(tabs, value=patients).classes("w-full h-full"):
+        with ui.tab_panels(tabs, value=patients, animated=False).classes("w-full h-full"):
             with ui.tab_panel(patients) \
                     .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
