@@ -19,7 +19,7 @@ class StudyVisitGrid(View):
 
     async def _edit_visit(self, visit_id: int):
         visit_vm = VisitViewModel()
-        visit_vm.updated_by = app.storage.user.load("username", "Unknown")
+        visit_vm.updated_by = app.storage.user.get("username", "Unknown")
         study_id = self.vm.get("study_id")
         await visit_vm.call("load_patients", study_id=study_id)
         await visit_vm.call("load", visit_id=visit_id)

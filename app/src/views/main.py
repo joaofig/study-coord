@@ -13,7 +13,7 @@ async def on_tab_change(event):
 
 
 def main_view():
-    user_role = app.storage.user.load("user_role", "User")
+    user_role = app.storage.user.get("user_role", "User")
 
     with ui.column().classes("w-full h-screen"):
         with ui.tabs().props("dense no-caps") as tabs:

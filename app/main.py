@@ -24,7 +24,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next):
         path = request.url.path
-        if app.storage.user.load('authenticated') or path in unrestricted_page_routes or path.startswith('/_nicegui'):
+        if app.storage.user.get('authenticated', False) or path in unrestricted_page_routes or path.startswith('/_nicegui'):
             return await call_next(request)
         return RedirectResponse(f'/login?redirect_to={path}')
 
@@ -39,7 +39,7 @@ user_info = UserInfo(username="", password="")
 
 @ui.page('/login')
 def login(redirect_to: str = '/') -> RedirectResponse | None:
-    if app.storage.user.load('authenticated'):
+    if app.storage.user.get('authenticated', False):
         return RedirectResponse('/')
 
     async def try_login() -> None:

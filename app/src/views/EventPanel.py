@@ -64,7 +64,7 @@ class EventPanel(View):
 
                 with ui.button(icon="delete", on_click=self._on_delete_event) \
                         .classes("text-xs") \
-                        .bind_enabled(self.vm, "event_id") \
+                        .bind_enabled(self.vm, "adverse_event_id") \
                         .props("color=red padding=xs"):
                     ui.tooltip("Delete Event")
 

@@ -74,7 +74,7 @@ class StudyResearcherGrid(View):
 
     async def _edit_researcher(self, researcher: dict) -> dict:
         researcher_vm = StudyResearcherViewModel()
-        researcher_vm.updated_by = app.storage.user.load("username", "Unknown")
+        researcher_vm.updated_by = app.storage.user.get("username", "Unknown")
         await researcher_vm.load_researchers()
         researcher_vm.from_dict(researcher)
 

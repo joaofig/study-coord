@@ -45,7 +45,7 @@ class UserView(View):
     async def _on_delete_user(self):
         user = self.vm.get("selected_row")
         user_name = user.load("user_name", "") if user else ""
-        if user_name == app.storage.user.load("username"):
+        if user_name == app.storage.user.get("username"):
             ui.notify("You cannot delete the currently logged-in user.", color="red")
             return
         if user_name == "admin":
@@ -63,8 +63,8 @@ class UserView(View):
 
     async def _show_dialog(self):
         vm = UserViewModel()
-        vm.created_by = app.storage.user.load("username", "Unknown")
-        vm.updated_by = app.storage.user.load("username", "Unknown")
+        vm.created_by = app.storage.user.get("username", "Unknown")
+        vm.updated_by = app.storage.user.get("username", "Unknown")
 
         dialog = UserDialog(UserViewModel())
         result = await dialog.show()

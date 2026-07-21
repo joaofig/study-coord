@@ -19,7 +19,7 @@ class EventGrid(View):
 
     async def _edit_event(self, event_id: int):
         event_vm = AdverseEventViewModel()
-        event_vm.updated_by = app.storage.user.load("username", "Unknown")
+        event_vm.updated_by = app.storage.user.get("username", "Unknown")
         study_id = self.vm.get("study_id")
         patient_id = self.vm.get("patient_id")
         await event_vm.call("load_patients", study_id=study_id)
