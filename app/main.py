@@ -49,7 +49,9 @@ def login(redirect_to: str = '/') -> RedirectResponse | None:
                                                     pass_hash)
 
         if user is not None:
-            app.storage.user.update(username=username.value, authenticated=True)
+            app.storage.user.update(username=username.value,
+                                    user_role=user.user_role,
+                                    authenticated=True)
             user_info.username = ""
             user_info.password = ""
             ui.navigate.to(redirect_to)  # go back to where the user wanted to go

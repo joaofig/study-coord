@@ -1,18 +1,11 @@
-from nicegui import ui
+from nicegui import ui, app
 
 from src.tools.tasks import ManagedTasks
-from src.viewmodels import StudyListViewModel
-from src.views.StudyView import StudyView
-from src.tools.messenger import get_messenger
-from src.viewmodels.report import ReportViewModel
-from src.viewmodels.researcher_list import ResearcherListViewModel
-from src.views.ReportView import ReportView
-from src.views.ResearcherView import ResearcherView
-from src.viewmodels import UserListViewModel
-from src.views.UserView import UserView
 
 
 async def on_tab_change(event):
+    from src.tools.messenger import get_messenger
+
     match event.value:
         case "Reports":
             messenger = get_messenger("reports")
@@ -20,6 +13,8 @@ async def on_tab_change(event):
 
 
 def main_view():
+    user_role = app.storage.user.get("user_role", "User")
+
     with ui.column().classes("w-full h-screen"):
         with ui.tabs().props("dense no-caps") as tabs:
             studies = ui.tab("Studies").classes("text-sky-800")
@@ -28,21 +23,33 @@ def main_view():
             settings = ui.tab("Settings").classes("text-sky-800")
             admin = ui.tab("Admin").classes("text-sky-800")
 
+            # Only visible to Admin users
+            admin.set_visibility(user_role == "Admin")
+
         with ui.tab_panels(tabs, value=studies, animated=False) \
                 .classes("h-full w-full"):
 
             with ui.tab_panel(studies).classes("pl-4 pt-0 pb-0 pr-4"):
+                from src.views.StudyView import StudyView
+                from src.viewmodels import StudyListViewModel
+
                 vm = StudyListViewModel()
                 ManagedTasks().create(vm.load())
                 view = StudyView(vm)
                 view.show()
 
             with ui.tab_panel(researchers).classes("pl-4 pt-0 pb-0 pr-4"):
+                from src.viewmodels.researcher_list import ResearcherListViewModel
+                from src.views.ResearcherView import ResearcherView
+
                 vm = ResearcherListViewModel()
                 ResearcherView(vm)
                 ManagedTasks().create(vm.call("load"))
 
             with ui.tab_panel(reports).classes("pl-4 pt-0 pb-0 pr-4"):
+                from src.views.ReportView import ReportView
+                from src.viewmodels.report import ReportViewModel
+
                 vm = ReportViewModel()
                 ReportView(vm)
                 ManagedTasks().create(vm.call("load"))
@@ -51,9 +58,11 @@ def main_view():
                 ui.label("Settings").classes("text-h4")
                 ui.label("Content of settings")
 
-            with ui.tab_panel(admin).classes("pl-4 pt-0 pb-0 pr-4"):
-                vm = UserListViewModel()
-                UserView(vm)
-                ManagedTasks().create(vm.call("load"))
+            with ui.tab_panel(admin).classes("pl-4 pt-0 pb-0 pr-4") as admin_panel:
+                if user_role == "Admin":
+                    from src.views.UserView import UserView
+                    from src.viewmodels import UserListViewModel
 
-
+                    vm = UserListViewModel()
+                    UserView(vm)
+                    ManagedTasks().create(vm.call("load"))
