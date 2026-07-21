@@ -11,6 +11,16 @@ class UserRepository(SupabaseRepository):
     def __init__(self):
         super().__init__()
 
+    async def get_user(self, user_name: str, pass_hash: str) -> UserDTO | None:
+        await self.connect()
+        if self.supabase:
+            result = (await self.supabase.table(TABLE).select("*")
+                      .eq("user_name", user_name)
+                      .eq("pass_hash", pass_hash).execute()).data
+            if result:
+                return UserDTO.from_dict(result[0])
+        return None
+
     async def list(self) -> List[UserDTO]:
         await self.connect()
         if self.supabase:

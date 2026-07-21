@@ -31,3 +31,5 @@ class UserModel:
     async def list(self) -> List[UserDTO]:
         return await self.repo.list()
 
+    async def get_user(self, user_name: str, pass_hash: str) -> UserDTO | None:
+        return await self.repo.get_user(user_name, pass_hash)

@@ -1,17 +1,12 @@
-import hashlib
 from datetime import date
 from typing import Any
 
 from nicegui import binding
 from nicegui.observables import ObservableSet
 
-from src.dtos.user import UserDTO
+from src.dtos.user import UserDTO, hash_password
 from src.models import UserModel
 from src.viewmodels.view_model import ViewModel
-
-
-def hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
 
 
 @binding.bindable_dataclass
