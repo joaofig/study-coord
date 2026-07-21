@@ -55,7 +55,7 @@ class ProtocolGrid(View):
 
     async def _edit_protocol(self, protocol: dict):
         vm = ProtocolViewModel()
-        vm.updated_by = app.storage.user.get("username", "Unknown")
+        vm.updated_by = app.storage.user.load("username", "Unknown")
         dlg = ProtocolDialog(vm=vm)
         vm.from_dict(protocol)
         await dlg.show()

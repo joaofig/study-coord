@@ -21,7 +21,7 @@ class EventRepository:
             "description": row[7],
             "comments": row[8]
         }
-        cursor = conn.execute(self.cache.get("event/get_by_id.sql"), (event_id,))
+        cursor = conn.execute(self.cache.load("event/get_by_id.sql"), (event_id,))
         return cursor.fetchone()
 
     def _get_by_study_and_patient(self, study_id: int, patient_id: int) -> List[dict]:
@@ -37,14 +37,14 @@ class EventRepository:
             "description": row[7],
             "comments": row[8]
         }
-        cursor = conn.execute(self.cache.get("event/get_by_study_and_patient.sql"), (study_id, patient_id))
+        cursor = conn.execute(self.cache.load("event/get_by_study_and_patient.sql"), (study_id, patient_id))
         return cursor.fetchall()
 
     def _save(self, event: dict) -> dict:
         conn = get_connection()
         if event.get("id", 0) > 0:
             conn.execute(
-                self.cache.get("event/update.sql"),
+                self.cache.load("event/update.sql"),
                 (
                     event["study_id"],
                     event["patient_id"],
@@ -57,7 +57,7 @@ class EventRepository:
             )
         else:
             cur = conn.execute(
-                self.cache.get("event/save.sql"),
+                self.cache.load("event/save.sql"),
                 (
                     event["study_id"],
                     event["patient_id"],
@@ -78,7 +78,7 @@ class EventRepository:
     def _delete(self, event_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("event/delete.sql"),
+            self.cache.load("event/delete.sql"),
             (event_id,)
         )
         conn.commit()
@@ -86,7 +86,7 @@ class EventRepository:
     def _delete_by_study_id(self, study_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("event/delete_by_study_id.sql"),
+            self.cache.load("event/delete_by_study_id.sql"),
             (study_id,)
         )
         conn.commit()

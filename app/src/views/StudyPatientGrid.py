@@ -70,7 +70,7 @@ class StudyPatientGrid(View):
 
     async def _edit_patient(self, patient: dict) -> dict:
         vm = PatientViewModel()
-        vm.updated_by = app.storage.user.get("username", "Unknown")
+        vm.updated_by = app.storage.user.load("username", "Unknown")
         dlg = StudyPatientDialog(vm=vm)
         vm.from_dict(patient)
         result = await dlg.show()

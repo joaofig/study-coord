@@ -21,7 +21,7 @@ class StudyResearcherRepository:
             "phone": row[7],
             "email": row[8],
         }
-        sql = self.cache.get("study_researcher/get_by_study_id.sql")
+        sql = self.cache.load("study_researcher/get_by_study_id.sql")
         return conn.execute(sql, (study_id,)).fetchall()
 
     def _get_by_id(self, sr_id: int) -> dict | None:
@@ -37,13 +37,13 @@ class StudyResearcherRepository:
             "phone": row[7],
             "email": row[8],
         }
-        sql = self.cache.get("study_researcher/get_by_id.sql")
+        sql = self.cache.load("study_researcher/get_by_id.sql")
         return conn.execute(sql, (sr_id,)).fetchone()
 
     def _save(self, researcher: dict) -> dict:
         conn = get_connection()
         if researcher["id"] == 0:
-            sql = self.cache.get("study_researcher/save.sql")
+            sql = self.cache.load("study_researcher/save.sql")
             cur = conn.execute(
                 sql,
                 (researcher["study_id"],
@@ -52,7 +52,7 @@ class StudyResearcherRepository:
             researcher["id"] = cur.lastrowid
             cur.close()
         else:
-            conn.execute(self.cache.get("study_researcher/update.sql"),
+            conn.execute(self.cache.load("study_researcher/update.sql"),
                          (researcher["researcher_id"], researcher["role"],
                           researcher["study_comments"], researcher["id"]))
         conn.commit()
@@ -60,12 +60,12 @@ class StudyResearcherRepository:
 
     def _delete(self, researcher_id: int) -> None:
         conn = get_connection()
-        conn.execute(self.cache.get("study_researcher/delete.sql"), (researcher_id,))
+        conn.execute(self.cache.load("study_researcher/delete.sql"), (researcher_id,))
         conn.commit()
 
     def _delete_by_study_id(self, study_id: int) -> None:
         conn = get_connection()
-        conn.execute(self.cache.get("study_researcher/delete_by_study_id.sql"), (study_id,))
+        conn.execute(self.cache.load("study_researcher/delete_by_study_id.sql"), (study_id,))
         conn.commit()
 
     async def list(self, study_id: int) -> List[dict]:

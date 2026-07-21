@@ -20,7 +20,7 @@ class VisitRepository:
             "visit_type": row[6],
             "comments": row[7]
         }
-        cursor = conn.execute(self.cache.get("visit/get_by_id.sql"), (visit_id,))
+        cursor = conn.execute(self.cache.load("visit/get_by_id.sql"), (visit_id,))
         return cursor.fetchone()
 
     def _get_by_study_id(self, study_id: int) -> List[dict] | None:
@@ -35,7 +35,7 @@ class VisitRepository:
             "visit_type": row[6],
             "comments": row[7]
         }
-        cursor = conn.execute(self.cache.get("visit/get_by_study_id.sql"), (study_id,))
+        cursor = conn.execute(self.cache.load("visit/get_by_study_id.sql"), (study_id,))
         return cursor.fetchall()
 
     def _get_by_study_id_and_patient_id(self, study_id: int, patient_id: int) -> List[dict] | None:
@@ -50,20 +50,20 @@ class VisitRepository:
             "visit_type": row[6],
             "comments": row[7]
         }
-        cursor = conn.execute(self.cache.get("visit/get_by_study_id_and_patient_id.sql"), (study_id, patient_id))
+        cursor = conn.execute(self.cache.load("visit/get_by_study_id_and_patient_id.sql"), (study_id, patient_id))
         return cursor.fetchall()
 
     def _save(self, visit: dict) -> dict:
         conn = get_connection()
         if visit.get("id", 0) > 0:
             conn.execute(
-                self.cache.get("visit/update.sql"),
+                self.cache.load("visit/update.sql"),
                 (visit["study_id"], visit["patient_id"], visit["visit_date"], visit["visit_type"], visit["comments"], visit["id"])
             )
 
         else:
             cur = conn.execute(
-                self.cache.get("visit/save.sql"),
+                self.cache.load("visit/save.sql"),
                 (visit["study_id"], visit["patient_id"], visit["visit_date"], visit["visit_type"], visit["comments"])
             )
             visit["id"] = cur.lastrowid
@@ -74,7 +74,7 @@ class VisitRepository:
     def _delete(self, visit_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("visit/delete.sql"),
+            self.cache.load("visit/delete.sql"),
             (visit_id,)
         )
         conn.commit()
@@ -82,7 +82,7 @@ class VisitRepository:
     def _delete_by_study_id(self, study_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("visit/delete_by_study_id.sql"),
+            self.cache.load("visit/delete_by_study_id.sql"),
             (study_id,)
         )
         conn.commit()

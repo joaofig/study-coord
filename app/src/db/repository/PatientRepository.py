@@ -21,7 +21,7 @@ class PatientRepository:
             "status": row[6],
             "comments": row[7],
         }
-        cursor = conn.execute(self.cache.get("patient/get_by_id.sql"), (patient_id,))
+        cursor = conn.execute(self.cache.load("patient/get_by_id.sql"), (patient_id,))
         return cursor.fetchone()
 
     def _get_by_study_id(self, study_id: int) -> List[dict]:
@@ -36,21 +36,21 @@ class PatientRepository:
             "status": row[6],
             "comments": row[7],
         }
-        cursor = conn.execute(self.cache.get("patient/get_by_study_id.sql"), (study_id,))
+        cursor = conn.execute(self.cache.load("patient/get_by_study_id.sql"), (study_id,))
         return cursor.fetchall()
 
     def _save(self, patient: dict) -> dict:
         conn = get_connection()
         if patient.get("id", 0) > 0:
             conn.execute(
-                self.cache.get("patient/update.sql"),
+                self.cache.load("patient/update.sql"),
                 (patient["study_id"], patient["number"], patient["name"], patient["start_date"], patient["exit_date"],
                  patient["status"], patient["comments"], patient["id"])
             )
 
         else:
             cur = conn.execute(
-                self.cache.get("patient/save.sql"),
+                self.cache.load("patient/save.sql"),
                 (patient["study_id"], patient["number"], patient["name"], patient["start_date"],
                  patient["exit_date"], patient["status"],
                  patient["comments"])
@@ -63,7 +63,7 @@ class PatientRepository:
     def _delete(self, patient_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("patient/delete.sql"),
+            self.cache.load("patient/delete.sql"),
             (patient_id,)
         )
         conn.commit()
@@ -71,7 +71,7 @@ class PatientRepository:
     def _delete_by_study_id(self, study_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("patient/delete_by_study_id.sql"),
+            self.cache.load("patient/delete_by_study_id.sql"),
             (study_id,)
         )
         conn.commit()

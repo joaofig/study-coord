@@ -65,7 +65,7 @@ Views should use the `get()` method to access non-bindable properties from the V
 
 ```python
 # In View
-self.select = ui.select(options=self.vm.get("patients"), label="Patient")
+self.select = ui.select(options=self.vm.load("patients"), label="Patient")
 ```
 
 ## Messaging (Messenger)

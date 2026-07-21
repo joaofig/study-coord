@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class AdverseEventDTO(BaseModel):
-    id: int = 0
+    adverse_event_id: int = 0
     study_id: int = 0
     patient_id: int = 0
     event_date: date = date.today()
@@ -16,7 +16,7 @@ class AdverseEventDTO(BaseModel):
     @classmethod
     def from_dict(cls, data: dict) -> AdverseEventDTO:
         return AdverseEventDTO(
-            id=data.get("id", 0),
+            adverse_event_id=data.get("adverse_event_id", 0),
             study_id=data.get("study_id", 0),
             patient_id=data.get("patient_id", 0),
             event_date=date.fromisoformat(data.get("event_date", date.today().isoformat())),
@@ -29,7 +29,7 @@ class AdverseEventDTO(BaseModel):
 
     def to_dict(self) -> dict:
         return {
-            "id": self.id,
+            "adverse_event_id": self.adverse_event_id,
             "study_id": self.study_id,
             "patient_id": self.patient_id,
             "event_date": self.event_date.isoformat(),

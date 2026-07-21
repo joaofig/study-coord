@@ -30,7 +30,7 @@ class StudyRepository:
             "researchers": row[9],
             "adverse_events": row[10],
         }
-        cursor = conn.execute(self.cache.get("study/get_all.sql"))
+        cursor = conn.execute(self.cache.load("study/get_all.sql"))
         return cursor.fetchall()
 
     def _get_by_id(self, study_id: int) -> dict | None:
@@ -45,7 +45,7 @@ class StudyRepository:
             "comments": row[6],
         }
         cursor = conn.execute(
-            self.cache.get("study/get_by_id.sql"),
+            self.cache.load("study/get_by_id.sql"),
             (study_id,),
         )
         return cursor.fetchone()
@@ -54,7 +54,7 @@ class StudyRepository:
         conn = get_connection()
 
         if study["id"] == 0:
-            sql = self.cache.get("study/save.sql")
+            sql = self.cache.load("study/save.sql")
             cur = conn.execute(
                 sql,
                 (study["name"], study["sponsor"], study["start_date"], study["end_date"], study["proto_visits"],
@@ -63,7 +63,7 @@ class StudyRepository:
             study["id"] = cur.lastrowid
             cur.close()
         else:
-            sql = self.cache.get("study/update.sql")
+            sql = self.cache.load("study/update.sql")
             conn.execute(
                 sql,
                 (study["name"], study["sponsor"], study["start_date"], study["end_date"], study["proto_visits"],
@@ -75,7 +75,7 @@ class StudyRepository:
     def _delete(self, study_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("study/delete.sql"),
+            self.cache.load("study/delete.sql"),
             (study_id,),
         )
         conn.commit()

@@ -19,7 +19,7 @@ class ResearcherRepository:
             "comments": row[5],
             "study_count": row[6],
         }
-        sql = self.cache.get("researcher/get_all.sql")
+        sql = self.cache.load("researcher/get_all.sql")
         return conn.execute(sql).fetchall()
 
     def _get_by_id(self, researcher_id: int) -> dict | None:
@@ -33,7 +33,7 @@ class ResearcherRepository:
             "comments": row[5],
             "study_count": row[6],
         }
-        sql = self.cache.get("researcher/get_by_id.sql")
+        sql = self.cache.load("researcher/get_by_id.sql")
         return conn.execute(sql, (researcher_id,)).fetchone()
 
     def _get_by_number(self, researcher_number: str) -> dict | None:
@@ -46,13 +46,13 @@ class ResearcherRepository:
             "email": row[4],
             "comments": row[5],
         }
-        sql = self.cache.get("researcher/get_by_number.sql")
+        sql = self.cache.load("researcher/get_by_number.sql")
         return conn.execute(sql, (researcher_number,)).fetchone()
 
     def _save(self, researcher: dict) -> dict:
         conn = get_connection()
         if researcher["id"] == 0:
-            sql = self.cache.get("researcher/save.sql")
+            sql = self.cache.load("researcher/save.sql")
             cur = conn.execute(
                 sql,
                 (researcher["number"], researcher["name"], researcher["phone"], researcher["email"], researcher["comments"])
@@ -60,7 +60,7 @@ class ResearcherRepository:
             researcher["id"] = cur.lastrowid
             cur.close()
         else:
-            conn.execute(self.cache.get("researcher/update.sql"),
+            conn.execute(self.cache.load("researcher/update.sql"),
                          (researcher["number"], researcher["name"],
                           researcher["phone"], researcher["email"],
                           researcher["comments"], researcher["id"]))
@@ -69,8 +69,8 @@ class ResearcherRepository:
 
     def _delete(self, researcher_id: int) -> None:
         conn = get_connection()
-        conn.execute(self.cache.get("researcher/delete_studies.sql"), (researcher_id,))
-        conn.execute(self.cache.get("researcher/delete.sql"), (researcher_id,))
+        conn.execute(self.cache.load("researcher/delete_studies.sql"), (researcher_id,))
+        conn.execute(self.cache.load("researcher/delete.sql"), (researcher_id,))
         conn.commit()
 
     async def list(self) -> List[dict]:

@@ -68,7 +68,7 @@ class ResearcherGrid(View):
         if row_data:
             from views.dialogs.researcher_dialog import ResearcherDialog
             vm = ResearcherViewModel()
-            vm.updated_by = app.storage.user.get("username", "Unknown")
+            vm.updated_by = app.storage.user.load("username", "Unknown")
             dialog = ResearcherDialog(vm)
             await dialog.vm.call("load",
                                  researcher_id=row_data["id"])  # Copy the selected row's data into the ViewModel

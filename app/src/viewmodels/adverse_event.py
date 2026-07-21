@@ -12,7 +12,7 @@ from src.viewmodels.view_model import ViewModel
 
 @binding.bindable_dataclass
 class AdverseEventViewModel(ViewModel):
-    event_id: int = 0
+    adverse_event_id: int = 0
     study_id: int = 0
     patient_id: int = 0
     event_date: date = date.today()
@@ -35,7 +35,7 @@ class AdverseEventViewModel(ViewModel):
 
     def to_event(self) -> AdverseEventDTO:
         return AdverseEventDTO(
-            id=self.event_id,
+            adverse_event_id=self.adverse_event_id,
             study_id=self.study_id,
             patient_id=self.patient_id,
             event_date=self.event_date,
@@ -47,15 +47,15 @@ class AdverseEventViewModel(ViewModel):
     async def save(self):
         event = self.to_event()
         await self.model.save(event)
-        if event.id:
-            self.event_id = event.id
+        if event.adverse_event_id:
+            self.adverse_event_id = event.adverse_event_id
         self.changed = False
         await self.broadcast("event", "saved")
 
     async def load(self, event_id: int):
         event = await self.model.load(event_id)
         if event:
-            self.event_id = event.id
+            self.adverse_event_id = event.adverse_event_id
             self.study_id = event.study_id
             self.patient_id = event.patient_id
             self.event_date = event.event_date
@@ -72,7 +72,7 @@ class AdverseEventViewModel(ViewModel):
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
-                event_id = kwargs.get("event_id", 0)
+                event_id = kwargs.get("adverse_event_id", 0)
                 if event_id:
                     await self.load(event_id)
 

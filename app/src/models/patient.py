@@ -26,14 +26,10 @@ class PatientModel:
         dto.id = patient["id"]
 
     async def load(self, patient_id: int) -> PatientDTO | None:
-        patient = await self.repo.load(patient_id)
-        if patient:
-            return PatientDTO(**patient)
-        return None
+        return await self.repo.load(patient_id)
 
     async def delete(self, patient_id: int):
-        await self.repo.delete(patient_id)
+        await self.repo.delete(patient_id=patient_id)
 
     async def list(self, study_id: int) -> List[PatientDTO]:
-        patients = await self.repo.list(study_id)
-        return [PatientDTO(**patient) for patient in patients]
+        return await self.repo.list(study_id)

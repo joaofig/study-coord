@@ -18,7 +18,7 @@ class ProtocolRepository:
             "date": row[3],
             "description": row[4],
         }
-        cursor = conn.execute(self.cache.get("protocol/get_by_id.sql"), (protocol_id,))
+        cursor = conn.execute(self.cache.load("protocol/get_by_id.sql"), (protocol_id,))
         return cursor.fetchone()
 
     def _get_by_study_id(self, study_id: int) -> List[dict]:
@@ -30,20 +30,20 @@ class ProtocolRepository:
             "date": row[3],
             "description": row[4],
         }
-        cursor = conn.execute(self.cache.get("protocol/get_by_study_id.sql"), (study_id,))
+        cursor = conn.execute(self.cache.load("protocol/get_by_study_id.sql"), (study_id,))
         return cursor.fetchall()
 
     def _save(self, protocol: dict) -> dict:
         conn = get_connection()
         if protocol.get("id", 0) > 0:
             conn.execute(
-                self.cache.get("protocol/update.sql"),
+                self.cache.load("protocol/update.sql"),
                 (protocol["study_id"], protocol["title"], protocol["date"], protocol["description"], protocol["id"])
             )
 
         else:
             cur = conn.execute(
-                self.cache.get("protocol/save.sql"),
+                self.cache.load("protocol/save.sql"),
                 (protocol["study_id"], protocol["title"], protocol["date"], protocol["description"])
             )
             protocol["id"] = cur.lastrowid
@@ -54,7 +54,7 @@ class ProtocolRepository:
     def _delete(self, protocol_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("protocol/delete.sql"),
+            self.cache.load("protocol/delete.sql"),
             (protocol_id,)
         )
         conn.commit()
@@ -62,7 +62,7 @@ class ProtocolRepository:
     def _delete_by_study_id(self, study_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("protocol/delete_by_study_id.sql"),
+            self.cache.load("protocol/delete_by_study_id.sql"),
             (study_id,)
         )
         conn.commit()

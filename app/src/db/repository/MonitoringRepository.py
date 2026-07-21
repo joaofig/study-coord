@@ -17,7 +17,7 @@ class MonitoringRepository:
             "monitor": row[3],
             "comments": row[4],
         }
-        cursor = conn.execute(self.cache.get("monitoring/get_by_id.sql"), (monitoring_id,))
+        cursor = conn.execute(self.cache.load("monitoring/get_by_id.sql"), (monitoring_id,))
         return cursor.fetchone()
 
     def _get_by_study_id(self, study_id: int) -> List[dict]:
@@ -29,19 +29,19 @@ class MonitoringRepository:
             "monitor": row[3],
             "comments": row[4],
         }
-        cursor = conn.execute(self.cache.get("monitoring/get_by_study_id.sql"), (study_id,))
+        cursor = conn.execute(self.cache.load("monitoring/get_by_study_id.sql"), (study_id,))
         return cursor.fetchall()
 
     def _save(self, monitoring: dict) -> dict:
         conn = get_connection()
         if monitoring.get("id", 0) > 0:
             conn.execute(
-                self.cache.get("monitoring/update.sql"),
+                self.cache.load("monitoring/update.sql"),
                 (monitoring["study_id"], monitoring["date"], monitoring["monitor"], monitoring["comments"], monitoring["id"])
             )
         else:
             cur = conn.execute(
-                self.cache.get("monitoring/save.sql"),
+                self.cache.load("monitoring/save.sql"),
                 (monitoring["study_id"], monitoring["date"], monitoring["monitor"], monitoring["comments"])
             )
             monitoring["id"] = cur.lastrowid
@@ -52,7 +52,7 @@ class MonitoringRepository:
     def _delete(self, monitoring_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("monitoring/delete.sql"),
+            self.cache.load("monitoring/delete.sql"),
             (monitoring_id,)
         )
         conn.commit()
@@ -60,7 +60,7 @@ class MonitoringRepository:
     def _delete_by_study_id(self, study_id: int) -> None:
         conn = get_connection()
         conn.execute(
-            self.cache.get("monitoring/delete_by_study_id.sql"),
+            self.cache.load("monitoring/delete_by_study_id.sql"),
             (study_id,)
         )
         conn.commit()

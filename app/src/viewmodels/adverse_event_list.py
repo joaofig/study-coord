@@ -11,8 +11,7 @@ class AdverseEventListViewModel(ViewModel):
         super().__init__()
         self.events = ObservableList()
         self.study_id: int = 0
-        self.patient_id: int = 0
-        self.event_id: int = 0
+        self.adverse_event_id: int = 0
         self.model = AdverseEventModel()
 
         self.subscribe(channel="study",
@@ -25,13 +24,13 @@ class AdverseEventListViewModel(ViewModel):
                        message="saved",
                        handler=self._handle_event_saved)
 
-    async def _load_events(self, study_id: int, patient_id: int):
+    async def _load_events(self, study_id: int, adverse_event_id: int):
         self.events.clear()
-        loaded_events = await self.model.list(study_id, patient_id)
+        loaded_events = await self.model.list(study_id, adverse_event_id)
         self.events.extend(loaded_events)
 
     async def _handle_event_saved(self, **kwargs):
-        await self._load_events(self.study_id, self.patient_id)
+        await self._load_events(self.study_id, self.adverse_event_id)
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id", 0)
@@ -40,38 +39,37 @@ class AdverseEventListViewModel(ViewModel):
         else:
             self.study_id = 0
             self.event_id = 0
-        self.patient_id = 0
+        self.adverse_event_id = 0
         self.events.clear()
 
     async def _handle_patient_selected(self, **kwargs):
-        patient_id = kwargs.get("patient_id", 0)
+        patient_id = kwargs.get("adverse_event_id", 0)
         if patient_id:
-            self.patient_id = int(patient_id)
-            await self._load_events(self.study_id, self.patient_id)
+            self.adverse_event_id = int(patient_id)
+            await self._load_events(self.study_id, self.adverse_event_id)
         else:
-            self.patient_id = 0
-            self.event_id = 0
+            self.adverse_event_id = 0
             self.events.clear()
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 self.study_id = kwargs.get("study_id", self.study_id)
-                self.patient_id = kwargs.get("patient_id", self.patient_id)
-                if self.study_id and self.patient_id:
-                    await self._load_events(self.study_id, self.patient_id)
+                self.adverse_event_id = kwargs.get("adverse_event_id", self.adverse_event_id)
+                if self.study_id and self.adverse_event_id:
+                    await self._load_events(self.study_id, self.adverse_event_id)
 
             case "event_selected":
-                event_id = kwargs.get("event_id", 0)
-                if event_id:
-                    self.event_id = int(event_id)
+                adverse_event_id = kwargs.get("adverse_event_id", 0)
+                if adverse_event_id:
+                    self.adverse_event_id = adverse_event_id
 
             case "event_unselected":
-                self.event_id = 0
+                self.adverse_event_id = 0
 
             case "delete":
-                event_id = kwargs.get("event_id", 0)
-                if event_id:
-                    await self.model.delete(event_id)
-                    await self._load_events(self.study_id, self.patient_id)
+                adverse_event_id = kwargs.get("adverse_event_id", 0)
+                if adverse_event_id:
+                    await self.model.delete(adverse_event_id)
+                    await self._load_events(self.study_id, self.adverse_event_id)
         return None

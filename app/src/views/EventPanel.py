@@ -35,7 +35,7 @@ class EventPanel(View):
     async def _new_event_dialog(self):
         event_vm = AdverseEventViewModel()
         await event_vm.load_patients(self.study_id)
-        event_vm.patient_id = self.patient_id
+        event_vm.adverse_event_id = self.patient_id
         await event_vm.call("load_patient", patient_id=self.patient_id)
         dialog = EventDialog(event_vm)
         result = await dialog.show()
