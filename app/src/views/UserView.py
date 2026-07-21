@@ -2,12 +2,12 @@ from nicegui import ui
 
 from src.viewmodels.view_model import ViewModel
 from src.views.View import View
-from tools.excel import export_to_excel
-from tools.user import logout
-from viewmodels import UserViewModel
-from views.UserGrid import UserGrid
-from views.dialogs import UserDialog
-from views.dialogs.delete_warning_dialog import DeleteWarningDialog
+from src.tools.excel import export_to_excel
+from src.tools.user import logout
+from src.viewmodels import UserViewModel
+from src.views.UserGrid import UserGrid
+from src.views.dialogs import UserDialog
+from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 
 
 class UserView(View):

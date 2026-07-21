@@ -1,17 +1,17 @@
 from nicegui import ui
 
 from src.dtos.study import StudyDTO
-from viewmodels import PatientListViewModel, MonitoringListViewModel
-from viewmodels.view_model import ViewModel
-from views.StudyMonitoringPanel import StudyMonitoringPanel
-from views.StudyPatientPanel import StudyPatientPanel
-from views.View import View
-from viewmodels.study_researcher_list import StudyResearcherListViewModel
-from viewmodels.visit_list import VisitListViewModel
-from viewmodels import AdverseEventListViewModel
-from views.StudyResearcherPanel import StudyResearcherPanel
-from views.StudyVisitPanel import StudyVisitPanel
-from views.EventPanel import EventPanel
+from src.viewmodels import PatientListViewModel, MonitoringListViewModel
+from src.viewmodels.view_model import ViewModel
+from src.views.StudyMonitoringPanel import StudyMonitoringPanel
+from src.views.StudyPatientPanel import StudyPatientPanel
+from src.views.View import View
+from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
+from src.viewmodels.visit_list import VisitListViewModel
+from src.viewmodels import AdverseEventListViewModel
+from src.views.StudyResearcherPanel import StudyResearcherPanel
+from src.views.StudyVisitPanel import StudyVisitPanel
+from src.views.EventPanel import EventPanel
 
 
 def validate_name(value: str | None) -> str | None:

@@ -1,7 +1,7 @@
 from nicegui import ui
 
-from viewmodels.view_model import ViewModel
-from views.View import View
+from src.viewmodels.view_model import ViewModel
+from src.views.View import View
 
 
 def validate_number(value: str) -> str | None:
