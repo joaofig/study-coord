@@ -6,6 +6,7 @@ from src.viewmodels.view_model import ViewModel
 from src.views.ResearcherGrid import ResearcherGrid
 from src.views.View import View
 from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog
+from tools.user import logout
 
 
 class ResearcherView(View):
@@ -29,6 +30,13 @@ class ResearcherView(View):
                         .classes("text-xs") \
                         .props("padding=xs"):
                     ui.tooltip("Export to Excel")
+
+                ui.separator()
+
+                with ui.button(icon="logout", on_click=logout) \
+                        .classes("text-xs") \
+                        .props("padding=xs"):
+                    ui.tooltip("Log Out")
 
             with ui.column().classes("h-full flex-1"):
                 self.grid = ResearcherGrid(vm)

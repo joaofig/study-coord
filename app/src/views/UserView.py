@@ -3,6 +3,7 @@ from nicegui import ui
 from src.viewmodels.view_model import ViewModel
 from src.views.View import View
 from tools.excel import export_to_excel
+from tools.user import logout
 from viewmodels import UserViewModel
 from views.UserGrid import UserGrid
 from views.dialogs import UserDialog
@@ -30,6 +31,13 @@ class UserView(View):
                         .classes("text-xs") \
                         .props("padding=xs"):
                     ui.tooltip("Export to Excel")
+
+                ui.separator()
+
+                with ui.button(icon="logout", on_click=logout) \
+                        .classes("text-xs") \
+                        .props("padding=xs"):
+                    ui.tooltip("Log Out")
 
             with ui.column().classes("h-full flex-1"):
                 self.grid = UserGrid(vm)

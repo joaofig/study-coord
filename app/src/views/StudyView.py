@@ -1,5 +1,6 @@
 from nicegui import ui
 
+from src.tools.user import logout
 from src.tools.excel import export_to_excel
 from src.viewmodels import StudyViewModel
 from src.viewmodels.view_model import ViewModel
@@ -55,6 +56,13 @@ class StudyView(View):
                                 .classes("text-xs") \
                                 .props("padding=xs"):
                             ui.tooltip("Export to Excel")
+
+                        ui.separator()
+
+                        with ui.button(icon="logout", on_click=logout) \
+                                .classes("text-xs") \
+                                .props("padding=xs"):
+                            ui.tooltip("Log Out")
 
                     with ui.column().classes("h-full flex-1"):
                         grid = StudyGrid(self.vm)
