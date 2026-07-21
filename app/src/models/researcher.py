@@ -9,7 +9,7 @@ class ResearcherModel:
 
     @classmethod
     def empty(cls) -> ResearcherDTO:
-        return ResearcherDTO(id=0, number="", name="", phone="", email="", comments="", study_count=0)
+        return ResearcherDTO(id=0, number="", name="", phone="", email="", comments="")
 
     async def save(self, dto: ResearcherDTO):
         researcher = await self.repo.save(dto)
@@ -19,12 +19,10 @@ class ResearcherModel:
         await self.repo.delete(researcher_id)
 
     async def load(self, researcher_id: int) -> ResearcherDTO | None:
-        researcher = await self.repo.get(researcher_id)
-        return ResearcherDTO(**researcher) if researcher else None
+        return await self.repo.load(researcher_id)
 
     async def list(self) -> List[ResearcherDTO]:
-        researchers = await self.repo.list()
-        return [ResearcherDTO(**r) for r in researchers]
+        return await self.repo.list()
 
 
 def study_researcher_roles() -> dict:
