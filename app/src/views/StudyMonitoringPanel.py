@@ -23,6 +23,7 @@ class StudyMonitoringPanel(View):
 
     async def _new_monitoring_dialog(self):
         monitoring_vm = MonitoringViewModel()
+
         monitoring_vm.study_id = self.study_id
         dialog = StudyMonitoringDialog(monitoring_vm)
         result = await dialog.show()

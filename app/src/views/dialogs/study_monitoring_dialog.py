@@ -30,7 +30,7 @@ class StudyMonitoringDialog(View):
 
             (ui.date_input("Date")
                  .classes("w-full")
-                 .bind_value(self.vm, "date")
+                 .bind_value(self.vm, "meeting_date")
             )
             (ui.input("Monitor", validation=validate_monitor)
                  .classes("w-full")

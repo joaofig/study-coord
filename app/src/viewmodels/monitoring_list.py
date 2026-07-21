@@ -41,14 +41,14 @@ class MonitoringListViewModel(ViewModel):
                     await self._load_monitoring(self.study_id)
 
             case "monitoring_selected":
-                monitoring_id = kwargs.get("monitoring_id")
+                monitoring_id = kwargs.get("monitoring_id", 0)
                 if monitoring_id:
-                    self.monitoring_id = int(str(monitoring_id))
+                    self.monitoring_id = monitoring_id
 
             case "delete_monitoring":
-                monitoring_id = kwargs.get("monitoring_id")
+                monitoring_id = kwargs.get("monitoring_id", 0)
                 if monitoring_id:
-                    self.monitoring_id = int(str(monitoring_id))
+                    self.monitoring_id = monitoring_id
                     await self.model.delete(self.monitoring_id)
                     await self._load_monitoring(self.study_id)
 

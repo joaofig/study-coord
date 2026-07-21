@@ -14,7 +14,7 @@ class MonitoringRepository(SupabaseRepository):
     async def load(self, monitoring_id: int) -> MonitoringDTO | None:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*").eq("id", monitoring_id).execute()).data
+            result = (await self.supabase.table(TABLE).select("*").eq("monitoring_id", monitoring_id).execute()).data
             if result:
                 return MonitoringDTO.from_dict(result[0])
         return None
@@ -34,7 +34,7 @@ class MonitoringRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             if monitoring_id:
-                await self.supabase.table(TABLE).delete().eq("id", monitoring_id).execute()
+                await self.supabase.table(TABLE).delete().eq("monitoring_id", monitoring_id).execute()
             elif study_id:
                 await self.supabase.table(TABLE).delete().eq("study_id", study_id).execute()
         return None

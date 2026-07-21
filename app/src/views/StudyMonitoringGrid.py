@@ -30,7 +30,7 @@ class StudyMonitoringGrid(View):
         columns = [
             {
                 "headerName": "Edit",
-                "field": "id",
+                "field": "monitoring_id",
                 "width": 50,
                 ":cellRenderer": """
                 (params) => {
@@ -44,7 +44,7 @@ class StudyMonitoringGrid(View):
                 }
                 """
             },
-            {"headerName": "Date", "field": "date", "sortable": True, "align": "left", "width": 120},
+            {"headerName": "Date", "field": "meeting_date", "sortable": True, "align": "left", "width": 120},
             {"headerName": "Monitor", "field": "monitor", "sortable": True, "align": "left"},
             {"headerName": "Comments", "field": "comments", "sortable": True, "align": "left"},
         ]
@@ -81,4 +81,4 @@ class StudyMonitoringGrid(View):
     async def _row_selection_changed(self, event):
         row = await self.grid.get_selected_row()
         if row:
-            await self.vm.call("monitoring_selected", monitoring=row, monitoring_id=row["id"])
+            await self.vm.call("monitoring_selected", monitoring=row, monitoring_id=row["monitoring_id"])

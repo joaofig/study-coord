@@ -27,7 +27,7 @@ class SupabaseRepository:
         if self.supabase:
             row_id = [k for k in value.keys() if k == "id" or k.endswith("_id")][0]
             if value.get(row_id, 0) > 0:
-                await self.supabase.table(table).update(value).eq("id", value["id"]).execute()
+                await self.supabase.table(table).update(value).eq(row_id, value[row_id]).execute()
                 return value
             else:
                 del value[row_id]
