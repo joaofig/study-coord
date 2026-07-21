@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from models import Study
+from src.dtos.study import StudyDTO
 from viewmodels import PatientListViewModel, MonitoringListViewModel
 from viewmodels.view_model import ViewModel
 from views.StudyMonitoringPanel import StudyMonitoringPanel
@@ -23,12 +23,12 @@ def validate_name(value: str | None) -> str | None:
 class StudyEditor(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.study = Study.empty()
+        self.study = StudyDTO()
 
     async def save(self):
         await self.vm.call("save_study")
 
-    async def load(self, study: Study):
+    async def load(self, study: StudyDTO):
         self.study = study
         await self.vm.call("copy", study=study)
 
@@ -55,7 +55,7 @@ class StudyEditor(View):
     def study_pane(self):
         with ui.row().classes("mt-2 w-full"):
             ui.button("New",
-                      on_click=lambda: self.load(Study.empty())) \
+                      on_click=lambda: self.load(StudyDTO())) \
                 .props("icon=add") \
                 .classes("text-xs")
 

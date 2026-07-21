@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 from nicegui import binding
 
-from models import PatientModel
+from src.models import PatientModel
 from src.models import VisitModel
 from src.dtos.visit import VisitDTO
 from .patient import PatientViewModel
