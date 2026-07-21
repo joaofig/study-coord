@@ -6,7 +6,7 @@ from src.views.EventGrid import EventGrid
 from src.views.View import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.event_dialog import EventDialog
-from viewmodels import AdverseEventViewModel
+from src.viewmodels import AdverseEventViewModel
 
 
 class EventPanel(View):
