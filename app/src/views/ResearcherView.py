@@ -6,7 +6,7 @@ from src.viewmodels.view_model import ViewModel
 from src.views.ResearcherGrid import ResearcherGrid
 from src.views.View import View
 from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog
-from tools.user import logout
+from src.tools.user import logout
 
 
 class ResearcherView(View):

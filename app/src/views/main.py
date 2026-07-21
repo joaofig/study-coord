@@ -8,8 +8,8 @@ from src.viewmodels.report import ReportViewModel
 from src.viewmodels.researcher_list import ResearcherListViewModel
 from src.views.ReportView import ReportView
 from src.views.ResearcherView import ResearcherView
-from viewmodels import UserListViewModel
-from views.UserView import UserView
+from src.viewmodels import UserListViewModel
+from src.views.UserView import UserView
 
 
 async def on_tab_change(event):

@@ -5,8 +5,8 @@ from fastapi.responses import RedirectResponse
 from nicegui import context, ui, app, binding
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from dtos.user import UserDTO, hash_password
-from models import UserModel
+from src.dtos.user import UserDTO, hash_password
+from src.models import UserModel
 from src.views.main import main_view
 
 
