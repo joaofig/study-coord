@@ -35,7 +35,7 @@ class UserGrid(View):
                 """
             },
             {"headerName": "User Name", "field": "user_name", "sortable": True, "align": "left"},
-            {"headerName": "Role", "field": "role", "sortable": True, "align": "left"},
+            {"headerName": "Role", "field": "user_role", "sortable": True, "align": "left"},
             {"headerName": "Created At", "field": "created_at", "sortable": True, "align": "left"},
             {"headerName": "Created By", "field": "created_by", "sortable": True, "align": "left"},
             {"headerName": "Updated At", "field": "updated_at", "sortable": True, "align": "left"},

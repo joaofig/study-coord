@@ -6,9 +6,9 @@ class UserDialog(View):
     def __init__(self, vm: UserViewModel):
         super().__init__(vm)
         
-        # Ensure role has a default value if not set
-        if not self.vm.role:
-            self.vm.role = "User"
+        # Ensure user_role has a default value if not set
+        if not self.vm.user_role:
+            self.vm.user_role = "User"
 
         with ui.dialog() as dialog, ui.card().classes("w-120"):
             with ui.row().classes("w-full bg-gray-200 p-2"):
@@ -19,7 +19,7 @@ class UserDialog(View):
             ui.select(
                 label="Role",
                 options=["Admin", "User"],
-            ).classes("w-full").bind_value(self.vm, "role")
+            ).classes("w-full").bind_value(self.vm, "user_role")
             
             ui.input(label="Password", password=True, password_toggle_button=True)\
                 .classes("w-full").bind_value(self.vm, "password_1")

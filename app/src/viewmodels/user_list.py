@@ -19,7 +19,9 @@ class UserListViewModel(ViewModel):
 
     async def load(self):
         self.users.clear()
-        self.users.extend(await self.model.list())
+        users = await self.model.list()
+        print(users)
+        self.users.extend(users)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

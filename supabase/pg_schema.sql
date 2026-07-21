@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS public.patient
     exit_date text COLLATE pg_catalog."default",
     status text COLLATE pg_catalog."default",
     comments text COLLATE pg_catalog."default",
+    created_at timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT patient_pkey PRIMARY KEY (id),
     CONSTRAINT patient_study_id_fkey FOREIGN KEY (study_id)
         REFERENCES public.study (id) MATCH SIMPLE
@@ -108,6 +109,7 @@ CREATE TABLE IF NOT EXISTS public.researcher
     phone character varying(64) COLLATE pg_catalog."default",
     email character varying(128) COLLATE pg_catalog."default",
     comments text COLLATE pg_catalog."default",
+    created_at timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT researcher_pkey PRIMARY KEY (id)
 )
 
@@ -143,6 +145,7 @@ CREATE TABLE IF NOT EXISTS public.study_researcher
     researcher_id bigint NOT NULL,
     role character varying(64) COLLATE pg_catalog."default" NOT NULL,
     study_comments text COLLATE pg_catalog."default",
+    created_at timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT study_researcher_pkey PRIMARY KEY (id),
     CONSTRAINT study_researcher_researcher_id_fkey FOREIGN KEY (researcher_id)
         REFERENCES public.researcher (id) MATCH SIMPLE
@@ -188,6 +191,7 @@ CREATE TABLE IF NOT EXISTS public.adverse_event
     event_type character varying(64) COLLATE pg_catalog."default" NOT NULL,
     description character varying(256) COLLATE pg_catalog."default" NOT NULL,
     comments text COLLATE pg_catalog."default",
+    created_at timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT event_pkey PRIMARY KEY (id),
     CONSTRAINT event_patient_id_fkey FOREIGN KEY (patient_id)
         REFERENCES public.patient (id) MATCH SIMPLE
@@ -226,6 +230,7 @@ CREATE TABLE IF NOT EXISTS public.visit
     visit_date date NOT NULL,
     visit_type character varying(128) COLLATE pg_catalog."default" NOT NULL,
     comments text COLLATE pg_catalog."default",
+    created_at timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT visit_pkey PRIMARY KEY (id),
     CONSTRAINT visit_patient_id_fkey FOREIGN KEY (patient_id)
         REFERENCES public.patient (id) MATCH SIMPLE
@@ -276,6 +281,7 @@ CREATE TABLE IF NOT EXISTS public.protocol
     title text COLLATE pg_catalog."default" NOT NULL,
     event_date date NOT NULL,
     description text COLLATE pg_catalog."default",
+    created_at timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT protocol_pkey PRIMARY KEY (id),
     CONSTRAINT protocol_study_id_fkey FOREIGN KEY (study_id)
         REFERENCES public.study (id) MATCH SIMPLE
@@ -310,6 +316,7 @@ CREATE TABLE IF NOT EXISTS public.monitoring
     meeting_date date NOT NULL,
     monitor character varying(128) COLLATE pg_catalog."default" NOT NULL,
     comments text COLLATE pg_catalog."default",
+    created_at timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT monitoring_pkey PRIMARY KEY (id),
     CONSTRAINT monitoring_study_id_fkey FOREIGN KEY (study_id)
         REFERENCES public.study (id) MATCH SIMPLE

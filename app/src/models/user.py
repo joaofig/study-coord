@@ -13,7 +13,7 @@ class UserModel:
             user_id=0,
             user_name="",
             pass_hash="",
-            role="User",
+            user_role="User",
             created_by="",
             updated_by=""
         )

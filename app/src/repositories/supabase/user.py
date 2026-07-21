@@ -14,7 +14,6 @@ class UserRepository(SupabaseRepository):
     async def list(self) -> List[UserDTO]:
         await self.connect()
         if self.supabase:
-            # We are reading from a view, not a table
             result = (await self.supabase.table(TABLE).select("*").execute()).data
             return [UserDTO.from_dict(s) for s in result]
         return []

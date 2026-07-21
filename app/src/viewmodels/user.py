@@ -19,7 +19,7 @@ class UserViewModel(ViewModel):
     user_id: int = 0
     user_name: str = ""
     pass_hash: str = ""
-    role: str = "User"
+    user_role: str = "User"
     created_at: date = date.today()
     created_by: str = ""
     updated_at: date = date.today()
@@ -68,7 +68,7 @@ class UserViewModel(ViewModel):
         self.user_id = user.user_id
         self.user_name = user.user_name
         self.pass_hash = user.pass_hash
-        self.role = user.role
+        self.user_role = user.user_role
         self.created_at = user.created_at
         self.created_by = user.created_by
         self.updated_at = user.updated_at
@@ -82,7 +82,7 @@ class UserViewModel(ViewModel):
             user_id=self.user_id,
             user_name=self.user_name,
             pass_hash=self.pass_hash,
-            role=self.role,
+            user_role=self.user_role,
             created_at=self.created_at,
             created_by=self.created_by,
             updated_at=self.updated_at,
