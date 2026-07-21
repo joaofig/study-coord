@@ -1,4 +1,4 @@
-from nicegui import ui
+from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 
@@ -61,6 +61,7 @@ class StudyMonitoringGrid(View):
 
     async def _edit_monitoring(self, monitoring: dict) -> dict:
         vm = MonitoringViewModel()
+        vm.updated_by = app.storage.user.get("username", "Unknown")
         dlg = StudyMonitoringDialog(vm=vm)
         vm.from_dict(monitoring)
         result = await dlg.show()

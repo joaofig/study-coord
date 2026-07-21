@@ -1,6 +1,6 @@
 from typing import Any
 
-from nicegui import ui
+from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
 
 from src.viewmodels.study_researcher import StudyResearcherViewModel
@@ -74,6 +74,7 @@ class StudyResearcherGrid(View):
 
     async def _edit_researcher(self, researcher: dict) -> dict:
         researcher_vm = StudyResearcherViewModel()
+        researcher_vm.updated_by = app.storage.user.get("username", "Unknown")
         await researcher_vm.load_researchers()
         researcher_vm.from_dict(researcher)
 

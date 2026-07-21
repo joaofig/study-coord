@@ -1,4 +1,4 @@
-from nicegui import ui
+from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 
@@ -68,6 +68,7 @@ class ResearcherGrid(View):
         if row_data:
             from views.dialogs.researcher_dialog import ResearcherDialog
             vm = ResearcherViewModel()
+            vm.updated_by = app.storage.user.get("username", "Unknown")
             dialog = ResearcherDialog(vm)
             await dialog.vm.call("load",
                                  researcher_id=row_data["id"])  # Copy the selected row's data into the ViewModel

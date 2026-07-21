@@ -1,5 +1,6 @@
 import os
 
+from dotenv import load_dotenv
 from fastapi import Request
 from fastapi.responses import RedirectResponse
 from nicegui import context, ui, app, binding
@@ -92,6 +93,7 @@ async def index():
     main_view()
 
 
+load_dotenv()
 ui.run(
     host="0.0.0.0",
     port=int(os.environ.get("PORT", 8080)),

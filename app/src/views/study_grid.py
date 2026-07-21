@@ -1,4 +1,4 @@
-from nicegui import ui
+from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 
@@ -38,6 +38,7 @@ class StudyGrid(View):
         row = event.args
         if row:
             vm = StudyViewModel()
+            vm.updated_by = app.storage.user.get("username", "Unknown")
             dialog = StudyDialog(vm)
             await vm.call("load", study_id=row["id"])
             result = await dialog.show()

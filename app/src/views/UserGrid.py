@@ -1,4 +1,4 @@
-from nicegui import ui
+from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 
@@ -62,6 +62,7 @@ class UserGrid(View):
         if row_data:
             from src.views.dialogs.user_dialog import UserDialog
             vm = UserViewModel()
+            vm.updated_by = app.storage.user.get("username", "Unknown")
             dialog = UserDialog(vm)
             await dialog.vm.call("load",
                                  user_id=row_data["user_id"])
