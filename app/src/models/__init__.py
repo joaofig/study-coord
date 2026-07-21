@@ -1,11 +1,9 @@
-from .study import StudyModel
-from .patient import PatientModel
-from .researcher import ResearcherModel
-from .adverse_event import AdverseEventModel
-from .monitoring import MonitoringModel
-from .study_researcher import StudyResearcherModel
-from .adverse_event import AdverseEventModel
-from .protocol import ProtocolModel
-from .researcher import ResearcherModel
-from .visit import VisitModel
-from .user import UserModel
+from .study import StudyModel as StudyModel
+from .patient import PatientModel as PatientModel
+from .researcher import ResearcherModel as ResearcherModel
+from .adverse_event import AdverseEventModel as AdverseEventModel
+from .monitoring import MonitoringModel as MonitoringModel
+from .study_researcher import StudyResearcherModel as StudyResearcherModel
+from .protocol import ProtocolModel as ProtocolModel
+from .visit import VisitModel as VisitModel
+from .user import UserModel as UserModel

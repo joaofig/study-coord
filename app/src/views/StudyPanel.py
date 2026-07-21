@@ -20,7 +20,7 @@ class StudyPanel(View):
 
         with ui.splitter(value=50).classes("w-full h-full") as splitter:
 
-            with splitter.after as splitter_right:
+            with splitter.after: # as splitter_right:
                 self.patient_detail_panel()
                 # self.container = ui.column().classes("h-full w-full pl-0 pt-0 pb-0 pr-0")
 

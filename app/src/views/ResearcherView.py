@@ -5,7 +5,7 @@ from src.viewmodels import ResearcherViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.ResearcherGrid import ResearcherGrid
 from src.views.View import View
-from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog
+from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.tools.user import logout
 
 
@@ -52,7 +52,7 @@ class ResearcherView(View):
             await self.broadcast("researcher_list", "load")
 
     async def _show_dialog(self):
-        from views.dialogs.ResearcherDialog import ResearcherDialog
+        from views.dialogs.researcher_dialog import ResearcherDialog
         dialog = ResearcherDialog(ResearcherViewModel())
         result = await dialog.show()
         if result == "save":

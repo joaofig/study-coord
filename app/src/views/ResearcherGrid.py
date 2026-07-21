@@ -66,7 +66,7 @@ class ResearcherGrid(View):
     async def _on_edit(self, event):
         row_data = event.args  # dict with the full row's data
         if row_data:
-            from views.dialogs.ResearcherDialog import ResearcherDialog
+            from views.dialogs.researcher_dialog import ResearcherDialog
             vm = ResearcherViewModel()
             dialog = ResearcherDialog(vm)
             await dialog.vm.call("load",

@@ -2,11 +2,10 @@ from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 
-from src.tools.messenger import get_messenger
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.View import View
-from src.views.dialogs.StudyPatientDialog import StudyPatientDialog
+from src.views.dialogs.study_patient_dialog import StudyPatientDialog
 
 
 class StudyPatientGrid(View):

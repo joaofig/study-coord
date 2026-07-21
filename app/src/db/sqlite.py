@@ -1,7 +1,4 @@
-import sqlite3
-from pathlib import Path
 
-from .config import load_database_config
 
 
 # def get_connection(database_path: Path | None = None) -> sqlite3.Connection:

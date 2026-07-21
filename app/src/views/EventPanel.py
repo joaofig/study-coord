@@ -4,8 +4,9 @@ from src.tools.excel import export_to_excel
 from src.viewmodels.view_model import ViewModel
 from src.views.EventGrid import EventGrid
 from src.views.View import View
-from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog
-from src.views.dialogs.EventDialog import EventDialog
+from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
+from src.views.dialogs.event_dialog import EventDialog
+from viewmodels import AdverseEventViewModel
 
 
 class EventPanel(View):
@@ -32,7 +33,7 @@ class EventPanel(View):
             self.study_id = kwargs["study_id"]
 
     async def _new_event_dialog(self):
-        event_vm = EventViewModel()
+        event_vm = AdverseEventViewModel()
         await event_vm.load_patients(self.study_id)
         event_vm.patient_id = self.patient_id
         await event_vm.call("load_patient", patient_id=self.patient_id)

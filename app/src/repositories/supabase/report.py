@@ -1,4 +1,3 @@
-from postgrest import CountMethod
 
 from src.repositories.supabase.base import SupabaseRepository
 

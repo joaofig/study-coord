@@ -3,9 +3,9 @@ from nicegui import ui
 from src.viewmodels import ProtocolViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.ProtocolGrid import ProtocolGrid
-from src.views.dialogs.ProtocolDialog import ProtocolDialog
+from src.views.dialogs.protocol_dialog import ProtocolDialog
 from src.views.View import View
-from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog
+from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.tools.excel import export_to_excel
 
 

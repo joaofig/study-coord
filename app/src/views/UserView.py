@@ -7,7 +7,7 @@ from tools.user import logout
 from viewmodels import UserViewModel
 from views.UserGrid import UserGrid
 from views.dialogs import UserDialog
-from views.dialogs.DeleteWarningDialog import DeleteWarningDialog
+from views.dialogs.delete_warning_dialog import DeleteWarningDialog
 
 
 class UserView(View):

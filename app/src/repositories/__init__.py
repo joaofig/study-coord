@@ -1,9 +1,9 @@
-from .supabase.adverse_event import AdverseEventRepository
-from .supabase.monitoring import MonitoringRepository
-from .supabase.patient import PatientRepository
-from .supabase.protocol import ProtocolRepository
-from .supabase.researcher import ResearcherRepository
-from .supabase.study import StudyRepository
-from .supabase.study_researcher import StudyResearcherRepository
-from .supabase.visit import VisitRepository
-from .supabase.report import ReportRepository
+from .supabase.adverse_event import AdverseEventRepository as AdverseEventRepository
+from .supabase.monitoring import MonitoringRepository as MonitoringRepository
+from .supabase.patient import PatientRepository as PatientRepository
+from .supabase.protocol import ProtocolRepository as ProtocolRepository
+from .supabase.researcher import ResearcherRepository as ResearcherRepository
+from .supabase.study import StudyRepository as StudyRepository
+from .supabase.study_researcher import StudyResearcherRepository as StudyResearcherRepository
+from .supabase.visit import VisitRepository as VisitRepository
+from .supabase.report import ReportRepository as ReportRepository

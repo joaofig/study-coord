@@ -1,1 +1,1 @@
-from .StudyRepository import StudyRepository
+from .StudyRepository import StudyRepository as StudyRepository

@@ -60,7 +60,7 @@ class UserGrid(View):
     async def _on_edit(self, event):
         row_data = event.args  # dict with the full row's data
         if row_data:
-            from src.views.dialogs.UserDialog import UserDialog
+            from src.views.dialogs.user_dialog import UserDialog
             vm = UserViewModel()
             dialog = UserDialog(vm)
             await dialog.vm.call("load",

@@ -7,8 +7,8 @@ from src.viewmodels.view_model import ViewModel
 from src.views.study_grid import StudyGrid
 from src.views.StudyPanel import StudyPanel
 from src.views.View import View
-from src.views.dialogs.DeleteWarningDialog import DeleteWarningDialog
-from src.views.dialogs.study import StudyDialog
+from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
+from src.views.dialogs.study_dialog import StudyDialog
 
 
 class StudyView(View):
