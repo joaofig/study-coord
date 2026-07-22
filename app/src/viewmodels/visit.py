@@ -86,7 +86,7 @@ class VisitViewModel(ViewModel):
         return None
 
     async def load_patients(self, study_id: int):
-        patients = PatientList()
-        await patients.list(study_id)
+        model = PatientModel()
+        patients = await model.list(study_id)
         self.study_id = study_id
-        self.patients = {p.id: p.name for p in patients.patients}
+        self.patients = {p.patient_id: p.name for p in patients}

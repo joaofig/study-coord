@@ -58,7 +58,7 @@ def main_view():
                 ui.label("Settings").classes("text-h4")
                 ui.label("Content of settings")
 
-            with ui.tab_panel(admin).classes("pl-4 pt-0 pb-0 pr-4") as admin_panel:
+            with ui.tab_panel(admin).classes("pl-4 pt-0 pb-0 pr-4"):
                 if user_role == "Admin":
                     from src.views.UserView import UserView
                     from src.viewmodels import UserListViewModel

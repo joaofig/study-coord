@@ -36,5 +36,5 @@ class PatientRepository(SupabaseRepository):
             if study_id:
                 await self.supabase.table(TABLE).delete().eq("study_id", study_id).execute()
             else:
-                await self.supabase.table(TABLE).delete().eq("id", patient_id).execute()
+                await self.supabase.table(TABLE).delete().eq("patient_id", patient_id).execute()
         return None

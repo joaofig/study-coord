@@ -4,7 +4,7 @@ from src.dtos.study import StudyDTO
 from src.viewmodels import PatientListViewModel, MonitoringListViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.StudyMonitoringPanel import StudyMonitoringPanel
-from src.views.StudyPatientPanel import StudyPatientPanel
+from src.views.patient_panel import StudyPatientPanel
 from src.views.View import View
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
 from src.viewmodels.visit_list import VisitListViewModel

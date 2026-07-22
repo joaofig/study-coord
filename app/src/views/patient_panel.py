@@ -1,8 +1,10 @@
-from nicegui import ui
+from datetime import date
+
+from nicegui import ui, app
 
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.StudyPatientGrid import StudyPatientGrid
+from src.views.patient_grid import StudyPatientGrid
 from src.views.dialogs.study_patient_dialog import StudyPatientDialog
 from src.views.View import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -23,6 +25,12 @@ class StudyPatientPanel(View):
 
     async def _new_patient_dialog(self):
         patient_vm = PatientViewModel()
+        user_name = app.storage.user.get("username", "Unknown")
+        patient_vm.created_by = user_name
+        patient_vm.updated_by = user_name
+        patient_vm.created_at = date.today()
+        patient_vm.updated_at = date.today()
+
         patient_vm.study_id = self.study_id
         dialog = StudyPatientDialog(patient_vm)
         result = await dialog.show()

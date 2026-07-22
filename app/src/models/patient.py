@@ -4,26 +4,12 @@ from src.dtos.patient import PatientDTO
 from src.repositories import PatientRepository
 
 
-def patient_statuses() -> dict:
-    return {
-        "active": "Active",
-        "completed": "Completed",
-        "withdrawn": "Withdrawn Consent",
-        "lost": "Lost to Follow-up",
-        "deceased": "Deceased"
-    }
-
-
-def patient_status_name(status:str) -> str:
-    return patient_statuses().get(status, "Unknown")
-
-
 class PatientModel:
     repo = PatientRepository()
 
     async def save(self, dto: PatientDTO):
         patient = await self.repo.save(dto)
-        dto.id = patient["id"]
+        dto.patient_id = patient["patient_id"]
 
     async def load(self, patient_id: int) -> PatientDTO | None:
         return await self.repo.load(patient_id)

@@ -1,3 +1,5 @@
+from datetime import date
+
 from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
@@ -71,6 +73,8 @@ class StudyPatientGrid(View):
     async def _edit_patient(self, patient: dict) -> dict:
         vm = PatientViewModel()
         vm.updated_by = app.storage.user.get("username", "Unknown")
+        vm.updated_at = date.today()
+
         dlg = StudyPatientDialog(vm=vm)
         vm.from_dict(patient)
         result = await dlg.show()

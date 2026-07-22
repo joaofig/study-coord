@@ -3,8 +3,7 @@ from typing import Any
 
 from nicegui import binding
 
-from src.dtos.patient import PatientDTO
-from src.models.patient import patient_statuses
+from src.dtos.patient import PatientDTO, patient_statuses
 from src.models import PatientModel
 from src.tools.messenger import send_message
 from src.viewmodels.view_model import ViewModel
@@ -12,7 +11,7 @@ from src.viewmodels.view_model import ViewModel
 
 @binding.bindable_dataclass
 class PatientViewModel(ViewModel):
-    id: int = 0
+    patient_id: int = 0
     study_id: int = 0
     number: str = ""
     name: str = ""
@@ -21,6 +20,12 @@ class PatientViewModel(ViewModel):
     status: str = "active"
     status_text: str = ""
     comments: str = ""
+
+    created_at: date = date.today()
+    created_by: str = ""
+    updated_at: date = date.today()
+    updated_by: str = ""
+
     statuses = patient_statuses()
     changed: bool = False
     model = PatientModel()
@@ -29,7 +34,7 @@ class PatientViewModel(ViewModel):
         super().__init__()
 
     def copy(self, patient: PatientDTO):
-        self.id = patient.id or 0
+        self.patient_id = patient.patient_id or 0
         self.study_id = patient.study_id
         self.number = patient.number
         self.name = patient.name
@@ -40,9 +45,11 @@ class PatientViewModel(ViewModel):
         self.comments = patient.comments or ""
         self.changed = False
 
+        self.created_at = patient.created_at
+
     def to_dto(self) -> PatientDTO:
         return PatientDTO(
-            id=self.id,
+            patient_id=self.patient_id,
             study_id=self.study_id,
             number=self.number,
             name=self.name,
@@ -54,7 +61,7 @@ class PatientViewModel(ViewModel):
 
     def to_dict(self) -> dict:
         return {
-            "id": self.id,
+            "patient_id": self.patient_id,
             "study_id": self.study_id,
             "number": self.number,
             "name": self.name,
@@ -62,11 +69,15 @@ class PatientViewModel(ViewModel):
             "exit_date": self.exit_date.isoformat() if self.exit_date else None,
             "status": self.status,
             "status_text": self.status_text,
-            "comments": self.comments or ""
+            "comments": self.comments or "",
+            "created_at": self.created_at.isoformat(),
+            "created_by": self.created_by,
+            "updated_at": self.updated_at.isoformat(),
+            "updated_by": self.updated_by,
         }
 
     def from_dict(self, patient: dict):
-        self.id = patient["id"] or 0
+        self.patient_id = patient["patient_id"] or 0
         self.study_id = patient["study_id"]
         self.number = patient["number"]
         self.name = patient["name"]
@@ -75,13 +86,18 @@ class PatientViewModel(ViewModel):
         self.status = patient["status"]
         self.status_text = patient_statuses().get(patient["status"], "")
         self.comments = patient["comments"] or ""
+
+        self.created_at = date.fromisoformat(patient["created_at"])
+        self.created_by = patient["created_by"]
+        self.updated_at = date.fromisoformat(patient["updated_at"])
+        self.updated_by = patient["updated_by"]
         self.changed = False
 
     async def save(self):
         patient = self.to_dto()
         await self.model.save(patient)
-        if patient.id:
-            self.id = patient.id
+        if patient.patient_id:
+            self.patient_id = patient.patient_id
         await send_message("study_list", "load")
         self.changed = False
 
