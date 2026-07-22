@@ -11,15 +11,15 @@ class ProtocolRepository(SupabaseRepository):
     def __init__(self):
         super().__init__()
 
-    async def get(self, protocol_id: int) -> ProtocolDTO | None:
+    async def load(self, protocol_id: int) -> ProtocolDTO | None:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*").eq("id", protocol_id).execute()).data
+            result = (await self.supabase.table(TABLE).select("*").eq("protocol_id", protocol_id).execute()).data
             if result:
                 return ProtocolDTO.from_dict(result[0])
         return None
 
-    async def get_by_study_id(self, study_id: int) -> List[ProtocolDTO]:
+    async def list(self, study_id: int) -> List[ProtocolDTO]:
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table(TABLE).select("*").eq("study_id", study_id).execute()).data
@@ -36,4 +36,4 @@ class ProtocolRepository(SupabaseRepository):
             if study_id:
                 await self.supabase.table(TABLE).delete().eq("study_id", study_id).execute()
             else:
-                await self.supabase.table(TABLE).delete().eq("id", protocol_id).execute()
+                await self.supabase.table(TABLE).delete().eq("protocol_id", protocol_id).execute()

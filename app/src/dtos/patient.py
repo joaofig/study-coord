@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from pydantic import BaseModel
 
 
@@ -26,9 +26,9 @@ class PatientDTO(BaseModel):
     status: str = "active"
     comments: str = ""
 
-    created_at: date = date.today()
+    created_at: datetime = datetime.now()
     created_by: str = ""
-    updated_at: date = date.today()
+    updated_at: datetime = datetime.now()
     updated_by: str = ""
 
     @classmethod
@@ -44,9 +44,9 @@ class PatientDTO(BaseModel):
             status=data.get("status", "active"),
             comments=data.get("comments", ""),
 
-            created_at=date.fromisoformat(data.get("created_at", date.today().isoformat())),
+            created_at=datetime.fromisoformat(data.get("created_at", datetime.now().isoformat())),
             created_by=data.get("created_by", ""),
-            updated_at=date.fromisoformat(data.get("updated_at", date.today().isoformat())),
+            updated_at=datetime.fromisoformat(data.get("updated_at", datetime.today().isoformat())),
             updated_by=data.get("updated_by", ""),
         )
 

@@ -1,3 +1,5 @@
+from datetime import date
+
 from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
@@ -55,7 +57,10 @@ class ProtocolGrid(View):
 
     async def _edit_protocol(self, protocol: dict):
         vm = ProtocolViewModel()
-        vm.updated_by = app.storage.user.get("username", "Unknown")
+        username = app.storage.user.get("username", "Unknown")
+        vm.updated_by = username
+        vm.updated_at = date.today()
+
         dlg = ProtocolDialog(vm=vm)
         vm.from_dict(protocol)
         await dlg.show()

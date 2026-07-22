@@ -12,14 +12,10 @@ class ProtocolModel:
         dto.id = result["id"]
 
     async def load(self, protocol_id: int) -> ProtocolDTO | None:
-        protocol = await self.repo.get(protocol_id)
-        if protocol:
-            return ProtocolDTO(**protocol)
-        return None
+        return await self.repo.load(protocol_id)
 
     async def delete(self, protocol_id: int):
-        await self.repo.delete(protocol_id)
+        await self.repo.delete(protocol_id=protocol_id)
 
     async def list(self, study_id: int) -> List[ProtocolDTO]:
-        protocols = await self.repo.get_by_study_id(study_id)
-        return [ProtocolDTO(**p) for p in protocols]
+        return await self.repo.list(study_id)
