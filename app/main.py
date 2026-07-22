@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from fastapi import Request
 from fastapi.responses import RedirectResponse
-from nicegui import context, ui, app, binding
+from nicegui import context, ui, app
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from src.dtos.user import UserDTO, hash_password
@@ -29,14 +29,6 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return RedirectResponse(f'/login?redirect_to={path}')
 
 
-@binding.bindable_dataclass
-class UserInfo:
-    username: str
-    password: str
-
-user_info = UserInfo(username="", password="")
-
-
 @ui.page('/login')
 def login(redirect_to: str = '/') -> RedirectResponse | None:
     if app.storage.user.get('authenticated', False):
@@ -52,8 +44,9 @@ def login(redirect_to: str = '/') -> RedirectResponse | None:
             app.storage.user.update(username=username.value,
                                     user_role=user.user_role,
                                     authenticated=True)
-            user_info.username = ""
-            user_info.password = ""
+
+            username.value = ""
+            password.value = ""
             ui.navigate.to(redirect_to)  # go back to where the user wanted to go
         else:
             ui.notify('Wrong username or password', color='negative')
@@ -62,11 +55,9 @@ def login(redirect_to: str = '/') -> RedirectResponse | None:
 
     with ui.card().classes('absolute-center items-stretch'):
         username = ui.input('User name').props('autofocus') \
-            .on('keydown.enter', lambda: password.run_method('focus')) \
-            .bind_value(user_info, 'username')
+            .on('keydown.enter', lambda: password.run_method('focus'))
         password = ui.input('Password', password=True, password_toggle_button=True) \
-            .on('keydown.enter', try_login) \
-            .bind_value(user_info, 'password')
+            .on('keydown.enter', try_login)
         ui.button("Log In", on_click=try_login)
 
     return None

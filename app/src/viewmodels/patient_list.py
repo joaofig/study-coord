@@ -20,7 +20,7 @@ class PatientListViewModel(ViewModel):
 
     async def _load_patients(self, study_id: int):
         self.patients.clear()
-        self.patients.extend([p.to_dict() for p in await self.model.list(study_id)])
+        self.patients.extend(await self.model.list(study_id))
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")

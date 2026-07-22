@@ -1,9 +1,11 @@
 from datetime import date
+from typing import List
 
 from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 
+from src.dtos.patient import PatientDTO
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.View import View
@@ -25,7 +27,8 @@ class StudyPatientGrid(View):
         self._update_grid()
 
     def _update_grid(self):
-        self.grid.options["rowData"] = self.vm.get("patients")
+        patients: List[PatientDTO] = self.vm.get("patients")
+        self.grid.options["rowData"] = [p.to_grid() for p in patients]
         self.grid.update()
 
     async def _handle_notification(self, action: str, **kwargs):
@@ -72,11 +75,12 @@ class StudyPatientGrid(View):
 
     async def _edit_patient(self, patient: dict) -> dict:
         vm = PatientViewModel()
+        vm.from_dict(patient)
         vm.updated_by = app.storage.user.get("username", "Unknown")
         vm.updated_at = date.today()
 
         dlg = StudyPatientDialog(vm=vm)
-        vm.from_dict(patient)
+
         result = await dlg.show()
         if result == "save":
             patient = vm.to_dict()
@@ -95,4 +99,4 @@ class StudyPatientGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a study has been selected
-            await self.vm.call("patient_selected", patient=row, patient_id=row["id"])
+            await self.vm.call("patient_selected", patient=row, patient_id=row["patient_id"])

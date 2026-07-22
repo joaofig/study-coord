@@ -33,20 +33,6 @@ class PatientViewModel(ViewModel):
     def __post_init__(self):
         super().__init__()
 
-    def copy(self, patient: PatientDTO):
-        self.patient_id = patient.patient_id or 0
-        self.study_id = patient.study_id
-        self.number = patient.number
-        self.name = patient.name
-        self.start_date = patient.start_date
-        self.exit_date = patient.exit_date
-        self.status = patient.status
-        self.status_text = patient_statuses().get(patient.status, "")
-        self.comments = patient.comments or ""
-        self.changed = False
-
-        self.created_at = patient.created_at
-
     def to_dto(self) -> PatientDTO:
         return PatientDTO(
             patient_id=self.patient_id,
@@ -56,7 +42,11 @@ class PatientViewModel(ViewModel):
             start_date=self.start_date,
             exit_date=self.exit_date,
             status=self.status,
-            comments=self.comments or ""
+            comments=self.comments or "",
+            created_at=self.created_at,
+            created_by=self.created_by,
+            updated_at=self.updated_at,
+            updated_by=self.updated_by,
         )
 
     def to_dict(self) -> dict:
