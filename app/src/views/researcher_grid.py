@@ -18,10 +18,9 @@ class ResearcherGrid(View):
 
     def _build_grid(self) -> AgGrid:
         columns = [
-            # {"headerName": "ID", "field": "id", "hide": True},
             {
                 "headerName": "Edit",
-                "field": "id",
+                "field": "researcher_id",
                 "width": 50,
                 ":cellRenderer": """
                 (params) => {
@@ -46,7 +45,7 @@ class ResearcherGrid(View):
             "columnDefs": columns,
             "rowData": [],
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.id)"
+            ":getRowId": "(params) => String(params.data.researcher_id)"
         }
         ui.on("researcher-row-edit", self._on_edit)
 
@@ -72,7 +71,7 @@ class ResearcherGrid(View):
             vm.updated_by = app.storage.user.get("username", "Unknown")
             dialog = ResearcherDialog(vm)
             await dialog.vm.call("load",
-                                 researcher_id=row_data["id"])  # Copy the selected row's data into the ViewModel
+                                 researcher_id=row_data["researcher_id"])  # Copy the selected row's data into the ViewModel
             result = await dialog.show()
             if result == "save":
                 await self.vm.call("load")  # Reload the grid after saving
@@ -81,4 +80,4 @@ class ResearcherGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a researcher has been selected
-            await self.vm.call("researcher_selected", researcher=row, researcher_id=row["id"])
+            await self.vm.call("researcher_selected", researcher=row, researcher_id=row["researcher_id"])

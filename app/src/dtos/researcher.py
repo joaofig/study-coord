@@ -1,26 +1,39 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
 from src.dtos.study import StudyDTO
+from src.tools.user import dict_to_datetime
 
 
 class ResearcherDTO(BaseModel):
-    id: int = 0
+    researcher_id: int = 0
     number: str = ""
     name: str = ""
     phone: str = ""
     email: str = ""
     comments: str = ""
+
+    created_at: datetime = datetime.now()
+    created_by: str = ""
+    updated_at: datetime = datetime.now()
+    updated_by: str = ""
+
     # study_count: int = 0
 
     @classmethod
     def from_dict(cls, data: dict) -> ResearcherDTO:
         return ResearcherDTO(
-            id=data.get("id", 0),
+            researcher_id=data.get("researcher_id", 0),
             number=data.get("number", ""),
             name=data.get("name", ""),
             phone=data.get("phone", ""),
             email=data.get("email", ""),
             comments=data.get("comments", ""),
+            created_at=dict_to_datetime(data, "created_at"),
+            created_by=data.get("created_by", ""),
+            updated_at=dict_to_datetime(data, "updated_at"),
+            updated_by=data.get("updated_by", ""),
             # study_count=data.get("study_count", 0),
         )
 

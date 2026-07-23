@@ -9,11 +9,11 @@ class ResearcherModel:
 
     @classmethod
     def empty(cls) -> ResearcherDTO:
-        return ResearcherDTO(id=0, number="", name="", phone="", email="", comments="")
+        return ResearcherDTO(researcher_id=0, number="", name="", phone="", email="", comments="")
 
     async def save(self, dto: ResearcherDTO):
         researcher = await self.repo.save(dto)
-        dto.id = researcher["id"]
+        dto.researcher_id = researcher["researcher_id"]
 
     async def delete(self, researcher_id: int):
         await self.repo.delete(researcher_id)

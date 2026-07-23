@@ -1,6 +1,8 @@
 from datetime import date
 from pydantic import BaseModel
 
+from tools.user import dict_to_date
+
 
 class AdverseEventDTO(BaseModel):
     adverse_event_id: int = 0
@@ -19,7 +21,7 @@ class AdverseEventDTO(BaseModel):
             adverse_event_id=data.get("adverse_event_id", 0),
             study_id=data.get("study_id", 0),
             patient_id=data.get("patient_id", 0),
-            event_date=date.fromisoformat(data.get("event_date", date.today().isoformat())),
+            event_date= dict_to_date(data, "event_date"),
             event_type=data.get("event_type", ""),
             description=data.get("description", ""),
             comments=data.get("comments", ""),

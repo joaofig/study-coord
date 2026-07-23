@@ -40,7 +40,7 @@ def main_view():
 
             with ui.tab_panel(researchers).classes("pl-4 pt-0 pb-0 pr-4"):
                 from src.viewmodels.researcher_list import ResearcherListViewModel
-                from src.views.ResearcherView import ResearcherView
+                from src.views.researcher_view import ResearcherView
 
                 vm = ResearcherListViewModel()
                 ResearcherView(vm)

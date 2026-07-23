@@ -3,10 +3,10 @@ from nicegui import ui
 from src.tools.excel import export_to_excel
 from src.viewmodels import ResearcherViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.ResearcherGrid import ResearcherGrid
+from src.views.researcher_grid import ResearcherGrid
 from src.views.View import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.tools.user import logout
+from src.tools.user import logout, get_user_name
 
 
 class ResearcherView(View):
@@ -53,7 +53,10 @@ class ResearcherView(View):
 
     async def _show_dialog(self):
         from views.dialogs.researcher_dialog import ResearcherDialog
-        dialog = ResearcherDialog(ResearcherViewModel())
+
+        vm = ResearcherViewModel()
+        vm.created_by = get_user_name()
+        dialog = ResearcherDialog(vm)
         result = await dialog.show()
         if result == "save":
             await self.vm.call("load")

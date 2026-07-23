@@ -1,5 +1,7 @@
-from datetime import date
+from datetime import datetime, date
 from pydantic import BaseModel
+
+from src.tools.user import dict_to_date, dict_to_datetime
 
 
 class MonitoringDTO(BaseModel):
@@ -9,23 +11,22 @@ class MonitoringDTO(BaseModel):
     monitor: str = ""
     comments: str = ""
 
-    created_at: date = date.today().isoformat()
+    created_at: datetime = datetime.now()
     created_by: str = ""
-    updated_at: date = date.today().isoformat()
+    updated_at: datetime = datetime.now()
     updated_by: str = ""
 
     @classmethod
     def from_dict(cls, data: dict) -> MonitoringDTO:
-        today: str = date.today().isoformat()
         return MonitoringDTO(
             monitoring_id=data.get("monitoring_id", 0),
             study_id=data.get("study_id", 0),
-            meeting_date=date.fromisoformat(data.get("meeting_date", today)[:10]),
+            meeting_date=dict_to_date(data, "meeting_date"),
             monitor=data.get("monitor", ""),
             comments=data.get("comments", ""),
-            created_at=date.fromisoformat(data.get("created_at", today)[:10]),
+            created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
-            updated_at=date.fromisoformat(data.get("updated_at", today)[:10]),
+            updated_at=dict_to_datetime(data, "updated_at"),
             updated_by=data.get("updated_by", "")
         )
 

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any
 
 from nicegui import binding
@@ -10,12 +11,18 @@ from src.viewmodels.view_model import ViewModel
 
 @binding.bindable_dataclass
 class ResearcherViewModel(ViewModel):
-    id: int = 0
+    researcher_id: int = 0
     number: str = ""
     name: str = ""
     phone: str = ""
     email: str = ""
     comments: str = ""
+
+    created_at: datetime = datetime.now()
+    created_by: str = ""
+    updated_at: datetime = datetime.now()
+    updated_by: str = ""
+
     data_changed: bool = False
     change_set = ObservableSet()
     is_old: bool = False
@@ -54,19 +61,23 @@ class ResearcherViewModel(ViewModel):
         return None
 
     def copy(self, researcher: ResearcherDTO):
-        self.id = researcher.id
+        self.researcher_id = researcher.researcher_id
         self.name = researcher.name
         self.number = researcher.number
         self.phone = researcher.phone
         self.email = researcher.email
         self.comments = researcher.comments or ""
         self.data_changed = False
-        self.is_old = researcher.id > 0
+        self.is_old = researcher.researcher_id > 0
         self.change_set.clear()
-        
+        self.created_at = researcher.created_at
+        self.created_by = researcher.created_by
+        self.updated_at = researcher.updated_at
+        self.updated_by = researcher.updated_by
+
     def to_dto(self) -> ResearcherDTO:
         return ResearcherDTO(
-            id=self.id,
+            researcher_id=self.researcher_id,
             number=self.number,
             name=self.name,
             phone=self.phone,
@@ -77,7 +88,7 @@ class ResearcherViewModel(ViewModel):
     async def save(self):
         researcher = self.to_dto()
         await self.model.save(researcher)
-        if researcher.id:
-            self.id = researcher.id
+        if researcher.researcher_id:
+            self.researcher_id = researcher.researcher_id
         self.data_changed = False
         self.is_old = True
