@@ -5,12 +5,12 @@ from src.dtos.patient import PatientDTO
 
 
 class VisitDTO(BaseModel):
-    id: int                         # Read-only unique identifier for the visit
-    study_id: int                   # Identifier for the study associated with the visit
-    patient_id: int                 # Identifier for the patient associated with the visit
-    visit_date: date = date.today() # Date of the visit
-    visit_type: str = "visit"       # Type of the visit
-    comments: str = ""              # Additional comments about the visit
+    id: int
+    study_id: int
+    patient_id: int
+    visit_date: date = date.today()
+    visit_type: str = "visit"
+    comments: str = ""
 
     patient: PatientDTO | None = None
 
