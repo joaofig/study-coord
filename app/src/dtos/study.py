@@ -6,7 +6,7 @@ from tools.user import dict_to_datetime
 
 
 class StudyDTO(BaseDTO):
-    id: int | None
+    study_id: int | None
     name: str
     sponsor: str
     start_date: date = date.today()
@@ -17,7 +17,7 @@ class StudyDTO(BaseDTO):
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> StudyDTO:
         return StudyDTO(
-            id=data.get("id", 0),
+            study_id=data.get("study_id", 0),
             name=data.get("name", ""),
             sponsor=data.get("sponsor", ""),
             start_date=date.fromisoformat(str(data.get("start_date", date.today().isoformat()))),
@@ -29,7 +29,7 @@ class StudyDTO(BaseDTO):
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "id": self.id,
+            "study_id": self.study_id,
             "name": self.name,
             "sponsor": self.sponsor,
             "start_date": self.start_date.isoformat(),
@@ -40,7 +40,7 @@ class StudyDTO(BaseDTO):
 
 
 class StudyRowDTO(BaseDTO):
-    id: int
+    study_id: int
     name: str
     sponsor: str
     start_date: date = date.today()
@@ -56,7 +56,7 @@ class StudyRowDTO(BaseDTO):
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> StudyRowDTO:
         return StudyRowDTO(
-            id=data.get("id", 0),
+            study_id=data.get("study_id", 0),
             name=data.get("name", ""),
             sponsor=data.get("sponsor", ""),
             start_date=date.fromisoformat(str(data.get("start_date", date.today().isoformat()))),
@@ -77,7 +77,7 @@ class StudyRowDTO(BaseDTO):
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "id": self.id,
+            "study_id": self.study_id,
             "name": self.name,
             "sponsor": self.sponsor,
             "start_date": self.start_date.isoformat(),

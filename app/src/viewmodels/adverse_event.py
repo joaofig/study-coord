@@ -1,5 +1,5 @@
 from dataclasses import field
-from datetime import date
+from datetime import date, datetime
 from typing import Dict, Any
 
 from nicegui import binding
@@ -23,6 +23,11 @@ class AdverseEventViewModel(ViewModel):
 
     patient_name: str = ""
     patient_number: str = ""
+
+    created_at: datetime = datetime.now()
+    created_by: str = ""
+    updated_at: datetime = datetime.now()
+    updated_by: str = ""
 
     patients: Dict[int, str] = field(default_factory=dict)
     selection = PatientViewModel()
@@ -95,4 +100,4 @@ class AdverseEventViewModel(ViewModel):
     async def load_patients(self, study_id: int):
         patients = await self.patient_model.list(study_id)
         self.study_id = study_id
-        self.patients = {p.id: p.name for p in patients}
+        self.patients = {p.patient_id: p.name for p in patients}

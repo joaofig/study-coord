@@ -32,7 +32,7 @@ class StudyVisitGrid(View):
     async def _on_edit(self, event):
         row_data = event.args  # dict with the full row's data
         if row_data:
-            await self._edit_visit(row_data["id"])
+            await self._edit_visit(row_data["visit_id"])
 
     async def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("visits")
@@ -42,7 +42,7 @@ class StudyVisitGrid(View):
         columns = [
             {
                 "headerName": "Edit",
-                "field": "id",
+                "field": "visit_id",
                 "width": 50,
                 ":cellRenderer": """
                 (params) => {
@@ -67,7 +67,7 @@ class StudyVisitGrid(View):
             # For example: 'rowData': get_visits_from_database()
             "rowData": [],
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.id)"
+            ":getRowId": "(params) => String(params.data.visit_id)"
         }
         ui.on("visit-row-edit", self._on_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
@@ -79,7 +79,7 @@ class StudyVisitGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify the ViewModel that a visit has been selected
-            await self.vm.call("visit_selected", visit_id=row["id"])
+            await self.vm.call("visit_selected", visit_id=row["visit_id"])
         else:
             await self.vm.call("visit_unselected")
 

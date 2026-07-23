@@ -9,7 +9,7 @@ class AdverseEventModel:
 
     async def save(self, dto: AdverseEventDTO):
         event_dict = await self.repo.save(dto)
-        dto.adverse_event_id = event_dict["id"]
+        dto.adverse_event_id = event_dict["adverse_event_id"]
 
     async def load(self, event_id: int) -> AdverseEventDTO | None:
         return await self.repo.load(event_id)

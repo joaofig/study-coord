@@ -14,7 +14,7 @@ class StudyResearcherRepository(SupabaseRepository):
         if self.supabase:
             result = (await self.supabase.table(TABLE)
                       .select("*")
-                      .eq("id", researcher_id).execute()).data
+                      .eq("researcher_id", researcher_id).execute()).data
             if result:
                 return StudyResearcherDTO.from_dict(result[0])
         return None
@@ -32,7 +32,7 @@ class StudyResearcherRepository(SupabaseRepository):
     async def delete(self, researcher_id: int) -> None:
         await self.connect()
         if self.supabase:
-            await self.supabase.table(TABLE).delete().eq("id", researcher_id).execute()
+            await self.supabase.table(TABLE).delete().eq("researcher_id", researcher_id).execute()
         return None
 
     async def save(self, sr: StudyResearcherDTO) -> None:

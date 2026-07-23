@@ -15,7 +15,7 @@ class VisitRepository(SupabaseRepository):
     async def load(self, visit_id: int) -> VisitDTO | None:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*").eq("id", visit_id).execute()).data[0]
+            result = (await self.supabase.table(TABLE).select("*").eq("visit_id", visit_id).execute()).data[0]
             visit = VisitDTO.from_dict(result) if result else None
             if visit:
                 repo = PatientRepository()
@@ -42,7 +42,7 @@ class VisitRepository(SupabaseRepository):
     async def delete(self, visit_id: int):
         await self.connect()
         if self.supabase:
-            await self.supabase.table(TABLE).delete().eq("id", visit_id).execute()
+            await self.supabase.table(TABLE).delete().eq("visit_id", visit_id).execute()
 
     async def delete_by_study_id_and_patient_id(self, study_id: int, patient_id: int):
         await self.connect()

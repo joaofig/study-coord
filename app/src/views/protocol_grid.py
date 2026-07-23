@@ -27,7 +27,7 @@ class ProtocolGrid(View):
         columns = [
             {
                 "headerName": "Edit",
-                "field": "id",
+                "field": "protocol_id",
                 "width": 50,
                 ":cellRenderer": """
                 (params) => {
@@ -49,7 +49,7 @@ class ProtocolGrid(View):
             "columnDefs": columns,
             "rowData": self.vm.get("protocols"),
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.id)"
+            ":getRowId": "(params) => String(params.data.protocol_id)"
         }
         ui.on("protocol-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")

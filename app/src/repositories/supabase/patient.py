@@ -14,7 +14,7 @@ class PatientRepository(SupabaseRepository):
     async def load(self, patient_id: int) -> PatientDTO | None:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*").eq("id", patient_id).execute()).data
+            result = (await self.supabase.table(TABLE).select("*").eq("patient_id", patient_id).execute()).data
             if result:
                 return PatientDTO.from_dict(result[0])
         return None

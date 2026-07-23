@@ -1,1 +1,0 @@
-SELECT COUNT(*) FROM study_researcher WHERE study_id=?;

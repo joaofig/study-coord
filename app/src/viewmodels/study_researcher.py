@@ -12,7 +12,7 @@ from .view_model import ViewModel
 
 @binding.bindable_dataclass
 class StudyResearcherViewModel(ViewModel):
-    id: int = 0
+    sr_id: int = 0
     study_id: int = 0
     researcher_id: int = 0      # Bound to the selector
     role: str = "standard"
@@ -34,7 +34,7 @@ class StudyResearcherViewModel(ViewModel):
 
     def to_dto(self) -> StudyResearcherDTO:
         return StudyResearcherDTO(
-            id=self.id,
+            sr_id=self.sr_id,
             study_id=self.study_id,
             researcher_id=self.researcher_id,
             role=self.role,
@@ -43,7 +43,7 @@ class StudyResearcherViewModel(ViewModel):
 
     def to_dict(self):
         return {
-            "id": self.id,
+            "sr_id": self.sr_id,
             "study_id": self.study_id,
             "researcher_id": self.researcher_id,
             "role": self.role,
@@ -55,7 +55,7 @@ class StudyResearcherViewModel(ViewModel):
         }
 
     def from_dict(self, data: dict):
-        self.id = data.get("id", 0)
+        self.sr_id = data.get("sr_id", 0)
         self.study_id = data.get("study_id", 0)
         self.researcher_id = data.get("researcher_id", 0)
         self.role = data.get("role", "standard")
@@ -65,7 +65,7 @@ class StudyResearcherViewModel(ViewModel):
         self.phone = data.get("phone", "")
         self.email = data.get("email", "")
         
-        self.selection.id = self.researcher_id
+        self.selection.researcher_id = self.researcher_id
         self.selection.name = self.name
         self.selection.number = self.number
         self.selection.phone = self.phone
@@ -74,8 +74,8 @@ class StudyResearcherViewModel(ViewModel):
     async def save(self):
         sr = self.to_dto()
         await self.model.save(sr)
-        if sr.id:
-            self.id = sr.id
+        if sr.sr_id:
+            self.sr_id = sr.sr_id
         self.changed = False
         await self.broadcast("study_researcher", "saved")
 
@@ -104,4 +104,4 @@ class StudyResearcherViewModel(ViewModel):
 
     async def load_researchers(self):
         researcher_list = await self.model.list(self.study_id)
-        self.researchers = {sr.id: sr.researcher.name for sr in researcher_list if sr.researcher}
+        self.researchers = {sr.researcher_id: sr.researcher.name for sr in researcher_list if sr.researcher}

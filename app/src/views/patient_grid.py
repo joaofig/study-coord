@@ -37,10 +37,9 @@ class StudyPatientGrid(View):
 
     def _build_grid(self) -> AgGrid:
         columns = [
-            # {"headerName": "ID", "field": "id", "hide": True},
             {
                 "headerName": "Edit",
-                "field": "id",
+                "field": "patient_id",
                 "width": 50,
                 ":cellRenderer": """
                 (params) => {
@@ -66,7 +65,7 @@ class StudyPatientGrid(View):
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.id)"
+            ":getRowId": "(params) => String(params.data.patient_id)"
         }
         ui.on("patient-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
@@ -98,5 +97,5 @@ class StudyPatientGrid(View):
     async def _row_selection_changed(self, event):
         row = await self.grid.get_selected_row()
         if row:
-            # Notify other components that a study has been selected
+            # Notify other components that a patient has been selected
             await self.vm.call("patient_selected", patient=row, patient_id=row["patient_id"])

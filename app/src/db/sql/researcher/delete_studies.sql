@@ -1,1 +1,0 @@
-DELETE FROM study_researcher WHERE researcher_id=?

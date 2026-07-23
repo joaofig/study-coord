@@ -37,7 +37,7 @@ class ReportViewModel(ViewModel):
         self.studies.clear()
         studies = await repo.get_studies()
         for row in studies:
-            self.studies[row["id"]] = row["name"]
+            self.studies[row["study_id"]] = row["name"]
 
     async def _on_load(self, **kwargs):
         await self.load()
@@ -64,4 +64,4 @@ class ReportViewModel(ViewModel):
         self.studies.clear()
         studies = await repo.get_studies()
         for row in studies:
-            self.studies[row["id"]] = row["name"]
+            self.studies[row["study_id"]] = row["name"]

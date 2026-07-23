@@ -6,7 +6,7 @@ from tools.user import dict_to_datetime
 
 
 class VisitDTO(BaseDTO):
-    id: int
+    visit_id: int
     study_id: int
     patient_id: int
     visit_date: date = date.today()
@@ -19,7 +19,7 @@ class VisitDTO(BaseDTO):
     @classmethod
     def from_dict(cls, data: dict) -> VisitDTO:
         return VisitDTO(
-            id=data.get("id", 0),
+            visit_id=data.get("visit_id", 0),
             study_id=data.get("study_id", 0),
             patient_id=data.get("patient_id", 0),
             visit_date=date.fromisoformat(data.get("visit_date", date.today().isoformat())),
@@ -34,7 +34,7 @@ class VisitDTO(BaseDTO):
 
     def to_dict(self) -> dict:
         return {
-            "id": self.id,
+            "visit_id": self.visit_id,
             "study_id": self.study_id,
             "patient_id": self.patient_id,
             "visit_date": self.visit_date.isoformat(),

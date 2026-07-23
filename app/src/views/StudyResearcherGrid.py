@@ -39,7 +39,7 @@ class StudyResearcherGrid(View):
         columns = [
             {
                 "headerName": "Edit",
-                "field": "id",
+                "field": "sr_id",
                 "width": 50,
                 ":cellRenderer": """
             (params) => {
@@ -65,7 +65,7 @@ class StudyResearcherGrid(View):
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.id)"
+            ":getRowId": "(params) => String(params.data.sr_id)"
         }
         ui.on("study-researcher-row-edit", self._on_edit)
         self.grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
@@ -95,6 +95,6 @@ class StudyResearcherGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a study has been selected
-            await self.vm.call("researcher_selected", researcher_id=row["id"])
+            await self.vm.call("researcher_selected", researcher_id=row["sr_id"])
         else:
             await self.vm.call("researcher_unselected")

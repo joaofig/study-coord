@@ -9,7 +9,7 @@ class ProtocolModel:
 
     async def save(self, dto: ProtocolDTO):
         result = await self.repo.save(dto)
-        dto.id = result["id"]
+        dto.protocol_id = result["protocol_id"]
 
     async def load(self, protocol_id: int) -> ProtocolDTO | None:
         return await self.repo.load(protocol_id)

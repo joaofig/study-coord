@@ -29,7 +29,7 @@ class StudyGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a study has been selected
-            await self.vm.call("study_selected", study=row, study_id=row["id"])
+            await self.vm.call("study_selected", study=row, study_id=row["study_id"])
         else:
             await self.vm.call("study_unselected")
 
@@ -40,7 +40,7 @@ class StudyGrid(View):
             vm = StudyViewModel()
             vm.updated_by = app.storage.user.get("username", "Unknown")
             dialog = StudyDialog(vm)
-            await vm.call("load", study_id=row["id"])
+            await vm.call("load", study_id=row["study_id"])
             result = await dialog.show()
             if result == "save":
                 await self.vm.call("load")  # Reload the grid after saving
@@ -49,7 +49,7 @@ class StudyGrid(View):
         columns = [
             {
                 "headerName": "Edit",
-                "field": "id",
+                "field": "study_id",
                 "width": 50,
                 ":cellRenderer": """
             (params) => {
@@ -78,7 +78,7 @@ class StudyGrid(View):
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
             "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.id)"
+            ":getRowId": "(params) => String(params.data.study_id)"
         }
         ui.on("study-row-edit", self._on_edit)
         self.grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")

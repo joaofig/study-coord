@@ -39,7 +39,7 @@ class ResearcherViewModel(ViewModel):
     async def _handle_researcher_selected(self, **kwargs):
         researcher_row = kwargs.get("researcher")
         if researcher_row:
-            researcher_id = researcher_row.get("id")
+            researcher_id = researcher_row.get("researcher_id")
             if researcher_id:
                 researcher = await self.model.load(researcher_id=int(researcher_id))
                 if researcher:

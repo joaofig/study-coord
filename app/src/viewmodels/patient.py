@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Any
 
 from nicegui import binding
@@ -7,6 +7,7 @@ from src.dtos.patient import PatientDTO, patient_statuses
 from src.models import PatientModel
 from src.tools.messenger import send_message
 from src.viewmodels.view_model import ViewModel
+from tools.user import dict_to_datetime
 
 
 @binding.bindable_dataclass
@@ -15,15 +16,15 @@ class PatientViewModel(ViewModel):
     study_id: int = 0
     number: str = ""
     name: str = ""
-    start_date: date = date.today().isoformat()
+    start_date: date = date.today()
     exit_date: date | None = None
     status: str = "active"
     status_text: str = ""
     comments: str = ""
 
-    created_at: date = date.today()
+    created_at: datetime = datetime.now()
     created_by: str = ""
-    updated_at: date = date.today()
+    updated_at: datetime = datetime.now()
     updated_by: str = ""
 
     statuses = patient_statuses()
@@ -77,9 +78,9 @@ class PatientViewModel(ViewModel):
         self.status_text = patient_statuses().get(patient["status"], "")
         self.comments = patient["comments"] or ""
 
-        self.created_at = date.fromisoformat(patient["created_at"])
+        self.created_at = dict_to_datetime(patient, "created_at")
         self.created_by = patient["created_by"]
-        self.updated_at = date.fromisoformat(patient["updated_at"])
+        self.updated_at = dict_to_datetime(patient, "updated_at")
         self.updated_by = patient["updated_by"]
         self.changed = False
 
@@ -91,7 +92,7 @@ class PatientViewModel(ViewModel):
         await send_message("study_list", "load")
         self.changed = False
 
-    async def _on_call(self, msg: str, data: Any = None) -> Any:
+    async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "save":
                 return await self.save()

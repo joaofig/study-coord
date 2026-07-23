@@ -1,1 +1,0 @@
-DELETE FROM monitoring WHERE study_id=?;

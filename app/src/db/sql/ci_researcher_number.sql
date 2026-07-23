@@ -1,1 +1,0 @@
-CREATE INDEX IF NOT EXISTS researcher_number_idx on researcher(number);

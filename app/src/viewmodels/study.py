@@ -11,7 +11,7 @@ from src.viewmodels.view_model import ViewModel
 
 @binding.bindable_dataclass
 class StudyViewModel(ViewModel):
-    id: int = 0
+    study_id: int = 0
     name: str = ""
     sponsor: str = ""
     protocol_visits: int = 1
@@ -35,14 +35,14 @@ class StudyViewModel(ViewModel):
     async def _handle_study_selected(self, **kwargs):
         study_row = kwargs.get("study")
         if study_row:
-            study_id = study_row.get("id")
+            study_id = study_row.get("study_id", 0)
             if study_id:
                 study = await self.model.load(study_id=study_id)
                 if study:
                     self.copy(study)
 
     def copy(self, study: StudyDTO):
-        self.id = study.id or 0
+        self.study_id = study.study_id or 0
         self.name = study.name
         self.sponsor = study.sponsor
         self.protocol_visits = study.protocol_visits
@@ -50,12 +50,12 @@ class StudyViewModel(ViewModel):
         self.end_date = study.end_date
         self.comments = study.comments or ""
         self.changed = False
-        self.is_old = study.id is not None
+        self.is_old = study.study_id is not None
         self.change_set.clear()
 
     def to_dict(self) -> dict:
         return {
-            "id": self.id,
+            "study_id": self.study_id,
             "name": self.name,
             "sponsor": self.sponsor,
             "protocol_visits": int(self.protocol_visits),
@@ -66,7 +66,7 @@ class StudyViewModel(ViewModel):
 
     def to_dto(self) -> StudyDTO:
         return StudyDTO(
-            id=self.id,
+            study_id=self.study_id,
             name=self.name,
             sponsor=self.sponsor,
             protocol_visits=int(self.protocol_visits),
@@ -82,7 +82,7 @@ class StudyViewModel(ViewModel):
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
-                study_id = int(str(kwargs.get("study_id")))
+                study_id = kwargs.get("study_id", 0)
                 study = await self.model.load(study_id)
                 if study:
                     self.copy(study)
