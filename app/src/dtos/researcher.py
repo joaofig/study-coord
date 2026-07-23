@@ -49,7 +49,6 @@ class StudyResearcherDTO(BaseDTO):
     role: str = ""
     study_comments: str = ""
 
-
     study: StudyDTO | None = None
     researcher: ResearcherDTO | None = None
 
