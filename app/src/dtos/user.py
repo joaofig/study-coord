@@ -3,6 +3,8 @@ from datetime import date
 
 from pydantic import BaseModel
 
+from tools.user import dict_to_datetime
+
 
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
@@ -25,10 +27,10 @@ class UserDTO(BaseModel):
             user_name=data.get("user_name", ""),
             pass_hash=data.get("pass_hash", ""),
             user_role=data.get("user_role", ""),
-            created_at=date.fromisoformat(str(data.get("created_at", date.today().isoformat()))),
+            created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
-            updated_at=date.fromisoformat(str(data.get("updated_at", date.today().isoformat()))),
-            updated_by=data.get("updated_by", ""),
+            updated_at=dict_to_datetime(data, "updated_at"),
+            updated_by=data.get("updated_by", "")
         )
 
     def to_dict(self) -> dict:

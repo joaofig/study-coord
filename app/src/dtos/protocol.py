@@ -1,8 +1,10 @@
 from datetime import datetime
-from pydantic import BaseModel
+
+from dtos.base import BaseDTO
+from tools.user import dict_to_datetime
 
 
-class ProtocolDTO(BaseModel):
+class ProtocolDTO(BaseDTO):
     protocol_id: int = 0
     study_id: int = 0
     title: str = ""
@@ -23,10 +25,10 @@ class ProtocolDTO(BaseModel):
             event_date=datetime.fromisoformat(data.get("event_date", datetime.now().isoformat())),
             description=data.get("description", ""),
 
-            created_at=datetime.fromisoformat(data.get("created_at", datetime.now().isoformat())),
+            created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
-            updated_at=datetime.fromisoformat(data.get("updated_at", datetime.now().isoformat())),
-            updated_by=data.get("updated_by", ""),
+            updated_at=dict_to_datetime(data, "updated_at"),
+            updated_by=data.get("updated_by", "")
         )
 
     def to_dict(self) -> dict:
@@ -36,9 +38,4 @@ class ProtocolDTO(BaseModel):
             "title": self.title,
             "event_date": self.event_date.isoformat(),
             "description": self.description,
-
-            "created_at": self.created_at.isoformat(),
-            "created_by": self.created_by,
-            "updated_at": self.updated_at.isoformat(),
-            "updated_by": self.updated_by,
-        }
+        } | super().to_dict()

@@ -1,10 +1,10 @@
 from datetime import datetime, date
-from pydantic import BaseModel
 
+from dtos.base import BaseDTO
 from src.tools.user import dict_to_date, dict_to_datetime
 
 
-class MonitoringDTO(BaseModel):
+class MonitoringDTO(BaseDTO):
     monitoring_id: int = 0
     study_id: int = 0
     meeting_date: date = date.today()
@@ -24,6 +24,7 @@ class MonitoringDTO(BaseModel):
             meeting_date=dict_to_date(data, "meeting_date"),
             monitor=data.get("monitor", ""),
             comments=data.get("comments", ""),
+
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
             updated_at=dict_to_datetime(data, "updated_at"),
@@ -37,8 +38,4 @@ class MonitoringDTO(BaseModel):
             "meeting_date": self.meeting_date.isoformat(),
             "monitor": self.monitor,
             "comments": self.comments,
-            "created_at": self.created_at.isoformat(),
-            "created_by": self.created_by,
-            "updated_at": self.updated_at.isoformat(),
-            "updated_by": self.updated_by
-        }
+        } | super().to_dict()

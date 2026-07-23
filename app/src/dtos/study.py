@@ -1,10 +1,11 @@
 from datetime import date
 from typing import Any
 
-from pydantic import BaseModel
+from dtos.base import BaseDTO
+from tools.user import dict_to_datetime
 
 
-class StudyDTO(BaseModel):
+class StudyDTO(BaseDTO):
     id: int | None
     name: str
     sponsor: str
@@ -35,10 +36,10 @@ class StudyDTO(BaseModel):
             "end_date": self.end_date.isoformat() if self.end_date else None,
             "protocol_visits": self.protocol_visits,
             "comments": self.comments,
-        }
+        } | super().to_dict()
 
 
-class StudyRowDTO(BaseModel):
+class StudyRowDTO(BaseDTO):
     id: int
     name: str
     sponsor: str
@@ -67,6 +68,11 @@ class StudyRowDTO(BaseModel):
             visits=data.get("visits", 0),
             researchers=data.get("researchers", 0),
             events=data.get("events", 0),
+
+            created_at=dict_to_datetime(data, "created_at"),
+            created_by=data.get("created_by", ""),
+            updated_at=dict_to_datetime(data, "updated_at"),
+            updated_by=data.get("updated_by", "")
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -82,4 +88,4 @@ class StudyRowDTO(BaseModel):
             "visits": self.visits,
             "researchers": self.researchers,
             "events": self.events,
-        }
+        } | super().to_dict()

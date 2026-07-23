@@ -1,10 +1,11 @@
 from datetime import date
-from pydantic import BaseModel
 
+from dtos.base import BaseDTO
 from src.dtos.patient import PatientDTO
+from tools.user import dict_to_datetime
 
 
-class VisitDTO(BaseModel):
+class VisitDTO(BaseDTO):
     id: int
     study_id: int
     patient_id: int
@@ -24,6 +25,11 @@ class VisitDTO(BaseModel):
             visit_date=date.fromisoformat(data.get("visit_date", date.today().isoformat())),
             visit_type=data.get("visit_type", ""),
             comments=data.get("comments", ""),
+
+            created_at=dict_to_datetime(data, "created_at"),
+            created_by=data.get("created_by", ""),
+            updated_at=dict_to_datetime(data, "updated_at"),
+            updated_by=data.get("updated_by", "")
         )
 
     def to_dict(self) -> dict:
@@ -34,4 +40,4 @@ class VisitDTO(BaseModel):
             "visit_date": self.visit_date.isoformat(),
             "visit_type": self.visit_type,
             "comments": self.comments,
-        }
+        } | super().to_dict()

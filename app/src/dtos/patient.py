@@ -1,5 +1,7 @@
 from datetime import date, datetime
-from pydantic import BaseModel
+
+from dtos.base import BaseDTO
+from tools.user import dict_to_datetime
 
 
 def patient_statuses() -> dict:
@@ -16,7 +18,7 @@ def patient_status_name(status:str) -> str:
     return patient_statuses().get(status, "Unknown")
 
 
-class PatientDTO(BaseModel):
+class PatientDTO(BaseDTO):
     patient_id: int = 0
     study_id: int = 0
     number: str = ""
@@ -44,10 +46,10 @@ class PatientDTO(BaseModel):
             status=data.get("status", "active"),
             comments=data.get("comments", ""),
 
-            created_at=datetime.fromisoformat(data.get("created_at", datetime.now().isoformat())),
+            created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
-            updated_at=datetime.fromisoformat(data.get("updated_at", datetime.today().isoformat())),
-            updated_by=data.get("updated_by", ""),
+            updated_at=dict_to_datetime(data, "updated_at"),
+            updated_by=data.get("updated_by", "")
         )
 
     def to_dict(self) -> dict:
@@ -60,12 +62,7 @@ class PatientDTO(BaseModel):
             "exit_date": self.exit_date.isoformat() if self.exit_date else None,
             "status": self.status,
             "comments": self.comments,
-
-            "created_at": self.created_at.isoformat(),
-            "created_by": self.created_by,
-            "updated_at": self.updated_at.isoformat(),
-            "updated_by": self.updated_by,
-        }
+        } | super().to_dict()
 
     def to_grid(self) -> dict:
         return {
@@ -78,9 +75,4 @@ class PatientDTO(BaseModel):
             "status": self.status,
             "status_text": patient_status_name(self.status),
             "comments": self.comments,
-
-            "created_at": self.created_at.isoformat(),
-            "created_by": self.created_by,
-            "updated_at": self.updated_at.isoformat(),
-            "updated_by": self.updated_by,
-        }
+        } | super().to_dict()
