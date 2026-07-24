@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Any
+from typing import Any, Callable
 
 from nicegui import binding
 from nicegui.observables import ObservableSet
@@ -15,8 +15,8 @@ class StudyViewModel(ViewModel):
     name: str = ""
     sponsor: str = ""
     protocol_visits: int = 1
-    start_date: date = date.today()
-    end_date: date | None = None
+    start_date: str = date.today().isoformat()
+    end_date: str | None = None
     comments: str = ""
     data_changed: bool = False
     change_set = ObservableSet()
@@ -48,8 +48,8 @@ class StudyViewModel(ViewModel):
         self.name = study.name
         self.sponsor = study.sponsor
         self.protocol_visits = study.protocol_visits
-        self.start_date = study.start_date
-        self.end_date = study.end_date
+        self.start_date = study.start_date.isoformat()
+        self.end_date = study.end_date.isoformat() if study.end_date else None
         self.comments = study.comments or ""
         self.changed = False
         self.is_old = study.study_id is not None
@@ -62,7 +62,7 @@ class StudyViewModel(ViewModel):
             "sponsor": self.sponsor,
             "protocol_visits": int(self.protocol_visits),
             "start_date": self.start_date,
-            "end_date": None if self.end_date == "" else self.end_date,
+            "end_date": None if not self.end_date else self.end_date,
             "comments": self.comments,
         }
 
@@ -72,18 +72,12 @@ class StudyViewModel(ViewModel):
             name=self.name,
             sponsor=self.sponsor,
             protocol_visits=int(self.protocol_visits),
-            start_date=self.start_date,
-            end_date=None if self.end_date == "" else self.end_date,
+            start_date=date.fromisoformat(self.start_date),
+            end_date=None if not self.end_date else date.fromisoformat(self.end_date),
             comments=self.comments,
         )
 
     async def save(self):
-        if not self.name:
-            from nicegui import ui
-
-            ui.notify("Study name is required.", color="negative")
-            return
-
         study = await self.model.save(self.to_dto())
         self.study_id = study.study_id
         await self.broadcast("study", "study_saved", study=study)
@@ -101,7 +95,32 @@ class StudyViewModel(ViewModel):
                 await self.broadcast("study_list", "load")
 
             case "mark_changed":
-                field_name = kwargs.get("field_name")
+                field_name = kwargs.get("field_name", "")
                 if field_name:
-                    self._field_changed(str(field_name))
+                    self._field_changed(field_name)
+
+            case "validate":
+                field_name = kwargs.get("field_name", "")
+                value = kwargs.get("value", "")
+                if field_name and value:
+                    return self.validate_field(str(field_name), str(value))
         return None
+
+    def validate_field(self, field_name: str, value: str) -> str:
+        match field_name:
+            case "name":
+                if not value or len(value.strip()) == 0:
+                    return "Name is required."
+                if len(value) < 3:
+                    return "Name must be at least 3 characters long."
+                if len(value) > 128:
+                    return "Name must be at most 128 characters long."
+
+            case "sponsor":
+                if not value or len(value.strip()) == 0:
+                    return "Sponsor is required."
+                if len(value) < 3:
+                    return "Sponsor must be at least 3 characters long."
+                if len(value) > 128:
+                    return "Sponsor must be at most 128 characters long."
+        return ""

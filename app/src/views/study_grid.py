@@ -63,12 +63,16 @@ class StudyGrid(View):
             }
             """,
             },
-            {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
+            {
+                "headerName": "Name", "field": "name", "sortable": True, "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False, "width": 200,
+            },
             {
                 "headerName": "Sponsor",
                 "field": "sponsor",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False, "width": 200,
             },
             {
                 "headerName": "Start",

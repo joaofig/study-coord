@@ -2,7 +2,7 @@ from nicegui import ui
 
 from src.tools.excel import export_to_excel
 from src.viewmodels.view_model import ViewModel
-from src.views.EventGrid import EventGrid
+from src.views.event_grid import EventGrid
 from src.views.View import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.event_dialog import EventDialog

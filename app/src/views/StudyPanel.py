@@ -10,7 +10,7 @@ from src.viewmodels import (
 )
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.EventPanel import EventPanel
+from src.views.event_panel import EventPanel
 from src.views.StudyMonitoringPanel import StudyMonitoringPanel
 from src.views.patient_panel import StudyPatientPanel
 from src.views.StudyResearcherPanel import StudyResearcherPanel

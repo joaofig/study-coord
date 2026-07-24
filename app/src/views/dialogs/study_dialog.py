@@ -7,6 +7,20 @@ from src.views.View import View
 def validate_name(value: str | None) -> str | None:
     if not value:
         return "Name is required"
+    if len(value) < 3:
+        return "Name must be at least 3 characters long"
+    if len(value) > 128:
+        return "Name must be at most 128 characters long"
+    return None
+
+
+def validate_sponsor(value: str | None) -> str | None:
+    if not value:
+        return "Sponsor name is required"
+    if len(value) < 3:
+        return "Sponsor name must be at least 3 characters long"
+    if len(value) > 128:
+        return "Sponsor name must be at most 128 characters long"
     return None
 
 
@@ -26,6 +40,7 @@ class StudyDialog(View):
 
             ui.input(
                 label="Sponsor",
+                validation=validate_sponsor,
                 on_change=lambda: self.vm.call("mark_changed", field_name="sponsor"),
             ).classes("w-full").bind_value(self.vm, "sponsor")
 
@@ -46,7 +61,7 @@ class StudyDialog(View):
             with ui.row().classes("gap-2"):
                 ui.number(
                     label="Protocol Visits",
-                    value=1,
+                    value=1, min=1, step=1,
                     on_change=lambda: self.vm.call(
                         "mark_changed", field_name="protocol_visits"
                     ),
