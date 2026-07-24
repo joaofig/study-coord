@@ -7,7 +7,7 @@ from src.dtos.patient import PatientDTO, patient_statuses
 from src.models import PatientModel
 from src.tools.messenger import send_message
 from src.viewmodels.view_model import ViewModel
-from tools.user import dict_to_datetime
+from src.tools.user import dict_to_datetime
 
 
 @binding.bindable_dataclass
