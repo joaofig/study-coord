@@ -63,6 +63,25 @@ def login(redirect_to: str = '/') -> RedirectResponse | None:
     return None
 
 
+def add_inactivity_timeout(timeout_seconds: float, on_timeout):
+    """Redirects/logs out after `timeout_seconds` of no user activity."""
+    ui.add_body_html(f'''
+    <script>
+    (function() {{
+        let timer;
+        function reset() {{
+            clearTimeout(timer);
+            timer = setTimeout(() => emitEvent('inactivity_timeout'), {timeout_seconds * 1000});
+        }}
+        ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt =>
+            document.addEventListener(evt, reset, true));
+        reset();
+    }})();
+    </script>
+    ''')
+    ui.on('inactivity_timeout', on_timeout)
+
+
 @ui.page("/")
 async def index():
     ui.add_css("""
@@ -82,9 +101,8 @@ async def index():
 
     context.client.content.classes("p-0")
     ui.page_title("Study Coordinator")
-    # ui.notify(f"{os.environ.get('SUPABASE_URL', 'MISSING URL')}")
+    add_inactivity_timeout(300, lambda: ui.navigate.to('/login'))  # 5 minutes of inactivity
     main_view()
-
 
 load_dotenv()
 ui.run(
