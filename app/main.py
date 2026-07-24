@@ -82,6 +82,11 @@ def add_inactivity_timeout(timeout_seconds: float, on_timeout):
     ui.on('inactivity_timeout', on_timeout)
 
 
+def logout():
+    app.storage.user.clear()
+    ui.navigate.to('/login')
+
+
 @ui.page("/")
 async def index():
     ui.add_css("""
@@ -101,7 +106,7 @@ async def index():
 
     context.client.content.classes("p-0")
     ui.page_title("Study Coordinator")
-    add_inactivity_timeout(300, lambda: ui.navigate.to('/login'))  # 5 minutes of inactivity
+    add_inactivity_timeout(300, logout)  # 5 minutes of inactivity
     main_view()
 
 load_dotenv()

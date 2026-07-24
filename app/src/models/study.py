@@ -8,17 +8,12 @@ class StudyModel:
     def __init__(self):
         self.repo = StudyRepository()
 
-    @classmethod
-    def empty(cls) -> StudyDTO:
-        return StudyDTO(id=None, name="", sponsor="", start_date="", end_date=None, protocol_visits=0, comments=None)
-
     async def save(self, dto: StudyDTO):
         study: dict = await self.repo.save(dto)
         return StudyDTO(**study)
 
     async def load(self, study_id: int) -> StudyDTO | None:
-        study = await self.repo.load(study_id)
-        return study
+        return await self.repo.load(study_id)
 
     async def delete(self, study_id: int):
         await self.repo.delete(study_id)
