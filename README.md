@@ -8,12 +8,14 @@ Research study coordination manager.
 
 ## Features
 
-- **Study Management**: Detailed tracking of study information including name, sponsor, dates, and comments. Now includes **Protocol Deviation** and **Monitoring Visit** tracking.
+- **Study Management**: Comprehensive tracking of study information including name, sponsor, dates, and comments. Now includes **Protocol Deviation** and **Monitoring Visit** tracking.
 - **Researcher Management**: Manage teams of researchers with role-based details and contact information.
-- **Patient Management**: Comprehensive tracking of participants with dedicated sub-grids for **Visits** and **Clinical Events**.
+- **Patient Management**: Comprehensive tracking of participants with dedicated sub-grids for **Visits** and **Adverse Events** (Clinical Events).
 - **Global Dashboard**: Real-time summary of studies, patients, researchers, visits, and events across the entire project or per-study metrics.
-- **Data Export**: Built-in support for exporting study data, monitoring logs, and event records to **Excel** for external reporting and analysis.
-- **Interactive UI**: Data-rich interface powered by NiceGUI and AgGrid with flexible layouts and splitters for efficient data navigation.
+- **User & Admin Management**: Robust **Role-Based Access Control (RBAC)** with a dedicated admin interface for managing users and roles.
+- **Security**: Secure authentication with password hashing and automatic **inactivity session timeout** for enhanced data protection.
+- **Data Export**: Built-in support for exporting study data, monitoring logs, user lists, and event records to **Excel** for external reporting and analysis.
+- **Interactive UI**: Data-rich interface powered by NiceGUI and AgGrid with flexible layouts, splitters, and dynamic data binding for efficient data navigation.
 - **Clean Architecture**: Strictly follows the **MVVM** (Model-View-ViewModel) and **Repository** patterns, utilizing asynchronous database operations and externalized SQL scripts.
 - **Developer Guides**: Comprehensive "Agent Skills" documentation for consistent implementation of new features.
 - **Knowledge Graph**: Integrated with `code-review-graph` for advanced code analysis and structural insights.
@@ -21,11 +23,11 @@ Research study coordination manager.
 ## Tech Stack
 
 - **Language**: Python 3.14+
-- **UI Framework**: [NiceGUI](https://nicegui.io/)
+- **UI Framework**: [NiceGUI](https://nicegui.io/) (3.14.0+)
 - **Data Grid**: AgGrid (via NiceGUI)
 - **Database**: [Supabase](https://supabase.com/) (PostgreSQL)
 - **Build Tool**: [uv](https://github.com/astral-sh/uv)
-- **Deployment**: [Fly.io](https://fly.io/) with [Litestream](https://litestream.io/)
+- **Deployment**: [Fly.io](https://fly.io/)
 - **Code Analysis**: [code-review-graph](https://github.com/astral-sh/code-review-graph)
 
 ## Getting Started
@@ -86,7 +88,6 @@ The web interface will typically be available at `http://localhost:8080`.
 - `AGENTS.md`: Development guidelines and project rules
 - `Dockerfile`: Container configuration
 - `fly.toml`: Fly.io deployment configuration
-- `litestream.yml`: SQLite backup configuration (if used)
 
 ## Knowledge Graph
 
