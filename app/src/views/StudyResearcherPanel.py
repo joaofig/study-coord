@@ -15,7 +15,9 @@ class StudyResearcherPanel(View):
         super().__init__(vm)
         self.study_id = 0
         self.messenger = get_messenger("study_researcher")
-        self.messenger.subscribe("study_researcher_selected", self._study_researcher_selected)
+        self.messenger.subscribe(
+            "study_researcher_selected", self._study_researcher_selected
+        )
 
         self.subscribe("study", "selected", self._study_selected)
 
@@ -51,20 +53,30 @@ class StudyResearcherPanel(View):
     def show(self):
         with ui.row().classes("w-full h-full"):
             with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add", on_click=lambda: self._new_researcher_dialog()) \
-                        .props("padding=xs") \
-                        .classes("text-xs"):
+                with (
+                    ui.button(
+                        icon="add", on_click=lambda: self._new_researcher_dialog()
+                    )
+                    .props("padding=xs")
+                    .classes("text-xs")
+                ):
                     ui.tooltip("Add Researcher")
 
-                with ui.button(icon="delete", on_click=lambda: self._on_delete_researcher()) \
-                        .bind_enabled(self.vm, "selected_id") \
-                        .props("color=red padding=xs") \
-                        .classes("text-xs"):
+                with (
+                    ui.button(
+                        icon="delete", on_click=lambda: self._on_delete_researcher()
+                    )
+                    .bind_enabled(self.vm, "selected_id")
+                    .props("color=red padding=xs")
+                    .classes("text-xs")
+                ):
                     ui.tooltip("Delete Researcher")
 
-                with ui.button(icon="table_view", on_click=self._export_to_excel) \
-                        .props("padding=xs") \
-                        .classes("text-xs"):
+                with (
+                    ui.button(icon="table_view", on_click=self._export_to_excel)
+                    .props("padding=xs")
+                    .classes("text-xs")
+                ):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):

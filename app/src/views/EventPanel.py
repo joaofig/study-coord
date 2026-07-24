@@ -14,12 +14,12 @@ class EventPanel(View):
         super().__init__(vm)
         self.study_id = 0
         self.patient_id = 0
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._study_selected)
-        self.subscribe(channel="patient",
-                       message="selected",
-                       handler=self._patient_selected)
+        self.subscribe(
+            channel="study", message="selected", handler=self._study_selected
+        )
+        self.subscribe(
+            channel="patient", message="selected", handler=self._patient_selected
+        )
 
     async def _study_selected(self, **kwargs):
         if "study_id" in kwargs:
@@ -40,7 +40,9 @@ class EventPanel(View):
         dialog = EventDialog(event_vm)
         result = await dialog.show()
         if result == "save":
-            await self.vm.call("load", study_id=self.study_id, patient_id=self.patient_id)
+            await self.vm.call(
+                "load", study_id=self.study_id, patient_id=self.patient_id
+            )
             await self.broadcast("study_list", "load")
 
     async def _on_delete_event(self):
@@ -55,22 +57,27 @@ class EventPanel(View):
 
     def show(self):
         with ui.row().classes("w-full h-full"):
-
             with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add", on_click=self._new_event_dialog) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(icon="add", on_click=self._new_event_dialog)
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Add Event")
 
-                with ui.button(icon="delete", on_click=self._on_delete_event) \
-                        .classes("text-xs") \
-                        .bind_enabled(self.vm, "adverse_event_id") \
-                        .props("color=red padding=xs"):
+                with (
+                    ui.button(icon="delete", on_click=self._on_delete_event)
+                    .classes("text-xs")
+                    .bind_enabled(self.vm, "adverse_event_id")
+                    .props("color=red padding=xs")
+                ):
                     ui.tooltip("Delete Event")
 
-                with ui.button(icon="table_view", on_click=self._export_to_excel) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(icon="table_view", on_click=self._export_to_excel)
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):

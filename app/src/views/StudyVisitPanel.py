@@ -14,12 +14,12 @@ class StudyVisitPanel(View):
         super().__init__(vm)
         self.study_id = 0
         self.patient_id = 0
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._study_selected)
-        self.subscribe(channel="patient",
-                       message="selected",
-                       handler=self._patient_selected)
+        self.subscribe(
+            channel="study", message="selected", handler=self._study_selected
+        )
+        self.subscribe(
+            channel="patient", message="selected", handler=self._patient_selected
+        )
 
     async def _study_selected(self, **kwargs):
         if "study_id" in kwargs:
@@ -53,22 +53,32 @@ class StudyVisitPanel(View):
 
     def show(self):
         with ui.row().classes("w-full h-full"):
-
             with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add", on_click=self._new_visit_dialog) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(icon="add", on_click=self._new_visit_dialog)
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Add Visit")
 
-                with ui.button(icon="delete", on_click=self._on_delete_visit) \
-                        .bind_enabled(self.vm, "visit_id") \
-                        .classes("text-xs") \
-                        .props("padding=xs color=red"):
+                with (
+                    ui.button(icon="delete", on_click=self._on_delete_visit)
+                    .bind_enabled(self.vm, "visit_id")
+                    .classes("text-xs")
+                    .props("padding=xs color=red")
+                ):
                     ui.tooltip("Delete Visit")
 
-                with ui.button(icon="table_view", on_click=lambda: export_to_excel(self.vm.get("visits"), "visits.xlsx")) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(
+                        icon="table_view",
+                        on_click=lambda: export_to_excel(
+                            self.vm.get("visits"), "visits.xlsx"
+                        ),
+                    )
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):

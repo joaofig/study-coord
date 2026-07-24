@@ -30,7 +30,9 @@ class ResearcherViewModel(ViewModel):
 
     def __post_init__(self):
         super().__init__()
-        self.subscribe("researcher", "researcher_selected", self._handle_researcher_selected)
+        self.subscribe(
+            "researcher", "researcher_selected", self._handle_researcher_selected
+        )
 
     def _field_changed(self, field_name: str):
         self.changed = True
@@ -55,7 +57,9 @@ class ResearcherViewModel(ViewModel):
 
             case "load":
                 if "researcher_id" in kwargs:
-                    r = await self.model.load(researcher_id=int(kwargs.get("researcher_id")))
+                    r = await self.model.load(
+                        researcher_id=int(kwargs.get("researcher_id"))
+                    )
                     if r:
                         self.copy(r)
         return None
@@ -82,7 +86,7 @@ class ResearcherViewModel(ViewModel):
             name=self.name,
             phone=self.phone,
             email=self.email,
-            comments=self.comments
+            comments=self.comments,
         )
 
     async def save(self):

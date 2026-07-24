@@ -13,9 +13,9 @@ class ProtocolPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.study_id = 0
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._study_selected)
+        self.subscribe(
+            channel="study", message="selected", handler=self._study_selected
+        )
 
     async def _study_selected(self, **kwargs):
         if "study_id" in kwargs:
@@ -30,7 +30,9 @@ class ProtocolPanel(View):
             await self.vm.call("load", study_id=self.study_id)
 
     async def _on_delete_protocol(self):
-        dialog = DeleteWarningDialog("Are you sure you want to delete this protocol deviation?")
+        dialog = DeleteWarningDialog(
+            "Are you sure you want to delete this protocol deviation?"
+        )
         result = await dialog.show()
         if result == "delete":
             dialog.close()
@@ -40,23 +42,34 @@ class ProtocolPanel(View):
 
     def show(self):
         with ui.row().classes("w-full h-full"):
-
             with ui.column().classes("h-full flex-none pl-0"):
-                with ui.button(icon="add", on_click=lambda: self._new_protocol_dialog()) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(icon="add", on_click=lambda: self._new_protocol_dialog())
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Add Protocol Deviation")
 
-                with ui.button(icon="delete", on_click=lambda: self._on_delete_protocol()) \
-                        .bind_enabled(self.vm, "protocol_id") \
-                        .classes("text-xs") \
-                        .props("color=red padding=xs"):
+                with (
+                    ui.button(
+                        icon="delete", on_click=lambda: self._on_delete_protocol()
+                    )
+                    .bind_enabled(self.vm, "protocol_id")
+                    .classes("text-xs")
+                    .props("color=red padding=xs")
+                ):
                     ui.tooltip("Delete Protocol Deviation")
 
-                with ui.button(icon="table_view",
-                               on_click=lambda: export_to_excel(self.vm.get("protocols"), "protocols.xlsx")) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(
+                        icon="table_view",
+                        on_click=lambda: export_to_excel(
+                            self.vm.get("protocols"), "protocols.xlsx"
+                        ),
+                    )
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):

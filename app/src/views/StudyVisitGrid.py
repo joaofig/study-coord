@@ -54,20 +54,45 @@ class StudyVisitGrid(View):
                     });
                 return btn;
                 }
-                """
+                """,
             },
-            {"headerName": "Date", "field": "visit_date", "sortable": True, "align": "left", "width": 120},
-            {"headerName": "Type", "field": "visit_type", "sortable": True, "align": "left"},
-            {"headerName": "Patient Number", "field": "patient_number", "sortable": True, "align": "left"},
-            {"headerName": "Patient Name", "field": "patient_name", "sortable": True, "align": "left"},
+            {
+                "headerName": "Date",
+                "field": "visit_date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+            },
+            {
+                "headerName": "Type",
+                "field": "visit_type",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Patient Number",
+                "field": "patient_number",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Patient Name",
+                "field": "patient_name",
+                "sortable": True,
+                "align": "left",
+            },
         ]
         grid_def = {
             "columnDefs": columns,
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_visits_from_database()
             "rowData": [],
-            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.visit_id)"
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+            ":getRowId": "(params) => String(params.data.visit_id)",
         }
         ui.on("visit-row-edit", self._on_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")

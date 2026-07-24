@@ -14,9 +14,7 @@ class UserListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(channel="user_list",
-                       message="load",
-                       handler=self._on_load)
+        self.subscribe(channel="user_list", message="load", handler=self._on_load)
 
     async def load(self):
         self.users.clear()

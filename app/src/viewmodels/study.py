@@ -26,7 +26,9 @@ class StudyViewModel(ViewModel):
 
     def __post_init__(self):
         super().__init__()
-        self.subscribe(channel="study", message="selected", handler=self._handle_study_selected)
+        self.subscribe(
+            channel="study", message="selected", handler=self._handle_study_selected
+        )
 
     def _field_changed(self, field_name: str):
         self.changed = True
@@ -76,14 +78,21 @@ class StudyViewModel(ViewModel):
         )
 
     async def save(self):
+        if not self.name:
+            from nicegui import ui
+
+            ui.notify("Study name is required.", color="negative")
+            return
+
         study = await self.model.save(self.to_dto())
+        self.study_id = study.study_id
         await self.broadcast("study", "study_saved", study=study)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 study_id = kwargs.get("study_id", 0)
-                study = await self.model.load(study_id)
+                study = await self.model.load(int(study_id))
                 if study:
                     self.copy(study)
 

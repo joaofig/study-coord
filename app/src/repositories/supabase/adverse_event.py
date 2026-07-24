@@ -14,23 +14,36 @@ class AdverseEventRepository(SupabaseRepository):
     async def load(self, adverse_event_id: int) -> AdverseEventDTO | None:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*")
-                      .eq("adverse_event_id", adverse_event_id).execute()).data
+            result = (
+                await self.supabase.table(TABLE)
+                .select("*")
+                .eq("adverse_event_id", adverse_event_id)
+                .execute()
+            ).data
             if result:
                 return AdverseEventDTO.from_dict(result[0])
         return None
 
-
-    async def list(self, *, study_id: int, patient_id: int = 0) -> List[AdverseEventDTO]:
+    async def list(
+        self, *, study_id: int, patient_id: int = 0
+    ) -> List[AdverseEventDTO]:
         await self.connect()
         if self.supabase:
             if patient_id:
-                result = (await self.supabase.table(TABLE).select("*")
-                          .eq("study_id", study_id)
-                          .eq("patient_id", patient_id).execute()).data
+                result = (
+                    await self.supabase.table(TABLE)
+                    .select("*")
+                    .eq("study_id", study_id)
+                    .eq("patient_id", patient_id)
+                    .execute()
+                ).data
             else:
-                result = (await self.supabase.table(TABLE).select("*")
-                          .eq("study_id", study_id).execute()).data
+                result = (
+                    await self.supabase.table(TABLE)
+                    .select("*")
+                    .eq("study_id", study_id)
+                    .execute()
+                ).data
             if result:
                 return [AdverseEventDTO.from_dict(m) for m in result]
         return []
@@ -42,6 +55,16 @@ class AdverseEventRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             if study_id:
-                await self.supabase.table(TABLE).delete().eq("study_id", study_id).execute()
+                await (
+                    self.supabase.table(TABLE)
+                    .delete()
+                    .eq("study_id", study_id)
+                    .execute()
+                )
             else:
-                await self.supabase.table(TABLE).delete().eq("adverse_event_id", adverse_event_id).execute()
+                await (
+                    self.supabase.table(TABLE)
+                    .delete()
+                    .eq("adverse_event_id", adverse_event_id)
+                    .execute()
+                )

@@ -7,7 +7,9 @@ from .researcher import ResearcherViewModel as ResearcherViewModel
 from .researcher_list import ResearcherListViewModel as ResearcherListViewModel
 from .study_list import StudyListViewModel as StudyListViewModel
 from .study_researcher import StudyResearcherViewModel as StudyResearcherViewModel
-from .study_researcher_list import StudyResearcherListViewModel as StudyResearcherListViewModel
+from .study_researcher_list import (
+    StudyResearcherListViewModel as StudyResearcherListViewModel,
+)
 from .visit import VisitViewModel as VisitViewModel
 from .visit_list import VisitListViewModel as VisitListViewModel
 from .adverse_event import AdverseEventViewModel as AdverseEventViewModel

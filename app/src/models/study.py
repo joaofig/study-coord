@@ -5,8 +5,7 @@ from src.repositories import StudyRepository
 
 
 class StudyModel:
-    def __init__(self):
-        self.repo = StudyRepository()
+    repo = StudyRepository()
 
     async def save(self, dto: StudyDTO):
         study: dict = await self.repo.save(dto)

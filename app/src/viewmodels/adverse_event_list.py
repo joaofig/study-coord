@@ -14,15 +14,15 @@ class AdverseEventListViewModel(ViewModel):
         self.adverse_event_id: int = 0
         self.model = AdverseEventModel()
 
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._handle_study_selected)
-        self.subscribe(channel="patient",
-                       message="selected",
-                       handler=self._handle_patient_selected)
-        self.subscribe(channel="event",
-                       message="saved",
-                       handler=self._handle_event_saved)
+        self.subscribe(
+            channel="study", message="selected", handler=self._handle_study_selected
+        )
+        self.subscribe(
+            channel="patient", message="selected", handler=self._handle_patient_selected
+        )
+        self.subscribe(
+            channel="event", message="saved", handler=self._handle_event_saved
+        )
 
     async def _load_events(self, study_id: int, adverse_event_id: int):
         self.events.clear()
@@ -55,7 +55,9 @@ class AdverseEventListViewModel(ViewModel):
         match msg:
             case "load":
                 self.study_id = kwargs.get("study_id", self.study_id)
-                self.adverse_event_id = kwargs.get("adverse_event_id", self.adverse_event_id)
+                self.adverse_event_id = kwargs.get(
+                    "adverse_event_id", self.adverse_event_id
+                )
                 if self.study_id and self.adverse_event_id:
                     await self._load_events(self.study_id, self.adverse_event_id)
 

@@ -10,7 +10,9 @@ class DeleteWarningDialog:
             with ui.row():
                 ui.label(message)
             with ui.row().classes("justify-end"):
-                ui.button("Delete", on_click=lambda: dialog.submit("delete")).props("color=red")
+                ui.button("Delete", on_click=lambda: dialog.submit("delete")).props(
+                    "color=red"
+                )
                 ui.button("Cancel", on_click=dialog.close)
             self.dialog = dialog
 

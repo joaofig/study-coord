@@ -15,7 +15,12 @@ class VisitRepository(SupabaseRepository):
     async def load(self, visit_id: int) -> VisitDTO | None:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*").eq("visit_id", visit_id).execute()).data[0]
+            result = (
+                await self.supabase.table(TABLE)
+                .select("*")
+                .eq("visit_id", visit_id)
+                .execute()
+            ).data[0]
             visit = VisitDTO.from_dict(result) if result else None
             if visit:
                 repo = PatientRepository()
@@ -27,13 +32,26 @@ class VisitRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             if patient_id == 0:
-                return [VisitDTO.from_dict(v) for v in \
-                        (await self.supabase.table(TABLE).select("*").eq("study_id", study_id).execute()).data]
+                return [
+                    VisitDTO.from_dict(v)
+                    for v in (
+                        await self.supabase.table(TABLE)
+                        .select("*")
+                        .eq("study_id", study_id)
+                        .execute()
+                    ).data
+                ]
             else:
-                return [VisitDTO.from_dict(v) for v in \
-                        (await self.supabase.table(TABLE).select("*")
-                         .eq("study_id", study_id)
-                         .eq("patient_id", patient_id).execute()).data]
+                return [
+                    VisitDTO.from_dict(v)
+                    for v in (
+                        await self.supabase.table(TABLE)
+                        .select("*")
+                        .eq("study_id", study_id)
+                        .eq("patient_id", patient_id)
+                        .execute()
+                    ).data
+                ]
         return []
 
     async def save(self, visit: VisitDTO) -> dict:
@@ -47,6 +65,10 @@ class VisitRepository(SupabaseRepository):
     async def delete_by_study_id_and_patient_id(self, study_id: int, patient_id: int):
         await self.connect()
         if self.supabase:
-            await (self.supabase.table(TABLE).delete()
-                   .eq("study_id", study_id)
-                   .eq("patient_id", patient_id).execute())
+            await (
+                self.supabase.table(TABLE)
+                .delete()
+                .eq("study_id", study_id)
+                .eq("patient_id", patient_id)
+                .execute()
+            )

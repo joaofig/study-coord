@@ -37,7 +37,7 @@ class MonitoringViewModel(ViewModel):
             "created_at": self.created_at.isoformat(),
             "created_by": self.created_by,
             "updated_at": self.updated_at.isoformat(),
-            "updated_by": self.updated_by
+            "updated_by": self.updated_by,
         }
 
     def to_dto(self) -> MonitoringDTO:

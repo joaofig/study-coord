@@ -61,24 +61,65 @@ class StudyGrid(View):
                 });
                 return btn;
             }
-            """
+            """,
             },
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
-            {"headerName": "Sponsor", "field": "sponsor", "sortable": True, "align": "left"},
-            {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left", "width": 90},
-            {"headerName": "End", "field": "end_date", "sortable": True, "align": "left", "width": 90},
-            {"headerName": "Patients", "field": "patients", "sortable": True, "align": "right"},
-            {"headerName": "Visits", "field": "visits", "sortable": True, "align": "right"},
-            {"headerName": "Researchers", "field": "researchers", "sortable": True, "align": "right"},
-            {"headerName": "Events", "field": "events", "sortable": True, "align": "right"},
+            {
+                "headerName": "Sponsor",
+                "field": "sponsor",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Start",
+                "field": "start_date",
+                "sortable": True,
+                "align": "left",
+                "width": 90,
+            },
+            {
+                "headerName": "End",
+                "field": "end_date",
+                "sortable": True,
+                "align": "left",
+                "width": 90,
+            },
+            {
+                "headerName": "Patients",
+                "field": "patients",
+                "sortable": True,
+                "align": "right",
+            },
+            {
+                "headerName": "Visits",
+                "field": "visits",
+                "sortable": True,
+                "align": "right",
+            },
+            {
+                "headerName": "Researchers",
+                "field": "researchers",
+                "sortable": True,
+                "align": "right",
+            },
+            {
+                "headerName": "Events",
+                "field": "events",
+                "sortable": True,
+                "align": "right",
+            },
         ]
         grid_def = {
             "columnDefs": columns,
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
-            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.study_id)"
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+            ":getRowId": "(params) => String(params.data.study_id)",
         }
         ui.on("study-row-edit", self._on_edit)
         self.grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
@@ -86,7 +127,9 @@ class StudyGrid(View):
         #              self._row_selected, # ui.notify(event.args["data"]),
         #              ["data"]
         #             )
-        self.grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
+        self.grid.on(
+            "selectionChanged", lambda event: self._row_selection_changed(event)
+        )
         return self.grid
 
     def show(self) -> AgGrid:

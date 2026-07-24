@@ -5,7 +5,7 @@ from nicegui import app, ui
 
 def logout() -> None:
     app.storage.user.clear()
-    ui.navigate.to('/login')
+    ui.navigate.to("/login")
 
 
 def get_user_name() -> str:

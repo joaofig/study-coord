@@ -16,6 +16,7 @@ class StudyView(View):
     This is the main Study view, which contains the StudyGrid and StudyEditor components.
     It is responsible for managing the layout and interactions between these components.
     """
+
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
 
@@ -43,25 +44,40 @@ class StudyView(View):
             with splitter.before:
                 with ui.row().classes("w-full h-full"):
                     with ui.column().classes("h-full flex-none pl-0"):
-                        with ui.button(icon="add", on_click=lambda: self._new_study_dialog()) \
-                                .classes("text-xs") \
-                                .props("padding=xs"):
+                        with (
+                            ui.button(
+                                icon="add", on_click=lambda: self._new_study_dialog()
+                            )
+                            .classes("text-xs")
+                            .props("padding=xs")
+                        ):
                             ui.tooltip("Add Study")
-                        with ui.button(icon="delete", on_click=lambda: self._on_delete_study()) \
-                                .bind_enabled(self.vm, "selected_id") \
-                                .classes("text-xs") \
-                                .props("color=red padding=xs"):
+                        with (
+                            ui.button(
+                                icon="delete", on_click=lambda: self._on_delete_study()
+                            )
+                            .bind_enabled(self.vm, "selected_id")
+                            .classes("text-xs")
+                            .props("color=red padding=xs")
+                        ):
                             ui.tooltip("Delete Study")
-                        with ui.button(icon="table_view", on_click=lambda: self._on_export_to_excel()) \
-                                .classes("text-xs") \
-                                .props("padding=xs"):
+                        with (
+                            ui.button(
+                                icon="table_view",
+                                on_click=lambda: self._on_export_to_excel(),
+                            )
+                            .classes("text-xs")
+                            .props("padding=xs")
+                        ):
                             ui.tooltip("Export to Excel")
 
                         ui.separator()
 
-                        with ui.button(icon="logout", on_click=logout) \
-                                .classes("text-xs") \
-                                .props("padding=xs"):
+                        with (
+                            ui.button(icon="logout", on_click=logout)
+                            .classes("text-xs")
+                            .props("padding=xs")
+                        ):
                             ui.tooltip("Log Out")
 
                     with ui.column().classes("h-full flex-1"):

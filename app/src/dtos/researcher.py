@@ -16,7 +16,7 @@ class ResearcherDTO(BaseDTO):
     @classmethod
     def from_dict(cls, data: dict) -> "ResearcherDTO":
         return ResearcherDTO(
-            researcher_id=data.get("researcher_id", 0),
+            researcher_id=data.get("researcher_id") or data.get("id") or 0,
             number=data.get("number", ""),
             name=data.get("name", ""),
             phone=data.get("phone", ""),
@@ -53,16 +53,15 @@ class StudyResearcherDTO(BaseDTO):
     @classmethod
     def from_dict(cls, data: dict) -> StudyResearcherDTO:
         return StudyResearcherDTO(
-            sr_id=data.get("sr_id", 0),
+            sr_id=data.get("sr_id") or data.get("id") or 0,
             study_id=data.get("study_id", 0),
             researcher_id=data.get("researcher_id", 0),
             role=data.get("role", ""),
             study_comments=data.get("study_comments", ""),
-
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", "")
+            updated_by=data.get("updated_by", ""),
         )
 
     def to_dict(self) -> dict:

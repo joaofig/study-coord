@@ -14,7 +14,7 @@ from .view_model import ViewModel
 class StudyResearcherViewModel(ViewModel):
     sr_id: int = 0
     study_id: int = 0
-    researcher_id: int = 0      # Bound to the selector
+    researcher_id: int = 0  # Bound to the selector
     role: str = "standard"
     study_comments: str = ""
     number: str = ""
@@ -55,7 +55,7 @@ class StudyResearcherViewModel(ViewModel):
         }
 
     def from_dict(self, data: dict):
-        self.sr_id = data.get("sr_id", 0)
+        self.sr_id = data.get("sr_id") or data.get("id") or 0
         self.study_id = data.get("study_id", 0)
         self.researcher_id = data.get("researcher_id", 0)
         self.role = data.get("role", "standard")
@@ -64,7 +64,7 @@ class StudyResearcherViewModel(ViewModel):
         self.name = data.get("name", "")
         self.phone = data.get("phone", "")
         self.email = data.get("email", "")
-        
+
         self.selection.researcher_id = self.researcher_id
         self.selection.name = self.name
         self.selection.number = self.number
@@ -104,4 +104,8 @@ class StudyResearcherViewModel(ViewModel):
 
     async def load_researchers(self):
         researcher_list = await self.model.list(self.study_id)
-        self.researchers = {sr.researcher_id: sr.researcher.name for sr in researcher_list if sr.researcher}
+        self.researchers = {
+            sr.researcher_id: sr.researcher.name
+            for sr in researcher_list
+            if sr.researcher
+        }

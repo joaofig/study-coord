@@ -16,27 +16,35 @@ class UserView(View):
 
         with ui.row().classes("w-full h-full"):
             with ui.column().classes("h-full flex-none"):
-                with ui.button(icon="add", on_click=self._show_dialog) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(icon="add", on_click=self._show_dialog)
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Add User")
 
-                with ui.button(icon="delete", on_click=self._on_delete_user) \
-                        .bind_enabled(self.vm, "selected_id") \
-                        .classes("text-xs") \
-                        .props("padding=xs color=red"):
+                with (
+                    ui.button(icon="delete", on_click=self._on_delete_user)
+                    .bind_enabled(self.vm, "selected_id")
+                    .classes("text-xs")
+                    .props("padding=xs color=red")
+                ):
                     ui.tooltip("Delete User")
 
-                with ui.button(icon="table_view", on_click=self._on_export_to_excel) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(icon="table_view", on_click=self._on_export_to_excel)
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Export to Excel")
 
                 ui.separator()
 
-                with ui.button(icon="logout", on_click=logout) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(icon="logout", on_click=logout)
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Log Out")
 
             with ui.column().classes("h-full flex-1"):

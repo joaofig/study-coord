@@ -15,14 +15,21 @@ class StudyRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             # We are reading from a view, not a table
-            result = (await self.supabase.table("study_list").select("*").execute()).data
+            result = (
+                await self.supabase.table("study_list").select("*").execute()
+            ).data
             return [StudyRowDTO.from_dict(s) for s in result]
         return []
 
     async def load(self, study_id: int) -> StudyDTO | None:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*").eq("study_id", study_id).execute()).data
+            result = (
+                await self.supabase.table(TABLE)
+                .select("*")
+                .eq("study_id", study_id)
+                .execute()
+            ).data
             if result:
                 return StudyDTO.from_dict(result[0])
         return None

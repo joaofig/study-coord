@@ -46,7 +46,7 @@ class VisitViewModel(ViewModel):
         visit = self.to_dto()
         await self.model.save(visit)
         if visit.id:
-            self.visit_id =visit.id
+            self.visit_id = visit.id
         self.changed = False
         await self.broadcast("visit", "saved")
 

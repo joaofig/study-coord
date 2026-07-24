@@ -51,21 +51,48 @@ class StudyPatientGrid(View):
                     });
                 return btn;
                 }
-                """
+                """,
             },
-            {"headerName": "Number", "field": "number", "sortable": True, "align": "left", "width": 100},
+            {
+                "headerName": "Number",
+                "field": "number",
+                "sortable": True,
+                "align": "left",
+                "width": 100,
+            },
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
-            {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left", "width": 120},
-            {"headerName": "End", "field": "exit_date", "sortable": True, "align": "left", "width": 120},
-            {"headerName": "Status", "field": "status_text", "sortable": True, "align": "left"},
+            {
+                "headerName": "Start",
+                "field": "start_date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+            },
+            {
+                "headerName": "End",
+                "field": "exit_date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+            },
+            {
+                "headerName": "Status",
+                "field": "status_text",
+                "sortable": True,
+                "align": "left",
+            },
         ]
         grid_def = {
             "columnDefs": columns,
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
-            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.patient_id)"
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+            ":getRowId": "(params) => String(params.data.patient_id)",
         }
         ui.on("patient-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
@@ -98,4 +125,6 @@ class StudyPatientGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a patient has been selected
-            await self.vm.call("patient_selected", patient=row, patient_id=row["patient_id"])
+            await self.vm.call(
+                "patient_selected", patient=row, patient_id=row["patient_id"]
+            )

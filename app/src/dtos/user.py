@@ -30,7 +30,7 @@ class UserDTO(BaseModel):
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", "")
+            updated_by=data.get("updated_by", ""),
         )
 
     def to_dict(self) -> dict:

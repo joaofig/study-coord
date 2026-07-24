@@ -14,9 +14,13 @@ class UserRepository(SupabaseRepository):
     async def get_user(self, user_name: str, pass_hash: str) -> UserDTO | None:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*")
-                      .eq("user_name", user_name)
-                      .eq("pass_hash", pass_hash).execute()).data
+            result = (
+                await self.supabase.table(TABLE)
+                .select("*")
+                .eq("user_name", user_name)
+                .eq("pass_hash", pass_hash)
+                .execute()
+            ).data
             if result:
                 return UserDTO.from_dict(result[0])
         return None
@@ -31,7 +35,12 @@ class UserRepository(SupabaseRepository):
     async def load(self, user_id: int) -> UserDTO | None:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*").eq("user_id", user_id).execute()).data
+            result = (
+                await self.supabase.table(TABLE)
+                .select("*")
+                .eq("user_id", user_id)
+                .execute()
+            ).data
             if result:
                 return UserDTO.from_dict(result[0])
         return None
@@ -44,4 +53,3 @@ class UserRepository(SupabaseRepository):
         if self.supabase:
             await self.supabase.table(TABLE).delete().eq("user_id", user_id).execute()
         return None
-

@@ -13,9 +13,9 @@ class StudyMonitoringPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.study_id = 0
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._study_selected)
+        self.subscribe(
+            channel="study", message="selected", handler=self._study_selected
+        )
 
     async def _study_selected(self, **kwargs):
         if "study_id" in kwargs:
@@ -32,7 +32,9 @@ class StudyMonitoringPanel(View):
             await self.broadcast("study_list", "load")
 
     async def _on_delete_monitoring(self):
-        dialog = DeleteWarningDialog("Are you sure you want to delete this monitoring visit?")
+        dialog = DeleteWarningDialog(
+            "Are you sure you want to delete this monitoring visit?"
+        )
         result = await dialog.show()
         if result == "delete":
             dialog.close()
@@ -43,23 +45,36 @@ class StudyMonitoringPanel(View):
 
     def show(self):
         with ui.row().classes("w-full h-full"):
-
             with ui.column().classes("h-full flex-none pl-0"):
-                with ui.button(icon="add", on_click=lambda: self._new_monitoring_dialog()) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(
+                        icon="add", on_click=lambda: self._new_monitoring_dialog()
+                    )
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Add Monitoring Visit")
 
-                with ui.button(icon="delete", on_click=lambda: self._on_delete_monitoring()) \
-                        .bind_enabled(self.vm, "monitoring_id") \
-                        .classes("text-xs") \
-                        .props("color=red padding=xs"):
+                with (
+                    ui.button(
+                        icon="delete", on_click=lambda: self._on_delete_monitoring()
+                    )
+                    .bind_enabled(self.vm, "monitoring_id")
+                    .classes("text-xs")
+                    .props("color=red padding=xs")
+                ):
                     ui.tooltip("Delete Monitoring Visit")
 
-                with ui.button(icon="table_view",
-                               on_click=lambda: export_to_excel(self.vm.get("monitorings"), "monitorings.xlsx")) \
-                        .classes("text-xs") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(
+                        icon="table_view",
+                        on_click=lambda: export_to_excel(
+                            self.vm.get("monitorings"), "monitorings.xlsx"
+                        ),
+                    )
+                    .classes("text-xs")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):

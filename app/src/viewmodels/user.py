@@ -71,7 +71,7 @@ class UserViewModel(ViewModel):
         self.data_changed = False
         self.is_old = user.user_id > 0
         self.change_set.clear()
-        
+
     def to_dto(self) -> UserDTO:
         return UserDTO(
             user_id=self.user_id,
@@ -81,7 +81,7 @@ class UserViewModel(ViewModel):
             created_at=self.created_at,
             created_by=self.created_by,
             updated_at=self.updated_at,
-            updated_by=self.updated_by
+            updated_by=self.updated_by,
         )
 
     async def save(self):

@@ -32,20 +32,49 @@ class ResearcherGrid(View):
                     });
                 return btn;
                 }
-                """
+                """,
             },
-            {"headerName": "Number", "field": "number", "sortable": True, "align": "left"},
+            {
+                "headerName": "Number",
+                "field": "number",
+                "sortable": True,
+                "align": "left",
+            },
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
-            {"headerName": "Phone", "field": "phone", "sortable": True, "align": "left"},
-            {"headerName": "Email", "field": "email", "sortable": True, "align": "left"},
-            {"headerName": "Comments", "field": "comments", "sortable": True, "align": "left"},
-            {"headerName": "Studies", "field": "study_count", "sortable": True, "align": "left"},
+            {
+                "headerName": "Phone",
+                "field": "phone",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Email",
+                "field": "email",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Comments",
+                "field": "comments",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Studies",
+                "field": "study_count",
+                "sortable": True,
+                "align": "left",
+            },
         ]
         grid_def = {
             "columnDefs": columns,
             "rowData": [],
-            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.researcher_id)"
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+            ":getRowId": "(params) => String(params.data.researcher_id)",
         }
         ui.on("researcher-row-edit", self._on_edit)
 
@@ -70,8 +99,9 @@ class ResearcherGrid(View):
             vm = ResearcherViewModel()
             vm.updated_by = app.storage.user.get("username", "Unknown")
             dialog = ResearcherDialog(vm)
-            await dialog.vm.call("load",
-                                 researcher_id=row_data["researcher_id"])  # Copy the selected row's data into the ViewModel
+            await dialog.vm.call(
+                "load", researcher_id=row_data["researcher_id"]
+            )  # Copy the selected row's data into the ViewModel
             result = await dialog.show()
             if result == "save":
                 await self.vm.call("load")  # Reload the grid after saving
@@ -80,4 +110,8 @@ class ResearcherGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a researcher has been selected
-            await self.vm.call("researcher_selected", researcher=row, researcher_id=row["researcher_id"])
+            await self.vm.call(
+                "researcher_selected",
+                researcher=row,
+                researcher_id=row["researcher_id"],
+            )

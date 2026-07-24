@@ -28,17 +28,15 @@ class ProtocolDialog(View):
             with ui.row().classes("w-full bg-gray-200 p-2"):
                 ui.label("Protocol Deviation Details").classes("text-base")
 
-            ui.input("Title", validation=validate_title) \
-                .classes("w-full") \
-                .bind_value(self.vm, "title")
+            ui.input("Title", validation=validate_title).classes("w-full").bind_value(
+                self.vm, "title"
+            )
 
-            ui.date_input("Date") \
-                .classes("w-full") \
-                .bind_value(self.vm, "date")
+            ui.date_input("Date").classes("w-full").bind_value(self.vm, "date")
 
-            ui.textarea("Description") \
-                .classes("w-full") \
-                .bind_value(self.vm, "description")
+            ui.textarea("Description").classes("w-full").bind_value(
+                self.vm, "description"
+            )
 
             with ui.row():
                 ui.button("Save", on_click=lambda: self.save())

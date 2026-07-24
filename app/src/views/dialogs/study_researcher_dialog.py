@@ -28,28 +28,31 @@ class StudyResearcherDialog(View):
             with ui.row().classes("w-full  bg-gray-200 p-2"):
                 ui.label("Study Researcher Details").classes("text-base")
 
-            ui.select(options=self.vm.get("researchers"), label="Researcher", validation=validate_researcher) \
-                .bind_value(self.vm, "researcher_id") \
-                .on_value_change(lambda: self.vm.call("load")) \
-                .classes("w-full")
+            ui.select(
+                options=self.vm.get("researchers"),
+                label="Researcher",
+                validation=validate_researcher,
+            ).bind_value(self.vm, "researcher_id").on_value_change(
+                lambda: self.vm.call("load")
+            ).classes("w-full")
 
             selection = self.vm.get("selection")
-            ui.input(label="Number").props("readonly") \
-                .classes("w-full") \
-                .bind_value(selection, "number")
-            ui.input(label="Phone").props("readonly") \
-                .classes("w-full") \
-                .bind_value(selection, "phone")
-            ui.input(label="Email").props("readonly") \
-                .classes("w-full") \
-                .bind_value(selection, "email")
+            ui.input(label="Number").props("readonly").classes("w-full").bind_value(
+                selection, "number"
+            )
+            ui.input(label="Phone").props("readonly").classes("w-full").bind_value(
+                selection, "phone"
+            )
+            ui.input(label="Email").props("readonly").classes("w-full").bind_value(
+                selection, "email"
+            )
 
-            ui.select(options=self.vm.get("roles"), label="Role") \
-                .bind_value(self.vm, "role") \
-                .classes("w-full")
-            ui.textarea(label="Study Comments") \
-                .classes("w-full") \
-                .bind_value(self.vm, "study_comments")
+            ui.select(options=self.vm.get("roles"), label="Role").bind_value(
+                self.vm, "role"
+            ).classes("w-full")
+            ui.textarea(label="Study Comments").classes("w-full").bind_value(
+                self.vm, "study_comments"
+            )
 
             with ui.row():
                 ui.button("Save", on_click=lambda: self.save())

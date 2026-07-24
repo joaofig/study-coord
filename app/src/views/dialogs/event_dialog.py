@@ -20,38 +20,46 @@ class EventDialog(View):
 
             with ui.row().classes("w-full"):
                 with ui.column().classes("flex-1"):
-                    self.select = ui.select(options=self.vm.get("patients"), label="Patient") \
-                        .bind_value(self.vm, "patient_id") \
-                        .on_value_change(lambda: self.vm.call(msg="load_patient", patient_id=self.vm.get("patient_id"))) \
+                    self.select = (
+                        ui.select(options=self.vm.get("patients"), label="Patient")
+                        .bind_value(self.vm, "patient_id")
+                        .on_value_change(
+                            lambda: self.vm.call(
+                                msg="load_patient", patient_id=self.vm.get("patient_id")
+                            )
+                        )
                         .classes("w-full")
+                    )
 
                     selection = self.vm.get("selection")
-                    ui.input(label="Patient Number").props("readonly") \
-                        .bind_value(selection, "number") \
-                        .classes("w-full")
+                    ui.input(label="Patient Number").props("readonly").bind_value(
+                        selection, "number"
+                    ).classes("w-full")
 
-                    ui.input(label="Start Date").props("readonly") \
-                        .bind_value(selection, "start_date") \
-                        .classes("w-full")
+                    ui.input(label="Start Date").props("readonly").bind_value(
+                        selection, "start_date"
+                    ).classes("w-full")
 
-                    ui.input(label="Status").props("readonly") \
-                        .bind_value(selection, "status_text") \
-                        .classes("w-full")
+                    ui.input(label="Status").props("readonly").bind_value(
+                        selection, "status_text"
+                    ).classes("w-full")
 
                 with ui.column().classes("flex-1"):
-                    ui.date_input(label="Date").bind_value(self.vm, "date") \
-                        .classes("w-full")
+                    ui.date_input(label="Date").bind_value(self.vm, "date").classes(
+                        "w-full"
+                    )
 
-                    ui.input(label="Event Type", validation=validate_required) \
-                        .bind_value(self.vm, "event_type") \
-                        .classes("w-full")
+                    ui.input(
+                        label="Event Type", validation=validate_required
+                    ).bind_value(self.vm, "event_type").classes("w-full")
 
-                    ui.input(label="Description", validation=validate_required) \
-                        .bind_value(self.vm, "description") \
-                        .classes("w-full")
+                    ui.input(
+                        label="Description", validation=validate_required
+                    ).bind_value(self.vm, "description").classes("w-full")
 
-                    ui.textarea(label="Comments").bind_value(self.vm, "comments") \
-                        .classes("w-full")
+                    ui.textarea(label="Comments").bind_value(
+                        self.vm, "comments"
+                    ).classes("w-full")
 
             with ui.row():
                 ui.button("Save", on_click=lambda: self.save())

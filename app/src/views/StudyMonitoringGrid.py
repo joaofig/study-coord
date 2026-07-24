@@ -42,17 +42,37 @@ class StudyMonitoringGrid(View):
                     });
                 return btn;
                 }
-                """
+                """,
             },
-            {"headerName": "Date", "field": "meeting_date", "sortable": True, "align": "left", "width": 120},
-            {"headerName": "Monitor", "field": "monitor", "sortable": True, "align": "left"},
-            {"headerName": "Comments", "field": "comments", "sortable": True, "align": "left"},
+            {
+                "headerName": "Date",
+                "field": "meeting_date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+            },
+            {
+                "headerName": "Monitor",
+                "field": "monitor",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Comments",
+                "field": "comments",
+                "sortable": True,
+                "align": "left",
+            },
         ]
         grid_def = {
             "columnDefs": columns,
             "rowData": [],
-            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.id)"
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+            ":getRowId": "(params) => String(params.data.id)",
         }
         ui.on("monitoring-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
@@ -81,4 +101,8 @@ class StudyMonitoringGrid(View):
     async def _row_selection_changed(self, event):
         row = await self.grid.get_selected_row()
         if row:
-            await self.vm.call("monitoring_selected", monitoring=row, monitoring_id=row["monitoring_id"])
+            await self.vm.call(
+                "monitoring_selected",
+                monitoring=row,
+                monitoring_id=row["monitoring_id"],
+            )

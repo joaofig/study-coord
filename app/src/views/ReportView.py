@@ -23,9 +23,11 @@ class ReportView(View):
             ui.separator()
 
             studies = self.vm.get("studies")
-            self.selector = ui.select(studies, label="Study", on_change=self._on_study_change) \
-                .bind_value(self.vm, "study_id") \
+            self.selector = (
+                ui.select(studies, label="Study", on_change=self._on_study_change)
+                .bind_value(self.vm, "study_id")
                 .classes("w-100")
+            )
 
         with ui.row().classes("w-full"):
             self._add_count_card("Patients", "study_patient_count")
@@ -40,8 +42,9 @@ class ReportView(View):
         with ui.card().classes("bg-gray-200"):
             ui.label(title).classes("text-2xl")
             with ui.card_section().classes("w-full"):
-                ui.label("0").bind_text_from(self.vm, property_name) \
-                    .classes("text-xl text-right font-bold text-sky-800")
+                ui.label("0").bind_text_from(self.vm, property_name).classes(
+                    "text-xl text-right font-bold text-sky-800"
+                )
 
     async def _on_refresh(self):
         await self.vm.call("load")

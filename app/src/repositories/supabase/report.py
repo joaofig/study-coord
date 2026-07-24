@@ -1,4 +1,3 @@
-
 from src.repositories.supabase.base import SupabaseRepository
 
 
@@ -9,8 +8,9 @@ class ReportRepository(SupabaseRepository):
     async def get_count(self, table: str) -> int:
         await self.connect()
         if self.supabase:
-            response = await (self.supabase.table(table)
-                          .select("*", count="exact").execute())
+            response = await (
+                self.supabase.table(table).select("*", count="exact").execute()
+            )
             if response.count is not None:
                 return response.count
         return 0
@@ -21,10 +21,12 @@ class ReportRepository(SupabaseRepository):
 
         await self.connect()
         if self.supabase:
-            response = await (self.supabase.table(table)
-                          .select("*", count="exact")
-                          .eq("study_id", study_id)
-                          .execute())
+            response = await (
+                self.supabase.table(table)
+                .select("*", count="exact")
+                .eq("study_id", study_id)
+                .execute()
+            )
             if response.count is not None:
                 return response.count
         return 0

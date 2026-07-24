@@ -5,8 +5,8 @@ import pytest
 from nicegui import ui
 
 from src.dtos.study import StudyDTO as Study, StudyRowDTO as StudyRow
-from viewmodels.study import StudyViewModel
-from viewmodels.study_list import StudyListViewModel
+from src.viewmodels.study import StudyViewModel
+from src.viewmodels.study_list import StudyListViewModel
 
 EXISTING_STUDY_ID = 7
 NEW_STUDY_ID = 23
@@ -37,29 +37,29 @@ def make_study(
     comments: str | None = STUDY_COMMENTS,
 ) -> Study:
     return Study(
-        id=study_id,
+        study_id=study_id,
         name=name,
         sponsor=sponsor,
         start_date=start_date,
         end_date=end_date,
-        proto_visits=proto_visits,
+        protocol_visits=proto_visits,
         comments=comments,
     )
 
 
 def make_study_row(study_id: int = EXISTING_STUDY_ID) -> StudyRow:
     return StudyRow(
-        id=study_id,
+        study_id=study_id,
         name=STUDY_NAME,
         sponsor=STUDY_SPONSOR,
         start_date=STUDY_START_DATE,
         end_date=STUDY_END_DATE,
-        proto_visits=PROTOCOL_VISITS,
+        protocol_visits=PROTOCOL_VISITS,
         comments=STUDY_COMMENTS,
         patients=NO_PATIENTS,
         visits=NO_VISITS,
         researchers=NO_RESEARCHERS,
-        adverse_events=NO_ADVERSE_EVENTS,
+        events=NO_ADVERSE_EVENTS,
     )
 
 
@@ -67,41 +67,42 @@ def make_study_row(study_id: int = EXISTING_STUDY_ID) -> StudyRow:
 def fake_repository():
     class FakeStudyRepository:
         rows: List[StudyRow] = []
-        studies_by_id: dict[int, dict] = {}
+        studies_by_id: dict[int, Study] = {}
         requested_ids: List[int] = []
-        saved_studies: List[dict] = []
+        saved_studies: List[Study] = []
 
         @classmethod
         async def list(cls) -> List[StudyRow]:
             return cls.rows
 
         @classmethod
-        async def get(cls, study_id: int) -> dict | None:
+        async def load(cls, study_id: int) -> Study | None:
             cls.requested_ids.append(study_id)
             return cls.studies_by_id.get(study_id)
 
         @classmethod
-        async def save(cls, study: dict) -> dict:
+        async def save(cls, study: Study) -> dict:
             cls.saved_studies.append(study)
-            if study.get("id") == EMPTY_ID or study.get("id") is None:
-                study["id"] = NEW_STUDY_ID
-            return study
+            d = study.model_dump()
+            if d.get("study_id") == EMPTY_ID or d.get("study_id") is None:
+                d["study_id"] = NEW_STUDY_ID
+            return d
 
     return FakeStudyRepository
 
 
 def assert_view_model_matches_study(view_model: StudyViewModel, study: Study) -> None:
-    assert view_model.id == (study.id or EMPTY_ID)
+    assert view_model.study_id == (study.study_id or EMPTY_ID)
     assert view_model.name == study.name
     assert view_model.sponsor == study.sponsor
     assert view_model.protocol_visits == study.protocol_visits
     assert view_model.start_date == study.start_date
-    assert view_model.end_date == (study.end_date or "")
+    assert view_model.end_date == study.end_date
     assert view_model.comments == (study.comments or "")
 
 
 def assert_studies_match(actual: Study, expected: Study) -> None:
-    assert actual.id == expected.id
+    assert actual.study_id == expected.study_id
     assert actual.name == expected.name
     assert actual.sponsor == expected.sponsor
     assert actual.start_date == expected.start_date
@@ -122,7 +123,7 @@ async def test_study_view_model_copy_populates_editable_fields() -> None:
 
 def test_study_view_model_to_study_preserves_current_fields() -> None:
     view_model = StudyViewModel(
-        id=EXISTING_STUDY_ID,
+        study_id=EXISTING_STUDY_ID,
         name=STUDY_NAME,
         sponsor=STUDY_SPONSOR,
         protocol_visits=PROTOCOL_VISITS,
@@ -137,7 +138,9 @@ def test_study_view_model_to_study_preserves_current_fields() -> None:
 
 
 @pytest.mark.asyncio
-async def test_save_persists_valid_study_updates_id_and_notifies(fake_repository) -> None:
+async def test_save_persists_valid_study_updates_id_and_notifies(
+    fake_repository,
+) -> None:
     view_model = StudyViewModel(
         name=STUDY_NAME,
         sponsor=STUDY_SPONSOR,
@@ -145,15 +148,15 @@ async def test_save_persists_valid_study_updates_id_and_notifies(fake_repository
         start_date=STUDY_START_DATE,
     )
 
-    with patch("src.models.study.StudyRepository", fake_repository):
+    with patch("src.models.study.StudyModel.repo", fake_repository):
         await view_model.save()
 
-    assert view_model.id == NEW_STUDY_ID
+    assert view_model.study_id == NEW_STUDY_ID
     assert len(fake_repository.saved_studies) == 1
     saved_study = fake_repository.saved_studies[0]
-    assert saved_study["name"] == STUDY_NAME
-    assert saved_study["sponsor"] == STUDY_SPONSOR
-    assert saved_study["proto_visits"] == PROTOCOL_VISITS
+    assert saved_study.name == STUDY_NAME
+    assert saved_study.sponsor == STUDY_SPONSOR
+    assert saved_study.protocol_visits == PROTOCOL_VISITS
 
 
 @pytest.mark.asyncio
@@ -165,7 +168,10 @@ async def test_save_rejects_invalid_study_without_persisting(fake_repository) ->
         start_date=STUDY_START_DATE,
     )
 
-    with patch("src.models.study.StudyRepository", fake_repository), patch.object(ui, "notify") as notify:
+    with (
+        patch("src.models.study.StudyRepository", fake_repository),
+        patch.object(ui, "notify") as notify,
+    ):
         await view_model.save()
 
     assert fake_repository.saved_studies == []
@@ -178,10 +184,10 @@ async def test_save_rejects_invalid_study_without_persisting(fake_repository) ->
 @pytest.mark.asyncio
 async def test_message_load_study_copies_repository_result(fake_repository) -> None:
     study = make_study()
-    fake_repository.studies_by_id[EXISTING_STUDY_ID] = study.to_dict()
+    fake_repository.studies_by_id[EXISTING_STUDY_ID] = study
     view_model = StudyViewModel()
 
-    with patch("src.models.study.StudyRepository", fake_repository):
+    with patch("src.models.study.StudyModel.repo", fake_repository):
         await view_model.call("load", study_id=str(EXISTING_STUDY_ID))
 
     assert fake_repository.requested_ids == [EXISTING_STUDY_ID]
@@ -192,7 +198,7 @@ async def test_message_load_study_copies_repository_result(fake_repository) -> N
 async def test_message_load_study_keeps_state_when_missing(fake_repository) -> None:
     view_model = StudyViewModel(name=STUDY_NAME)
 
-    with patch("src.models.study.StudyRepository", fake_repository):
+    with patch("src.models.study.StudyModel.repo", fake_repository):
         await view_model.call("load", study_id=MISSING_STUDY_ID)
 
     assert fake_repository.requested_ids == [MISSING_STUDY_ID]
@@ -215,10 +221,10 @@ async def test_study_list_load_replaces_rows_and_notifies(fake_repository) -> No
     fake_repository.rows = rows
     view_model = StudyListViewModel()
 
-    with patch("src.viewmodels.StudyListViewModel.StudyRepository", fake_repository):
+    with patch("src.models.study.StudyModel.repo", fake_repository):
         await view_model.load()
 
-    assert view_model.studies == rows
+    assert view_model.studies == [r.to_dict() for r in rows]
 
 
 @pytest.mark.asyncio
@@ -234,11 +240,13 @@ async def test_study_list_reloads_after_study_saved() -> None:
 @pytest.mark.asyncio
 async def test_study_list_loads_selected_study_into_child_view_model() -> None:
     view_model = StudyListViewModel()
-    with patch("viewmodels.ViewModel.get_messenger") as mock_get_messenger:
+    with patch("src.viewmodels.view_model.get_messenger") as mock_get_messenger:
         mock_messenger = AsyncMock()
         mock_get_messenger.return_value = mock_messenger
 
         await view_model.call("study_selected", study_id=SELECTED_STUDY_ID)
 
         mock_get_messenger.assert_called_once_with("study")
-        mock_messenger.send.assert_awaited_once_with("selected", study_id=SELECTED_STUDY_ID)
+        mock_messenger.send.assert_awaited_once_with(
+            "selected", study_id=SELECTED_STUDY_ID
+        )

@@ -9,7 +9,9 @@ class ResearcherModel:
 
     @classmethod
     def empty(cls) -> ResearcherDTO:
-        return ResearcherDTO(researcher_id=0, number="", name="", phone="", email="", comments="")
+        return ResearcherDTO(
+            researcher_id=0, number="", name="", phone="", email="", comments=""
+        )
 
     async def save(self, dto: ResearcherDTO):
         researcher = await self.repo.save(dto)
@@ -30,6 +32,7 @@ def study_researcher_roles() -> dict:
         "standard": "Standard Researcher",
         "principal": "Principal Researcher",
     }
+
 
 def study_researcher_role_name(role: str) -> str:
     return study_researcher_roles().get(role, "Unknown")

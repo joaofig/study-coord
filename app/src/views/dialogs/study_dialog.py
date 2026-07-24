@@ -18,36 +18,49 @@ class StudyDialog(View):
             with ui.row().classes("w-full  bg-gray-200 p-2"):
                 ui.label("Study Details").classes("text-base")
 
-            ui.input(label="Name", validation=validate_name,
-                     on_change=lambda: self.vm.call("mark_changed", field_name="name")) \
-                .classes("w-full") \
-                .bind_value(self.vm, "name")
+            ui.input(
+                label="Name",
+                validation=validate_name,
+                on_change=lambda: self.vm.call("mark_changed", field_name="name"),
+            ).classes("w-full").bind_value(self.vm, "name")
 
-            ui.input(label="Sponsor",
-                     on_change=lambda: self.vm.call("mark_changed", field_name="sponsor")) \
-                .classes("w-full") \
-                .bind_value(self.vm, "sponsor")
-
-            with ui.row().classes("gap-2"):
-                ui.date_input(label="Start Date",
-                              on_change=lambda: self.vm.call("mark_changed", field_name="start_date")) \
-                    .bind_value(self.vm, "start_date")
-                ui.date_input(label="End Date",
-                              on_change=lambda: self.vm.call("mark_changed", field_name="end_date")) \
-                    .bind_value(self.vm, "end_date")
+            ui.input(
+                label="Sponsor",
+                on_change=lambda: self.vm.call("mark_changed", field_name="sponsor"),
+            ).classes("w-full").bind_value(self.vm, "sponsor")
 
             with ui.row().classes("gap-2"):
-                ui.number(label="Protocol Visits", value=1,
-                          on_change=lambda: self.vm.call("mark_changed", field_name="protocol_visits")) \
-                    .props('clearable') \
-                    .classes("w-full") \
-                    .bind_value(self.vm, "protocol_visits", strict=True)
+                ui.date_input(
+                    label="Start Date",
+                    on_change=lambda: self.vm.call(
+                        "mark_changed", field_name="start_date"
+                    ),
+                ).bind_value(self.vm, "start_date")
+                ui.date_input(
+                    label="End Date",
+                    on_change=lambda: self.vm.call(
+                        "mark_changed", field_name="end_date"
+                    ),
+                ).bind_value(self.vm, "end_date")
+
+            with ui.row().classes("gap-2"):
+                ui.number(
+                    label="Protocol Visits",
+                    value=1,
+                    on_change=lambda: self.vm.call(
+                        "mark_changed", field_name="protocol_visits"
+                    ),
+                ).props("clearable").classes("w-full").bind_value(
+                    self.vm, "protocol_visits", strict=True
+                )
 
             with ui.row().classes("gap-2 w-full"):
-                ui.textarea(label="Comments",
-                            on_change=lambda: self.vm.call("mark_changed", field_name="comments")) \
-                    .classes("w-full") \
-                    .bind_value(self.vm, "comments")
+                ui.textarea(
+                    label="Comments",
+                    on_change=lambda: self.vm.call(
+                        "mark_changed", field_name="comments"
+                    ),
+                ).classes("w-full").bind_value(self.vm, "comments")
 
             with ui.row():
                 ui.button("Save", on_click=self.save)

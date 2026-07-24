@@ -12,7 +12,7 @@ from src.views.main import main_view
 
 
 # top-level static routes like /favicon.ico must be unrestricted, otherwise the middleware redirects them to /login
-unrestricted_page_routes = {'/favicon.ico', '/login'}
+unrestricted_page_routes = {"/favicon.ico", "/login"}
 
 
 @app.add_middleware
@@ -24,40 +24,47 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next):
         path = request.url.path
-        if app.storage.user.get('authenticated', False) or path in unrestricted_page_routes or path.startswith('/_nicegui'):
+        if (
+            app.storage.user.get("authenticated", False)
+            or path in unrestricted_page_routes
+            or path.startswith("/_nicegui")
+        ):
             return await call_next(request)
-        return RedirectResponse(f'/login?redirect_to={path}')
+        return RedirectResponse(f"/login?redirect_to={path}")
 
 
-@ui.page('/login')
-def login(redirect_to: str = '/') -> RedirectResponse | None:
-    if app.storage.user.get('authenticated', False):
-        return RedirectResponse('/')
+@ui.page("/login")
+def login(redirect_to: str = "/") -> RedirectResponse | None:
+    if app.storage.user.get("authenticated", False):
+        return RedirectResponse("/")
 
     async def try_login() -> None:
         model = UserModel()
         pass_hash = hash_password(password.value or "")
-        user: UserDTO | None = await model.get_user(username.value or "user",
-                                                    pass_hash)
+        user: UserDTO | None = await model.get_user(username.value or "user", pass_hash)
 
         if user is not None:
-            app.storage.user.update(username=username.value,
-                                    user_role=user.user_role,
-                                    authenticated=True)
+            app.storage.user.update(
+                username=username.value, user_role=user.user_role, authenticated=True
+            )
 
             username.value = ""
             password.value = ""
             ui.navigate.to(redirect_to)  # go back to where the user wanted to go
         else:
-            ui.notify('Wrong username or password', color='negative')
+            ui.notify("Wrong username or password", color="negative")
 
     ui.label("Study Coordinator").classes("text-h2 text-center w-full")
 
-    with ui.card().classes('absolute-center items-stretch'):
-        username = ui.input('User name').props('autofocus') \
-            .on('keydown.enter', lambda: password.run_method('focus'))
-        password = ui.input('Password', password=True, password_toggle_button=True) \
-            .on('keydown.enter', try_login)
+    with ui.card().classes("absolute-center items-stretch"):
+        username = (
+            ui.input("User name")
+            .props("autofocus")
+            .on("keydown.enter", lambda: password.run_method("focus"))
+        )
+        password = ui.input("Password", password=True, password_toggle_button=True).on(
+            "keydown.enter", try_login
+        )
         ui.button("Log In", on_click=try_login)
 
     return None
@@ -65,7 +72,7 @@ def login(redirect_to: str = '/') -> RedirectResponse | None:
 
 def add_inactivity_timeout(timeout_seconds: float, on_timeout):
     """Redirects/logs out after `timeout_seconds` of no user activity."""
-    ui.add_body_html(f'''
+    ui.add_body_html(f"""
     <script>
     (function() {{
         let timer;
@@ -78,13 +85,13 @@ def add_inactivity_timeout(timeout_seconds: float, on_timeout):
         reset();
     }})();
     </script>
-    ''')
-    ui.on('inactivity_timeout', on_timeout)
+    """)
+    ui.on("inactivity_timeout", on_timeout)
 
 
 def logout():
     app.storage.user.clear()
-    ui.navigate.to('/login')
+    ui.navigate.to("/login")
 
 
 @ui.page("/")
@@ -109,6 +116,7 @@ async def index():
     add_inactivity_timeout(300, logout)  # 5 minutes of inactivity
     main_view()
 
+
 load_dotenv()
 ui.run(
     host="0.0.0.0",
@@ -118,4 +126,3 @@ ui.run(
     reload=True,
     storage_secret=os.environ.get("STORAGE_SECRET", "default_secret"),
 )
-

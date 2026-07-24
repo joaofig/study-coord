@@ -21,17 +21,16 @@ class AdverseEventDTO(BaseDTO):
             adverse_event_id=data.get("adverse_event_id", 0),
             study_id=data.get("study_id", 0),
             patient_id=data.get("patient_id", 0),
-            event_date= dict_to_date(data, "event_date"),
+            event_date=dict_to_date(data, "event_date"),
             event_type=data.get("event_type", ""),
             description=data.get("description", ""),
             comments=data.get("comments", ""),
             patient_number=data.get("patient_number", ""),
             patient_name=data.get("patient_name", ""),
-
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", "")
+            updated_by=data.get("updated_by", ""),
         )
 
     def to_dict(self) -> dict:

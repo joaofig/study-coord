@@ -28,18 +28,17 @@ class StudyMonitoringDialog(View):
             with ui.row().classes("w-full  bg-gray-200 p-2"):
                 ui.label("Monitoring Visit Details").classes("text-base")
 
-            (ui.date_input("Date")
-                 .classes("w-full")
-                 .bind_value(self.vm, "meeting_date")
+            (
+                ui.date_input("Date")
+                .classes("w-full")
+                .bind_value(self.vm, "meeting_date")
             )
-            (ui.input("Monitor", validation=validate_monitor)
-                 .classes("w-full")
-                 .bind_value(self.vm, "monitor")
+            (
+                ui.input("Monitor", validation=validate_monitor)
+                .classes("w-full")
+                .bind_value(self.vm, "monitor")
             )
-            (ui.textarea("Comments")
-                 .classes("w-full")
-                 .bind_value(self.vm, "comments")
-            )
+            (ui.textarea("Comments").classes("w-full").bind_value(self.vm, "comments"))
             with ui.row():
                 ui.button("Save", on_click=lambda: self.save())
                 ui.button("Close", on_click=lambda: dialog.submit("close"))

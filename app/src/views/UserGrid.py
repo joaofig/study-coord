@@ -32,20 +32,54 @@ class UserGrid(View):
                     });
                 return btn;
                 }
-                """
+                """,
             },
-            {"headerName": "User Name", "field": "user_name", "sortable": True, "align": "left"},
-            {"headerName": "Role", "field": "user_role", "sortable": True, "align": "left"},
-            {"headerName": "Created At", "field": "created_at", "sortable": True, "align": "left"},
-            {"headerName": "Created By", "field": "created_by", "sortable": True, "align": "left"},
-            {"headerName": "Updated At", "field": "updated_at", "sortable": True, "align": "left"},
-            {"headerName": "Updated By", "field": "updated_by", "sortable": True, "align": "left"},
+            {
+                "headerName": "User Name",
+                "field": "user_name",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Role",
+                "field": "user_role",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Created At",
+                "field": "created_at",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Created By",
+                "field": "created_by",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Updated At",
+                "field": "updated_at",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Updated By",
+                "field": "updated_by",
+                "sortable": True,
+                "align": "left",
+            },
         ]
         grid_def = {
             "columnDefs": columns,
             "rowData": [],
-            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.user_id)"
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+            ":getRowId": "(params) => String(params.data.user_id)",
         }
         ui.on("user-row-edit", self._on_edit)
 
@@ -61,11 +95,11 @@ class UserGrid(View):
         row_data = event.args  # dict with the full row's data
         if row_data:
             from src.views.dialogs.user_dialog import UserDialog
+
             vm = UserViewModel()
             vm.updated_by = app.storage.user.get("username", "Unknown")
             dialog = UserDialog(vm)
-            await dialog.vm.call("load",
-                                 user_id=row_data["user_id"])
+            await dialog.vm.call("load", user_id=row_data["user_id"])
             result = await dialog.show()
             if result == "save":
                 await self.vm.call("load")

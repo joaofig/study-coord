@@ -22,13 +22,14 @@ class ProtocolDTO(BaseDTO):
             protocol_id=data.get("protocol_id", 0),
             study_id=data.get("study_id", 0),
             title=data.get("title", ""),
-            event_date=datetime.fromisoformat(data.get("event_date", datetime.now().isoformat())),
+            event_date=datetime.fromisoformat(
+                data.get("event_date", datetime.now().isoformat())
+            ),
             description=data.get("description", ""),
-
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", "")
+            updated_by=data.get("updated_by", ""),
         )
 
     def to_dict(self) -> dict:

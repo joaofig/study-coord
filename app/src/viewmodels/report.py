@@ -55,7 +55,9 @@ class ReportViewModel(ViewModel):
         repo = ReportRepository()
 
         self.study_patient_count = await repo.get_patient_count_by_study(self.study_id)
-        self.study_researcher_count = await repo.get_researcher_count_by_study(self.study_id)
+        self.study_researcher_count = await repo.get_researcher_count_by_study(
+            self.study_id
+        )
         self.study_visit_count = await repo.get_visit_count_by_study(self.study_id)
         self.study_event_count = await repo.get_event_count_by_study(self.study_id)
 

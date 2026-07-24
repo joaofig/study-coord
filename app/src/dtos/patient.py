@@ -10,11 +10,11 @@ def patient_statuses() -> dict:
         "completed": "Completed",
         "withdrawn": "Withdrawn Consent",
         "lost": "Lost to Follow-up",
-        "deceased": "Deceased"
+        "deceased": "Deceased",
     }
 
 
-def patient_status_name(status:str) -> str:
+def patient_status_name(status: str) -> str:
     return patient_statuses().get(status, "Unknown")
 
 
@@ -40,16 +40,20 @@ class PatientDTO(BaseDTO):
             study_id=data.get("study_id", 0),
             number=data.get("number", ""),
             name=data.get("name", ""),
-            start_date=date.fromisoformat(data.get("start_date", date.today().isoformat())),
-            exit_date=date.fromisoformat(data.get("exit_date", date.today().isoformat())) \
-                if data.get("exit_date") else None,
+            start_date=date.fromisoformat(
+                data.get("start_date", date.today().isoformat())
+            ),
+            exit_date=date.fromisoformat(
+                data.get("exit_date", date.today().isoformat())
+            )
+            if data.get("exit_date")
+            else None,
             status=data.get("status", "active"),
             comments=data.get("comments", ""),
-
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", "")
+            updated_by=data.get("updated_by", ""),
         )
 
     def to_dict(self) -> dict:

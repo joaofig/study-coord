@@ -48,11 +48,10 @@ class ProtocolViewModel(ViewModel):
             title=self.title,
             event_date=self.event_date,
             description=self.description or "",
-
             created_at=self.created_at,
             created_by=self.created_by,
             updated_at=self.updated_at,
-            updated_by=self.updated_by
+            updated_by=self.updated_by,
         )
 
     def to_dict(self) -> dict:
@@ -62,22 +61,25 @@ class ProtocolViewModel(ViewModel):
             "title": self.title,
             "event_date": self.event_date.isoformat(),
             "description": self.description or "",
-
             "created_at": self.created_at.isoformat(),
             "created_by": self.created_by,
             "updated_at": self.updated_at.isoformat(),
-            "updated_by": self.updated_by
+            "updated_by": self.updated_by,
         }
 
     def from_dict(self, protocol: dict):
-        self.protocol_id = protocol.get("protocol_id", 0)
+        self.protocol_id = protocol.get("protocol_id") or protocol.get("id") or 0
         self.study_id = protocol.get("study_id", 0)
         self.title = protocol.get("title", "")
         self.event_date = protocol.get("date", date.today())
         self.description = protocol.get("description", "")
-        self.created_at = date.fromisoformat(protocol.get("created_at", date.today().isoformat()))
+        self.created_at = date.fromisoformat(
+            protocol.get("created_at", date.today().isoformat())
+        )
         self.created_by = protocol.get("created_by", "")
-        self.updated_at = date.fromisoformat(protocol.get("updated_at", date.today().isoformat()))
+        self.updated_at = date.fromisoformat(
+            protocol.get("updated_at", date.today().isoformat())
+        )
         self.updated_by = protocol.get("updated_by", "")
 
         self.changed = False

@@ -2,7 +2,6 @@ from typing import List, Any
 
 from src.dtos.researcher import StudyResearcherDTO
 from src.models import StudyResearcherModel
-from src.repositories import StudyResearcherRepository
 from src.viewmodels.view_model import ViewModel
 
 
@@ -14,12 +13,12 @@ class StudyResearcherListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(channel="study_researcher_list",
-                       message="load",
-                       handler=self._on_load)
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._on_study_selected)
+        self.subscribe(
+            channel="study_researcher_list", message="load", handler=self._on_load
+        )
+        self.subscribe(
+            channel="study", message="selected", handler=self._on_study_selected
+        )
 
     async def _load_study_researchers(self, study_id: int):
         self.researchers = await self.model.list(study_id)
@@ -27,8 +26,7 @@ class StudyResearcherListViewModel(ViewModel):
     async def _delete_researcher(self, researcher_id: int):
         await self.model.delete(researcher_id)
         await self.load()
-        await self.broadcast(channel="study_researcher",
-                             message="deleted")
+        await self.broadcast(channel="study_researcher", message="deleted")
 
     async def _on_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id", 0)
@@ -41,8 +39,7 @@ class StudyResearcherListViewModel(ViewModel):
             self.researchers.clear()
 
     async def load(self):
-        repo = StudyResearcherRepository()
-        self.researchers = [StudyResearcherDTO.from_dict(**s) for s in await repo.list(self.study_id)]
+        self.researchers = await self.model.list(self.study_id)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

@@ -73,7 +73,9 @@ class PatientViewModel(ViewModel):
         self.number = patient["number"]
         self.name = patient["name"]
         self.start_date = date.fromisoformat(patient["start_date"])
-        self.exit_date = date.fromisoformat(patient["exit_date"]) if patient["exit_date"] else None
+        self.exit_date = (
+            date.fromisoformat(patient["exit_date"]) if patient["exit_date"] else None
+        )
         self.status = patient["status"]
         self.status_text = patient_statuses().get(patient["status"], "")
         self.comments = patient["comments"] or ""

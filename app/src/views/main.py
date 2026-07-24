@@ -26,9 +26,9 @@ def main_view():
             # Only visible to Admin users
             admin.set_visibility(user_role == "Admin")
 
-        with ui.tab_panels(tabs, value=studies, animated=False) \
-                .classes("h-full w-full"):
-
+        with ui.tab_panels(tabs, value=studies, animated=False).classes(
+            "h-full w-full"
+        ):
             with ui.tab_panel(studies).classes("pl-4 pt-0 pb-0 pr-4"):
                 from src.views.StudyView import StudyView
                 from src.viewmodels import StudyListViewModel

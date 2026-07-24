@@ -15,7 +15,7 @@ class UserModel:
             pass_hash="",
             user_role="User",
             created_by="",
-            updated_by=""
+            updated_by="",
         )
 
     async def save(self, dto: UserDTO):

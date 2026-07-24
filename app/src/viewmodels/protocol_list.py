@@ -14,12 +14,12 @@ class ProtocolListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._handle_study_selected)
-        self.subscribe(channel="protocol_list",
-                       message="load",
-                       handler=self._handle_load)
+        self.subscribe(
+            channel="study", message="selected", handler=self._handle_study_selected
+        )
+        self.subscribe(
+            channel="protocol_list", message="load", handler=self._handle_load
+        )
 
     async def _load_protocols(self, study_id: int):
         self.protocols.clear()

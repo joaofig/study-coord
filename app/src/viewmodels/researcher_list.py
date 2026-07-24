@@ -13,9 +13,7 @@ class ResearcherListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(channel="researcher_list",
-                       message="load",
-                       handler=self._on_load)
+        self.subscribe(channel="researcher_list", message="load", handler=self._on_load)
 
     async def load(self):
         self.researchers.clear()

@@ -13,18 +13,14 @@ class StudyResearcherGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.grid: Any = None
-        self.subscribe(channel="study_researcher",
-                       message="saved",
-                       handler=self._refresh_grid)
-        self.subscribe(channel="study_researcher",
-                       message="deleted",
-                       handler=self._refresh_grid)
-        self.subscribe(channel="patient",
-                       message="saved",
-                       handler=self._refresh_grid)
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._refresh_grid)
+        self.subscribe(
+            channel="study_researcher", message="saved", handler=self._refresh_grid
+        )
+        self.subscribe(
+            channel="study_researcher", message="deleted", handler=self._refresh_grid
+        )
+        self.subscribe(channel="patient", message="saved", handler=self._refresh_grid)
+        self.subscribe(channel="study", message="selected", handler=self._refresh_grid)
 
     async def _refresh_grid(self, **kwargs):
         await self.vm.call("load")
@@ -51,25 +47,52 @@ class StudyResearcherGrid(View):
                 });
                 return btn;
             }
-            """
+            """,
             },
-            {"headerName": "Number", "field": "number", "sortable": True, "align": "left", "width": 100},
+            {
+                "headerName": "Number",
+                "field": "number",
+                "sortable": True,
+                "align": "left",
+                "width": 100,
+            },
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
-            {"headerName": "Role", "field": "role_text", "sortable": True, "align": "left"},
-            {"headerName": "Phone", "field": "phone", "sortable": True, "align": "left"},
-            {"headerName": "Email", "field": "email", "sortable": True, "align": "left"},
+            {
+                "headerName": "Role",
+                "field": "role_text",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Phone",
+                "field": "phone",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Email",
+                "field": "email",
+                "sortable": True,
+                "align": "left",
+            },
         ]
         grid_def = {
             "columnDefs": columns,
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
             "rowData": [],
-            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.sr_id)"
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+            ":getRowId": "(params) => String(params.data.sr_id)",
         }
         ui.on("study-researcher-row-edit", self._on_edit)
         self.grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
-        self.grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
+        self.grid.on(
+            "selectionChanged", lambda event: self._row_selection_changed(event)
+        )
         return self.grid
 
     async def _edit_researcher(self, researcher: dict) -> dict:

@@ -55,19 +55,51 @@ class EventGrid(View):
                     });
                 return btn;
                 }
-                """
+                """,
             },
-            {"headerName": "Date", "field": "date", "sortable": True, "align": "left", "width": 120},
-            {"headerName": "Type", "field": "event_type", "sortable": True, "align": "left", "width": 120},
-            {"headerName": "Description", "field": "description", "sortable": True, "align": "left"},
-            {"headerName": "Patient Number", "field": "patient_number", "sortable": True, "align": "left", "width": 120},
-            {"headerName": "Patient Name", "field": "patient_name", "sortable": True, "align": "left"},
+            {
+                "headerName": "Date",
+                "field": "date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+            },
+            {
+                "headerName": "Type",
+                "field": "event_type",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+            },
+            {
+                "headerName": "Description",
+                "field": "description",
+                "sortable": True,
+                "align": "left",
+            },
+            {
+                "headerName": "Patient Number",
+                "field": "patient_number",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+            },
+            {
+                "headerName": "Patient Name",
+                "field": "patient_name",
+                "sortable": True,
+                "align": "left",
+            },
         ]
         grid_def = {
             "columnDefs": columns,
             "rowData": [],
-            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.adverse_event_id)"
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+            ":getRowId": "(params) => String(params.data.adverse_event_id)",
         }
         ui.on("event-row-edit", self._on_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")

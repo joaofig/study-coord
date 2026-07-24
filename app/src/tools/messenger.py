@@ -28,7 +28,7 @@ class Messenger:
 class MessengerHub:
     def __init__(self):
         self.hub = {}
-        
+
     def __getitem__(self, message) -> Messenger:
         if message not in self.hub:
             self.hub[message] = Messenger()

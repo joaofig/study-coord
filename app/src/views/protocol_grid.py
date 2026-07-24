@@ -39,17 +39,39 @@ class ProtocolGrid(View):
                     });
                 return btn;
                 }
-                """
+                """,
             },
-            {"headerName": "Date", "field": "date", "sortable": True, "align": "left", "width": 120},
-            {"headerName": "Title", "field": "title", "sortable": True, "align": "left", "flex": 1},
-            {"headerName": "Description", "field": "description", "sortable": True, "align": "left", "flex": 2},
+            {
+                "headerName": "Date",
+                "field": "date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+            },
+            {
+                "headerName": "Title",
+                "field": "title",
+                "sortable": True,
+                "align": "left",
+                "flex": 1,
+            },
+            {
+                "headerName": "Description",
+                "field": "description",
+                "sortable": True,
+                "align": "left",
+                "flex": 2,
+            },
         ]
         grid_def = {
             "columnDefs": columns,
             "rowData": self.vm.get("protocols"),
-            "rowSelection": {"mode": "singleRow", "checkboxes": False, "enableClickSelection": True},
-            ":getRowId": "(params) => String(params.data.protocol_id)"
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+            ":getRowId": "(params) => String(params.data.protocol_id)",
         }
         ui.on("protocol-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")

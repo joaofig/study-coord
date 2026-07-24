@@ -15,21 +15,21 @@ class VisitDTO(BaseDTO):
 
     patient: PatientDTO | None = None
 
-
     @classmethod
     def from_dict(cls, data: dict) -> "VisitDTO":
         return VisitDTO(
             visit_id=data.get("visit_id", 0),
             study_id=data.get("study_id", 0),
             patient_id=data.get("patient_id", 0),
-            visit_date=date.fromisoformat(data.get("visit_date", date.today().isoformat())),
+            visit_date=date.fromisoformat(
+                data.get("visit_date", date.today().isoformat())
+            ),
             visit_type=data.get("visit_type", ""),
             comments=data.get("comments", ""),
-
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", "")
+            updated_by=data.get("updated_by", ""),
         )
 
     def to_dict(self) -> dict:

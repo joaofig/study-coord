@@ -10,8 +10,7 @@ class StudyResearcherModel:
         self.repo = StudyResearcherRepository()
 
     async def load(self, sr_id: int) -> StudyResearcherDTO | None:
-        researcher = await self.repo.get(sr_id)
-        dto = StudyResearcherDTO(**researcher) if researcher else None
+        dto = await self.repo.load(sr_id)
         if dto:
             study_model = StudyModel()
             researcher_model = ResearcherModel()
@@ -23,8 +22,7 @@ class StudyResearcherModel:
         return dto
 
     async def list(self, study_id: int) -> List[StudyResearcherDTO]:
-        researchers = await self.repo.list(study_id)
-        return [StudyResearcherDTO(**sr) for sr in researchers]
+        return await self.repo.list(study_id)
 
     async def delete(self, researcher_id: int) -> None:
         await self.repo.delete(researcher_id)

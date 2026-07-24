@@ -14,13 +14,15 @@ class MonitoringListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._handle_study_selected)
+        self.subscribe(
+            channel="study", message="selected", handler=self._handle_study_selected
+        )
 
     async def _load_monitoring(self, study_id: int):
         self.monitoring_visits.clear()
-        self.monitoring_visits.extend([m.to_dict() for m in await self.model.list(study_id)])
+        self.monitoring_visits.extend(
+            [m.to_dict() for m in await self.model.list(study_id)]
+        )
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")
