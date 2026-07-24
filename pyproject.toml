@@ -17,3 +17,11 @@ dependencies = [
     "typing-extensions>=4.15.0",
     "xlsxwriter>=3.2.9",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest-env>=1.7.0",
+]
+
+[tool.pytest_env]
+env_files = [".env.test"]

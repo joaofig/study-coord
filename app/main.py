@@ -113,6 +113,7 @@ async def index():
 
     context.client.content.classes("p-0")
     ui.page_title("Study Coordinator")
+    app.add_static_files('/images', 'images')
     add_inactivity_timeout(300, logout)  # 5 minutes of inactivity
     main_view()
 
