@@ -1,5 +1,6 @@
 import pytest
 from unittest.mock import AsyncMock, patch
+from src.viewmodels.user import UserViewModel
 from src.viewmodels.user_list import UserListViewModel
 from src.dtos.user import UserDTO
 
@@ -71,3 +72,48 @@ async def test_user_list_view_model_selected():
 
     # Verify
     assert vm.selected_id == 123
+
+
+@pytest.mark.asyncio
+async def test_user_view_model_save():
+    # Setup
+    vm = UserViewModel()
+    vm.user_name = "new_user"
+    vm.password_1 = "secret"
+    vm.user_role = "User"
+
+    with patch("src.models.user.UserModel.repo") as mock_repo:
+        mock_repo.save = AsyncMock(return_value={"user_id": 999})
+
+        # Action
+        await vm.save()
+
+        # Verify
+        assert vm.user_id == 999
+        assert vm.pass_hash != ""
+        mock_repo.save.assert_called_once()
+
+
+@pytest.mark.asyncio
+async def test_user_view_model_load():
+    # Setup
+    vm = UserViewModel()
+    mock_user = UserDTO(
+        user_id=999,
+        user_name="loaded_user",
+        pass_hash="some_hash",
+        user_role="Admin",
+        created_by="admin",
+        updated_by="admin",
+    )
+
+    with patch(
+        "src.models.user.UserModel.load", new_callable=AsyncMock, return_value=mock_user
+    ):
+        # Action
+        await vm.call("load", user_id=999)
+
+        # Verify
+        assert vm.user_id == 999
+        assert vm.user_name == "loaded_user"
+        assert vm.user_role == "Admin"

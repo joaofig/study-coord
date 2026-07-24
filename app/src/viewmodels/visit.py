@@ -34,7 +34,7 @@ class VisitViewModel(ViewModel):
 
     def to_dto(self) -> VisitDTO:
         return VisitDTO(
-            id=self.visit_id,
+            visit_id=self.visit_id,
             study_id=self.study_id,
             patient_id=self.patient_id,
             visit_date=self.visit_date,
@@ -45,25 +45,25 @@ class VisitViewModel(ViewModel):
     async def save(self):
         visit = self.to_dto()
         await self.model.save(visit)
-        if visit.id:
-            self.visit_id = visit.id
+        if visit.visit_id:
+            self.visit_id = visit.visit_id
         self.changed = False
         await self.broadcast("visit", "saved")
 
     async def load(self, visit_id: int):
         visit = await self.model.load(visit_id)
         if visit:
-            self.visit_id = visit.id
+            self.visit_id = visit.visit_id
             self.study_id = visit.study_id
             self.patient_id = visit.patient_id
             self.visit_date = visit.visit_date
             self.visit_type = visit.visit_type
             self.comments = visit.comments
-            self.patient_name = visit.patient_name
-            self.patient_number = visit.patient_number
+            self.patient_name = visit.patient_name if hasattr(visit, "patient_name") else ""
+            self.patient_number = visit.patient_number if hasattr(visit, "patient_number") else ""
 
-            patient = await PatientModel.list(self.patient_id)
-            self.selection.copy(patient)
+            if visit.patient:
+                self.selection.copy(visit.patient)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
