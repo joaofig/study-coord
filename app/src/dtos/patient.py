@@ -1,7 +1,7 @@
 from datetime import date, datetime
 
-from dtos.base import BaseDTO
-from tools.user import dict_to_datetime
+from src.dtos.base import BaseDTO
+from src.tools.user import dict_to_datetime
 
 
 def patient_statuses() -> dict:
@@ -34,7 +34,7 @@ class PatientDTO(BaseDTO):
     updated_by: str = ""
 
     @classmethod
-    def from_dict(cls, data: dict) -> PatientDTO:
+    def from_dict(cls, data: dict) -> "PatientDTO":
         return PatientDTO(
             patient_id=data.get("patient_id", 0),
             study_id=data.get("study_id", 0),

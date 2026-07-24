@@ -3,7 +3,7 @@ from datetime import date
 
 from pydantic import BaseModel
 
-from tools.user import dict_to_datetime
+from src.tools.user import dict_to_datetime
 
 
 def hash_password(password: str) -> str:

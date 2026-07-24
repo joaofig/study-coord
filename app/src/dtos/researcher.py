@@ -1,6 +1,4 @@
-
-
-from dtos.base import BaseDTO
+from src.dtos.base import BaseDTO
 from src.dtos.study import StudyDTO
 from src.tools.user import dict_to_datetime
 
@@ -16,7 +14,7 @@ class ResearcherDTO(BaseDTO):
     # study_count: int = 0
 
     @classmethod
-    def from_dict(cls, data: dict) -> ResearcherDTO:
+    def from_dict(cls, data: dict) -> "ResearcherDTO":
         return ResearcherDTO(
             researcher_id=data.get("researcher_id", 0),
             number=data.get("number", ""),

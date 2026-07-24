@@ -1,8 +1,8 @@
 from datetime import date
 
-from dtos.base import BaseDTO
+from src.dtos.base import BaseDTO
 from src.dtos.patient import PatientDTO
-from tools.user import dict_to_datetime
+from src.tools.user import dict_to_datetime
 
 
 class VisitDTO(BaseDTO):
@@ -17,7 +17,7 @@ class VisitDTO(BaseDTO):
 
 
     @classmethod
-    def from_dict(cls, data: dict) -> VisitDTO:
+    def from_dict(cls, data: dict) -> "VisitDTO":
         return VisitDTO(
             visit_id=data.get("visit_id", 0),
             study_id=data.get("study_id", 0),

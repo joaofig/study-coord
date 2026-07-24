@@ -1,8 +1,8 @@
 from datetime import date
 from typing import Any
 
-from dtos.base import BaseDTO
-from tools.user import dict_to_datetime
+from src.dtos.base import BaseDTO
+from src.tools.user import dict_to_datetime
 
 
 class StudyDTO(BaseDTO):
@@ -15,7 +15,7 @@ class StudyDTO(BaseDTO):
     comments: str | None
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> StudyDTO:
+    def from_dict(cls, data: dict[str, Any]) -> "StudyDTO":
         return StudyDTO(
             study_id=data.get("study_id", 0),
             name=data.get("name", ""),
@@ -54,7 +54,7 @@ class StudyRowDTO(BaseDTO):
     events: int = 0
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> StudyRowDTO:
+    def from_dict(cls, data: dict[str, Any]) -> "StudyRowDTO":
         return StudyRowDTO(
             study_id=data.get("study_id", 0),
             name=data.get("name", ""),

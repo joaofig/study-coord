@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from dtos.base import BaseDTO
-from tools.user import dict_to_datetime
+from src.dtos.base import BaseDTO
+from src.tools.user import dict_to_datetime
 
 
 class ProtocolDTO(BaseDTO):
@@ -17,7 +17,7 @@ class ProtocolDTO(BaseDTO):
     updated_by: str = ""
 
     @classmethod
-    def from_dict(cls, data: dict) -> ProtocolDTO:
+    def from_dict(cls, data: dict) -> "ProtocolDTO":
         return ProtocolDTO(
             protocol_id=data.get("protocol_id", 0),
             study_id=data.get("study_id", 0),
