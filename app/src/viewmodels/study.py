@@ -6,6 +6,7 @@ from nicegui.observables import ObservableSet
 
 from src.dtos.study import StudyDTO
 from src.models import StudyModel
+from src.tools.validation import is_date
 from src.viewmodels.view_model import ViewModel
 
 
@@ -18,6 +19,10 @@ class StudyViewModel(ViewModel):
     start_date: str = date.today().isoformat()
     end_date: str | None = None
     comments: str = ""
+
+    is_invalid: bool = False
+    validation: str = ""
+
     data_changed: bool = False
     change_set = ObservableSet()
     changed = False
@@ -100,27 +105,40 @@ class StudyViewModel(ViewModel):
                     self._field_changed(field_name)
 
             case "validate":
-                field_name = kwargs.get("field_name", "")
-                value = kwargs.get("value", "")
-                if field_name and value:
-                    return self.validate_field(str(field_name), str(value))
+                return self.validate()
         return None
 
-    def validate_field(self, field_name: str, value: str) -> str:
-        match field_name:
-            case "name":
-                if not value or len(value.strip()) == 0:
-                    return "Name is required."
-                if len(value) < 3:
-                    return "Name must be at least 3 characters long."
-                if len(value) > 128:
-                    return "Name must be at most 128 characters long."
+    def validate(self) -> str | None:
+        self.is_invalid = False
+        self.validation = ""
 
-            case "sponsor":
-                if not value or len(value.strip()) == 0:
-                    return "Sponsor is required."
-                if len(value) < 3:
-                    return "Sponsor must be at least 3 characters long."
-                if len(value) > 128:
-                    return "Sponsor must be at most 128 characters long."
-        return ""
+        if not self.name or len(self.name.strip()) == 0:
+            self.validation += "**Study Name** is required.  \r\n"
+        if len(self.name) < 3:
+            self.validation += "**Study Name** must be at least 3 characters long.  \r\n"
+        if len(self.name) > 128:
+            self.validation += "**Study Name** must be at most 128 characters long.  \r\n"
+
+        if not self.sponsor or len(self.sponsor.strip()) == 0:
+            self.validation += "**Sponsor** is required.  \r\n"
+        if len(self.sponsor) < 3:
+            self.validation += "**Sponsor** must be at least 3 characters long.  \r\n"
+        if len(self.sponsor) > 128:
+            self.validation += "**Sponsor** must be at most 128 characters long.  \r\n"
+
+        if self.protocol_visits < 1:
+            self.validation += "**Protocol visits** must be at least 1.  \r\n"
+
+        if not self.start_date or not is_date(self.start_date):
+            self.validation += "**Start date** must be a valid date.  \r\n"
+
+        if self.end_date and not is_date(self.end_date):
+            self.validation += "**End date** must be a valid date.  \r\n"
+
+        if not self.start_date:
+            self.validation += "**Start date** is required.  \r\n"
+
+        if self.end_date and self.start_date and self.end_date < self.start_date:
+            self.validation += "**End date** must be after **Start date**.  \r\n"
+
+        self.is_invalid = len(self.validation) > 0

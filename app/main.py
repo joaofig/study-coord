@@ -122,7 +122,7 @@ load_dotenv()
 ui.run(
     host="0.0.0.0",
     port=int(os.environ.get("PORT", 8080)),
-    favicon="images/science_24dp_1F1F1F.png",
+    favicon="/images/science_24dp_1F1F1F.png",
     title="Study Coordinator",
     reload=True,
     storage_secret=os.environ.get("STORAGE_SECRET", "default_secret"),

@@ -1,4 +1,5 @@
 from nicegui import ui
+from nicegui.binding import bind
 
 from src.viewmodels.view_model import ViewModel
 from src.views.View import View
@@ -45,13 +46,13 @@ class StudyDialog(View):
             ).classes("w-full").bind_value(self.vm, "sponsor")
 
             with ui.row().classes("gap-2"):
-                ui.date_input(
+                self.start_date = ui.date_input(
                     label="Start Date",
                     on_change=lambda: self.vm.call(
                         "mark_changed", field_name="start_date"
                     ),
                 ).bind_value(self.vm, "start_date")
-                ui.date_input(
+                self.end_date = ui.date_input(
                     label="End Date",
                     on_change=lambda: self.vm.call(
                         "mark_changed", field_name="end_date"
@@ -77,6 +78,10 @@ class StudyDialog(View):
                     ),
                 ).classes("w-full").bind_value(self.vm, "comments")
 
+            ui.markdown().classes("bg-orange-200 w-full") \
+                .bind_content_from(self.vm, "validation") \
+                .bind_visibility_from(self.vm, "is_invalid")
+
             with ui.row():
                 ui.button("Save", on_click=self.save)
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
@@ -86,5 +91,8 @@ class StudyDialog(View):
         await self.dialog
 
     async def save(self):
-        await self.vm.call("save")
-        self.dialog.submit("save")
+        await self.vm.call("validate")
+        is_invalid = self.vm.get("is_invalid")
+        if not is_invalid:
+            await self.vm.call("save")
+            self.dialog.submit("save")
