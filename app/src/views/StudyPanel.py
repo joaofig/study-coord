@@ -13,7 +13,7 @@ from src.viewmodels.view_model import ViewModel
 from src.views.event_panel import EventPanel
 from src.views.StudyMonitoringPanel import StudyMonitoringPanel
 from src.views.patient_panel import StudyPatientPanel
-from src.views.StudyResearcherPanel import StudyResearcherPanel
+from src.views.study_researcher_panel import StudyResearcherPanel
 from src.views.protocol_panel import ProtocolPanel
 from src.views.visit_panel import StudyVisitPanel
 from src.views.View import View

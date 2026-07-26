@@ -12,7 +12,7 @@ class VisitListViewModel(ViewModel):
         self.visits = ObservableList()
         self.study_id: int = 0
         self.patient_id: int = 0
-        self.visit_id: int = 0
+        self.selected_id: int = 0
         self.subscribe(
             channel="study", message="selected", handler=self._handle_study_selected
         )
@@ -40,7 +40,7 @@ class VisitListViewModel(ViewModel):
         else:
             self.study_id = 0
         self.patient_id = 0
-        self.visit_id = 0
+        self.selected_id = 0
         self.visits.clear()
 
     async def _handle_patient_selected(self, **kwargs):
@@ -50,7 +50,7 @@ class VisitListViewModel(ViewModel):
             await self._load_visits(self.study_id, self.patient_id)
         else:
             self.patient_id = 0
-            self.visit_id = 0
+            self.selected_id = 0
             self.visits.clear()
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
@@ -66,5 +66,5 @@ class VisitListViewModel(ViewModel):
                 await self._handle_study_selected(**kwargs)
 
             case "visit_selected":
-                self.visit_id = kwargs.get("visit_id", 0)
+                self.selected_id = kwargs.get("visit_id", 0)
         return None

@@ -28,14 +28,3 @@ class ResearcherModel:
 
     async def number_exists(self, number: str) -> bool:
         return await self.repo.number_exists(number)
-
-
-def study_researcher_roles() -> dict:
-    return {
-        "standard": "Standard Researcher",
-        "principal": "Principal Researcher",
-    }
-
-
-def study_researcher_role_name(role: str) -> str:
-    return study_researcher_roles().get(role, "Unknown")

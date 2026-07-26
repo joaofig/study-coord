@@ -1,12 +1,13 @@
-from typing import List, Any
+from typing import Any
 
-from src.dtos.researcher import StudyResearcherDTO
+from nicegui.observables import ObservableList
+
 from src.models import StudyResearcherModel
 from src.viewmodels.view_model import ViewModel
 
 
 class StudyResearcherListViewModel(ViewModel):
-    researchers: List[StudyResearcherDTO] = []
+    researchers = ObservableList()
     study_id: int = 0
     selected_id: int = 0
     model: StudyResearcherModel = StudyResearcherModel()
@@ -17,11 +18,14 @@ class StudyResearcherListViewModel(ViewModel):
             channel="study_researcher_list", message="load", handler=self._on_load
         )
         self.subscribe(
-            channel="study", message="selected", handler=self._on_study_selected
+            channel="study",
+            message="selected",
+            handler=self._on_study_selected
         )
 
     async def _load_study_researchers(self, study_id: int):
-        self.researchers = await self.model.list(study_id)
+        self.researchers.clear()
+        self.researchers.extend(await self.model.list(study_id))
 
     async def _delete_researcher(self, researcher_id: int):
         await self.model.delete(researcher_id)
@@ -31,7 +35,7 @@ class StudyResearcherListViewModel(ViewModel):
     async def _on_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id", 0)
         if study_id:
-            self.study_id = int(study_id)
+            self.study_id = study_id
             await self._load_study_researchers(self.study_id)
         else:
             self.study_id = 0
@@ -39,7 +43,7 @@ class StudyResearcherListViewModel(ViewModel):
             self.researchers.clear()
 
     async def load(self):
-        self.researchers = await self.model.list(self.study_id)
+        await self._load_study_researchers(self.study_id)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

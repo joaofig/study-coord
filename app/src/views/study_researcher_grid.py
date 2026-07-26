@@ -1,7 +1,7 @@
-from typing import Any
 
 from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
+from nicegui.observables import ObservableList
 
 from src.viewmodels.study_researcher import StudyResearcherViewModel
 from src.viewmodels.view_model import ViewModel
@@ -12,7 +12,11 @@ from src.views.dialogs.study_researcher_dialog import StudyResearcherDialog
 class StudyResearcherGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.grid: Any = None
+        self.grid: AgGrid = self._build_grid()
+        self.studies = self.vm.get("researchers")
+        if isinstance(self.studies, ObservableList):
+            self.studies.on_change(self._update_grid)
+
         self.subscribe(
             channel="study_researcher", message="saved", handler=self._refresh_grid
         )
@@ -31,7 +35,7 @@ class StudyResearcherGrid(View):
         self.grid.options["rowData"] = [r.to_dict() for r in researchers]
         self.grid.update()
 
-    def show(self) -> AgGrid:
+    def _build_grid(self) -> AgGrid:
         columns = [
             {
                 "headerName": "Edit",
@@ -89,10 +93,13 @@ class StudyResearcherGrid(View):
             ":getRowId": "(params) => String(params.data.sr_id)",
         }
         ui.on("study-researcher-row-edit", self._on_edit)
-        self.grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
-        self.grid.on(
+        grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
+        grid.on(
             "selectionChanged", lambda event: self._row_selection_changed(event)
         )
+        return grid
+
+    def show(self) -> AgGrid:
         return self.grid
 
     async def _edit_researcher(self, researcher: dict) -> dict:
@@ -110,6 +117,7 @@ class StudyResearcherGrid(View):
 
     async def _on_edit(self, event):
         row_data = event.args  # dict with the full row's data
+        print(row_data)
         if row_data:
             await self._edit_researcher(row_data)
 

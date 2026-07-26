@@ -1,11 +1,12 @@
 from dataclasses import field
-from typing import Dict, Any
+from datetime import date
+from typing import Dict, Any, List
 
 from nicegui import binding
 
-from src.dtos.researcher import StudyResearcherDTO
+from src.dtos.researcher import StudyResearcherDTO, ResearcherDTO, study_researcher_roles
 from src.models import StudyResearcherModel
-from src.models.researcher import study_researcher_roles
+from src.models.researcher import ResearcherModel
 from .researcher import ResearcherViewModel
 from .view_model import ViewModel
 
@@ -21,6 +22,14 @@ class StudyResearcherViewModel(ViewModel):
     name: str = ""
     phone: str = ""
     email: str = ""
+
+    created_at: date = date.today()
+    created_by: str = ""
+    updated_at: date = date.today()
+    updated_by: str = ""
+
+    researcher_list: List[ResearcherDTO] = field(default_factory=list)
+
     changed: bool = False
     roles: dict = field(default_factory=study_researcher_roles)
 
@@ -92,20 +101,23 @@ class StudyResearcherViewModel(ViewModel):
                 return await self.save()
 
             case "load":
-                sr = await self.model.load(self.researcher_id)
-                if sr and sr.researcher:
-                    self.selection.copy(sr.researcher)
-                    self.number = sr.researcher.number
-                    self.name = sr.researcher.name
-                    self.phone = sr.researcher.phone
-                    self.email = sr.researcher.email
+                rs = [r for r in self.researcher_list if r.researcher_id == self.researcher_id]
+                if len(rs) > 0:
+                    researcher = rs[0]
+                    self.selection.copy(researcher)
+                    self.number = researcher.number
+                    self.name = researcher.name
+                    self.phone = researcher.phone
+                    self.email = researcher.email
+                else:
+                    self.number = ""
 
         return None
 
     async def load_researchers(self):
-        researcher_list = await self.model.list(self.study_id)
+        model = ResearcherModel()
+        self.researcher_list = await model.list()
         self.researchers = {
-            sr.researcher_id: sr.researcher.name
-            for sr in researcher_list
-            if sr.researcher
+            sr.researcher_id: sr.name
+            for sr in self.researcher_list
         }

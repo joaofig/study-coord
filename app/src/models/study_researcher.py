@@ -1,6 +1,6 @@
 from typing import List
 
-from src.dtos.researcher import StudyResearcherDTO
+from src.dtos.researcher import StudyResearcherDTO, StudyResearcherRow
 from src.models import StudyModel, ResearcherModel
 from src.repositories import StudyResearcherRepository
 
@@ -21,11 +21,11 @@ class StudyResearcherModel:
                 dto.study = await study_model.load(dto.study_id)
         return dto
 
-    async def list(self, study_id: int) -> List[StudyResearcherDTO]:
+    async def list(self, study_id: int) -> List[StudyResearcherRow]:
         return await self.repo.list(study_id)
 
     async def delete(self, researcher_id: int) -> None:
         await self.repo.delete(researcher_id)
 
     async def save(self, sr: StudyResearcherDTO) -> None:
-        await self.repo.save(sr.to_dict())
+        await self.repo.save(sr)

@@ -9,7 +9,7 @@ from src.views.View import View
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
 from src.viewmodels.visit_list import VisitListViewModel
 from src.viewmodels import AdverseEventListViewModel
-from src.views.StudyResearcherPanel import StudyResearcherPanel
+from src.views.study_researcher_panel import StudyResearcherPanel
 from src.views.visit_panel import StudyVisitPanel
 from src.views.event_panel import EventPanel
 

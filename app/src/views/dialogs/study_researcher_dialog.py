@@ -31,10 +31,10 @@ class StudyResearcherDialog(View):
             ui.select(
                 options=self.vm.get("researchers"),
                 label="Researcher",
-                validation=validate_researcher,
-            ).bind_value(self.vm, "researcher_id").on_value_change(
-                lambda: self.vm.call("load")
-            ).classes("w-full")
+                validation=validate_researcher,) \
+                .bind_value(self.vm, "researcher_id") \
+                .on_value_change(lambda: self.vm.call("load")) \
+                .classes("w-full")
 
             selection = self.vm.get("selection")
             ui.input(label="Number").props("readonly").classes("w-full").bind_value(

@@ -63,7 +63,7 @@ class StudyVisitPanel(View):
 
                 with (
                     ui.button(icon="delete", on_click=self._on_delete_visit)
-                    .bind_enabled(self.vm, "visit_id")
+                    .bind_enabled(self.vm, "selected_id")
                     .classes("text-xs")
                     .props("padding=xs color=red")
                 ):
