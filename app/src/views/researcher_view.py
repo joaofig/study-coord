@@ -6,6 +6,7 @@ from src.viewmodels.view_model import ViewModel
 from src.views.researcher_grid import ResearcherGrid
 from src.views.View import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
+from src.views.dialogs.researcher_dialog import ResearcherDialog
 from src.tools.user import logout, get_user_name
 
 
@@ -60,8 +61,6 @@ class ResearcherView(View):
             await self.broadcast("researcher_list", "load")
 
     async def _show_dialog(self):
-        from views.dialogs.researcher_dialog import ResearcherDialog
-
         vm = ResearcherViewModel()
         vm.created_by = get_user_name()
         dialog = ResearcherDialog(vm)

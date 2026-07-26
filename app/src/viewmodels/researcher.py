@@ -6,6 +6,7 @@ from nicegui.observables import ObservableSet
 
 from src.dtos.researcher import ResearcherDTO
 from src.models import ResearcherModel
+from src.tools.validation import is_email
 from src.viewmodels.view_model import ViewModel
 
 
@@ -22,6 +23,9 @@ class ResearcherViewModel(ViewModel):
     created_by: str = ""
     updated_at: datetime = datetime.now()
     updated_by: str = ""
+
+    is_invalid: bool = False
+    validation: str = ""
 
     data_changed: bool = False
     change_set = ObservableSet()
@@ -62,6 +66,9 @@ class ResearcherViewModel(ViewModel):
                     )
                     if r:
                         self.copy(r)
+
+            case "validate":
+                return self.validate()
         return None
 
     def copy(self, researcher: ResearcherDTO):
@@ -96,3 +103,22 @@ class ResearcherViewModel(ViewModel):
             self.researcher_id = researcher.researcher_id
         self.data_changed = False
         self.is_old = True
+
+    def validate(self) -> str | None:
+        self.is_invalid = False
+        self.validation = ""
+
+        if not self.number or len(self.number.strip()) == 0:
+            self.validation += "**Researcher Number** is required.  \r\n"
+
+        if not self.name or len(self.name.strip()) == 0:
+            self.validation += "**Researcher Name** is required.  \r\n"
+        if len(self.name) < 3:
+            self.validation += "**Researcher Name** must be at least 3 characters long.  \r\n"
+        if len(self.name) > 128:
+            self.validation += "**Researcher Name** must be at most 128 characters long.  \r\n"
+
+        if self.email and not is_email(self.email):
+            self.validation += "**Researcher Email** is invalid.  \r\n"
+
+        self.is_invalid = len(self.validation) > 0

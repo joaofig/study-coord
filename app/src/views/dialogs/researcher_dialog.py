@@ -17,7 +17,7 @@ class ResearcherDialog(View):
         self.name = None
 
         with ui.dialog() as dialog, ui.card().classes("w-120"):
-            with ui.row().classes("w-full  bg-gray-200 p-2"):
+            with ui.row().classes("w-full bg-gray-200 p-2"):
                 ui.label("Researcher Details").classes("text-base")
 
             self.number = (
@@ -37,20 +37,21 @@ class ResearcherDialog(View):
                 self.vm, "comments"
             )
 
+            ui.markdown().classes("bg-orange-200 w-full") \
+                .bind_content_from(self.vm, "validation") \
+                .bind_visibility_from(self.vm, "is_invalid")
+
             with ui.row():
                 ui.button("Save", on_click=lambda: self.save())
                 ui.button("Cancel", on_click=lambda: dialog.submit("cancel"))
             self.dialog = dialog
 
     async def save(self):
-        await self.vm.call("save")
-        self.dialog.submit("save")
-
-    def validate(self) -> bool:
-        if not self.number.value:
-            ui.notify("Number is required", color="negative")
-            return False
-        return True
+        await self.vm.call("validate")
+        is_invalid = self.vm.get("is_invalid")
+        if not is_invalid:
+            await self.vm.call("save")
+            self.dialog.submit("save")
 
     async def show(self):
         return await self.dialog
