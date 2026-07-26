@@ -6,7 +6,7 @@ from src.viewmodels.visit import VisitViewModel
 from src.views.StudyVisitGrid import StudyVisitGrid
 from src.views.View import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.views.dialogs.study_visit_dialog import StudyVisitDialog
+from src.views.dialogs.visit_dialog import StudyVisitDialog
 
 
 class StudyVisitPanel(View):

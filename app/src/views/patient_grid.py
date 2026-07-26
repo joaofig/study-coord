@@ -9,7 +9,7 @@ from src.dtos.patient import PatientDTO
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.View import View
-from src.views.dialogs.study_patient_dialog import StudyPatientDialog
+from src.views.dialogs.patient_dialog import StudyPatientDialog
 
 
 class StudyPatientGrid(View):
@@ -30,6 +30,11 @@ class StudyPatientGrid(View):
         patients: List[PatientDTO] = self.vm.get("patients")
         self.grid.options["rowData"] = [p.to_grid() for p in patients]
         self.grid.update()
+
+        # Restore the selected patient
+        patient_id = self.vm.get("patient_id")
+        if patient_id != 0:
+            self.grid.run_row_method(patient_id, "setSelected", True)
 
     async def _handle_notification(self, action: str, **kwargs):
         if action == "patients_loaded":
@@ -59,14 +64,19 @@ class StudyPatientGrid(View):
                 "sortable": True,
                 "align": "left",
                 "width": 100,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
-            {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
+            {
+                "headerName": "Name", "field": "name", "sortable": True, "align": "left", "filter":
+                "agTextColumnFilter", "floatingFilter": False,
+            },
             {
                 "headerName": "Start",
                 "field": "start_date",
                 "sortable": True,
                 "align": "left",
                 "width": 120,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "End",
@@ -74,12 +84,14 @@ class StudyPatientGrid(View):
                 "sortable": True,
                 "align": "left",
                 "width": 120,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Status",
                 "field": "status_text",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
         grid_def = {

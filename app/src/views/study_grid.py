@@ -24,6 +24,11 @@ class StudyGrid(View):
         self.grid.options["rowData"] = self.vm.get("studies")
         self.grid.update()
 
+        # Restore the selected patient
+        study_id = self.vm.get("selected_id")
+        if study_id != 0:
+            self.grid.run_row_method(study_id, "setSelected", True)
+
     async def _row_selection_changed(self, event):
         # Handle the row selection change event from the AgGrid component
         row = await self.grid.get_selected_row()

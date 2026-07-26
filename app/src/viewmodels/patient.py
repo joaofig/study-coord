@@ -6,6 +6,7 @@ from nicegui import binding
 from src.dtos.patient import PatientDTO, patient_statuses
 from src.models import PatientModel
 from src.tools.messenger import send_message
+from src.tools.validation import is_date
 from src.viewmodels.view_model import ViewModel
 from src.tools.user import dict_to_datetime
 
@@ -16,8 +17,8 @@ class PatientViewModel(ViewModel):
     study_id: int = 0
     number: str = ""
     name: str = ""
-    start_date: date = date.today()
-    exit_date: date | None = None
+    start_date: str = date.today().isoformat()
+    exit_date: str | None = None
     status: str = "active"
     status_text: str = ""
     comments: str = ""
@@ -43,8 +44,8 @@ class PatientViewModel(ViewModel):
             study_id=self.study_id,
             number=self.number,
             name=self.name,
-            start_date=self.start_date,
-            exit_date=self.exit_date,
+            start_date=date.fromisoformat(self.start_date),
+            exit_date=date.fromisoformat(self.exit_date) if self.exit_date else None,
             status=self.status,
             comments=self.comments or "",
             created_at=self.created_at,
@@ -59,8 +60,8 @@ class PatientViewModel(ViewModel):
             "study_id": self.study_id,
             "number": self.number,
             "name": self.name,
-            "start_date": self.start_date.isoformat(),
-            "exit_date": self.exit_date.isoformat() if self.exit_date else None,
+            "start_date": self.start_date,
+            "exit_date": self.exit_date,
             "status": self.status,
             "status_text": self.status_text,
             "comments": self.comments or "",
@@ -75,10 +76,8 @@ class PatientViewModel(ViewModel):
         self.study_id = patient["study_id"]
         self.number = patient["number"]
         self.name = patient["name"]
-        self.start_date = date.fromisoformat(patient["start_date"])
-        self.exit_date = (
-            date.fromisoformat(patient["exit_date"]) if patient["exit_date"] else None
-        )
+        self.start_date = patient["start_date"]
+        self.exit_date = patient["exit_date"]
         self.status = patient["status"]
         self.status_text = patient_statuses().get(patient["status"], "")
         self.comments = patient["comments"] or ""
@@ -100,7 +99,9 @@ class PatientViewModel(ViewModel):
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "save":
-                return await self.save()
+                await self.save()
+                await self.broadcast("study_list", "load")
+                await self.broadcast("patient_list", "load")
 
             case "validate":
                 return await self.validate()
@@ -113,8 +114,9 @@ class PatientViewModel(ViewModel):
         if not self.number:
             self.validation += "**Patient Number** is required  \r\n"
         else:
-            if await self.model.patient_number_exists(self.study_id, self.number):
-                self.validation += "**Patient Number** already exists  \r\n"
+            if self.patient_id == 0:
+                if await self.model.patient_number_exists(self.study_id, self.number):
+                    self.validation += "**Patient Number** already exists  \r\n"
 
         if not self.name:
             self.validation += "**Patient Name** is required  \r\n"
@@ -124,5 +126,14 @@ class PatientViewModel(ViewModel):
             elif len(self.name) > 128:
                 self.validation += "**Patient Name** must be less than 128 characters  \r\n"
 
-        self.is_invalid = len(self.number) > 0
+        if self.exit_date and not is_date(self.exit_date):
+            self.validation += "**Exit date** must be a valid date.  \r\n"
+
+        if not self.start_date:
+            self.validation += "**Start date** is required.  \r\n"
+
+        if self.exit_date and self.start_date and self.exit_date < self.start_date:
+            self.validation += "**Exit date** must be after **Start date**.  \r\n"
+
+        self.is_invalid = len(self.validation) > 0
         return not self.is_invalid

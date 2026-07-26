@@ -18,7 +18,7 @@ class PatientRepository(SupabaseRepository):
                 await self.supabase.table(TABLE)
                 .select("*")
                 .eq("study_id", study_id)
-                .eq("patient_number", patient_number)
+                .eq("number", patient_number)
                 .execute()
             ).data
             return len(result) > 0

@@ -15,7 +15,14 @@ class PatientListViewModel(ViewModel):
     def __init__(self):
         super().__init__()
         self.subscribe(
-            channel="study", message="selected", handler=self._handle_study_selected
+            channel="study",
+            message="selected",
+            handler=self._handle_study_selected
+        )
+        self.subscribe(
+            channel="patient_list",
+            message="load",
+            handler=self._handle_load   # Refresh the patient list
         )
 
     async def _load_patients(self, study_id: int):
@@ -32,12 +39,15 @@ class PatientListViewModel(ViewModel):
             self.patients.clear()
         self.patient_id = 0
 
+    async def _handle_load(self, **kwargs):
+        await self._load_patients(self.study_id)
+
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
-                study_id = kwargs.get("study_id")
-                if study_id is not None:
-                    self.study_id = int(str(study_id))
+                study_id = kwargs.get("study_id", 0)
+                if study_id != 0:
+                    self.study_id = study_id
                     await self._load_patients(self.study_id)
 
             case "patient_selected":

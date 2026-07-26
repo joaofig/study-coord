@@ -36,7 +36,7 @@ class SupabaseRepository:
                 return value
             else:
                 del value[row_id]
-                print(value)
+                # print(value)
                 result = (await self.supabase.table(table).insert(value).execute()).data
                 if result:
                     return result[0]
