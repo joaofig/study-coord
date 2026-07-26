@@ -38,7 +38,7 @@ class ResearcherRepository(SupabaseRepository):
     async def save(self, researcher: ResearcherDTO) -> dict:
         d = researcher.to_dict()
         del d["study_count"]
-        return await self.insert_or_update(TABLE, researcher.to_dict())
+        return await self.insert_or_update(TABLE, d)
 
     async def delete(self, researcher_id: int):
         await self.connect()
