@@ -108,7 +108,7 @@ class StudyViewModel(ViewModel):
                 return self.validate()
         return None
 
-    def validate(self) -> str | None:
+    async def validate(self) -> str | None:
         self.is_invalid = False
         self.validation = ""
 
@@ -118,6 +118,10 @@ class StudyViewModel(ViewModel):
             self.validation += "**Study Name** must be at least 3 characters long.  \r\n"
         if len(self.name) > 128:
             self.validation += "**Study Name** must be at most 128 characters long.  \r\n"
+
+        if self.study_id == 0:
+            if await self.model.study_exists(self.name):
+                self.validation += "**Study Name** already exists.  \r\n"
 
         if not self.sponsor or len(self.sponsor.strip()) == 0:
             self.validation += "**Sponsor** is required.  \r\n"

@@ -11,6 +11,18 @@ class StudyRepository(SupabaseRepository):
     def __init__(self):
         super().__init__()
 
+    async def study_exists(self, name: str) -> bool:
+        await self.connect()
+        if self.supabase:
+            result = (
+                await self.supabase.table(TABLE)
+                .select("*")
+                .eq("name", name)
+                .execute()
+            ).data
+            return bool(result)
+        return False
+
     async def list(self) -> List[StudyRowDTO]:
         await self.connect()
         if self.supabase:

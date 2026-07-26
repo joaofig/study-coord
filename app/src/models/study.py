@@ -19,3 +19,6 @@ class StudyModel:
 
     async def list(self) -> List[StudyRowDTO]:
         return await self.repo.list()
+
+    async def study_exists(self, name: str) -> bool:
+        return await self.repo.study_exists(name)

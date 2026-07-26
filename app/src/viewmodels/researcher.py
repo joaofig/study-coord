@@ -62,7 +62,7 @@ class ResearcherViewModel(ViewModel):
             case "load":
                 if "researcher_id" in kwargs:
                     r = await self.model.load(
-                        researcher_id=int(kwargs.get("researcher_id"))
+                        researcher_id=kwargs.get("researcher_id", 0)
                     )
                     if r:
                         self.copy(r)
@@ -94,6 +94,10 @@ class ResearcherViewModel(ViewModel):
             phone=self.phone,
             email=self.email,
             comments=self.comments,
+            created_at=self.created_at,
+            created_by=self.created_by,
+            updated_at=self.updated_at,
+            updated_by=self.updated_by,
         )
 
     async def save(self):
