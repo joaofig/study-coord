@@ -10,6 +10,18 @@ class ResearcherRepository(SupabaseRepository):
     def __init__(self):
         super().__init__()
 
+    async def number_exists(self, number: str) -> bool:
+        await self.connect()
+        if self.supabase:
+            result = (
+                await self.supabase.table(TABLE)
+                .select("*")
+                .eq("number", number)
+                .execute()
+            ).data
+            return bool(result)
+        return False
+
     async def load(self, researcher_id: int) -> ResearcherDTO | None:
         await self.connect()
         if self.supabase:
@@ -24,6 +36,8 @@ class ResearcherRepository(SupabaseRepository):
         return None
 
     async def save(self, researcher: ResearcherDTO) -> dict:
+        d = researcher.to_dict()
+        del d["study_count"]
         return await self.insert_or_update(TABLE, researcher.to_dict())
 
     async def delete(self, researcher_id: int):
@@ -39,7 +53,7 @@ class ResearcherRepository(SupabaseRepository):
     async def list(self) -> List[ResearcherDTO]:
         await self.connect()
         if self.supabase:
-            result = (await self.supabase.table(TABLE).select("*").execute()).data
+            result = (await self.supabase.table("researcher_list").select("*").execute()).data
             if result:
                 return [ResearcherDTO.from_dict(r) for r in result]
         return []

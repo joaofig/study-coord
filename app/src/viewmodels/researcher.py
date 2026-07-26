@@ -68,7 +68,7 @@ class ResearcherViewModel(ViewModel):
                         self.copy(r)
 
             case "validate":
-                return self.validate()
+                return await self.validate()
         return None
 
     def copy(self, researcher: ResearcherDTO):
@@ -104,9 +104,13 @@ class ResearcherViewModel(ViewModel):
         self.data_changed = False
         self.is_old = True
 
-    def validate(self) -> str | None:
+    async def validate(self) -> str | None:
         self.is_invalid = False
         self.validation = ""
+
+        if self.researcher_id == 0:
+            if await self.model.number_exists(self.number):
+                self.validation += "**Researcher Number** already exists.  \r\n"
 
         if not self.number or len(self.number.strip()) == 0:
             self.validation += "**Researcher Number** is required.  \r\n"

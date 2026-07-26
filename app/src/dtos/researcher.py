@@ -10,8 +10,7 @@ class ResearcherDTO(BaseDTO):
     phone: str = ""
     email: str = ""
     comments: str = ""
-
-    # study_count: int = 0
+    study_count: int = 0
 
     @classmethod
     def from_dict(cls, data: dict) -> "ResearcherDTO":
@@ -26,7 +25,7 @@ class ResearcherDTO(BaseDTO):
             created_by=data.get("created_by", ""),
             updated_at=dict_to_datetime(data, "updated_at"),
             updated_by=data.get("updated_by", ""),
-            # study_count=data.get("study_count", 0),
+            study_count=data.get("study_count", 0),
         )
 
     def to_dict(self) -> dict:
@@ -37,6 +36,7 @@ class ResearcherDTO(BaseDTO):
             "phone": self.phone,
             "email": self.email,
             "comments": self.comments,
+            "study_count": self.study_count,
         } | super().to_dict()
 
 

@@ -26,6 +26,9 @@ class ResearcherModel:
     async def list(self) -> List[ResearcherDTO]:
         return await self.repo.list()
 
+    async def number_exists(self, number: str) -> bool:
+        return await self.repo.number_exists(number)
+
 
 def study_researcher_roles() -> dict:
     return {
