@@ -101,4 +101,28 @@ class PatientViewModel(ViewModel):
         match msg:
             case "save":
                 return await self.save()
+
+            case "validate":
+                return await self.validate()
         return None
+
+    async def validate(self) -> bool:
+        self.validation = ""
+        self.is_invalid = False
+
+        if not self.number:
+            self.validation += "**Patient Number** is required  \r\n"
+        else:
+            if await self.model.patient_number_exists(self.study_id, self.number):
+                self.validation += "**Patient Number** already exists  \r\n"
+
+        if not self.name:
+            self.validation += "**Patient Name** is required  \r\n"
+        else:
+            if len(self.name) < 3:
+                self.validation += "**Patient Name** must be at least 3 characters  \r\n"
+            elif len(self.name) > 128:
+                self.validation += "**Patient Name** must be less than 128 characters  \r\n"
+
+        self.is_invalid = len(self.number) > 0
+        return not self.is_invalid
