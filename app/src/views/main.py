@@ -30,7 +30,7 @@ def main_view():
             "h-full w-full"
         ):
             with ui.tab_panel(studies).classes("pl-4 pt-0 pb-0 pr-4"):
-                from src.views.StudyView import StudyView
+                from src.views.study_view import StudyView
                 from src.viewmodels import StudyListViewModel
 
                 vm = StudyListViewModel()
@@ -60,7 +60,7 @@ def main_view():
 
             with ui.tab_panel(admin).classes("pl-4 pt-0 pb-0 pr-4"):
                 if user_role == "Admin":
-                    from src.views.UserView import UserView
+                    from src.views.user_view import UserView
                     from src.viewmodels import UserListViewModel
 
                     vm = UserListViewModel()

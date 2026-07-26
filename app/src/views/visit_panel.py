@@ -3,7 +3,7 @@ from nicegui import ui
 from src.tools.excel import export_to_excel
 from src.viewmodels.view_model import ViewModel
 from src.viewmodels.visit import VisitViewModel
-from src.views.StudyVisitGrid import StudyVisitGrid
+from src.views.visit_grid import StudyVisitGrid
 from src.views.View import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.visit_dialog import StudyVisitDialog

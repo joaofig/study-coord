@@ -15,7 +15,7 @@ from src.views.StudyMonitoringPanel import StudyMonitoringPanel
 from src.views.patient_panel import StudyPatientPanel
 from src.views.StudyResearcherPanel import StudyResearcherPanel
 from src.views.protocol_panel import ProtocolPanel
-from src.views.StudyVisitPanel import StudyVisitPanel
+from src.views.visit_panel import StudyVisitPanel
 from src.views.View import View
 
 

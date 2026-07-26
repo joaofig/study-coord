@@ -34,9 +34,14 @@ class StudyVisitGrid(View):
         if row_data:
             await self._edit_visit(row_data["visit_id"])
 
-    async def _update_grid(self):
+    def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("visits")
         self.grid.update()
+
+        # Restore the selected visit
+        visit_id = self.vm.get("selected_id")
+        if visit_id != 0:
+            self.grid.run_row_method(visit_id, "setSelected", True)
 
     def _build_grid(self) -> AgGrid:
         columns = [

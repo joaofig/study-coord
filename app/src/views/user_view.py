@@ -5,7 +5,7 @@ from src.views.View import View
 from src.tools.excel import export_to_excel
 from src.tools.user import logout
 from src.viewmodels import UserViewModel
-from src.views.UserGrid import UserGrid
+from src.views.user_grid import UserGrid
 from src.views.dialogs import UserDialog
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 
