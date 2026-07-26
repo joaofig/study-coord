@@ -7,6 +7,9 @@ from src.repositories import PatientRepository
 class PatientModel:
     repo = PatientRepository()
 
+    async def patient_number_exists(self, study_id: int, patient_number: str) -> bool:
+        return await self.repo.patient_number_exists(study_id, patient_number)
+
     async def save(self, dto: PatientDTO):
         patient = await self.repo.save(dto)
         dto.patient_id = patient["patient_id"]

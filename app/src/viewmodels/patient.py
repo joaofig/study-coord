@@ -27,6 +27,9 @@ class PatientViewModel(ViewModel):
     updated_at: datetime = datetime.now()
     updated_by: str = ""
 
+    is_invalid: bool = False
+    validation: str = ""
+
     statuses = patient_statuses()
     changed: bool = False
     model = PatientModel()

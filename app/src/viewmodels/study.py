@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Any
 
 from nicegui import binding
@@ -20,10 +20,14 @@ class StudyViewModel(ViewModel):
     end_date: str | None = None
     comments: str = ""
 
+    created_at: datetime = datetime.now()
+    created_by: str = ""
+    updated_at: datetime = datetime.now()
+    updated_by: str = ""
+
     is_invalid: bool = False
     validation: str = ""
 
-    data_changed: bool = False
     change_set = ObservableSet()
     changed = False
     is_old: bool = False
@@ -56,6 +60,10 @@ class StudyViewModel(ViewModel):
         self.start_date = study.start_date.isoformat()
         self.end_date = study.end_date.isoformat() if study.end_date else None
         self.comments = study.comments or ""
+        self.created_at = study.created_at
+        self.created_by = study.created_by
+        self.updated_at = study.updated_at
+        self.updated_by = study.updated_by
         self.changed = False
         self.is_old = study.study_id is not None
         self.change_set.clear()
@@ -69,6 +77,10 @@ class StudyViewModel(ViewModel):
             "start_date": self.start_date,
             "end_date": None if not self.end_date else self.end_date,
             "comments": self.comments,
+            "created_at": self.created_at.isoformat(),
+            "created_by": self.created_by,
+            "updated_at": self.updated_at.isoformat(),
+            "updated_by": self.updated_by,
         }
 
     def to_dto(self) -> StudyDTO:
@@ -80,6 +92,11 @@ class StudyViewModel(ViewModel):
             start_date=date.fromisoformat(self.start_date),
             end_date=None if not self.end_date else date.fromisoformat(self.end_date),
             comments=self.comments,
+
+            created_at=self.created_at,
+            created_by=self.created_by,
+            updated_at=self.updated_at,
+            updated_by=self.updated_by,
         )
 
     async def save(self):
