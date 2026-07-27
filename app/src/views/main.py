@@ -1,8 +1,8 @@
 from nicegui import ui, app
 
-from repositories.supabase.user import UserRepository
+from src.repositories.supabase.user import UserRepository
 from src.tools.tasks import ManagedTasks
-from viewmodels import UserViewModel
+from src.viewmodels import UserViewModel
 
 
 async def on_tab_change(event):

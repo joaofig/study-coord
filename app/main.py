@@ -9,8 +9,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from src.dtos.user import UserDTO, hash_password
 from src.models import UserModel
 from src.views.main import main_view
-from viewmodels import UserViewModel
-from views.dialogs.password_dialog import PasswordDialog
+from src.viewmodels import UserViewModel
+from src.views.dialogs.password_dialog import PasswordDialog
 
 # top-level static routes like /favicon.ico must be unrestricted, otherwise the middleware redirects them to /login
 unrestricted_page_routes = {"/favicon.ico", "/login"}
