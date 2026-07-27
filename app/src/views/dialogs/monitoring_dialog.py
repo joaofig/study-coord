@@ -2,7 +2,7 @@ from nicegui import ui
 from nicegui.elements.dialog import Dialog
 
 from src.viewmodels.view_model import ViewModel
-from src.views.View import View
+from src.views.view import View
 
 
 class StudyMonitoringDialog(View):

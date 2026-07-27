@@ -1,7 +1,7 @@
 from nicegui import ui
 
 from src.viewmodels.view_model import ViewModel
-from src.views.View import View
+from src.views.view import View
 
 
 def validate_required(value: str) -> str | None:

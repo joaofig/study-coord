@@ -6,7 +6,7 @@ from nicegui.observables import ObservableList
 
 from src.viewmodels import ProtocolViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.View import View
+from src.views.view import View
 from src.views.dialogs.protocol_dialog import ProtocolDialog
 
 

@@ -4,7 +4,7 @@ from src.tools.excel import export_to_excel
 from src.viewmodels import ResearcherViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.researcher_grid import ResearcherGrid
-from src.views.View import View
+from src.views.view import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.researcher_dialog import ResearcherDialog
 from src.tools.user import logout, get_user_name

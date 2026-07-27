@@ -2,7 +2,7 @@ from nicegui import ui
 from nicegui.elements.dialog import Dialog
 
 from src.viewmodels.view_model import ViewModel
-from src.views.View import View
+from src.views.view import View
 
 
 def validate_researcher(value: str | None) -> str | None:
@@ -28,7 +28,7 @@ class StudyResearcherDialog(View):
 
     def _build_dialog(self) -> Dialog:
         with ui.dialog() as dialog, ui.card().classes("w-120"):
-            with ui.row().classes("w-full  bg-gray-200 p-2"):
+            with ui.row().classes("w-full bg-gray-200 p-2"):
                 ui.label("Study Researcher Details").classes("text-base")
 
             ui.select(

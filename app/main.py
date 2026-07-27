@@ -9,7 +9,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from src.dtos.user import UserDTO, hash_password
 from src.models import UserModel
 from src.views.main import main_view
-
+from viewmodels import UserViewModel
+from views.dialogs.password_dialog import PasswordDialog
 
 # top-level static routes like /favicon.ico must be unrestricted, otherwise the middleware redirects them to /login
 unrestricted_page_routes = {"/favicon.ico", "/login"}
@@ -33,8 +34,25 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return RedirectResponse(f"/login?redirect_to={path}")
 
 
+async def change_password(user: UserDTO) -> bool:
+    vm = UserViewModel()
+    vm.copy(user)
+    dialog = PasswordDialog(vm)
+    result = await dialog.show()
+    if result == "save":
+        if vm.password_1 != vm.password_2:
+            ui.notify("Passwords do not match", color="negative")
+            return False
+        user.pass_hash = hash_password(vm.password_1)
+        user.change_pass = False
+        vm.copy(user)
+        await vm.save()
+        return True
+    return False
+
+
 @ui.page("/login")
-def login(redirect_to: str = "/") -> RedirectResponse | None:
+async def login(redirect_to: str = "/") -> RedirectResponse | None:
     if app.storage.user.get("authenticated", False):
         return RedirectResponse("/")
 
@@ -45,12 +63,23 @@ def login(redirect_to: str = "/") -> RedirectResponse | None:
 
         if user is not None:
             app.storage.user.update(
-                username=username.value, user_role=user.user_role, authenticated=True
+                username=username.value,
+                user_role=user.user_role,
+                user_id=user.user_id,
+                authenticated=True
             )
 
             username.value = ""
             password.value = ""
-            ui.navigate.to(redirect_to)  # go back to where the user wanted to go
+            if user.change_pass:
+                if await change_password(user):
+                    ui.notify("Password changed successfully", color="positive")
+                    ui.navigate.to(redirect_to)  # go back to where the user wanted to go
+                else:
+                    ui.notify("Password change failed", color="negative")
+                    ui.navigate.to("/login")
+            else:
+                ui.navigate.to(redirect_to)  # go back to where the user wanted to go
         else:
             ui.notify("Wrong username or password", color="negative")
 
@@ -115,7 +144,7 @@ async def index():
     ui.page_title("Study Coordinator")
     app.add_static_files('/images', 'images')
     add_inactivity_timeout(300, logout)  # 5 minutes of inactivity
-    main_view()
+    await main_view()
 
 
 load_dotenv()

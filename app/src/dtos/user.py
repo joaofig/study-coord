@@ -15,6 +15,7 @@ class UserDTO(BaseModel):
     user_name: str
     pass_hash: str
     user_role: str
+    change_pass: bool = False
     created_at: date = date.today()
     created_by: str
     updated_at: date = date.today()
@@ -27,6 +28,7 @@ class UserDTO(BaseModel):
             user_name=data.get("user_name", ""),
             pass_hash=data.get("pass_hash", ""),
             user_role=data.get("user_role", ""),
+            change_pass=data.get("change_pass", False),
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", ""),
             updated_at=dict_to_datetime(data, "updated_at"),
@@ -43,4 +45,5 @@ class UserDTO(BaseModel):
             "created_by": self.created_by,
             "updated_at": self.updated_at.isoformat(),
             "updated_by": self.updated_by,
+            "change_pass": self.change_pass,
         }

@@ -6,7 +6,7 @@ from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.patient_grid import StudyPatientGrid
 from src.views.dialogs.patient_dialog import StudyPatientDialog
-from src.views.View import View
+from src.views.view import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.tools.excel import export_to_excel
 

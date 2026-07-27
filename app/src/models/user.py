@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from src.dtos.user import UserDTO
@@ -14,8 +15,11 @@ class UserModel:
             user_name="",
             pass_hash="",
             user_role="User",
+            change_pass=False,
             created_by="",
+            created_at=datetime.now(),
             updated_by="",
+            updated_at=datetime.now()
         )
 
     async def save(self, dto: UserDTO):

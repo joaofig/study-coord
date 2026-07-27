@@ -4,7 +4,7 @@ from nicegui.observables import ObservableList
 
 from src.viewmodels.view_model import ViewModel
 from src.viewmodels import AdverseEventViewModel
-from src.views.View import View
+from src.views.view import View
 from src.views.dialogs.event_dialog import EventDialog
 
 

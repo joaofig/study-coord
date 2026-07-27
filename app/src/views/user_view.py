@@ -1,7 +1,7 @@
 from nicegui import ui, app
 
 from src.viewmodels.view_model import ViewModel
-from src.views.View import View
+from src.views.view import View
 from src.tools.excel import export_to_excel
 from src.tools.user import logout
 from src.viewmodels import UserViewModel

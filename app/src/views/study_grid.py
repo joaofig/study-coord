@@ -4,7 +4,7 @@ from nicegui.observables import ObservableList
 
 from src.viewmodels import StudyViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.View import View
+from src.views.view import View
 from src.views.dialogs.study_dialog import StudyDialog
 
 

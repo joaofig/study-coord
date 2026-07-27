@@ -4,7 +4,7 @@ Views are the UI components built with NiceGUI. They are located in `src/views/`
 
 ## Base View Class
 
-All views must inherit from `View`. The `View` class automatically registers itself with the ViewModel for notifications.
+All views must inherit from `view.py`. The `view.py` class automatically registers itself with the ViewModel for notifications.
 
 ```python
 class MyView(View):
@@ -46,7 +46,7 @@ Use a custom `cellRenderer` to emit an event when an edit button is clicked.
 
 Dialogs are used for creating and editing records.
 
--   Inherit from `View`.
+-   Inherit from `view.py`.
 -   Use `with ui.dialog() as dialog:` to create the dialog.
 -   Return the `dialog` awaitable in an `async show()` method.
 -   Call `dialog.submit(result)` to close the dialog and return a value.

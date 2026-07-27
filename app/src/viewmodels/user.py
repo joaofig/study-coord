@@ -15,6 +15,7 @@ class UserViewModel(ViewModel):
     user_name: str = ""
     pass_hash: str = ""
     user_role: str = "User"
+    change_pass: bool = False
     created_at: date = date.today()
     created_by: str = ""
     updated_at: date = date.today()
@@ -64,6 +65,7 @@ class UserViewModel(ViewModel):
         self.user_name = user.user_name
         self.pass_hash = user.pass_hash
         self.user_role = user.user_role
+        self.change_pass = user.change_pass
         self.created_at = user.created_at
         self.created_by = user.created_by
         self.updated_at = user.updated_at
@@ -82,6 +84,7 @@ class UserViewModel(ViewModel):
             created_by=self.created_by,
             updated_at=self.updated_at,
             updated_by=self.updated_by,
+            change_pass=self.change_pass,
         )
 
     async def save(self):

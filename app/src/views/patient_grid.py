@@ -8,7 +8,7 @@ from nicegui.observables import ObservableList
 from src.dtos.patient import PatientDTO
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.View import View
+from src.views.view import View
 from src.views.dialogs.patient_dialog import StudyPatientDialog
 
 

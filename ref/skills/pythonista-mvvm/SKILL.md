@@ -13,7 +13,7 @@ This skill provides instructions on how to effectively implement the MVVM (Model
 2.  **Repository**: Data access layer in `src/db/repository/` using `SQLCache` and `asyncio.to_thread`.
 3.  **Model**: Dataclasses in `src/models/` representing data and business logic.
 4.  **ViewModel**: Logic layer in `src/viewmodels/` managing state and UI interaction.
-5.  **View**: UI layer in `src/views/` using NiceGUI, built on the `View` base class.
+5.  **View**: UI layer in `src/views/` using NiceGUI, built on the `view.py` base class.
 
 ## Key Principles
 

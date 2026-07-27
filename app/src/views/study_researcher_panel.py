@@ -5,7 +5,7 @@ from src.tools.messenger import get_messenger
 from src.viewmodels.study_researcher import StudyResearcherViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.study_researcher_grid import StudyResearcherGrid
-from src.views.View import View
+from src.views.view import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.study_researcher_dialog import StudyResearcherDialog
 

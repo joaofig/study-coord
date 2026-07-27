@@ -14,7 +14,7 @@ Each view knows about its corresponding ViewModel, which provides the data and c
 The view binds to properties and commands exposed by the ViewModel, allowing for a clean separation of concerns.
 Any attached view model is handled in an abstract fashion, allowing for easy swapping of view models without modifying the view itself.
 
-All views must derive from the `View` base class.
+All views must derive from the `view.py` base class.
 
 ## ViewModels
 

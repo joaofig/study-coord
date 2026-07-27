@@ -3,7 +3,7 @@ from src.viewmodels.user import UserViewModel
 from src.views.view import View
 
 
-class UserDialog(View):
+class PasswordDialog(View):
     def __init__(self, vm: UserViewModel):
         super().__init__(vm)
 
@@ -13,16 +13,18 @@ class UserDialog(View):
 
         with ui.dialog() as dialog, ui.card().classes("w-120"):
             with ui.row().classes("w-full bg-gray-200 p-2"):
-                ui.label("User Details").classes("text-base")
+                ui.label("Change Password").classes("text-base")
 
-            ui.input(label="User Name").classes("w-full").bind_value(
-                self.vm, "user_name"
-            )
+            ui.input(label="User Name") \
+                .classes("w-full") \
+                .props("disabled") \
+                .bind_value(self.vm, "user_name")
 
-            ui.select(
-                label="Role",
-                options=["Admin", "User"],
-            ).classes("w-full").bind_value(self.vm, "user_role")
+            ui.select(label="Role", options=["Admin", "User"]) \
+                .classes("w-full") \
+                .props("disable") \
+                .bind_value(self.vm, "user_role") \
+                .set_enabled(False)  # Disable role selection in password dialog
 
             ui.input(
                 label="Password", password=True, password_toggle_button=True
@@ -31,8 +33,6 @@ class UserDialog(View):
             ui.input(
                 label="Confirm Password", password=True, password_toggle_button=True
             ).classes("w-full").bind_value(self.vm, "password_2")
-
-            ui.checkbox(text="Change Password after login").bind_value(self.vm, "change_pass")
 
             with ui.row():
                 ui.button("Save", on_click=self.save)
