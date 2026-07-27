@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Any
 
 from nicegui import binding
@@ -6,6 +6,7 @@ from nicegui import binding
 from src.dtos.monitoring import MonitoringDTO
 from src.models import MonitoringModel
 from src.tools.messenger import send_message
+from src.tools.validation import is_date
 from src.viewmodels.view_model import ViewModel
 
 
@@ -13,14 +14,17 @@ from src.viewmodels.view_model import ViewModel
 class MonitoringViewModel(ViewModel):
     monitoring_id: int = 0
     study_id: int = 0
-    meeting_date: date = date.today().isoformat()
+    meeting_date: str = date.today().isoformat()
     monitor: str = ""
     comments: str = ""
-    created_at: date = date.today().isoformat()
+    created_at: datetime = datetime.now()
     created_by: str = ""
-    updated_at: date = date.today().isoformat()
+    updated_at: datetime = datetime.now()
     updated_by: str = ""
     changed: bool = False
+
+    is_invalid: bool = False
+    validation: str = ""
 
     model = MonitoringModel()
 
@@ -44,7 +48,7 @@ class MonitoringViewModel(ViewModel):
         return MonitoringDTO(
             monitoring_id=self.monitoring_id,
             study_id=self.study_id,
-            meeting_date=self.meeting_date,
+            meeting_date=date.fromisoformat(self.meeting_date),
             monitor=self.monitor,
             comments=self.comments or "",
             created_at=self.created_at,
@@ -54,15 +58,21 @@ class MonitoringViewModel(ViewModel):
         )
 
     def from_dict(self, monitoring: dict):
-        self.monitoring_id = monitoring["monitoring_id"] or 0
-        self.study_id = monitoring["study_id"]
-        self.meeting_date = monitoring["meeting_date"]
-        self.monitor = monitoring["monitor"]
-        self.comments = monitoring["comments"] or ""
-        self.created_at = date.fromisoformat(monitoring["created_at"])
-        self.created_by = monitoring["created_by"]
-        self.updated_at = date.fromisoformat(monitoring["updated_at"])
-        self.updated_by = monitoring["updated_by"]
+        self.monitoring_id = monitoring.get("monitoring_id") or monitoring.get("id") or 0
+        self.study_id = monitoring.get("study_id", 0)
+        self.meeting_date = monitoring.get("meeting_date", date.today().isoformat())
+        self.monitor = monitoring.get("monitor", "")
+        self.comments = monitoring.get("comments", "")
+        
+        if "created_at" in monitoring:
+            from src.tools.user import dict_to_datetime
+            self.created_at = dict_to_datetime(monitoring, "created_at")
+        self.created_by = monitoring.get("created_by", "")
+        
+        if "updated_at" in monitoring:
+            from src.tools.user import dict_to_datetime
+            self.updated_at = dict_to_datetime(monitoring, "updated_at")
+        self.updated_by = monitoring.get("updated_by", "")
         self.changed = False
 
     async def save(self):
@@ -77,4 +87,21 @@ class MonitoringViewModel(ViewModel):
         match msg:
             case "save":
                 return await self.save()
+            case "validate":
+                return await self.validate()
         return None
+
+    async def validate(self) -> bool:
+        self.validation = ""
+        self.is_invalid = False
+
+        if not self.meeting_date:
+            self.validation += "**Date** is required.  \r\n"
+        elif not is_date(self.meeting_date):
+            self.validation += "**Date** must be a valid date.  \r\n"
+
+        if not self.monitor:
+            self.validation += "**Monitor** is required.  \r\n"
+
+        self.is_invalid = len(self.validation) > 0
+        return not self.is_invalid

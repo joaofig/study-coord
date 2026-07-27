@@ -1,5 +1,4 @@
 import pytest
-from datetime import date
 from unittest.mock import AsyncMock, patch
 from src.dtos.patient import PatientDTO
 from src.viewmodels.patient import PatientViewModel
@@ -51,7 +50,7 @@ async def test_patient_view_model_from_dict():
     # Verify
     assert vm.patient_id == 101
     assert vm.name == "Patient One"
-    assert vm.start_date == date(2024, 1, 1)
+    assert vm.start_date == "2024-01-01"
 
 @pytest.mark.asyncio
 async def test_patient_list_view_model_load():

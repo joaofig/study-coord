@@ -28,7 +28,7 @@ class StudyView(View):
         result = await dialog.show()
         if result == "delete":
             dialog.close()
-            study_id = self.vm.get("study_id")
+            study_id = self.vm.get("selected_id")
             await self.vm.call("delete_study", study_id=study_id)
             await self.vm.call("load")
 

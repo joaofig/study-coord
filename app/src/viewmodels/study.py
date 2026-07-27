@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Any
 
-from nicegui import binding
+from nicegui import binding, ui
 from nicegui.observables import ObservableSet
 
 from src.dtos.study import StudyDTO
@@ -100,6 +100,9 @@ class StudyViewModel(ViewModel):
         )
 
     async def save(self):
+        if not await self.validate():
+            ui.notify(self.validation, color="negative")
+            return
         study = await self.model.save(self.to_dto())
         self.study_id = study.study_id
         await self.broadcast("study", "study_saved", study=study)
@@ -122,44 +125,45 @@ class StudyViewModel(ViewModel):
                     self._field_changed(field_name)
 
             case "validate":
-                return self.validate()
+                return await self.validate()
         return None
 
-    async def validate(self) -> str | None:
+    async def validate(self) -> bool:
         self.is_invalid = False
         self.validation = ""
 
         if not self.name or len(self.name.strip()) == 0:
-            self.validation += "**Study Name** is required.  \r\n"
-        if len(self.name) < 3:
-            self.validation += "**Study Name** must be at least 3 characters long.  \r\n"
-        if len(self.name) > 128:
-            self.validation += "**Study Name** must be at most 128 characters long.  \r\n"
+            self.validation += "Study name is required.  \r\n"
+        elif len(self.name) < 3:
+            self.validation += "Study name must be at least 3 characters long.  \r\n"
+        elif len(self.name) > 128:
+            self.validation += "Study name must be at most 128 characters long.  \r\n"
 
         if self.study_id == 0:
             if await self.model.study_exists(self.name):
-                self.validation += "**Study Name** already exists.  \r\n"
+                self.validation += "Study name already exists.  \r\n"
 
         if not self.sponsor or len(self.sponsor.strip()) == 0:
-            self.validation += "**Sponsor** is required.  \r\n"
-        if len(self.sponsor) < 3:
-            self.validation += "**Sponsor** must be at least 3 characters long.  \r\n"
-        if len(self.sponsor) > 128:
-            self.validation += "**Sponsor** must be at most 128 characters long.  \r\n"
+            self.validation += "Sponsor is required.  \r\n"
+        elif len(self.sponsor) < 3:
+            self.validation += "Sponsor must be at least 3 characters long.  \r\n"
+        elif len(self.sponsor) > 128:
+            self.validation += "Sponsor must be at most 128 characters long.  \r\n"
 
         if self.protocol_visits < 1:
-            self.validation += "**Protocol visits** must be at least 1.  \r\n"
+            self.validation += "Protocol visits must be at least 1.  \r\n"
 
         if not self.start_date or not is_date(self.start_date):
-            self.validation += "**Start date** must be a valid date.  \r\n"
+            self.validation += "Start date must be a valid date.  \r\n"
 
         if self.end_date and not is_date(self.end_date):
-            self.validation += "**End date** must be a valid date.  \r\n"
+            self.validation += "End date must be a valid date.  \r\n"
 
         if not self.start_date:
-            self.validation += "**Start date** is required.  \r\n"
+            self.validation += "Start date is required.  \r\n"
 
         if self.end_date and self.start_date and self.end_date < self.start_date:
-            self.validation += "**End date** must be after **Start date**.  \r\n"
+            self.validation += "End date must be after Start date.  \r\n"
 
         self.is_invalid = len(self.validation) > 0
+        return not self.is_invalid

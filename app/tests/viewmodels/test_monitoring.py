@@ -28,6 +28,36 @@ async def test_monitoring_view_model_save():
 
 
 @pytest.mark.asyncio
+async def test_monitoring_view_model_validate():
+    # Setup - Invalid (missing monitor)
+    vm = MonitoringViewModel()
+    vm.meeting_date = "2024-07-07"
+    vm.monitor = ""
+
+    # Action
+    is_valid = await vm.call("validate")
+
+    # Verify
+    assert is_valid is False
+    assert vm.is_invalid is True
+    assert "Monitor" in vm.validation
+
+    # Setup - Invalid (invalid date)
+    vm.monitor = "John Doe"
+    vm.meeting_date = "not-a-date"
+    is_valid = await vm.call("validate")
+    assert is_valid is False
+    assert "valid date" in vm.validation
+
+    # Setup - Valid
+    vm.meeting_date = "2024-07-07"
+    is_valid = await vm.call("validate")
+    assert is_valid is True
+    assert vm.is_invalid is False
+    assert vm.validation == ""
+
+
+@pytest.mark.asyncio
 async def test_monitoring_list_view_model_load():
     view_model = MonitoringListViewModel()
 

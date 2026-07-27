@@ -17,8 +17,11 @@ class ProtocolDialog(View):
         self.dialog: Dialog = self._build_dialog()
 
     async def save(self):
-        await self.vm.call("save")
-        self.dialog.submit("save")
+        await self.vm.call("validate")
+        is_invalid = self.vm.get("is_invalid")
+        if not is_invalid:
+            await self.vm.call("save")
+            self.dialog.submit("save")
 
     async def show(self):
         return await self.dialog
@@ -32,11 +35,15 @@ class ProtocolDialog(View):
                 self.vm, "title"
             )
 
-            ui.date_input("Date").classes("w-full").bind_value(self.vm, "date")
+            ui.date_input("Date").classes("w-full").bind_value(self.vm, "event_date")
 
             ui.textarea("Description").classes("w-full").bind_value(
                 self.vm, "description"
             )
+
+            ui.markdown().classes("bg-orange-200 w-full") \
+                .bind_content_from(self.vm, "validation") \
+                .bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
                 ui.button("Save", on_click=lambda: self.save())

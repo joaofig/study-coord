@@ -5,20 +5,17 @@ from src.viewmodels.view_model import ViewModel
 from src.views.View import View
 
 
-def validate_monitor(value: str | None) -> str | None:
-    if not value:
-        return "Monitor is required"
-    return None
-
-
 class StudyMonitoringDialog(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.dialog: Dialog = self._build_dialog()
 
     async def save(self):
-        await self.vm.call("save")
-        self.dialog.submit("save")
+        await self.vm.call("validate")
+        is_invalid = self.vm.get("is_invalid")
+        if not is_invalid:
+            await self.vm.call("save")
+            self.dialog.submit("save")
 
     async def show(self):
         return await self.dialog
@@ -34,11 +31,16 @@ class StudyMonitoringDialog(View):
                 .bind_value(self.vm, "meeting_date")
             )
             (
-                ui.input("Monitor", validation=validate_monitor)
+                ui.input("Monitor")
                 .classes("w-full")
                 .bind_value(self.vm, "monitor")
             )
             (ui.textarea("Comments").classes("w-full").bind_value(self.vm, "comments"))
+
+            ui.markdown().classes("bg-orange-200 w-full") \
+                .bind_content_from(self.vm, "validation") \
+                .bind_visibility_from(self.vm, "is_invalid")
+
             with ui.row():
                 ui.button("Save", on_click=lambda: self.save())
                 ui.button("Close", on_click=lambda: dialog.submit("close"))

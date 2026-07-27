@@ -15,7 +15,7 @@ class AdverseEventViewModel(ViewModel):
     adverse_event_id: int = 0
     study_id: int = 0
     patient_id: int = 0
-    event_date: date = date.today()
+    event_date: str = date.today().isoformat()
     event_type: str = ""
     description: str = ""
     comments: str = ""
@@ -28,6 +28,9 @@ class AdverseEventViewModel(ViewModel):
     created_by: str = ""
     updated_at: datetime = datetime.now()
     updated_by: str = ""
+    
+    is_invalid: bool = False
+    validation: str = ""
 
     patients: Dict[int, str] = field(default_factory=dict)
     selection = PatientViewModel()
@@ -43,11 +46,48 @@ class AdverseEventViewModel(ViewModel):
             adverse_event_id=self.adverse_event_id,
             study_id=self.study_id,
             patient_id=self.patient_id,
-            event_date=self.event_date,
+            event_date=date.fromisoformat(self.event_date),
             event_type=self.event_type if self.event_type else "",
             description=self.description,
             comments=self.comments,
         )
+
+    def to_dict(self):
+        return {
+            "adverse_event_id": self.adverse_event_id,
+            "study_id": self.study_id,
+            "patient_id": self.patient_id,
+            "event_date": self.event_date,
+            "event_type": self.event_type,
+            "description": self.description,
+            "comments": self.comments,
+            "patient_name": self.patient_name,
+            "patient_number": self.patient_number,
+            "created_at": self.created_at.isoformat(),
+            "created_by": self.created_by,
+            "updated_at": self.updated_at.isoformat(),
+            "updated_by": self.updated_by,
+        }
+
+    def from_dict(self, data: dict):
+        self.adverse_event_id = data.get("adverse_event_id") or data.get("id") or 0
+        self.study_id = data.get("study_id", 0)
+        self.patient_id = data.get("patient_id", 0)
+        self.event_date = data.get("event_date", date.today().isoformat())
+        self.event_type = data.get("event_type", "")
+        self.description = data.get("description", "")
+        self.comments = data.get("comments", "")
+        self.patient_name = data.get("patient_name", "")
+        self.patient_number = data.get("patient_number", "")
+        if "created_at" in data:
+             from src.tools.user import dict_to_datetime
+             self.created_at = dict_to_datetime(data, "created_at")
+        self.created_by = data.get("created_by", "")
+        if "updated_at" in data:
+             from src.tools.user import dict_to_datetime
+             self.updated_at = dict_to_datetime(data, "updated_at")
+        self.updated_by = data.get("updated_by", "")
+        self.changed = False
 
     async def save(self):
         event = self.to_event()
@@ -63,7 +103,7 @@ class AdverseEventViewModel(ViewModel):
             self.adverse_event_id = event.adverse_event_id
             self.study_id = event.study_id
             self.patient_id = event.patient_id
-            self.event_date = event.event_date
+            self.event_date = event.event_date.isoformat()
             self.event_type = event.event_type
             self.description = event.description
             self.comments = event.comments
@@ -72,7 +112,7 @@ class AdverseEventViewModel(ViewModel):
 
             patient = await self.patient_model.load(self.patient_id)
             if patient:
-                self.selection.copy(patient)
+                self.selection.from_dict(patient.to_dict())
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
@@ -86,7 +126,7 @@ class AdverseEventViewModel(ViewModel):
                 if patient_id:
                     patient = await self.patient_model.load(patient_id)
                     if patient:
-                        self.selection.copy(patient)
+                        self.selection.from_dict(patient.to_dict())
 
             case "load_patients":
                 study_id = kwargs.get("study_id", 0)
@@ -95,7 +135,32 @@ class AdverseEventViewModel(ViewModel):
 
             case "save":
                 await self.save()
+
+            case "validate":
+                return await self.validate()
         return None
+
+    async def validate(self) -> bool:
+        from src.tools.validation import is_date
+        self.validation = ""
+        self.is_invalid = False
+
+        if not self.patient_id or self.patient_id == 0:
+            self.validation += "**Patient** is required  \r\n"
+
+        if not self.event_date:
+            self.validation += "**Event date** is required.  \r\n"
+        elif not is_date(self.event_date):
+            self.validation += "**Event date** must be a valid date.  \r\n"
+
+        if not self.event_type:
+            self.validation += "**Event type** is required  \r\n"
+
+        if not self.description:
+            self.validation += "**Description** is required  \r\n"
+
+        self.is_invalid = len(self.validation) > 0
+        return not self.is_invalid
 
     async def load_patients(self, study_id: int):
         patients = await self.patient_model.list(study_id)

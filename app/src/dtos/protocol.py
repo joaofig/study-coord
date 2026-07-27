@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_datetime
@@ -8,7 +8,7 @@ class ProtocolDTO(BaseDTO):
     protocol_id: int = 0
     study_id: int = 0
     title: str = ""
-    event_date: datetime = datetime.now()
+    event_date: date = date.today()
     description: str = ""
 
     created_at: datetime = datetime.now()
@@ -22,8 +22,8 @@ class ProtocolDTO(BaseDTO):
             protocol_id=data.get("protocol_id", 0),
             study_id=data.get("study_id", 0),
             title=data.get("title", ""),
-            event_date=datetime.fromisoformat(
-                data.get("event_date", datetime.now().isoformat())
+            event_date=date.fromisoformat(
+                data.get("event_date", date.today().isoformat())
             ),
             description=data.get("description", ""),
             created_at=dict_to_datetime(data, "created_at"),

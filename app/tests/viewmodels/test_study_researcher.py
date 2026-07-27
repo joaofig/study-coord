@@ -16,24 +16,18 @@ async def test_study_researcher_view_model_load_updates_fields():
         phone="123",
         email="john@example.com",
     )
-    sr_dto = StudyResearcherDTO(researcher_id=researcher_id, researcher=researcher)
+    vm = StudyResearcherViewModel()
+    vm.researcher_list = [researcher]
+    vm.researcher_id = researcher_id
 
-    with patch(
-        "src.models.study_researcher.StudyResearcherModel.load",
-        new_callable=AsyncMock,
-        return_value=sr_dto,
-    ):
-        vm = StudyResearcherViewModel()
-        vm.researcher_id = researcher_id
+    # Action
+    await vm.call("load")
 
-        # Action
-        await vm.call("load")
-
-        # Verify
-        assert vm.selection.researcher_id == researcher_id
-        assert vm.selection.name == "John Doe"
-        assert vm.number == "R001"
-        assert vm.name == "John Doe"
+    # Verify
+    assert vm.selection.researcher_id == researcher_id
+    assert vm.selection.name == "John Doe"
+    assert vm.number == "R001"
+    assert vm.name == "John Doe"
 
 
 @pytest.mark.asyncio
@@ -120,3 +114,35 @@ async def test_study_researcher_list_view_model_saved_message():
 
         # Verify
         mock_list.assert_called_once_with(1)
+
+
+@pytest.mark.asyncio
+async def test_study_researcher_view_model_validate():
+    # Setup - Invalid (no researcher)
+    vm = StudyResearcherViewModel()
+    vm.researcher_id = 0
+    vm.role = "standard"
+
+    # Action
+    is_valid = await vm.call("validate")
+
+    # Verify
+    assert is_valid is False
+    assert vm.is_invalid is True
+    assert "Researcher" in vm.validation
+    assert "required" in vm.validation
+
+    # Setup - Invalid (invalid role)
+    vm.researcher_id = 1
+    vm.role = "invalid_role"
+    is_valid = await vm.call("validate")
+    assert is_valid is False
+    assert "Role" in vm.validation
+    assert "invalid" in vm.validation
+
+    # Setup - Valid
+    vm.role = "standard"
+    is_valid = await vm.call("validate")
+    assert is_valid is True
+    assert vm.is_invalid is False
+    assert vm.validation == ""

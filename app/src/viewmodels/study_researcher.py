@@ -28,6 +28,9 @@ class StudyResearcherViewModel(ViewModel):
     updated_at: date = date.today()
     updated_by: str = ""
 
+    is_invalid: bool = False
+    validation: str = ""
+
     researcher_list: List[ResearcherDTO] = field(default_factory=list)
 
     changed: bool = False
@@ -100,6 +103,9 @@ class StudyResearcherViewModel(ViewModel):
             case "save":
                 return await self.save()
 
+            case "validate":
+                return await self.validate()
+
             case "load":
                 rs = [r for r in self.researcher_list if r.researcher_id == self.researcher_id]
                 if len(rs) > 0:
@@ -121,3 +127,18 @@ class StudyResearcherViewModel(ViewModel):
             sr.researcher_id: sr.name
             for sr in self.researcher_list
         }
+
+    async def validate(self) -> bool:
+        self.validation = ""
+        self.is_invalid = False
+
+        if not self.researcher_id or self.researcher_id == 0:
+            self.validation += "**Researcher** is required  \r\n"
+
+        if not self.role:
+            self.validation += "**Role** is required  \r\n"
+        elif self.role not in self.roles:
+            self.validation += "**Role** is invalid  \r\n"
+
+        self.is_invalid = len(self.validation) > 0
+        return not self.is_invalid

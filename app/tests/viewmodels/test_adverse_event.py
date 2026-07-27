@@ -26,6 +26,7 @@ async def test_adverse_event_view_model_save():
         args = mock_repo.save.call_args[0][0]
         assert args.event_type == "Severe"
         assert args.description == "Test Event"
+        assert args.event_date == date.today()
 
 @pytest.mark.asyncio
 async def test_adverse_event_view_model_load():
@@ -49,6 +50,7 @@ async def test_adverse_event_view_model_load():
         assert vm.adverse_event_id == 301
         assert vm.event_type == "Mild"
         assert vm.description == "Headache"
+        assert vm.event_date == "2024-01-01"
 
 @pytest.mark.asyncio
 async def test_adverse_event_list_view_model_load():
@@ -68,3 +70,42 @@ async def test_adverse_event_list_view_model_load():
         assert vm.study_id == 1
         assert vm.adverse_event_id == 101
         assert vm.events[0].event_type == "E1"
+
+
+@pytest.mark.asyncio
+async def test_adverse_event_view_model_validate():
+    # Setup - Invalid (missing patient)
+    vm = AdverseEventViewModel()
+    vm.patient_id = 0
+    vm.event_date = "2024-01-01"
+    vm.event_type = "Severe"
+    vm.description = "Test"
+
+    # Action
+    is_valid = await vm.call("validate")
+
+    # Verify
+    assert is_valid is False
+    assert vm.is_invalid is True
+    assert "Patient" in vm.validation
+
+    # Setup - Invalid (missing event type)
+    vm.patient_id = 101
+    vm.event_type = ""
+    is_valid = await vm.call("validate")
+    assert is_valid is False
+    assert "Event type" in vm.validation
+
+    # Setup - Invalid (invalid date)
+    vm.event_type = "Severe"
+    vm.event_date = "not-a-date"
+    is_valid = await vm.call("validate")
+    assert is_valid is False
+    assert "valid date" in vm.validation
+
+    # Setup - Valid
+    vm.event_date = "2024-01-01"
+    is_valid = await vm.call("validate")
+    assert is_valid is True
+    assert vm.is_invalid is False
+    assert vm.validation == ""

@@ -61,6 +61,10 @@ class EventDialog(View):
                         self.vm, "comments"
                     ).classes("w-full")
 
+            ui.markdown().classes("bg-orange-200 w-full") \
+                .bind_content_from(self.vm, "validation") \
+                .bind_visibility_from(self.vm, "is_invalid")
+
             with ui.row():
                 ui.button("Save", on_click=lambda: self.save())
                 ui.button("Close", on_click=lambda: dialog.submit("close"))
@@ -70,5 +74,8 @@ class EventDialog(View):
         return await self.dialog
 
     async def save(self):
-        await self.vm.call("save")
-        self.dialog.submit("save")
+        await self.vm.call("validate")
+        is_invalid = self.vm.get("is_invalid")
+        if not is_invalid:
+            await self.vm.call("save")
+            self.dialog.submit("save")

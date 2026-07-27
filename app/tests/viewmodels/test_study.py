@@ -88,6 +88,10 @@ def fake_repository():
                 d["study_id"] = NEW_STUDY_ID
             return d
 
+        @classmethod
+        async def study_exists(cls, name: str) -> bool:
+            return any(s.name == name for s in cls.studies_by_id.values())
+
     return FakeStudyRepository
 
 
@@ -96,8 +100,8 @@ def assert_view_model_matches_study(view_model: StudyViewModel, study: Study) ->
     assert view_model.name == study.name
     assert view_model.sponsor == study.sponsor
     assert view_model.protocol_visits == study.protocol_visits
-    assert view_model.start_date == study.start_date
-    assert view_model.end_date == study.end_date
+    assert str(view_model.start_date) == str(study.start_date)
+    assert str(view_model.end_date) == str(study.end_date)
     assert view_model.comments == (study.comments or "")
 
 
@@ -105,8 +109,8 @@ def assert_studies_match(actual: Study, expected: Study) -> None:
     assert actual.study_id == expected.study_id
     assert actual.name == expected.name
     assert actual.sponsor == expected.sponsor
-    assert actual.start_date == expected.start_date
-    assert actual.end_date == expected.end_date
+    assert str(actual.start_date) == str(expected.start_date)
+    assert str(actual.end_date) == str(expected.end_date)
     assert actual.protocol_visits == expected.protocol_visits
     assert actual.comments == expected.comments
 
@@ -169,7 +173,7 @@ async def test_save_rejects_invalid_study_without_persisting(fake_repository) ->
     )
 
     with (
-        patch("src.models.study.StudyRepository", fake_repository),
+        patch("src.models.study.StudyModel.repo", fake_repository),
         patch.object(ui, "notify") as notify,
     ):
         await view_model.save()

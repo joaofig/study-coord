@@ -45,6 +45,44 @@ async def test_visit_view_model_load():
         # Verify
         assert vm.visit_id == 201
         assert vm.visit_type == "Follow-up"
+        assert vm.visit_date == "2024-01-01"
+
+@pytest.mark.asyncio
+async def test_visit_view_model_validate():
+    # Setup - Invalid (missing patient)
+    vm = VisitViewModel()
+    vm.patient_id = 0
+    vm.visit_date = "2024-01-01"
+    vm.visit_type = "V1"
+
+    # Action
+    is_valid = await vm.call("validate")
+
+    # Verify
+    assert is_valid is False
+    assert vm.is_invalid is True
+    assert "Patient" in vm.validation
+
+    # Setup - Invalid (missing visit type)
+    vm.patient_id = 101
+    vm.visit_type = ""
+    is_valid = await vm.call("validate")
+    assert is_valid is False
+    assert "Visit type" in vm.validation
+
+    # Setup - Invalid (invalid date)
+    vm.visit_type = "V1"
+    vm.visit_date = "not-a-date"
+    is_valid = await vm.call("validate")
+    assert is_valid is False
+    assert "valid date" in vm.validation
+
+    # Setup - Valid
+    vm.visit_date = "2024-01-01"
+    is_valid = await vm.call("validate")
+    assert is_valid is True
+    assert vm.is_invalid is False
+    assert vm.validation == ""
 
 @pytest.mark.asyncio
 async def test_visit_list_view_model_load():

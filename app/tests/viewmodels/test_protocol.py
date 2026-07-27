@@ -63,10 +63,10 @@ async def test_protocol_list_view_model_load():
 async def test_protocol_view_model_from_dict():
     # Setup
     data = {
-        "id": 5,
+        "protocol_id": 5,
         "study_id": 1,
         "title": "Dict Title",
-        "date": "2023-05-05",
+        "event_date": "2023-05-05",
         "description": "Dict Desc",
     }
     vm = ProtocolViewModel()
@@ -79,3 +79,40 @@ async def test_protocol_view_model_from_dict():
     assert vm.title == "Dict Title"
     assert vm.event_date == "2023-05-05"
     assert vm.description == "Dict Desc"
+
+
+@pytest.mark.asyncio
+async def test_protocol_view_model_validate():
+    # Setup - Invalid (missing title)
+    vm = ProtocolViewModel()
+    vm.title = ""
+    vm.event_date = "2023-01-01"
+
+    # Action
+    is_valid = await vm.call("validate")
+
+    # Verify
+    assert is_valid is False
+    assert vm.is_invalid is True
+    assert "Title" in vm.validation
+    assert "required" in vm.validation
+
+    # Setup - Invalid (title too short)
+    vm.title = "ab"
+    is_valid = await vm.call("validate")
+    assert is_valid is False
+    assert "at least 3 characters" in vm.validation
+
+    # Setup - Invalid (invalid date)
+    vm.title = "Valid Title"
+    vm.event_date = "not-a-date"
+    is_valid = await vm.call("validate")
+    assert is_valid is False
+    assert "must be a valid date" in vm.validation
+
+    # Setup - Valid
+    vm.event_date = "2023-01-01"
+    is_valid = await vm.call("validate")
+    assert is_valid is True
+    assert vm.is_invalid is False
+    assert vm.validation == ""
