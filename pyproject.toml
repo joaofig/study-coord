@@ -26,4 +26,4 @@ dev = [
 ]
 
 [tool.pytest_env]
-env_files = [".env.test"]
+env_files = ["app/src/.env", "app/src/.env.test"]
