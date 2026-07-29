@@ -36,10 +36,6 @@ class StudyPatientGrid(View):
         if patient_id != 0:
             self.grid.run_row_method(patient_id, "setSelected", True)
 
-    async def _handle_notification(self, action: str, **kwargs):
-        if action == "patients_loaded":
-            self._update_grid()
-
     def _build_grid(self) -> AgGrid:
         columns = [
             {

@@ -146,7 +146,7 @@ async def index():
     await main_view()
 
 
-app.add_static_files('/images', 'app/images')
+app.add_static_files("/images", "images")
 load_dotenv()
 ui.run(
     host="0.0.0.0",

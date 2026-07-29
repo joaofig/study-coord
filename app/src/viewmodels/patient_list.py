@@ -30,7 +30,7 @@ class PatientListViewModel(ViewModel):
         self.patients.extend(await self.model.list(study_id))
 
     async def _handle_study_selected(self, **kwargs):
-        study_id = kwargs.get("study_id")
+        study_id = kwargs.get("study_id", 0)
         if study_id:
             self.study_id = int(str(study_id))
             await self._load_patients(self.study_id)
@@ -51,9 +51,9 @@ class PatientListViewModel(ViewModel):
                     await self._load_patients(self.study_id)
 
             case "patient_selected":
-                patient_id = kwargs.get("patient_id")
+                patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
-                    self.patient_id = int(str(patient_id))
+                    self.patient_id = patient_id
                     await self.broadcast(
                         channel="patient",
                         message="selected",
@@ -61,9 +61,9 @@ class PatientListViewModel(ViewModel):
                     )
 
             case "delete_patient":
-                patient_id = kwargs.get("patient_id")
+                patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
-                    self.patient_id = int(str(patient_id))
+                    self.patient_id = patient_id
                     await self.model.delete(self.patient_id)
                     await self._load_patients(self.study_id)
         return None
