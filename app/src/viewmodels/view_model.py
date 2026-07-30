@@ -35,9 +35,11 @@ class ViewModel(ABC):
         """Base method for handling messages sent to the ViewModel"""
         return None
 
-    def get(self, name: str) -> Any:
+    def get(self, name: str, default: Any = None) -> Any:
         """Get the value of a property from the ViewModel"""
         if not hasattr(self, name):
+            if default is not None:
+                return default
             raise AttributeError(f"{self.__class__.__name__} has no attribute '{name}'")
         return getattr(self, name)
 

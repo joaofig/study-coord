@@ -11,6 +11,7 @@ class PatientListViewModel(ViewModel):
     study_id: int = 0
     patient_id: int = 0
     model = PatientModel()
+    can_update: bool = True
 
     def __init__(self):
         super().__init__()
@@ -26,8 +27,15 @@ class PatientListViewModel(ViewModel):
         )
 
     async def _load_patients(self, study_id: int):
-        self.patients.clear()
-        self.patients.extend(await self.model.list(study_id))
+        patients = await self.model.list(study_id)
+        if len(patients) == 0:
+            self.can_update = True
+            self.patients.clear()
+        else:
+            self.can_update = False
+            self.patients.clear()
+            self.can_update = True
+            self.patients.extend(await self.model.list(study_id))
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id", 0)

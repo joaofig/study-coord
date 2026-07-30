@@ -27,6 +27,9 @@ class StudyPatientGrid(View):
         self._update_grid()
 
     def _update_grid(self):
+        if self.vm.get("can_update", True) is False:
+            return
+
         patients: List[PatientDTO] = self.vm.get("patients")
         self.grid.options["rowData"] = [p.to_grid() for p in patients]
         self.grid.update()
