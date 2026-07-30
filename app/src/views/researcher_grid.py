@@ -39,6 +39,7 @@ class ResearcherGrid(View):
                 "field": "number",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
             {
@@ -46,18 +47,21 @@ class ResearcherGrid(View):
                 "field": "phone",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Email",
                 "field": "email",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Comments",
                 "field": "comments",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Studies",

@@ -63,6 +63,7 @@ class EventGrid(View):
                 "sortable": True,
                 "align": "left",
                 "width": 120,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Type",
@@ -70,12 +71,14 @@ class EventGrid(View):
                 "sortable": True,
                 "align": "left",
                 "width": 120,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Description",
                 "field": "description",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Patient Number",
@@ -83,12 +86,14 @@ class EventGrid(View):
                 "sortable": True,
                 "align": "left",
                 "width": 120,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Patient Name",
                 "field": "patient_name",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
         grid_def = {

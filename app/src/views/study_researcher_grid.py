@@ -59,25 +59,32 @@ class StudyResearcherGrid(View):
                 "sortable": True,
                 "align": "left",
                 "width": 100,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
-            {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
+            {
+                "headerName": "Name", "field": "name", "sortable": True, "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
+             },
             {
                 "headerName": "Role",
                 "field": "role_text",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Phone",
                 "field": "phone",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Email",
                 "field": "email",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
         grid_def = {

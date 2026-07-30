@@ -67,24 +67,28 @@ class StudyVisitGrid(View):
                 "sortable": True,
                 "align": "left",
                 "width": 120,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Type",
                 "field": "visit_type",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Patient Number",
                 "field": "patient_number",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Patient Name",
                 "field": "patient_name",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
         grid_def = {

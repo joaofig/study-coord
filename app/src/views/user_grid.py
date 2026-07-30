@@ -39,12 +39,14 @@ class UserGrid(View):
                 "field": "user_name",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Role",
                 "field": "user_role",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Created At",

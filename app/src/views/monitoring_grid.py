@@ -50,18 +50,21 @@ class StudyMonitoringGrid(View):
                 "sortable": True,
                 "align": "left",
                 "width": 120,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Monitor",
                 "field": "monitor",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Comments",
                 "field": "comments",
                 "sortable": True,
                 "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
         grid_def = {

@@ -47,6 +47,7 @@ class ProtocolGrid(View):
                 "sortable": True,
                 "align": "left",
                 "width": 120,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Title",
@@ -54,6 +55,7 @@ class ProtocolGrid(View):
                 "sortable": True,
                 "align": "left",
                 "flex": 1,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
                 "headerName": "Description",
@@ -61,6 +63,7 @@ class ProtocolGrid(View):
                 "sortable": True,
                 "align": "left",
                 "flex": 2,
+                "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
         grid_def = {
