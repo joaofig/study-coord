@@ -27,11 +27,11 @@ class PatientListViewModel(ViewModel):
         )
 
     async def _load_patients(self, study_id: int):
-        patients = await self.model.list(study_id)
+        patients = [p.to_dict() for p in await self.model.list(study_id)]
         if len(patients) == 0:
             self.patients.clear()
         else:
-            self.patients.replace(await self.model.list(study_id))
+            self.patients.replace(patients)
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id", 0)

@@ -90,7 +90,7 @@ class UserGrid(View):
         return grid
 
     def _update_grid(self):
-        self.grid.options["rowData"] = [u.to_dict() for u in self.users]
+        self.grid.options["rowData"] = self.users
 
         # Restore the selected user
         user_id = self.vm.get("selected_id")
