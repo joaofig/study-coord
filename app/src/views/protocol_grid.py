@@ -19,8 +19,8 @@ class ProtocolGrid(View):
         if isinstance(self.protocols, ObservableList):
             self.protocols.on_change(self._update_grid)
 
-    def _update_grid(self):
-        self.grid.options["rowData"] = self.vm.get("protocols")
+    async def _update_grid(self):
+        await self.grid.run_grid_method("setGridOption", "rowData", self.protocols)
 
     def _build_grid(self) -> AgGrid:
         columns = [

@@ -89,14 +89,13 @@ class ResearcherGrid(View):
     async def _on_researcher_saved(self, **kwargs):
         await self.vm.call("load")  # Reload the grid after a researcher is saved
 
-    def _update_grid(self):
-        # Update the grid's rowData with the new list of studies from the ViewModel
-        self.grid.options["rowData"] = self.researchers
+    async def _update_grid(self):
+        await self.grid.run_grid_method("setGridOption", "rowData", self.researchers)
 
         # Restore the selected patient
         researcher_id = self.vm.get("selected_id")
         if researcher_id != 0:
-            self.grid.run_row_method(researcher_id, "setSelected", True)
+            await self.grid.run_row_method(researcher_id, "setSelected", True)
 
 
     async def _on_edit(self, event):

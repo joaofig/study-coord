@@ -174,6 +174,7 @@ For master lists, use a refreshable component. Do not rebuild the whole page aft
 # src/views/components/study_master_list.py
 from nicegui import ui
 
+
 class StudyMasterList:
     def __init__(self, vm):
         self.vm = vm
@@ -191,7 +192,7 @@ class StudyMasterList:
                 ui.label(self.vm.error).classes('text-negative')
                 return
 
-            for study in self.vm.studies:
+            for study in self.vm.researchers:
                 selected = study.id == self.vm.selected_id
                 ui.button(
                     study.title,

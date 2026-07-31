@@ -13,9 +13,9 @@ class StudyResearcherGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.grid: AgGrid = self._build_grid()
-        self.studies = self.vm.get("researchers")
-        if isinstance(self.studies, ObservableList):
-            self.studies.on_change(self._update_grid)
+        self.researchers = self.vm.get("researchers")
+        if isinstance(self.researchers, ObservableList):
+            self.researchers.on_change(self._update_grid)
 
         self.subscribe(
             channel="study_researcher", message="saved", handler=self._refresh_grid
@@ -29,9 +29,8 @@ class StudyResearcherGrid(View):
     async def _refresh_grid(self, **kwargs):
         await self.vm.call("load")
 
-    def _update_grid(self):
-        researchers = self.vm.get("researchers")
-        self.grid.options["rowData"] = researchers
+    async def _update_grid(self):
+        await self.grid.run_grid_method("setGridOption", "rowData", self.researchers)
 
     def _build_grid(self) -> AgGrid:
         columns = [

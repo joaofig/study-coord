@@ -26,8 +26,7 @@ class StudyPatientGrid(View):
         await self.vm.call("load")
 
     async def _update_grid(self):
-        # Avoid spurious updates
-        self.grid.options["rowData"] = self.vm.get("patients")
+        await self.grid.run_grid_method("setGridOption", "rowData", self.patients)
 
         # Restore the selected patient
         patient_id = self.vm.get("patient_id")

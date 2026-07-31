@@ -89,13 +89,13 @@ class UserGrid(View):
         grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return grid
 
-    def _update_grid(self):
-        self.grid.options["rowData"] = self.users
+    async def _update_grid(self):
+        await self.grid.run_grid_method("setGridOption", "rowData", self.users)
 
         # Restore the selected user
         user_id = self.vm.get("selected_id")
         if user_id != 0:
-            self.grid.run_row_method(user_id, "setSelected", True)
+            await self.grid.run_row_method(user_id, "setSelected", True)
 
     async def _on_edit(self, event):
         row_data = event.args  # dict with the full row's data

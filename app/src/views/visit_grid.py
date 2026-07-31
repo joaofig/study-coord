@@ -37,7 +37,7 @@ class StudyVisitGrid(View):
             await self._edit_visit(row_data["visit_id"])
 
     async def _update_grid(self):
-        self.grid.options["rowData"] = self.vm.get("visits")
+        await self.grid.run_grid_method("setGridOption", "rowData", self.visits)
 
         # Restore the selected visit
         visit_id = self.vm.get("selected_id")

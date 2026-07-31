@@ -20,10 +20,9 @@ class StudyMonitoringGrid(View):
 
     async def _on_monitoring_saved(self, **kwargs):
         await self.vm.call("load")
-        self._update_grid()
 
-    def _update_grid(self):
-        self.grid.options["rowData"] = self.vm.get("monitoring_visits")
+    async def _update_grid(self):
+        await self.grid.run_grid_method("setGridOption", "rowData", self.monitoring_visits)
 
     def _build_grid(self) -> AgGrid:
         columns = [
