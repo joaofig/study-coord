@@ -19,14 +19,18 @@ class StudyGrid(View):
     async def load(self):
         await self.vm.call("load")
 
-    def _update_grid(self):
+    async def _update_grid(self):
+        # Avoid spurious updates
+        if self.vm.get("can_update", True) is False:
+            return
+
         # Update the grid's rowData with the new list of studies from the ViewModel
         self.grid.options["rowData"] = self.vm.get("studies")
 
         # Restore the selected study
         study_id = self.vm.get("selected_id")
         if study_id != 0:
-            self.grid.run_row_method(study_id, "setSelected", True)
+            await self.grid.run_row_method(study_id, "setSelected", True)
 
     async def _row_selection_changed(self, event):
         # Handle the row selection change event from the AgGrid component

@@ -1,13 +1,12 @@
 from typing import Any
 
-from nicegui.observables import ObservableList
-
+from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 from src.models.protocol import ProtocolModel
 
 
 class ProtocolListViewModel(ViewModel):
-    protocols = ObservableList()
+    protocols = GridList()
     study_id: int = 0
     protocol_id: int = 0
     model = ProtocolModel()
@@ -22,8 +21,7 @@ class ProtocolListViewModel(ViewModel):
         )
 
     async def _load_protocols(self, study_id: int):
-        self.protocols.clear()
-        self.protocols.extend([p.to_dict() for p in await self.model.list(study_id)])
+        self.protocols.replace([p.to_dict() for p in await self.model.list(study_id)])
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id")

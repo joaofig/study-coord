@@ -1,13 +1,12 @@
 from typing import Any
 
-from nicegui.observables import ObservableList
-
 from src.models import ResearcherModel
+from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 
 
 class ResearcherListViewModel(ViewModel):
-    researchers = ObservableList()
+    researchers = GridList()
     selected_id: int = 0
     model: ResearcherModel = ResearcherModel()
 
@@ -16,8 +15,7 @@ class ResearcherListViewModel(ViewModel):
         self.subscribe(channel="researcher_list", message="load", handler=self._on_load)
 
     async def load(self):
-        self.researchers.clear()
-        self.researchers.extend(await self.model.list())
+        self.researchers.replace([r.to_dict() for r in await self.model.list()])
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

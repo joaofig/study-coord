@@ -1,13 +1,12 @@
 from typing import Any
 
-from nicegui.observables import ObservableList
-
 from src.models import StudyResearcherModel
+from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 
 
 class StudyResearcherListViewModel(ViewModel):
-    researchers = ObservableList()
+    researchers = GridList()
     study_id: int = 0
     selected_id: int = 0
     model: StudyResearcherModel = StudyResearcherModel()
@@ -24,8 +23,7 @@ class StudyResearcherListViewModel(ViewModel):
         )
 
     async def _load_study_researchers(self, study_id: int):
-        self.researchers.clear()
-        self.researchers.extend(await self.model.list(study_id))
+        self.researchers.replace([r.to_dict() for r in await self.model.list(study_id)])
 
     async def _delete_researcher(self, researcher_id: int):
         await self.model.delete(researcher_id)

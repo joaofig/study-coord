@@ -31,7 +31,7 @@ class StudyResearcherGrid(View):
 
     def _update_grid(self):
         researchers = self.vm.get("researchers")
-        self.grid.options["rowData"] = [r.to_dict() for r in researchers]
+        self.grid.options["rowData"] = researchers
 
     def _build_grid(self) -> AgGrid:
         columns = [

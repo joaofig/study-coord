@@ -35,9 +35,9 @@ class StudyViewModel(ViewModel):
 
     def __post_init__(self):
         super().__init__()
-        self.subscribe(
-            channel="study", message="selected", handler=self._handle_study_selected
-        )
+        # self.subscribe(
+        #     channel="study", message="selected", handler=self._handle_study_selected
+        # )
 
     def _field_changed(self, field_name: str):
         self.changed = True

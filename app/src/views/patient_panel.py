@@ -1,4 +1,5 @@
-from datetime import date
+import datetime
+from datetime import datetime
 
 from nicegui import ui, app
 
@@ -28,8 +29,8 @@ class StudyPatientPanel(View):
         user_name = app.storage.user.get("username", "Unknown")
         patient_vm.created_by = user_name
         patient_vm.updated_by = user_name
-        patient_vm.created_at = date.today()
-        patient_vm.updated_at = date.today()
+        patient_vm.created_at = datetime.now()
+        patient_vm.updated_at = datetime.now()
 
         patient_vm.study_id = self.study_id
         dialog = StudyPatientDialog(patient_vm)

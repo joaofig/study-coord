@@ -3,15 +3,15 @@ from typing import Any
 from nicegui.observables import ObservableList
 
 from src.models import PatientModel
+from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 
 
 class PatientListViewModel(ViewModel):
-    patients = ObservableList()
+    patients = GridList()
     study_id: int = 0
     patient_id: int = 0
     model = PatientModel()
-    can_update: bool = True
 
     def __init__(self):
         super().__init__()
@@ -29,18 +29,14 @@ class PatientListViewModel(ViewModel):
     async def _load_patients(self, study_id: int):
         patients = await self.model.list(study_id)
         if len(patients) == 0:
-            self.can_update = True
             self.patients.clear()
         else:
-            self.can_update = False
-            self.patients.clear()
-            self.can_update = True
-            self.patients.extend(await self.model.list(study_id))
+            self.patients.replace(await self.model.list(study_id))
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id", 0)
         if study_id:
-            self.study_id = int(str(study_id))
+            self.study_id = int(study_id)
             await self._load_patients(self.study_id)
         else:
             self.study_id = 0
@@ -55,13 +51,13 @@ class PatientListViewModel(ViewModel):
             case "load":
                 study_id = kwargs.get("study_id", 0)
                 if study_id != 0:
-                    self.study_id = study_id
+                    self.study_id = int(study_id)
                     await self._load_patients(self.study_id)
 
             case "patient_selected":
                 patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
-                    self.patient_id = patient_id
+                    self.patient_id = int(patient_id)
                     await self.broadcast(
                         channel="patient",
                         message="selected",
@@ -71,7 +67,7 @@ class PatientListViewModel(ViewModel):
             case "delete_patient":
                 patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
-                    self.patient_id = patient_id
+                    self.patient_id = int(patient_id)
                     await self.model.delete(self.patient_id)
                     await self._load_patients(self.study_id)
         return None

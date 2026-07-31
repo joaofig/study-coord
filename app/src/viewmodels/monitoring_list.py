@@ -1,13 +1,12 @@
 from typing import Any
 
-from nicegui.observables import ObservableList
-
 from src.models import MonitoringModel
+from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 
 
 class MonitoringListViewModel(ViewModel):
-    monitoring_visits = ObservableList()
+    monitoring_visits = GridList()
     study_id: int = 0
     monitoring_id: int = 0
     model = MonitoringModel()
@@ -19,8 +18,7 @@ class MonitoringListViewModel(ViewModel):
         )
 
     async def _load_monitoring(self, study_id: int):
-        self.monitoring_visits.clear()
-        self.monitoring_visits.extend(
+        self.monitoring_visits.replace(
             [m.to_dict() for m in await self.model.list(study_id)]
         )
 

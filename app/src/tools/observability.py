@@ -1,5 +1,8 @@
 import asyncio
+from collections.abc import Iterable
 from typing import Callable, Mapping, Any, Coroutine, Set
+
+from nicegui.observables import ObservableList, ObservableCollection
 
 ObserverHandler = Callable[[str, Mapping[str, Any]], None] | Coroutine[Any, Any, None]
 
@@ -22,3 +25,17 @@ class Observable:
             result = handler(action, **kwargs)
             if asyncio.iscoroutine(result):
                 await result
+
+
+class GridList(ObservableList):
+    def __init__(self,
+                 data: list | None = None,
+                 *,
+                 on_change: Callable | None = None,
+                 _parent: ObservableCollection | None = None,
+                 ):
+        super().__init__(data, on_change=on_change, _parent=_parent)
+
+    def replace(self, new_items: Iterable):
+        list.clear(self)
+        self.extend(new_items)

@@ -1,13 +1,12 @@
 from typing import Any
 
-from nicegui.observables import ObservableList
-
 from src.models import UserModel
+from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 
 
 class UserListViewModel(ViewModel):
-    users = ObservableList()
+    users = GridList()
     selected_id: int = 0
     selected_row: dict = {}
     model: UserModel = UserModel()
@@ -17,9 +16,7 @@ class UserListViewModel(ViewModel):
         self.subscribe(channel="user_list", message="load", handler=self._on_load)
 
     async def load(self):
-        self.users.clear()
-        users = await self.model.list()
-        self.users.extend(users)
+        self.users.replace([u.to_dict() for u in await self.model.list()])
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

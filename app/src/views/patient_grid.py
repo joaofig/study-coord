@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 from typing import List
 
@@ -17,27 +18,22 @@ class StudyPatientGrid(View):
         super().__init__(vm)
         self.grid: AgGrid = self._build_grid()
         self.subscribe("patient", "saved", self._on_patient_saved)
-
         self.patients = self.vm.get("patients")
         if isinstance(self.patients, ObservableList):
             self.patients.on_change(self._update_grid)
 
     async def _on_patient_saved(self, **kwargs):
         await self.vm.call("load")
-        self._update_grid()
 
-    def _update_grid(self):
+    async def _update_grid(self):
         # Avoid spurious updates
-        if self.vm.get("can_update", True) is False:
-            return
-
         patients: List[PatientDTO] = self.vm.get("patients")
         self.grid.options["rowData"] = [p.to_grid() for p in patients]
 
         # Restore the selected patient
         patient_id = self.vm.get("patient_id")
         if patient_id != 0:
-            self.grid.run_row_method(patient_id, "setSelected", True)
+            await self.grid.run_row_method(patient_id, "setSelected", True)
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -107,7 +103,7 @@ class StudyPatientGrid(View):
         }
         ui.on("patient-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
-        grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
+        grid.on("selectionChanged", lambda event: asyncio.create_task(self._row_selection_changed(event)))
         return grid
 
     async def _edit_patient(self, patient: dict) -> dict:

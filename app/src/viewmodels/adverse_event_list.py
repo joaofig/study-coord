@@ -1,15 +1,14 @@
 from typing import Any
 
-from nicegui.observables import ObservableList
-
 from src.models import AdverseEventModel
+from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 
 
 class AdverseEventListViewModel(ViewModel):
     def __init__(self):
         super().__init__()
-        self.events = ObservableList()
+        self.events = GridList()
         self.study_id: int = 0
         self.adverse_event_id: int = 0
         self.model = AdverseEventModel()
@@ -25,9 +24,8 @@ class AdverseEventListViewModel(ViewModel):
         )
 
     async def _load_events(self, study_id: int, adverse_event_id: int):
-        self.events.clear()
         loaded_events = await self.model.list(study_id, adverse_event_id)
-        self.events.extend(loaded_events)
+        self.events.replace(loaded_events)
 
     async def _handle_event_saved(self, **kwargs):
         await self._load_events(self.study_id, self.adverse_event_id)
@@ -38,7 +36,7 @@ class AdverseEventListViewModel(ViewModel):
             self.study_id = int(study_id)
         else:
             self.study_id = 0
-            self.event_id = 0
+            self.adverse_event_id = 0
         self.adverse_event_id = 0
         self.events.clear()
 

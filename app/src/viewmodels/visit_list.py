@@ -1,15 +1,14 @@
 from typing import Any
 
-from nicegui.observables import ObservableList
-
 from src.models import VisitModel
+from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 
 
 class VisitListViewModel(ViewModel):
     def __init__(self):
         super().__init__()
-        self.visits = ObservableList()
+        self.visits = GridList()
         self.study_id: int = 0
         self.patient_id: int = 0
         self.selected_id: int = 0
@@ -25,10 +24,7 @@ class VisitListViewModel(ViewModel):
         self.model = VisitModel()
 
     async def _load_visits(self, study_id: int, patient_id: int):
-        self.visits.clear()
-        self.visits.extend(
-            [v.to_dict() for v in await self.model.list(study_id, patient_id)]
-        )
+        self.visits.replace([v.to_dict() for v in await self.model.list(study_id, patient_id)])
 
     async def _handle_visit_saved(self, **kwargs):
         await self._load_visits(self.study_id, self.patient_id)
