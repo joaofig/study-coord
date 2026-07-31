@@ -35,7 +35,16 @@
         "-y",
         "@modelcontextprotocol/server-memory"
       ],
-      "description": "Persistent knowledge graph — cross-session memory for architecture, conventions, and project context"
+      "description": "Persistent knowledge graph \u2014 cross-session memory for architecture, conventions, and project context"
+    },
+    "code-review-graph": {
+      "command": "uvx",
+      "args": [
+        "code-review-graph",
+        "serve"
+      ],
+      "cwd": "/Users/joafigu/code/python/study-coord",
+      "type": "stdio"
     }
   }
 }
