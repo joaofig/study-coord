@@ -28,12 +28,10 @@ class StudyResearcherGrid(View):
 
     async def _refresh_grid(self, **kwargs):
         await self.vm.call("load")
-        self._update_grid()
 
     def _update_grid(self):
         researchers = self.vm.get("researchers")
         self.grid.options["rowData"] = [r.to_dict() for r in researchers]
-        self.grid.update()
 
     def _build_grid(self) -> AgGrid:
         columns = [

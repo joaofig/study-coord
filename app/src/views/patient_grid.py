@@ -33,7 +33,6 @@ class StudyPatientGrid(View):
 
         patients: List[PatientDTO] = self.vm.get("patients")
         self.grid.options["rowData"] = [p.to_grid() for p in patients]
-        self.grid.update()
 
         # Restore the selected patient
         patient_id = self.vm.get("patient_id")

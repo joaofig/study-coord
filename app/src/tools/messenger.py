@@ -10,7 +10,8 @@ class Messenger:
     async def broadcast(self, message: str, **kwargs):
         if message in self.handlers.keys():
             for handler in self.handlers[message]:
-                await handler(**kwargs)
+                if handler is not None and isinstance(handler, Callable):
+                    await handler(**kwargs)
 
     async def send(self, message: str, **kwargs):
         await self.broadcast(message, **kwargs)

@@ -93,7 +93,6 @@ class ResearcherGrid(View):
     def _update_grid(self):
         # Update the grid's rowData with the new list of studies from the ViewModel
         self.grid.options["rowData"] = [s.to_dict() for s in self.researchers]
-        self.grid.update()
 
         # Restore the selected patient
         researcher_id = self.vm.get("selected_id")

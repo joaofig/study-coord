@@ -24,7 +24,6 @@ class StudyMonitoringGrid(View):
 
     def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("monitoring_visits")
-        self.grid.update()
 
     def _build_grid(self) -> AgGrid:
         columns = [

@@ -1,3 +1,5 @@
+import asyncio
+
 from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
@@ -34,14 +36,13 @@ class StudyVisitGrid(View):
         if row_data:
             await self._edit_visit(row_data["visit_id"])
 
-    def _update_grid(self):
+    async def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("visits")
-        self.grid.update()
 
         # Restore the selected visit
         visit_id = self.vm.get("selected_id")
         if visit_id != 0:
-            self.grid.run_row_method(visit_id, "setSelected", True)
+            await self.grid.run_row_method(visit_id, "setSelected", True)
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -105,7 +106,7 @@ class StudyVisitGrid(View):
         }
         ui.on("visit-row-edit", self._on_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
-        grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
+        grid.on("selectionChanged", lambda event: asyncio.create_task(self._row_selection_changed(event)))
         return grid
 
     async def _row_selection_changed(self, event):

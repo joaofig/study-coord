@@ -22,7 +22,6 @@ class StudyGrid(View):
     def _update_grid(self):
         # Update the grid's rowData with the new list of studies from the ViewModel
         self.grid.options["rowData"] = self.vm.get("studies")
-        self.grid.update()
 
         # Restore the selected study
         study_id = self.vm.get("selected_id")

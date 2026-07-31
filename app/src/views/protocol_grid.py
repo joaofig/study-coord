@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 from nicegui import ui, app
 from nicegui.elements.aggrid import AgGrid
@@ -21,7 +21,6 @@ class ProtocolGrid(View):
 
     def _update_grid(self):
         self.grid.options["rowData"] = self.vm.get("protocols")
-        self.grid.update()
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -84,7 +83,7 @@ class ProtocolGrid(View):
         vm = ProtocolViewModel()
         username = app.storage.user.get("username", "Unknown")
         vm.updated_by = username
-        vm.updated_at = date.today()
+        vm.updated_at = datetime.now()
 
         dlg = ProtocolDialog(vm=vm)
         vm.from_dict(protocol)
