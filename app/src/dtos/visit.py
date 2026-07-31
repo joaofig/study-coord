@@ -1,4 +1,5 @@
 from datetime import date
+from typing_extensions import Self
 
 from src.dtos.base import BaseDTO
 from src.dtos.patient import PatientDTO
@@ -16,8 +17,8 @@ class VisitDTO(BaseDTO):
     patient: PatientDTO | None = None
 
     @classmethod
-    def from_dict(cls, data: dict) -> "VisitDTO":
-        return VisitDTO(
+    def from_dict(cls, data: dict) -> Self:
+        return cls(
             visit_id=data.get("visit_id", 0),
             study_id=data.get("study_id", 0),
             patient_id=data.get("patient_id", 0),

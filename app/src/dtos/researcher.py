@@ -1,3 +1,5 @@
+from typing_extensions import Self
+
 from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_datetime
 
@@ -23,8 +25,8 @@ class ResearcherDTO(BaseDTO):
     study_count: int = 0
 
     @classmethod
-    def from_dict(cls, data: dict) -> "ResearcherDTO":
-        return ResearcherDTO(
+    def from_dict(cls, data: dict) -> Self:
+        return cls(
             researcher_id=data.get("researcher_id") or data.get("id") or 0,
             number=data.get("number", ""),
             name=data.get("name", ""),
@@ -76,8 +78,8 @@ class StudyResearcherRow(BaseDTO):
         } | super().to_dict()
 
     @classmethod
-    def from_dict(cls, data: dict) -> StudyResearcherRow:
-        return StudyResearcherRow(
+    def from_dict(cls, data: dict) -> Self:
+        return cls(
             sr_id=data.get("sr_id") or data.get("id") or 0,
             study_id=data.get("study_id", 0),
             researcher_id=data.get("researcher_id", 0),
@@ -98,8 +100,8 @@ class StudyResearcherDTO(BaseDTO):
     study_comments: str = ""
 
     @classmethod
-    def from_dict(cls, data: dict) -> StudyResearcherDTO:
-        return StudyResearcherDTO(
+    def from_dict(cls, data: dict) -> Self:
+        return cls(
             sr_id=data.get("sr_id") or data.get("id") or 0,
             study_id=data.get("study_id", 0),
             researcher_id=data.get("researcher_id", 0),

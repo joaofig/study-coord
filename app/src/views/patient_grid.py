@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from typing import List
 
 from nicegui import ui, app
@@ -27,6 +27,7 @@ class StudyPatientGrid(View):
         self._update_grid()
 
     def _update_grid(self):
+        # Avoid spurious updates
         if self.vm.get("can_update", True) is False:
             return
 
@@ -114,7 +115,7 @@ class StudyPatientGrid(View):
         vm = PatientViewModel()
         vm.from_dict(patient)
         vm.updated_by = app.storage.user.get("username", "Unknown")
-        vm.updated_at = date.today()
+        vm.updated_at = datetime.now()
 
         dlg = StudyPatientDialog(vm=vm)
 

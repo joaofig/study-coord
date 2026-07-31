@@ -1,5 +1,6 @@
 import hashlib
 from datetime import date
+from typing_extensions import Self
 
 from pydantic import BaseModel
 
@@ -22,8 +23,8 @@ class UserDTO(BaseModel):
     updated_by: str
 
     @classmethod
-    def from_dict(cls, data: dict) -> "UserDTO":
-        return UserDTO(
+    def from_dict(cls, data: dict) -> Self:
+        return cls(
             user_id=data.get("user_id", 0),
             user_name=data.get("user_name", ""),
             pass_hash=data.get("pass_hash", ""),

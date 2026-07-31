@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from typing_extensions import Self
 
 from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_datetime
@@ -34,8 +35,8 @@ class PatientDTO(BaseDTO):
     updated_by: str = ""
 
     @classmethod
-    def from_dict(cls, data: dict) -> "PatientDTO":
-        return PatientDTO(
+    def from_dict(cls, data: dict) -> Self:
+        return cls(
             patient_id=data.get("patient_id", 0),
             study_id=data.get("study_id", 0),
             number=data.get("number", ""),

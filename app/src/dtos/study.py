@@ -1,5 +1,6 @@
 from datetime import date
 from typing import Any
+from typing_extensions import Self
 
 from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_datetime
@@ -15,8 +16,8 @@ class StudyDTO(BaseDTO):
     comments: str | None
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "StudyDTO":
-        return StudyDTO(
+    def from_dict(cls, data: dict[str, Any]) -> Self:
+        return cls(
             study_id=data.get("study_id") or data.get("id") or 0,
             name=data.get("name", ""),
             sponsor=data.get("sponsor", ""),
@@ -59,8 +60,8 @@ class StudyRowDTO(BaseDTO):
     events: int = 0
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "StudyRowDTO":
-        return StudyRowDTO(
+    def from_dict(cls, data: dict[str, Any]) -> Self:
+        return cls(
             study_id=data.get("study_id") or data.get("id") or 0,
             name=data.get("name", ""),
             sponsor=data.get("sponsor", ""),

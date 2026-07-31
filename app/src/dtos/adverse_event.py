@@ -1,5 +1,7 @@
 from datetime import date
 
+from typing_extensions import Self
+
 from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_date, dict_to_datetime
 
@@ -16,8 +18,8 @@ class AdverseEventDTO(BaseDTO):
     patient_name: str = ""
 
     @classmethod
-    def from_dict(cls, data: dict) -> "AdverseEventDTO":
-        return AdverseEventDTO(
+    def from_dict(cls, data: dict) -> Self:
+        return cls(
             adverse_event_id=data.get("adverse_event_id", 0),
             study_id=data.get("study_id", 0),
             patient_id=data.get("patient_id", 0),
