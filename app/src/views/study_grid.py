@@ -11,10 +11,10 @@ from src.views.dialogs.study_dialog import StudyDialog
 class StudyGrid(View):
     def __init__(self, vm: ViewModel) -> None:
         super().__init__(vm)
-        self.grid = self._build_grid()
         self.studies = self.vm.get("studies")
         if isinstance(self.studies, ObservableList):
             self.studies.on_change(self._update_grid)
+        self.grid = self._build_grid()
 
     async def load(self):
         await self.vm.call("load")
@@ -120,7 +120,7 @@ class StudyGrid(View):
             "columnDefs": columns,
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
-            "rowData": [],
+            "rowData": self.studies,
             "rowSelection": {
                 "mode": "singleRow",
                 "checkboxes": False,

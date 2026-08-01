@@ -17,10 +17,7 @@ class StudyListViewModel(ViewModel):
 
     async def load(self):
         studies = await self.model.list()
-        if len(studies) == 0:
-            self.studies.clear()
-        else:
-            self.studies.replace([s.to_dict() for s in studies])
+        self.studies.replace([s.to_dict() for s in studies])
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

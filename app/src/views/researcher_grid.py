@@ -10,11 +10,11 @@ from src.views.view import View
 class ResearcherGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.grid = self._build_grid()
 
         self.researchers = self.vm.get("researchers")
         if isinstance(self.researchers, ObservableList):
             self.researchers.on_change(self._update_grid)
+        self.grid = self._build_grid()
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -41,7 +41,10 @@ class ResearcherGrid(View):
                 "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
-            {"headerName": "Name", "field": "name", "sortable": True, "align": "left"},
+            {
+                "headerName": "Name", "field": "name", "sortable": True, "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
+            },
             {
                 "headerName": "Phone",
                 "field": "phone",
@@ -67,12 +70,12 @@ class ResearcherGrid(View):
                 "headerName": "Studies",
                 "field": "study_count",
                 "sortable": True,
-                "align": "left",
+                "align": "right",
             },
         ]
         grid_def = {
             "columnDefs": columns,
-            "rowData": [],
+            "rowData": self.researchers,
             "rowSelection": {
                 "mode": "singleRow",
                 "checkboxes": False,
@@ -91,12 +94,11 @@ class ResearcherGrid(View):
 
     async def _update_grid(self):
         await self.grid.run_grid_method("setGridOption", "rowData", self.researchers)
-
-        # Restore the selected patient
+        # print(f"{self.researchers}")
+        # Restore the selected researcher
         researcher_id = self.vm.get("selected_id")
         if researcher_id != 0:
             await self.grid.run_row_method(researcher_id, "setSelected", True)
-
 
     async def _on_edit(self, event):
         row_data = event.args  # dict with the full row's data
@@ -122,3 +124,6 @@ class ResearcherGrid(View):
                 researcher=row,
                 researcher_id=row["researcher_id"],
             )
+
+    def show(self) -> AgGrid:
+        return self.grid

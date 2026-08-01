@@ -81,8 +81,7 @@ class StudyView(View):
                             ui.tooltip("Log Out")
 
                     with ui.column().classes("h-full flex-1"):
-                        grid = StudyGrid(self.vm)
-                        grid.show()
+                        StudyGrid(self.vm)
 
             with splitter.after:
                 StudyPanel(self.vm)

@@ -14,6 +14,55 @@ async def on_tab_change(event):
             await messenger.broadcast("load")
 
 
+def study_view():
+    from src.viewmodels import StudyListViewModel
+    from src.views.study_view import StudyView
+
+    study_vm = StudyListViewModel()
+    ManagedTasks().create(study_vm.load())
+    view = StudyView(study_vm)
+    view.show()
+
+
+def researcher_view():
+    from src.viewmodels import ResearcherListViewModel
+    from src.views.researcher_view import ResearcherView
+
+    researcher_vm = ResearcherListViewModel()
+    ManagedTasks().create(researcher_vm.load())
+    ResearcherView(researcher_vm)
+
+
+def report_view():
+    from src.views.report_view import ReportView
+    from src.viewmodels.report import ReportViewModel
+
+    vm = ReportViewModel()
+    ManagedTasks().create(vm.call("load"))
+    ReportView(vm)
+
+
+async def settings_view(user_id: int):
+    from src.views.settings_view import SettingsView
+
+    vm = UserViewModel()
+    repo = UserRepository()
+    user = await repo.load(user_id)
+    if user is not None:
+        vm.copy(user)
+    SettingsView(vm)
+    ManagedTasks().create(vm.call("load"))
+
+
+def admin_view():
+    from src.views.user_view import UserView
+    from src.viewmodels import UserListViewModel
+
+    vm = UserListViewModel()
+    UserView(vm)
+    ManagedTasks().create(vm.call("load"))
+
+
 async def main_view():
     user_role = app.storage.user.get("user_role", "User")
     user_id = app.storage.user.get("user_id", 0)
@@ -33,46 +82,17 @@ async def main_view():
             "h-full w-full"
         ):
             with ui.tab_panel(studies).classes("pl-4 pt-0 pb-0 pr-4"):
-                from src.views.study_view import StudyView
-                from src.viewmodels import StudyListViewModel
-
-                vm = StudyListViewModel()
-                ManagedTasks().create(vm.load())
-                view = StudyView(vm)
-                view.show()
+                study_view()
 
             with ui.tab_panel(researchers).classes("pl-4 pt-0 pb-0 pr-4"):
-                from src.viewmodels.researcher_list import ResearcherListViewModel
-                from src.views.researcher_view import ResearcherView
-
-                vm = ResearcherListViewModel()
-                ResearcherView(vm)
-                ManagedTasks().create(vm.call("load"))
+                researcher_view()
 
             with ui.tab_panel(reports).classes("pl-4 pt-0 pb-0 pr-4"):
-                from src.views.report_view import ReportView
-                from src.viewmodels.report import ReportViewModel
-
-                vm = ReportViewModel()
-                ReportView(vm)
-                ManagedTasks().create(vm.call("load"))
+                report_view()
 
             with ui.tab_panel(settings).classes("pl-4 pt-0 pb-0 pr-4"):
-                from src.views.settings_view import SettingsView
-
-                vm = UserViewModel()
-                repo = UserRepository()
-                user = await repo.load(user_id)
-                if user is not None:
-                    vm.copy(user)
-                SettingsView(vm)
-                ManagedTasks().create(vm.call("load"))
+                await settings_view(user_id)
 
             with ui.tab_panel(admin).classes("pl-4 pt-0 pb-0 pr-4"):
                 if user_role == "Admin":
-                    from src.views.user_view import UserView
-                    from src.viewmodels import UserListViewModel
-
-                    vm = UserListViewModel()
-                    UserView(vm)
-                    ManagedTasks().create(vm.call("load"))
+                    admin_view()
