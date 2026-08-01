@@ -28,7 +28,7 @@ class StudyPatientGrid(View):
         await self.grid.run_grid_method("setGridOption", "rowData", self.patients)
 
         # Restore the selected patient
-        patient_id = self.vm.get("patient_id")
+        patient_id = self.vm.get("selected_id")
         if patient_id != 0:
             await self.grid.run_row_method(patient_id, "setSelected", True)
 

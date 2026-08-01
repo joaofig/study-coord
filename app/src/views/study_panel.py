@@ -23,18 +23,16 @@ class StudyPanel(View):
         super().__init__(vm)
         self.children = {}
 
-        with ui.splitter(value=50).classes("w-full h-full") as splitter:
-            with splitter.after:  # as splitter_right:
-                self.patient_detail_panel()
-                # self.container = ui.column().classes("h-full w-full pl-0 pt-0 pb-0 pr-0")
-
-            with splitter.before:
-                self.study_pane()
+        self.study_detail_panel()
 
     def patient_panel(self):
-        vm = PatientListViewModel()
-        panel = StudyPatientPanel(vm)
-        panel.show()
+        with ui.splitter(value=50).classes("w-full h-full") as splitter:
+            with splitter.before:
+                patient_vm = PatientListViewModel()
+                panel = StudyPatientPanel(patient_vm)
+                panel.show()
+            with splitter.after:  # as splitter_right:
+                self.patient_detail_panel(patient_vm)
 
     def monitoring_panel(self):
         panel = StudyMonitoringPanel(MonitoringListViewModel())
@@ -56,76 +54,56 @@ class StudyPanel(View):
         panel = EventPanel(AdverseEventListViewModel())
         panel.show()
 
-    def patient_detail_panel(self):
-        with ui.column().classes("h-full w-full pl-0 pt-0 pb-0 pr-0") as container:
-            with (
-                ui.tabs()
-                .props("dense no-caps")
-                .bind_visibility(self.vm, "selected_id") as tabs
-            ):
+    def patient_detail_panel(self, patient_vm: ViewModel):
+        with ui.column().classes("h-full w-full p-0") \
+                .bind_visibility(patient_vm, "selected_id") as container:
+            ui.separator()
+            with ui.tabs().props("dense no-caps").bind_visibility(self.vm, "selected_id") as tabs:
                 visits = ui.tab("Visits").classes("text-sky-800")
                 events = ui.tab("Events").classes("text-sky-800")
-            with ui.tab_panels(tabs, value=visits, animated=False).classes(
-                "w-full h-full"
-            ):
-                with (
-                    ui.tab_panel(visits)
-                    .bind_visibility(self.vm, "selected_id")
-                    .classes("pl-4 pt-0 pb-0 pr-0")
-                ):
+
+            with ui.tab_panels(tabs, value=visits, animated=False).classes("w-full h-full"):
+                with ui.tab_panel(visits) \
+                        .classes("pl-4 pt-0 pb-0 pr-0"):
                     self.visits_panel()
 
-                with (
-                    ui.tab_panel(events)
-                    .bind_visibility(self.vm, "selected_id")
-                    .classes("pl-4 pt-0 pb-0 pr-0")
-                ):
+                with ui.tab_panel(events) \
+                        .classes("pl-4 pt-0 pb-0 pr-0"):
                     self.events_panel()
+
         self.children["Patients"] = container
-        container.set_visibility(False)
 
     def on_tab_change(self, tab: ValueChangeEventArguments):
         for name, view in self.children.items():
             view.set_visibility(name == tab.value)
 
-    def study_pane(self):
-        with (
-            ui.tabs(on_change=self.on_tab_change)
-            .props("dense no-caps")
-            .bind_visibility(self.vm, "selected_id") as tabs
-        ):
+    def study_detail_panel(self):
+        with ui.tabs() \
+                .props("dense no-caps") \
+                .bind_visibility(self.vm, "selected_id") as tabs:
             patients = ui.tab("Patients").classes("text-sky-800")
             monitoring = ui.tab("Monitoring").classes("text-sky-800")
             researchers = ui.tab("Researchers").classes("text-sky-800")
             protocols = ui.tab("Protocol").classes("text-sky-800")
 
-        with ui.tab_panels(tabs, value=patients, animated=False).classes(
-            "w-full h-full"
-        ):
-            with (
-                ui.tab_panel(patients)
-                .classes("pl-0 pt-0 pb-0 pr-0")
-                .bind_visibility(self.vm, "selected_id")
-            ):
+        with ui.tab_panels(tabs, value=patients, animated=False) \
+                .classes("w-full h-full"):
+            with ui.tab_panel(patients) \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
                 self.patient_panel()
 
-            with (
-                ui.tab_panel(monitoring)
-                .classes("pl-0 pt-0 pb-0 pr-0")
-                .bind_visibility(self.vm, "selected_id")
-            ):
+            with ui.tab_panel(monitoring) \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
                 self.monitoring_panel()
 
-            with (
-                ui.tab_panel(researchers)
-                .classes("pl-0 pt-0 pb-0 pr-0")
-                .bind_visibility(self.vm, "selected_id")
-            ):
+            with ui.tab_panel(researchers) \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
                 self.researcher_panel()
 
-            with (
-                ui.tab_panel(protocols)
-                .classes("pl-0 pt-0 pb-0 pr-0")
-                .bind_visibility(self.vm, "selected_id")
-            ):
+            with ui.tab_panel(protocols) \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
                 self.protocol_panel()

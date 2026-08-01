@@ -44,21 +44,19 @@ class EventDialog(View):
                     ).classes("w-full")
 
                 with ui.column().classes("flex-1"):
-                    ui.date_input(label="Date").bind_value(self.vm, "date").classes(
-                        "w-full"
-                    )
+                    ui.date_input(label="Date")\
+                        .bind_value(self.vm, "event_date") \
+                        .classes("w-full")
 
-                    ui.input(
-                        label="Event Type", validation=validate_required
-                    ).bind_value(self.vm, "event_type").classes("w-full")
+                    ui.input(label="Event Type", validation=validate_required) \
+                        .bind_value(self.vm, "event_type") \
+                        .classes("w-full")
 
-                    ui.input(
-                        label="Description", validation=validate_required
-                    ).bind_value(self.vm, "description").classes("w-full")
+                    ui.input(label="Description", validation=validate_required) \
+                        .bind_value(self.vm, "description") \
+                        .classes("w-full")
 
-                    ui.textarea(label="Comments").bind_value(
-                        self.vm, "comments"
-                    ).classes("w-full")
+                    ui.textarea(label="Comments").bind_value(self.vm, "comments").classes("w-full")
 
             ui.markdown().classes("bg-orange-200 w-full") \
                 .bind_content_from(self.vm, "validation") \
