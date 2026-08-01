@@ -10,7 +10,7 @@ class AdverseEventListViewModel(ViewModel):
         super().__init__()
         self.events = GridList()
         self.study_id: int = 0
-        self.adverse_event_id: int = 0
+        self.selected_id: int = 0
         self.model = AdverseEventModel()
 
         self.subscribe(
@@ -28,7 +28,7 @@ class AdverseEventListViewModel(ViewModel):
         self.events.replace(loaded_events)
 
     async def _handle_event_saved(self, **kwargs):
-        await self._load_events(self.study_id, self.adverse_event_id)
+        await self._load_events(self.study_id, self.selected_id)
 
     async def _handle_study_selected(self, **kwargs):
         study_id = kwargs.get("study_id", 0)
@@ -36,40 +36,40 @@ class AdverseEventListViewModel(ViewModel):
             self.study_id = int(study_id)
         else:
             self.study_id = 0
-            self.adverse_event_id = 0
-        self.adverse_event_id = 0
+            self.selected_id = 0
+        self.selected_id = 0
         self.events.clear()
 
     async def _handle_patient_selected(self, **kwargs):
-        patient_id = kwargs.get("adverse_event_id", 0)
+        patient_id = kwargs.get("selected_id", 0)
         if patient_id:
-            self.adverse_event_id = int(patient_id)
-            await self._load_events(self.study_id, self.adverse_event_id)
+            self.selected_id = int(patient_id)
+            await self._load_events(self.study_id, self.selected_id)
         else:
-            self.adverse_event_id = 0
+            self.selected_id = 0
             self.events.clear()
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
                 self.study_id = kwargs.get("study_id", self.study_id)
-                self.adverse_event_id = kwargs.get(
-                    "adverse_event_id", self.adverse_event_id
+                self.selected_id = kwargs.get(
+                    "selected_id", self.selected_id
                 )
-                if self.study_id and self.adverse_event_id:
-                    await self._load_events(self.study_id, self.adverse_event_id)
+                if self.study_id and self.selected_id:
+                    await self._load_events(self.study_id, self.selected_id)
 
             case "event_selected":
-                adverse_event_id = kwargs.get("adverse_event_id", 0)
+                adverse_event_id = kwargs.get("selected_id", 0)
                 if adverse_event_id:
-                    self.adverse_event_id = adverse_event_id
+                    self.selected_id = adverse_event_id
 
             case "event_unselected":
-                self.adverse_event_id = 0
+                self.selected_id = 0
 
             case "delete":
-                adverse_event_id = kwargs.get("adverse_event_id", 0)
+                adverse_event_id = kwargs.get("selected_id", 0)
                 if adverse_event_id:
                     await self.model.delete(adverse_event_id)
-                    await self._load_events(self.study_id, self.adverse_event_id)
+                    await self._load_events(self.study_id, self.selected_id)
         return None

@@ -20,7 +20,7 @@ class AdverseEventDTO(BaseDTO):
     @classmethod
     def from_dict(cls, data: dict) -> Self:
         return cls(
-            adverse_event_id=data.get("adverse_event_id", 0),
+            adverse_event_id=data.get("selected_id", 0),
             study_id=data.get("study_id", 0),
             patient_id=data.get("patient_id", 0),
             event_date=dict_to_date(data, "event_date"),
@@ -37,7 +37,7 @@ class AdverseEventDTO(BaseDTO):
 
     def to_dict(self) -> dict:
         return {
-            "adverse_event_id": self.adverse_event_id,
+            "selected_id": self.adverse_event_id,
             "study_id": self.study_id,
             "patient_id": self.patient_id,
             "event_date": self.event_date.isoformat(),

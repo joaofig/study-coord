@@ -15,7 +15,7 @@ async def test_adverse_event_view_model_save():
     vm.description = "Test Event"
     
     with patch("src.models.adverse_event.AdverseEventModel.repo") as mock_repo:
-        mock_repo.save = AsyncMock(return_value={"adverse_event_id": 301})
+        mock_repo.save = AsyncMock(return_value={"selected_id": 301})
         
         # Action
         await vm.save()
@@ -68,7 +68,7 @@ async def test_adverse_event_list_view_model_load():
         # Verify
         assert len(vm.events) == 2
         assert vm.study_id == 1
-        assert vm.adverse_event_id == 101
+        assert vm.selected_id == 101
         assert vm.events[0].event_type == "E1"
 
 

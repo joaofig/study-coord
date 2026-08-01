@@ -103,7 +103,7 @@ class EventGrid(View):
                 "checkboxes": False,
                 "enableClickSelection": True,
             },
-            ":getRowId": "(params) => String(params.data.adverse_event_id)",
+            ":getRowId": "(params) => String(params.data.selected_id)",
         }
         ui.on("event-row-edit", self._on_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
@@ -113,7 +113,7 @@ class EventGrid(View):
     async def _row_selection_changed(self, event):
         row = await self.grid.get_selected_row()
         if row:
-            await self.vm.call("event_selected", event_id=row["adverse_event_id"])
+            await self.vm.call("event_selected", event_id=row["selected_id"])
         else:
             await self.vm.call("event_unselected")
 

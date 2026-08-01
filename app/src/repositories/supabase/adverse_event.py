@@ -17,7 +17,7 @@ class AdverseEventRepository(SupabaseRepository):
             result = (
                 await self.supabase.table(TABLE)
                 .select("*")
-                .eq("adverse_event_id", adverse_event_id)
+                .eq("selected_id", adverse_event_id)
                 .execute()
             ).data
             if result:
@@ -65,6 +65,6 @@ class AdverseEventRepository(SupabaseRepository):
                 await (
                     self.supabase.table(TABLE)
                     .delete()
-                    .eq("adverse_event_id", adverse_event_id)
+                    .eq("selected_id", adverse_event_id)
                     .execute()
                 )
