@@ -47,7 +47,7 @@ class StudyResearcherPanel(View):
             selected_id = self.vm.get("selected_id")
             if selected_id:
                 researcher_id = selected_id
-                await self.vm.call("delete_researcher", researcher_id=researcher_id)
+                await self.vm.call("delete", researcher_id=researcher_id)
             await self.broadcast("study_list", "load")
 
     def show(self):

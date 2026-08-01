@@ -24,7 +24,7 @@ class ResearcherView(View):
                     ui.tooltip("Add Researcher")
 
                 with (
-                    ui.button(icon="delete")
+                    ui.button(icon="delete", on_click=self._on_delete_researcher)
                     .bind_enabled(self.vm, "selected_id")
                     .classes("text-xs")
                     .props("padding=xs color=red")
@@ -55,10 +55,8 @@ class ResearcherView(View):
         result = await dialog.show()
         if result == "delete":
             dialog.close()
-            researcher_id = self.vm.get("researcher_id")
-            await self.vm.call("delete_researcher", researcher_id=researcher_id)
-            await self.vm.call("load")
-            await self.broadcast("researcher_list", "load")
+            researcher_id = self.vm.get("selected_id")
+            await self.vm.call("delete", researcher_id=researcher_id)
 
     async def _show_dialog(self):
         vm = ResearcherViewModel()

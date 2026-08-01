@@ -58,10 +58,10 @@ class StudyResearcherListViewModel(ViewModel):
             case "researcher_unselected":
                 self.selected_id = 0
 
-            case "delete_researcher":
+            case "delete":
                 if "researcher_id" in kwargs:
                     researcher_id = kwargs["researcher_id"]
-                    await self._delete_researcher(researcher_id)
+                    self.researchers.delete("researcher_id", researcher_id)
         return None
 
     async def _on_load(self, **kwargs):

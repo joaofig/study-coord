@@ -47,9 +47,7 @@ class StudyVisitPanel(View):
             dialog.close()
             visit_id = self.vm.get("visit_id")
             if visit_id:
-                await self.vm.call("delete_visit", visit_id=visit_id)
-                # await self.vm.call("load", study_id=self.study_id)
-            await self.broadcast("study_list", "load")
+                await self.vm.call("delete", visit_id=visit_id)
 
     def show(self):
         with ui.row().classes("w-full h-full"):

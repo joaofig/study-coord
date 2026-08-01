@@ -63,4 +63,9 @@ class VisitListViewModel(ViewModel):
 
             case "visit_selected":
                 self.selected_id = kwargs.get("visit_id", 0)
+
+            case "delete":
+                visit_id = kwargs.get("visit_id", 0)
+                if visit_id:
+                    self.visits.delete("visit_id", visit_id)
         return None

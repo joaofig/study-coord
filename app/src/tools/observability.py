@@ -39,3 +39,7 @@ class GridList(ObservableList):
     def replace(self, new_items: Iterable):
         list.clear(self)
         self.extend(new_items)
+
+    def delete(self, key: str, value: Any):
+        removed = [r for r in self if r[key] != value]
+        self.replace(removed)
