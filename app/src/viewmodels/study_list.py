@@ -24,7 +24,7 @@ class StudyListViewModel(ViewModel):
                 await self.load()
 
             case "study_saved":
-                study = kwargs["study"]
+                # study = kwargs["study"]
                 # self.studies.append(study.to_dict())
                 await self.load()
 

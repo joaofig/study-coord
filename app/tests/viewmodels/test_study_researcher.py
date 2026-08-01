@@ -97,7 +97,7 @@ async def test_study_researcher_list_view_model_load():
 
         # Verify
         assert len(vm.researchers) == 2
-        assert vm.researchers[0].sr_id == 1
+        assert vm.researchers[0]["sr_id"] == 1
 
 
 @pytest.mark.asyncio

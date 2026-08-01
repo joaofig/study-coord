@@ -70,7 +70,7 @@ async def test_patient_list_view_model_load():
         # Verify
         assert len(vm.patients) == 2
         assert vm.study_id == 1
-        assert vm.patients[0].name == "P1"
+        assert vm.patients[0]["name"] == "P1"
 
 @pytest.mark.asyncio
 async def test_patient_list_view_model_delete():

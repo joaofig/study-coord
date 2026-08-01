@@ -39,7 +39,7 @@ class PatientListViewModel(ViewModel):
         else:
             self.study_id = 0
             self.patients.clear()
-        self.patient_id = 0
+        self.selected_id = 0
 
     async def _handle_load(self, **kwargs):
         await self._load_patients(self.study_id)
@@ -59,12 +59,12 @@ class PatientListViewModel(ViewModel):
                     await self.broadcast(
                         channel="patient",
                         message="selected",
-                        patient_id=self.patient_id,
+                        patient_id=self.selected_id,
                     )
 
             case "delete_patient":
                 patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
-                    await self.model.delete(self.patient_id)
+                    await self.model.delete(patient_id)
                     self.patients.delete("patient_id", patient_id)
         return None

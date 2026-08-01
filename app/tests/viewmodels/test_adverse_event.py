@@ -70,7 +70,7 @@ async def test_adverse_event_list_view_model_load():
         # Verify
         assert len(vm.events) == 2
         assert vm.study_id == 1
-        assert vm.selected_id == 101
+        assert vm.patient_id == 101
         assert vm.events[0].event_type == "E1"
 
 

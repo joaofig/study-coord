@@ -66,8 +66,8 @@ async def test_researcher_list_view_model_load():
         
         # Verify
         assert len(vm.researchers) == 2
-        assert vm.researchers[0].name == "R1"
-        assert vm.researchers[1].name == "R2"
+        assert vm.researchers[0]["name"] == "R1"
+        assert vm.researchers[1]["name"] == "R2"
 
 @pytest.mark.asyncio
 async def test_researcher_list_view_model_delete():

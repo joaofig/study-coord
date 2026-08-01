@@ -39,8 +39,8 @@ async def test_user_list_view_model_load():
 
         # Verify
         assert len(vm.users) == 2
-        assert vm.users[0].user_name == "user1"
-        assert vm.users[1].user_name == "user2"
+        assert vm.users[0]["user_name"] == "user1"
+        assert vm.users[1]["user_name"] == "user2"
 
 
 @pytest.mark.asyncio
