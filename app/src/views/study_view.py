@@ -1,14 +1,13 @@
 from nicegui import ui
-
-from src.tools.user import logout
 from src.tools.excel import export_to_excel
+from src.tools.user import logout
 from src.viewmodels import StudyViewModel
 from src.viewmodels.view_model import ViewModel
+from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
+from src.views.dialogs.study_dialog import StudyDialog
 from src.views.study_grid import StudyGrid
 from src.views.study_panel import StudyPanel
 from src.views.view import View
-from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.views.dialogs.study_dialog import StudyDialog
 
 
 class StudyView(View):
@@ -52,14 +51,10 @@ class StudyView(View):
                             .props("padding=xs")
                         ):
                             ui.tooltip("Add Study")
-                        with (
-                            ui.button(
-                                icon="delete", on_click=lambda: self._on_delete_study()
-                            )
-                            .bind_enabled(self.vm, "selected_id")
-                            .classes("text-xs")
-                            .props("color=red padding=xs")
-                        ):
+                        with ui.button(icon="delete", on_click=lambda: self._on_delete_study()) \
+                                .bind_enabled(self.vm, "selected_id") \
+                                .classes("text-xs") \
+                                .props("color=red padding=xs"):
                             ui.tooltip("Delete Study")
                         with (
                             ui.button(

@@ -1,16 +1,13 @@
 import asyncio
 from datetime import datetime
-from typing import List
 
-from nicegui import ui, app
+from nicegui import app, ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
-
-from src.dtos.patient import PatientDTO
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.view import View
 from src.views.dialogs.patient_dialog import StudyPatientDialog
+from src.views.view import View
 
 
 class StudyPatientGrid(View):

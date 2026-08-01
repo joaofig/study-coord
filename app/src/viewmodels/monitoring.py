@@ -2,7 +2,6 @@ from datetime import date, datetime
 from typing import Any
 
 from nicegui import binding
-
 from src.dtos.monitoring import MonitoringDTO
 from src.models import MonitoringModel
 from src.tools.messenger import send_message

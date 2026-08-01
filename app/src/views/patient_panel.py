@@ -1,15 +1,14 @@
 import datetime
 from datetime import datetime
 
-from nicegui import ui, app
-
+from nicegui import app, ui
+from src.tools.excel import export_to_excel
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.patient_grid import StudyPatientGrid
-from src.views.dialogs.patient_dialog import StudyPatientDialog
-from src.views.view import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.tools.excel import export_to_excel
+from src.views.dialogs.patient_dialog import StudyPatientDialog
+from src.views.patient_grid import StudyPatientGrid
+from src.views.view import View
 
 
 class StudyPatientPanel(View):
@@ -59,12 +58,10 @@ class StudyPatientPanel(View):
                 ):
                     ui.tooltip("Add Patient")
 
-                with (
-                    ui.button(icon="delete", on_click=lambda: self._on_delete_patient())
-                    .bind_enabled(self.vm, "patient_id")
-                    .classes("text-xs")
-                    .props("color=red padding=xs")
-                ):
+                with ui.button(icon="delete", on_click=lambda: self._on_delete_patient()) \
+                        .bind_enabled(self.vm, "selected_id") \
+                        .classes("text-xs") \
+                        .props("color=red padding=xs"):
                     ui.tooltip("Delete Patient")
 
                 with (

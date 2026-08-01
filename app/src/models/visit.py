@@ -1,4 +1,5 @@
-from typing import List
+
+import builtins
 
 from src.dtos.visit import VisitDTO
 from src.repositories import VisitRepository
@@ -18,5 +19,5 @@ class VisitModel:
     async def delete(self, visit_id: int):
         await self.repo.delete(visit_id)
 
-    async def list(self, study_id: int, patient_id: int = 0) -> List[VisitDTO]:
+    async def list(self, study_id: int, patient_id: int = 0) -> builtins.list[VisitDTO]:
         return await self.repo.list(study_id, patient_id)

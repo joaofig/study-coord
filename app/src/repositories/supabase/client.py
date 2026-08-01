@@ -1,7 +1,8 @@
 import os
 
 from dotenv import load_dotenv
-from supabase._async.client import AsyncClient as Client, create_client
+from supabase._async.client import AsyncClient as Client
+from supabase._async.client import create_client
 
 
 async def get_supabase_client() -> Client:

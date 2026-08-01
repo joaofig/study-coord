@@ -1,15 +1,15 @@
 import asyncio
-from collections.abc import Iterable
-from typing import Callable, Mapping, Any, Coroutine, Set
+from collections.abc import Callable, Coroutine, Iterable, Mapping
+from typing import Any
 
-from nicegui.observables import ObservableList, ObservableCollection
+from nicegui.observables import ObservableCollection, ObservableList
 
 ObserverHandler = Callable[[str, Mapping[str, Any]], None] | Coroutine[Any, Any, None]
 
 
 class Observable:
     def __init__(self, **kwargs):
-        self._handlers: Set[ObserverHandler] = set()
+        self._handlers: set[ObserverHandler] = set()
         super().__init__(**kwargs)
 
     def register(self, handler: ObserverHandler):

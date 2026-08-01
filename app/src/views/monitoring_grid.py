@@ -1,22 +1,23 @@
-from nicegui import ui, app
+from nicegui import app, ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
-
 from src.viewmodels.monitoring import MonitoringViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.view import View
 from src.views.dialogs.monitoring_dialog import StudyMonitoringDialog
+from src.views.view import View
 
 
 class StudyMonitoringGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.grid: AgGrid = self._build_grid()
-        self.subscribe("monitoring", "saved", self._on_monitoring_saved)
 
         self.monitoring_visits = self.vm.get("monitoring_visits")
         if isinstance(self.monitoring_visits, ObservableList):
             self.monitoring_visits.on_change(self._update_grid)
+
+        self.grid: AgGrid = self._build_grid()
+        self.subscribe("monitoring", "saved", self._on_monitoring_saved)
+
 
     async def _on_monitoring_saved(self, **kwargs):
         await self.vm.call("load")
@@ -67,7 +68,7 @@ class StudyMonitoringGrid(View):
         ]
         grid_def = {
             "columnDefs": columns,
-            "rowData": [],
+            "rowData": self.monitoring_visits,
             "rowSelection": {
                 "mode": "singleRow",
                 "checkboxes": False,

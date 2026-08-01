@@ -1,8 +1,8 @@
-from typing import List
+
+import builtins
 
 from src.dtos.adverse_event import AdverseEventDTO
 from src.repositories.supabase.base import SupabaseRepository
-
 
 TABLE = "adverse_event"
 
@@ -26,7 +26,7 @@ class AdverseEventRepository(SupabaseRepository):
 
     async def list(
         self, *, study_id: int, patient_id: int = 0
-    ) -> List[AdverseEventDTO]:
+    ) -> builtins.list[AdverseEventDTO]:
         await self.connect()
         if self.supabase:
             if patient_id:

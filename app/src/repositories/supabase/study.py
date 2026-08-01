@@ -1,8 +1,8 @@
-from typing import List
+
+import builtins
 
 from src.dtos.study import StudyDTO, StudyRowDTO
 from src.repositories.supabase.base import SupabaseRepository
-
 
 TABLE = "study"
 
@@ -23,7 +23,7 @@ class StudyRepository(SupabaseRepository):
             return bool(result)
         return False
 
-    async def list(self) -> List[StudyRowDTO]:
+    async def list(self) -> builtins.list[StudyRowDTO]:
         await self.connect()
         if self.supabase:
             # We are reading from a view, not a table
@@ -53,4 +53,3 @@ class StudyRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             await self.supabase.table(TABLE).delete().eq("study_id", study_id).execute()
-        return None

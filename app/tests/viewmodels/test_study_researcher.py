@@ -1,8 +1,10 @@
-import pytest
 from unittest.mock import AsyncMock, patch
+
+import pytest
+from src.dtos.researcher import ResearcherDTO as Researcher
+from src.dtos.researcher import StudyResearcherDTO
 from src.viewmodels.study_researcher import StudyResearcherViewModel
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
-from src.dtos.researcher import ResearcherDTO as Researcher, StudyResearcherDTO
 
 
 @pytest.mark.asyncio

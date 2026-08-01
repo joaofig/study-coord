@@ -1,13 +1,12 @@
 from dataclasses import field
 from datetime import date, datetime
-from typing import Dict, Any
+from typing import Any
 
 from nicegui import binding
-
-from src.models import PatientModel
-from src.models import VisitModel
 from src.dtos.visit import VisitDTO
+from src.models import PatientModel, VisitModel
 from src.tools.validation import is_date
+
 from .patient import PatientViewModel
 from .view_model import ViewModel
 
@@ -33,7 +32,7 @@ class VisitViewModel(ViewModel):
     patient_name: str = ""
     patient_number: str = ""
 
-    patients: Dict[int, str] = field(default_factory=dict)
+    patients: dict[int, str] = field(default_factory=dict)
     selection: PatientViewModel = field(default_factory=PatientViewModel)
 
     model = VisitModel()

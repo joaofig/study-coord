@@ -6,14 +6,13 @@ from src.viewmodels.view_model import ViewModel
 
 
 class StudyListViewModel(ViewModel):
-    studies = GridList()
     selected_id: int = 0
-    model: StudyModel = StudyModel()
 
     def __init__(self):
         super().__init__()
-        self.selected_id: int = 0
+        self.studies = GridList()
         self.subscribe("study_list", "load", self._on_load)
+        self.model: StudyModel = StudyModel()
 
     async def load(self):
         studies = await self.model.list()

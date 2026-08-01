@@ -1,13 +1,12 @@
 import asyncio
 
-from nicegui import ui, app
+from nicegui import app, ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
-
 from src.viewmodels.view_model import ViewModel
 from src.viewmodels.visit import VisitViewModel
-from src.views.view import View
 from src.views.dialogs.visit_dialog import StudyVisitDialog
+from src.views.view import View
 
 
 class StudyVisitGrid(View):

@@ -3,14 +3,13 @@ import os
 from dotenv import load_dotenv
 from fastapi import Request
 from fastapi.responses import RedirectResponse
-from nicegui import context, ui, app
-from starlette.middleware.base import BaseHTTPMiddleware
-
+from nicegui import app, context, ui
 from src.dtos.user import UserDTO, hash_password
 from src.models import UserModel
-from src.views.main import main_view
 from src.viewmodels import UserViewModel
 from src.views.dialogs.password_dialog import PasswordDialog
+from src.views.main import main_view
+from starlette.middleware.base import BaseHTTPMiddleware
 
 # top-level static routes like /favicon.ico must be unrestricted, otherwise the middleware redirects them to /login
 unrestricted_page_routes = {"/favicon.ico", "/login"}

@@ -1,5 +1,4 @@
 from nicegui import ui
-
 from src.viewmodels.view_model import ViewModel
 from src.views.view import View
 

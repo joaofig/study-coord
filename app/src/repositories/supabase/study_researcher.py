@@ -1,4 +1,5 @@
-from typing import List
+
+import builtins
 
 from src.dtos.researcher import StudyResearcherDTO, StudyResearcherRow
 from src.repositories.supabase.base import SupabaseRepository
@@ -20,7 +21,7 @@ class StudyResearcherRepository(SupabaseRepository):
                 return StudyResearcherDTO.from_dict(result[0])
         return None
 
-    async def list(self, study_id: int) -> List[StudyResearcherRow]:
+    async def list(self, study_id: int) -> builtins.list[StudyResearcherRow]:
         await self.connect()
         if self.supabase:
             result = (
@@ -42,7 +43,6 @@ class StudyResearcherRepository(SupabaseRepository):
                 .eq("researcher_id", researcher_id)
                 .execute()
             )
-        return None
 
     async def save(self, sr: StudyResearcherDTO) -> None:
         await self.insert_or_update(TABLE, sr.to_dict())
@@ -51,4 +51,3 @@ class StudyResearcherRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             await self.supabase.table(TABLE).delete().eq("study_id", study_id).execute()
-        return None

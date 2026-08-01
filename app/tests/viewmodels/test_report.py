@@ -1,6 +1,8 @@
-import pytest
 from unittest.mock import AsyncMock, patch
+
+import pytest
 from src.viewmodels.report import ReportViewModel
+
 
 @pytest.mark.asyncio
 async def test_report_view_model_load():

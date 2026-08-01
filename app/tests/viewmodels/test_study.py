@@ -1,10 +1,10 @@
-from typing import List
+import builtins
 from unittest.mock import AsyncMock, patch
 
 import pytest
 from nicegui import ui
-
-from src.dtos.study import StudyDTO as Study, StudyRowDTO as StudyRow
+from src.dtos.study import StudyDTO as Study
+from src.dtos.study import StudyRowDTO as StudyRow
 from src.viewmodels.study import StudyViewModel
 from src.viewmodels.study_list import StudyListViewModel
 
@@ -66,13 +66,13 @@ def make_study_row(study_id: int = EXISTING_STUDY_ID) -> StudyRow:
 @pytest.fixture
 def fake_repository():
     class FakeStudyRepository:
-        rows: List[StudyRow] = []
+        rows: builtins.list[StudyRow] = []
         studies_by_id: dict[int, Study] = {}
-        requested_ids: List[int] = []
-        saved_studies: List[Study] = []
+        requested_ids: builtins.list[int] = []
+        saved_studies: builtins.list[Study] = []
 
         @classmethod
-        async def list(cls) -> List[StudyRow]:
+        async def list(cls) -> builtins.list[StudyRow]:
             return cls.rows
 
         @classmethod

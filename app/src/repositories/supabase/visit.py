@@ -1,9 +1,9 @@
-from typing import List
 
-from src.repositories import PatientRepository
+import builtins
+
 from src.dtos.visit import VisitDTO
+from src.repositories import PatientRepository
 from src.repositories.supabase.base import SupabaseRepository
-
 
 TABLE = "visit"
 
@@ -28,7 +28,7 @@ class VisitRepository(SupabaseRepository):
                 return visit
         return None
 
-    async def list(self, study_id: int, patient_id: int = 0) -> List[VisitDTO]:
+    async def list(self, study_id: int, patient_id: int = 0) -> builtins.list[VisitDTO]:
         await self.connect()
         if self.supabase:
             if patient_id == 0:

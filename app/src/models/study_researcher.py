@@ -1,7 +1,8 @@
-from typing import List
+
+import builtins
 
 from src.dtos.researcher import StudyResearcherDTO, StudyResearcherRow
-from src.models import StudyModel, ResearcherModel
+from src.models import ResearcherModel, StudyModel
 from src.repositories import StudyResearcherRepository
 
 
@@ -21,7 +22,7 @@ class StudyResearcherModel:
                 dto.study = await study_model.load(dto.study_id)
         return dto
 
-    async def list(self, study_id: int) -> List[StudyResearcherRow]:
+    async def list(self, study_id: int) -> builtins.list[StudyResearcherRow]:
         return await self.repo.list(study_id)
 
     async def delete(self, researcher_id: int) -> None:

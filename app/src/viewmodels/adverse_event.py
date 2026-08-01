@@ -1,9 +1,8 @@
 from dataclasses import field
 from datetime import date, datetime
-from typing import Dict, Any
+from typing import Any
 
 from nicegui import binding
-
 from src.dtos.adverse_event import AdverseEventDTO
 from src.models import AdverseEventModel, PatientModel
 from src.viewmodels.patient import PatientViewModel
@@ -32,7 +31,7 @@ class AdverseEventViewModel(ViewModel):
     is_invalid: bool = False
     validation: str = ""
 
-    patients: Dict[int, str] = field(default_factory=dict)
+    patients: dict[int, str] = field(default_factory=dict)
     selection = PatientViewModel()
 
     model: AdverseEventModel = AdverseEventModel()

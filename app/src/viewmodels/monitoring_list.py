@@ -14,7 +14,9 @@ class MonitoringListViewModel(ViewModel):
     def __init__(self):
         super().__init__()
         self.subscribe(
-            channel="study", message="selected", handler=self._handle_study_selected
+            channel="study",
+            message="selected",
+            handler=self._handle_study_selected
         )
 
     async def _load_monitoring(self, study_id: int):
@@ -23,14 +25,10 @@ class MonitoringListViewModel(ViewModel):
         )
 
     async def _handle_study_selected(self, **kwargs):
-        study_id = kwargs.get("study_id")
+        study_id = kwargs.get("study_id", 0)
         if study_id:
-            self.study_id = int(str(study_id))
+            self.study_id = study_id
             await self._load_monitoring(self.study_id)
-        else:
-            self.study_id = 0
-            self.selected_id = 0
-            self.monitoring_visits.clear()
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
@@ -41,15 +39,14 @@ class MonitoringListViewModel(ViewModel):
                     await self._load_monitoring(self.study_id)
 
             case "monitoring_selected":
-                monitoring_id = kwargs.get("selected_id", 0)
+                monitoring_id = kwargs.get("monitoring_id", 0)
                 if monitoring_id:
                     self.selected_id = monitoring_id
 
             case "delete":
-                monitoring_id = kwargs.get("selected_id", 0)
+                monitoring_id = kwargs.get("monitoring_id", 0)
                 if monitoring_id:
-                    self.selected_id = monitoring_id
-                    await self.model.delete(self.selected_id)
+                    await self.model.delete(monitoring_id)
                     self.monitoring_visits.delete("monitoring_id", monitoring_id)
 
         return None

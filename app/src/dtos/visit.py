@@ -1,5 +1,5 @@
 from datetime import date
-from typing_extensions import Self
+from typing import Self
 
 from src.dtos.base import BaseDTO
 from src.dtos.patient import PatientDTO

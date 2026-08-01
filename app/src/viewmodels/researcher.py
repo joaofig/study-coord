@@ -3,7 +3,6 @@ from typing import Any
 
 from nicegui import binding
 from nicegui.observables import ObservableSet
-
 from src.dtos.researcher import ResearcherDTO
 from src.models import ResearcherModel
 from src.tools.validation import is_email

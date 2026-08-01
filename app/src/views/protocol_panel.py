@@ -1,12 +1,11 @@
 from nicegui import ui
-
+from src.tools.excel import export_to_excel
 from src.viewmodels import ProtocolViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.protocol_grid import ProtocolGrid
-from src.views.dialogs.protocol_dialog import ProtocolDialog
-from src.views.view import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.tools.excel import export_to_excel
+from src.views.dialogs.protocol_dialog import ProtocolDialog
+from src.views.protocol_grid import ProtocolGrid
+from src.views.view import View
 
 
 class ProtocolPanel(View):

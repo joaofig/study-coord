@@ -1,11 +1,10 @@
-from nicegui import ui, app
+from nicegui import app, ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
-
-from src.viewmodels.view_model import ViewModel
 from src.viewmodels import AdverseEventViewModel
-from src.views.view import View
+from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.event_dialog import EventDialog
+from src.views.view import View
 
 
 class EventGrid(View):

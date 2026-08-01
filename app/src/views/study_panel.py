@@ -1,22 +1,21 @@
 from nicegui import ui
 from nicegui.events import ValueChangeEventArguments
-
 from src.viewmodels import (
-    PatientListViewModel,
+    AdverseEventListViewModel,
     MonitoringListViewModel,
+    PatientListViewModel,
     ProtocolListViewModel,
     VisitListViewModel,
-    AdverseEventListViewModel,
 )
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.event_panel import EventPanel
 from src.views.monitoring_panel import StudyMonitoringPanel
 from src.views.patient_panel import StudyPatientPanel
-from src.views.study_researcher_panel import StudyResearcherPanel
 from src.views.protocol_panel import ProtocolPanel
-from src.views.visit_panel import StudyVisitPanel
+from src.views.study_researcher_panel import StudyResearcherPanel
 from src.views.view import View
+from src.views.visit_panel import StudyVisitPanel
 
 
 class StudyPanel(View):
@@ -33,7 +32,8 @@ class StudyPanel(View):
                 self.study_pane()
 
     def patient_panel(self):
-        panel = StudyPatientPanel(PatientListViewModel())
+        vm = PatientListViewModel()
+        panel = StudyPatientPanel(vm)
         panel.show()
 
     def monitoring_panel(self):

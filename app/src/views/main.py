@@ -1,5 +1,4 @@
-from nicegui import ui, app
-
+from nicegui import app, ui
 from src.repositories.supabase.user import UserRepository
 from src.tools.tasks import ManagedTasks
 from src.viewmodels import UserViewModel
@@ -14,31 +13,31 @@ async def on_tab_change(event):
             await messenger.broadcast("load")
 
 
-def study_view():
+async def study_view():
     from src.viewmodels import StudyListViewModel
     from src.views.study_view import StudyView
 
     study_vm = StudyListViewModel()
-    ManagedTasks().create(study_vm.load())
+    await study_vm.load()
     view = StudyView(study_vm)
     view.show()
 
 
-def researcher_view():
+async def researcher_view():
     from src.viewmodels import ResearcherListViewModel
     from src.views.researcher_view import ResearcherView
 
     researcher_vm = ResearcherListViewModel()
-    ManagedTasks().create(researcher_vm.load())
+    await researcher_vm.load()
     ResearcherView(researcher_vm)
 
 
-def report_view():
-    from src.views.report_view import ReportView
+async def report_view():
     from src.viewmodels.report import ReportViewModel
+    from src.views.report_view import ReportView
 
     vm = ReportViewModel()
-    ManagedTasks().create(vm.call("load"))
+    await vm.call("load")
     ReportView(vm)
 
 
@@ -54,13 +53,13 @@ async def settings_view(user_id: int):
     ManagedTasks().create(vm.call("load"))
 
 
-def admin_view():
-    from src.views.user_view import UserView
+async def admin_view():
     from src.viewmodels import UserListViewModel
+    from src.views.user_view import UserView
 
     vm = UserListViewModel()
     UserView(vm)
-    ManagedTasks().create(vm.call("load"))
+    await vm.call("load")
 
 
 async def main_view():
@@ -82,17 +81,17 @@ async def main_view():
             "h-full w-full"
         ):
             with ui.tab_panel(studies).classes("pl-4 pt-0 pb-0 pr-4"):
-                study_view()
+                await study_view()
 
             with ui.tab_panel(researchers).classes("pl-4 pt-0 pb-0 pr-4"):
-                researcher_view()
+                await researcher_view()
 
             with ui.tab_panel(reports).classes("pl-4 pt-0 pb-0 pr-4"):
-                report_view()
+                await report_view()
 
             with ui.tab_panel(settings).classes("pl-4 pt-0 pb-0 pr-4"):
                 await settings_view(user_id)
 
             with ui.tab_panel(admin).classes("pl-4 pt-0 pb-0 pr-4"):
                 if user_role == "Admin":
-                    admin_view()
+                    await admin_view()

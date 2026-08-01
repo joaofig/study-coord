@@ -1,8 +1,8 @@
-from typing import List
+
+import builtins
 
 from src.dtos.protocol import ProtocolDTO
 from src.repositories.supabase.base import SupabaseRepository
-
 
 TABLE = "protocol"
 
@@ -24,7 +24,7 @@ class ProtocolRepository(SupabaseRepository):
                 return ProtocolDTO.from_dict(result[0])
         return None
 
-    async def list(self, study_id: int) -> List[ProtocolDTO]:
+    async def list(self, study_id: int) -> builtins.list[ProtocolDTO]:
         await self.connect()
         if self.supabase:
             result = (

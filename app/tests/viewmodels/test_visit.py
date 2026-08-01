@@ -1,9 +1,11 @@
-import pytest
 from datetime import date
 from unittest.mock import AsyncMock, patch
+
+import pytest
 from src.dtos.visit import VisitDTO
 from src.viewmodels.visit import VisitViewModel
 from src.viewmodels.visit_list import VisitListViewModel
+
 
 @pytest.mark.asyncio
 async def test_visit_view_model_save():

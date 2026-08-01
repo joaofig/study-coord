@@ -2,10 +2,10 @@ from .supabase.adverse_event import AdverseEventRepository as AdverseEventReposi
 from .supabase.monitoring import MonitoringRepository as MonitoringRepository
 from .supabase.patient import PatientRepository as PatientRepository
 from .supabase.protocol import ProtocolRepository as ProtocolRepository
+from .supabase.report import ReportRepository as ReportRepository
 from .supabase.researcher import ResearcherRepository as ResearcherRepository
 from .supabase.study import StudyRepository as StudyRepository
 from .supabase.study_researcher import (
     StudyResearcherRepository as StudyResearcherRepository,
 )
 from .supabase.visit import VisitRepository as VisitRepository
-from .supabase.report import ReportRepository as ReportRepository

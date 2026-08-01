@@ -8,7 +8,6 @@ from src.viewmodels.view_model import ViewModel
 class UserListViewModel(ViewModel):
     users = GridList()
     selected_id: int = 0
-    selected_row: dict = {}
     model: UserModel = UserModel()
 
     def __init__(self):
@@ -26,7 +25,6 @@ class UserListViewModel(ViewModel):
             case "user_selected":
                 if "user_id" in kwargs:
                     self.selected_id = int(str(kwargs["user_id"]))
-                    self.selected_row = kwargs.get("user", {})
 
             case "delete":
                 user_id = kwargs.get("user_id", 0)

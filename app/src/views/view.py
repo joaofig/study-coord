@@ -1,4 +1,4 @@
-from typing import Callable, Awaitable
+from collections.abc import Awaitable, Callable
 
 from src.tools.messenger import get_messenger
 from src.viewmodels.view_model import ViewModel

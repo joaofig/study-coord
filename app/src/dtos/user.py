@@ -1,9 +1,8 @@
 import hashlib
 from datetime import date
-from typing_extensions import Self
+from typing import Self
 
 from pydantic import BaseModel
-
 from src.tools.user import dict_to_datetime
 
 

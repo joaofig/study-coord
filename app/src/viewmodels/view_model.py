@@ -1,6 +1,7 @@
 import asyncio
-from abc import abstractmethod, ABC
-from typing import Any, Callable, Awaitable
+from abc import ABC, abstractmethod
+from collections.abc import Awaitable, Callable
+from typing import Any
 
 from src.tools.messenger import get_messenger
 

@@ -1,5 +1,5 @@
+import builtins
 from datetime import datetime
-from typing import List
 
 from src.dtos.user import UserDTO
 from src.repositories.supabase.user import UserRepository
@@ -32,7 +32,7 @@ class UserModel:
     async def load(self, user_id: int) -> UserDTO | None:
         return await self.repo.load(user_id)
 
-    async def list(self) -> List[UserDTO]:
+    async def list(self) -> builtins.list[UserDTO]:
         return await self.repo.list()
 
     async def get_user(self, user_name: str, pass_hash: str) -> UserDTO | None:

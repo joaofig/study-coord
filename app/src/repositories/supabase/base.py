@@ -1,7 +1,7 @@
-from supabase import AsyncClient
-
 from src.repositories.supabase.client import get_supabase_client
 from src.tools import singleton
+
+from supabase import AsyncClient
 
 
 @singleton
@@ -25,7 +25,7 @@ class SupabaseRepository:
     async def insert_or_update(self, table: str, value: dict) -> dict:
         await self.connect()
         if self.supabase:
-            row_id = [k for k in value.keys() if k == "id" or k.endswith("_id")][0]
+            row_id = [k for k in value if k == "id" or k.endswith("_id")][0]
             if value.get(row_id, 0) > 0:
                 await (
                     self.supabase.table(table)

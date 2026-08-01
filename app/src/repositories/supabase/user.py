@@ -1,8 +1,8 @@
-from typing import List
+
+import builtins
 
 from src.dtos.user import UserDTO
 from src.repositories.supabase.base import SupabaseRepository
-
 
 TABLE = "user"
 
@@ -25,7 +25,7 @@ class UserRepository(SupabaseRepository):
                 return UserDTO.from_dict(result[0])
         return None
 
-    async def list(self) -> List[UserDTO]:
+    async def list(self) -> builtins.list[UserDTO]:
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table(TABLE).select("*").execute()).data
@@ -52,4 +52,3 @@ class UserRepository(SupabaseRepository):
         await self.connect()
         if self.supabase:
             await self.supabase.table(TABLE).delete().eq("user_id", user_id).execute()
-        return None

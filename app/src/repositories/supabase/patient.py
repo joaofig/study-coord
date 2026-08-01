@@ -1,8 +1,8 @@
-from typing import List
+
+import builtins
 
 from src.dtos.patient import PatientDTO
 from src.repositories.supabase.base import SupabaseRepository
-
 
 TABLE = "patient"
 
@@ -37,7 +37,7 @@ class PatientRepository(SupabaseRepository):
                 return PatientDTO.from_dict(result[0])
         return None
 
-    async def list(self, study_id: int) -> List[PatientDTO]:
+    async def list(self, study_id: int) -> builtins.list[PatientDTO]:
         await self.connect()
         if self.supabase:
             result = (
@@ -70,4 +70,3 @@ class PatientRepository(SupabaseRepository):
                     .eq("patient_id", patient_id)
                     .execute()
                 )
-        return None

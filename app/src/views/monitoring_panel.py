@@ -1,12 +1,11 @@
 from nicegui import ui
-
+from src.tools.excel import export_to_excel
 from src.viewmodels.monitoring import MonitoringViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.monitoring_grid import StudyMonitoringGrid
-from src.views.dialogs.monitoring_dialog import StudyMonitoringDialog
-from src.views.view import View
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.tools.excel import export_to_excel
+from src.views.dialogs.monitoring_dialog import StudyMonitoringDialog
+from src.views.monitoring_grid import StudyMonitoringGrid
+from src.views.view import View
 
 
 class StudyMonitoringPanel(View):

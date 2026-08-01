@@ -1,8 +1,8 @@
 from typing import Any
 
+from src.models.protocol import ProtocolModel
 from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
-from src.models.protocol import ProtocolModel
 
 
 class ProtocolListViewModel(ViewModel):

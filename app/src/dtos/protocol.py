@@ -1,5 +1,5 @@
-from datetime import datetime, date
-from typing_extensions import Self
+from datetime import date, datetime
+from typing import Self
 
 from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_datetime

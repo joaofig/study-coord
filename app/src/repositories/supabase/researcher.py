@@ -1,4 +1,5 @@
-from typing import List
+
+import builtins
 
 from src.dtos.researcher import ResearcherDTO
 from src.repositories.supabase.base import SupabaseRepository
@@ -50,7 +51,7 @@ class ResearcherRepository(SupabaseRepository):
                 .execute()
             )
 
-    async def list(self) -> List[ResearcherDTO]:
+    async def list(self) -> builtins.list[ResearcherDTO]:
         await self.connect()
         if self.supabase:
             result = (await self.supabase.table("researcher_list").select("*").execute()).data

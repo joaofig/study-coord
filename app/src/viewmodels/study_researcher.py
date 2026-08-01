@@ -1,12 +1,16 @@
 from dataclasses import field
 from datetime import date
-from typing import Dict, Any, List
+from typing import Any
 
 from nicegui import binding
-
-from src.dtos.researcher import StudyResearcherDTO, ResearcherDTO, study_researcher_roles
+from src.dtos.researcher import (
+    ResearcherDTO,
+    StudyResearcherDTO,
+    study_researcher_roles,
+)
 from src.models import StudyResearcherModel
 from src.models.researcher import ResearcherModel
+
 from .researcher import ResearcherViewModel
 from .view_model import ViewModel
 
@@ -31,14 +35,14 @@ class StudyResearcherViewModel(ViewModel):
     is_invalid: bool = False
     validation: str = ""
 
-    researcher_list: List[ResearcherDTO] = field(default_factory=list)
+    researcher_list: list[ResearcherDTO] = field(default_factory=list)
 
     changed: bool = False
     roles: dict = field(default_factory=study_researcher_roles)
 
     model: StudyResearcherModel = StudyResearcherModel()
 
-    researchers: Dict[int, str] = field(default_factory=dict)
+    researchers: dict[int, str] = field(default_factory=dict)
     selection: ResearcherViewModel = field(default_factory=ResearcherViewModel)
 
     def __post_init__(self):

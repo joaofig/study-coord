@@ -1,8 +1,8 @@
-from typing import List
+
+import builtins
 
 from src.dtos.monitoring import MonitoringDTO
 from src.repositories.supabase.base import SupabaseRepository
-
 
 TABLE = "monitoring"
 
@@ -17,14 +17,14 @@ class MonitoringRepository(SupabaseRepository):
             result = (
                 await self.supabase.table(TABLE)
                 .select("*")
-                .eq("selected_id", monitoring_id)
+                .eq("monitoring_id", monitoring_id)
                 .execute()
             ).data
             if result:
                 return MonitoringDTO.from_dict(result[0])
         return None
 
-    async def list(self, study_id: int) -> List[MonitoringDTO]:
+    async def list(self, study_id: int) -> builtins.list[MonitoringDTO]:
         await self.connect()
         if self.supabase:
             result = (
@@ -47,7 +47,7 @@ class MonitoringRepository(SupabaseRepository):
                 await (
                     self.supabase.table(TABLE)
                     .delete()
-                    .eq("selected_id", monitoring_id)
+                    .eq("monitoring_id", monitoring_id)
                     .execute()
                 )
             elif study_id:
@@ -57,4 +57,3 @@ class MonitoringRepository(SupabaseRepository):
                     .eq("study_id", study_id)
                     .execute()
                 )
-        return None

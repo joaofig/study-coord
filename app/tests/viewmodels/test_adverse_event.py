@@ -1,9 +1,11 @@
-import pytest
 from datetime import date
 from unittest.mock import AsyncMock, patch
+
+import pytest
 from src.dtos.adverse_event import AdverseEventDTO
 from src.viewmodels.adverse_event import AdverseEventViewModel
 from src.viewmodels.adverse_event_list import AdverseEventListViewModel
+
 
 @pytest.mark.asyncio
 async def test_adverse_event_view_model_save():

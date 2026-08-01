@@ -1,5 +1,4 @@
 from nicegui import ui
-
 from src.viewmodels import UserViewModel
 from src.views.dialogs.password_dialog import PasswordDialog
 from src.views.view import View

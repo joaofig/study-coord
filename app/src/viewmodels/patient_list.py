@@ -1,7 +1,5 @@
 from typing import Any
 
-from nicegui.observables import ObservableList
-
 from src.models import PatientModel
 from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
@@ -10,7 +8,7 @@ from src.viewmodels.view_model import ViewModel
 class PatientListViewModel(ViewModel):
     patients = GridList()
     study_id: int = 0
-    patient_id: int = 0
+    selected_id: int = 0
     model = PatientModel()
 
     def __init__(self):
@@ -57,7 +55,7 @@ class PatientListViewModel(ViewModel):
             case "patient_selected":
                 patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
-                    self.patient_id = int(patient_id)
+                    self.selected_id = patient_id
                     await self.broadcast(
                         channel="patient",
                         message="selected",
@@ -67,7 +65,6 @@ class PatientListViewModel(ViewModel):
             case "delete_patient":
                 patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
-                    self.patient_id = int(patient_id)
                     await self.model.delete(self.patient_id)
-                    await self._load_patients(self.study_id)
+                    self.patients.delete("patient_id", patient_id)
         return None

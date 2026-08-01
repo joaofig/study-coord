@@ -1,4 +1,5 @@
-from typing import List
+
+import builtins
 
 from src.dtos.researcher import ResearcherDTO
 from src.repositories import ResearcherRepository
@@ -23,7 +24,7 @@ class ResearcherModel:
     async def load(self, researcher_id: int) -> ResearcherDTO | None:
         return await self.repo.load(researcher_id)
 
-    async def list(self) -> List[ResearcherDTO]:
+    async def list(self) -> builtins.list[ResearcherDTO]:
         return await self.repo.list()
 
     async def number_exists(self, number: str) -> bool:
