@@ -12,11 +12,12 @@ from src.views.view import View
 class ProtocolGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.grid: AgGrid = self._build_grid()
 
         self.protocols = self.vm.get("protocols")
         if isinstance(self.protocols, ObservableList):
             self.protocols.on_change(self._update_grid)
+
+        self.grid: AgGrid = self._build_grid()
 
     async def _update_grid(self):
         await self.grid.run_grid_method("setGridOption", "rowData", self.protocols)
@@ -66,7 +67,7 @@ class ProtocolGrid(View):
         ]
         grid_def = {
             "columnDefs": columns,
-            "rowData": self.vm.get("protocols"),
+            "rowData": self.protocols,
             "rowSelection": {
                 "mode": "singleRow",
                 "checkboxes": False,

@@ -12,11 +12,13 @@ from src.views.view import View
 class StudyVisitGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.grid: AgGrid = self._build_grid()
+
         self.visits = self.vm.get("visits")
         if isinstance(self.visits, ObservableList):
             self.visits.on_change(self._update_grid)
         self.subscribe("visit", "saved", self._update_grid)
+
+        self.grid: AgGrid = self._build_grid()
 
     async def _edit_visit(self, visit_id: int):
         visit_vm = VisitViewModel()
@@ -95,7 +97,7 @@ class StudyVisitGrid(View):
             "columnDefs": columns,
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_visits_from_database()
-            "rowData": [],
+            "rowData": self.visits,
             "rowSelection": {
                 "mode": "singleRow",
                 "checkboxes": False,

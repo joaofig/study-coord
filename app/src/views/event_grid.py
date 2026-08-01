@@ -10,10 +10,11 @@ from src.views.view import View
 class EventGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.grid: AgGrid = self._build_grid()
         self.events = self.vm.get("events")
         if isinstance(self.events, ObservableList):
             self.events.on_change(self._update_grid)
+
+        self.grid: AgGrid = self._build_grid()
         self.subscribe("event", "saved", self._update_grid)
 
     async def _edit_event(self, event_id: int):
@@ -96,7 +97,7 @@ class EventGrid(View):
         ]
         grid_def = {
             "columnDefs": columns,
-            "rowData": [],
+            "rowData": self.events,
             "rowSelection": {
                 "mode": "singleRow",
                 "checkboxes": False,

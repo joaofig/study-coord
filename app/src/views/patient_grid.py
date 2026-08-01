@@ -13,11 +13,13 @@ from src.views.view import View
 class StudyPatientGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.grid: AgGrid = self._build_grid()
-        self.subscribe("patient", "saved", self._on_patient_saved)
         self.patients = self.vm.get("patients")
         if isinstance(self.patients, ObservableList):
             self.patients.on_change(self._update_grid)
+
+        self.grid: AgGrid = self._build_grid()
+        self.subscribe("patient", "saved", self._on_patient_saved)
+
 
     async def _on_patient_saved(self, **kwargs):
         await self.vm.call("load")
@@ -88,7 +90,7 @@ class StudyPatientGrid(View):
             "columnDefs": columns,
             # Placeholder for rowData; in a real application, this would be populated from a data source
             # For example: 'rowData': get_studies_from_database()
-            "rowData": [],
+            "rowData": self.patients,
             "rowSelection": {
                 "mode": "singleRow",
                 "checkboxes": False,

@@ -9,11 +9,12 @@ from src.views.view import View
 class UserGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.grid = self._build_grid()
 
         self.users = self.vm.get("users")
         if isinstance(self.users, ObservableList):
             self.users.on_change(self._update_grid)
+
+        self.grid = self._build_grid()
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -74,7 +75,7 @@ class UserGrid(View):
         ]
         grid_def = {
             "columnDefs": columns,
-            "rowData": [],
+            "rowData": self.users,
             "rowSelection": {
                 "mode": "singleRow",
                 "checkboxes": False,
