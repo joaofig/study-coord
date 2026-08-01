@@ -17,7 +17,7 @@ class MonitoringRepository(SupabaseRepository):
             result = (
                 await self.supabase.table(TABLE)
                 .select("*")
-                .eq("monitoring_id", monitoring_id)
+                .eq("selected_id", monitoring_id)
                 .execute()
             ).data
             if result:
@@ -47,7 +47,7 @@ class MonitoringRepository(SupabaseRepository):
                 await (
                     self.supabase.table(TABLE)
                     .delete()
-                    .eq("monitoring_id", monitoring_id)
+                    .eq("selected_id", monitoring_id)
                     .execute()
                 )
             elif study_id:

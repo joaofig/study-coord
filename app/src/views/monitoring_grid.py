@@ -73,7 +73,7 @@ class StudyMonitoringGrid(View):
                 "checkboxes": False,
                 "enableClickSelection": True,
             },
-            ":getRowId": "(params) => String(params.data.id)",
+            ":getRowId": "(params) => String(params.data.monitoring_id)",
         }
         ui.on("monitoring-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")

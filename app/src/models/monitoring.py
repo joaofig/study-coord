@@ -9,7 +9,7 @@ class MonitoringModel:
 
     async def save(self, dto: MonitoringDTO):
         monitoring = await self.repo.save(dto)
-        dto.monitoring_id = monitoring["monitoring_id"]
+        dto.monitoring_id = monitoring["selected_id"]
         return dto
 
     async def load(self, monitoring_id: int) -> MonitoringDTO | None:

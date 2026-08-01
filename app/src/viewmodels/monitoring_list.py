@@ -8,7 +8,7 @@ from src.viewmodels.view_model import ViewModel
 class MonitoringListViewModel(ViewModel):
     monitoring_visits = GridList()
     study_id: int = 0
-    monitoring_id: int = 0
+    selected_id: int = 0
     model = MonitoringModel()
 
     def __init__(self):
@@ -29,7 +29,7 @@ class MonitoringListViewModel(ViewModel):
             await self._load_monitoring(self.study_id)
         else:
             self.study_id = 0
-            self.monitoring_id = 0
+            self.selected_id = 0
             self.monitoring_visits.clear()
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
@@ -41,15 +41,15 @@ class MonitoringListViewModel(ViewModel):
                     await self._load_monitoring(self.study_id)
 
             case "monitoring_selected":
-                monitoring_id = kwargs.get("monitoring_id", 0)
+                monitoring_id = kwargs.get("selected_id", 0)
                 if monitoring_id:
-                    self.monitoring_id = monitoring_id
+                    self.selected_id = monitoring_id
 
-            case "delete_monitoring":
-                monitoring_id = kwargs.get("monitoring_id", 0)
+            case "delete":
+                monitoring_id = kwargs.get("selected_id", 0)
                 if monitoring_id:
-                    self.monitoring_id = monitoring_id
-                    await self.model.delete(self.monitoring_id)
-                    await self._load_monitoring(self.study_id)
+                    self.selected_id = monitoring_id
+                    await self.model.delete(self.selected_id)
+                    self.monitoring_visits.delete("monitoring_id", monitoring_id)
 
         return None

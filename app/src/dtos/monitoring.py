@@ -20,7 +20,7 @@ class MonitoringDTO(BaseDTO):
     @classmethod
     def from_dict(cls, data: dict) -> Self:
         return cls(
-            monitoring_id=data.get("monitoring_id", 0),
+            monitoring_id=data.get("selected_id", 0),
             study_id=data.get("study_id", 0),
             meeting_date=dict_to_date(data, "meeting_date"),
             monitor=data.get("monitor", ""),
@@ -33,7 +33,7 @@ class MonitoringDTO(BaseDTO):
 
     def to_dict(self) -> dict:
         return {
-            "monitoring_id": self.monitoring_id,
+            "selected_id": self.monitoring_id,
             "study_id": self.study_id,
             "meeting_date": self.meeting_date.isoformat(),
             "monitor": self.monitor,

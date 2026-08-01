@@ -38,10 +38,10 @@ class StudyMonitoringPanel(View):
         result = await dialog.show()
         if result == "delete":
             dialog.close()
-            monitoring_id = self.vm.get("monitoring_id")
-            await self.vm.call("delete_monitoring", monitoring_id=monitoring_id)
-            await self.vm.call("load", study_id=self.study_id)
-            await self.broadcast("study_list", "load")
+            monitoring_id = self.vm.get("selected_id")
+            await self.vm.call("delete", monitoring_id=monitoring_id)
+            # await self.vm.call("load", study_id=self.study_id)
+            # await self.broadcast("study_list", "load")
 
     def show(self):
         with ui.row().classes("w-full h-full"):
@@ -59,7 +59,7 @@ class StudyMonitoringPanel(View):
                     ui.button(
                         icon="delete", on_click=lambda: self._on_delete_monitoring()
                     )
-                    .bind_enabled(self.vm, "monitoring_id")
+                    .bind_enabled(self.vm, "selected_id")
                     .classes("text-xs")
                     .props("color=red padding=xs")
                 ):
