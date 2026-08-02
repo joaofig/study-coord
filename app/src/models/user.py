@@ -2,8 +2,7 @@ import builtins
 from datetime import datetime
 
 from src.dtos.user import UserDTO
-from src.repositories.supabase.user import UserRepository
-
+from src.repositories import UserRepository
 
 class UserModel:
     repo = UserRepository()

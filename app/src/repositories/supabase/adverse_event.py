@@ -4,8 +4,6 @@ import builtins
 from src.dtos.adverse_event import AdverseEventDTO
 from src.repositories.supabase.base import SupabaseRepository
 
-TABLE = "adverse_event"
-
 
 class AdverseEventRepository(SupabaseRepository):
     def __init__(self):

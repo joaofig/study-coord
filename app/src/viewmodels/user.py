@@ -4,7 +4,7 @@ from typing import Any
 from nicegui import binding
 from nicegui.observables import ObservableSet
 from src.dtos.user import UserDTO, hash_password
-from src.models import UserModel
+from src.models.user import UserModel
 from src.viewmodels.view_model import ViewModel
 
 

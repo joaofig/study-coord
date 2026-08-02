@@ -4,7 +4,7 @@ from typing import Any
 from nicegui import binding, ui
 from nicegui.observables import ObservableSet
 from src.dtos.study import StudyDTO
-from src.models import StudyModel
+from src.models.study import StudyModel
 from src.tools.validation import is_date
 from src.viewmodels.view_model import ViewModel
 

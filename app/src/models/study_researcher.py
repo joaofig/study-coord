@@ -2,7 +2,8 @@
 import builtins
 
 from src.dtos.researcher import StudyResearcherDTO, StudyResearcherRow
-from src.models import ResearcherModel, StudyModel
+from src.models.researcher import ResearcherModel
+from src.models.study import StudyModel
 from src.repositories import StudyResearcherRepository
 
 

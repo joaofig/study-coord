@@ -1,6 +1,6 @@
 from typing import Any
 
-from src.models import AdverseEventModel
+from src.models.adverse_event import AdverseEventModel
 from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 

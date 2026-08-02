@@ -1,6 +1,6 @@
 from typing import Any
 
-from src.models import StudyResearcherModel
+from src.models.study_researcher import StudyResearcherModel
 from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 

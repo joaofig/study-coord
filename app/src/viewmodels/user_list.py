@@ -1,6 +1,6 @@
 from typing import Any
 
-from src.models import UserModel
+from src.models.user import UserModel
 from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 

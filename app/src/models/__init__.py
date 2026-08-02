@@ -1,9 +1,0 @@
-from .adverse_event import AdverseEventModel as AdverseEventModel
-from .monitoring import MonitoringModel as MonitoringModel
-from .patient import PatientModel as PatientModel
-from .protocol import ProtocolModel as ProtocolModel
-from .researcher import ResearcherModel as ResearcherModel
-from .study import StudyModel as StudyModel
-from .study_researcher import StudyResearcherModel as StudyResearcherModel
-from .user import UserModel as UserModel
-from .visit import VisitModel as VisitModel

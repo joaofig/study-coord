@@ -1,11 +1,22 @@
-from .supabase.adverse_event import AdverseEventRepository as AdverseEventRepository
-from .supabase.monitoring import MonitoringRepository as MonitoringRepository
-from .supabase.patient import PatientRepository as PatientRepository
-from .supabase.protocol import ProtocolRepository as ProtocolRepository
-from .supabase.report import ReportRepository as ReportRepository
-from .supabase.researcher import ResearcherRepository as ResearcherRepository
-from .supabase.study import StudyRepository as StudyRepository
-from .supabase.study_researcher import (
-    StudyResearcherRepository as StudyResearcherRepository,
-)
-from .supabase.visit import VisitRepository as VisitRepository
+from src.repositories.supabase.adverse_event import AdverseEventRepository
+from src.repositories.supabase.monitoring import MonitoringRepository
+from src.repositories.supabase.patient import PatientRepository
+from src.repositories.supabase.protocol import ProtocolRepository
+from src.repositories.supabase.report import ReportRepository
+from src.repositories.supabase.researcher import ResearcherRepository
+from src.repositories.supabase.study import StudyRepository
+from src.repositories.supabase.study_researcher import StudyResearcherRepository
+from src.repositories.supabase.visit import VisitRepository
+from src.repositories.supabase.user import UserRepository
+
+
+# from src.repositories.postgres.adverse_event import AdverseEventRepository
+# from src.repositories.postgres.monitoring import MonitoringRepository
+# from src.repositories.postgres.patient import PatientRepository
+# from src.repositories.postgres.protocol import ProtocolRepository
+# from src.repositories.postgres.report import ReportRepository
+# from src.repositories.postgres.researcher import ResearcherRepository
+# from src.repositories.postgres.study import StudyRepository
+# from src.repositories.postgres.study_researcher import StudyResearcherRepository
+# from src.repositories.postgres.visit import VisitRepository
+# from src.repositories.postgres.user import UserRepository

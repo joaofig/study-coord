@@ -2,7 +2,7 @@
 import builtins
 
 from src.dtos.visit import VisitDTO
-from src.repositories import PatientRepository
+from src.repositories.postgres.patient import PatientRepository
 from src.repositories.supabase.base import SupabaseRepository
 
 TABLE = "visit"

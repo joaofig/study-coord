@@ -4,7 +4,8 @@ from typing import Any
 
 from nicegui import binding
 from src.dtos.visit import VisitDTO
-from src.models import PatientModel, VisitModel
+from src.models.patient import PatientModel
+from src.models.visit import VisitModel
 from src.tools.validation import is_date
 
 from .patient import PatientViewModel

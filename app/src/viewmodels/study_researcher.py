@@ -8,7 +8,7 @@ from src.dtos.researcher import (
     StudyResearcherDTO,
     study_researcher_roles,
 )
-from src.models import StudyResearcherModel
+from src.models.study_researcher import StudyResearcherModel
 from src.models.researcher import ResearcherModel
 
 from .researcher import ResearcherViewModel

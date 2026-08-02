@@ -1,6 +1,6 @@
 from typing import Any
 
-from src.models import MonitoringModel
+from src.models.monitoring import MonitoringModel
 from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 

@@ -3,7 +3,7 @@ from typing import Any
 
 from nicegui import binding
 from src.dtos.monitoring import MonitoringDTO
-from src.models import MonitoringModel
+from src.models.monitoring import MonitoringModel
 from src.tools.messenger import send_message
 from src.tools.validation import is_date
 from src.viewmodels.view_model import ViewModel

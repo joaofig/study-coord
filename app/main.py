@@ -5,7 +5,7 @@ from fastapi import Request
 from fastapi.responses import RedirectResponse
 from nicegui import app, context, ui
 from src.dtos.user import UserDTO, hash_password
-from src.models import UserModel
+from src.models.user import UserModel
 from src.viewmodels import UserViewModel
 from src.views.dialogs.password_dialog import PasswordDialog
 from src.views.main import main_view

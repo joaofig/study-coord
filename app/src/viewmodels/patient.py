@@ -3,7 +3,7 @@ from typing import Any
 
 from nicegui import binding
 from src.dtos.patient import PatientDTO, patient_statuses
-from src.models import PatientModel
+from src.models.patient import PatientModel
 from src.tools.messenger import send_message
 from src.tools.user import dict_to_datetime
 from src.tools.validation import is_date
