@@ -84,7 +84,7 @@ The web interface will typically be available at `http://localhost:8080`.
   - `images/`: Application assets and icons
   - `main.py`: Application entry point
 - `docs/`: Project documentation (Architecture, Schema, Messaging)
-- `supabase/`: SQL schema and migrations for Supabase
+- `db/supabase/`: SQL schema and migrations for Supabase
 - `AGENTS.md`: Development guidelines and project rules
 - `Dockerfile`: Container configuration
 - `fly.toml`: Fly.io deployment configuration
