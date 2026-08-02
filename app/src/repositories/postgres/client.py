@@ -31,4 +31,5 @@ async def get_postgres_client() -> AsyncConnection:
         
         dsn = f"postgresql://{user}:{password}@{host}:{port}/{db}"
 
+    print(dsn)
     return await psycopg.AsyncConnection.connect(dsn)
