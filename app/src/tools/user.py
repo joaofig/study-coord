@@ -17,7 +17,13 @@ def str_to_datetime(str_time: str) -> datetime:
 
 
 def dict_to_datetime(data: dict, key: str) -> datetime:
-    return datetime.fromisoformat(data.get(key, datetime.now().isoformat()))
+    value = data.get(key)
+    if isinstance(value, str):
+        return datetime.fromisoformat(value)
+    elif isinstance(value, datetime):
+        return value
+    else:
+        raise ValueError(f"Invalid value for key '{key}': {value}")
 
 
 def str_to_date(str_time: str) -> datetime:

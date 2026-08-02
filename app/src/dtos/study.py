@@ -1,6 +1,8 @@
 from datetime import date
 from typing import Any, Self
 
+from pydantic import BaseModel
+
 from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_datetime
 
@@ -44,7 +46,7 @@ class StudyDTO(BaseDTO):
         } | super().to_dict()
 
 
-class StudyRowDTO(BaseDTO):
+class StudyRowDTO(BaseModel):
     study_id: int
     name: str
     sponsor: str
@@ -60,16 +62,20 @@ class StudyRowDTO(BaseDTO):
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Self:
+        start_date = data.get("start_date")
+        end_date = data.get("end_date")
+
+        if isinstance(start_date, str):
+            start_date = date.fromisoformat(start_date)
+        if isinstance(end_date, str):
+            end_date = date.fromisoformat(end_date)
+
         return cls(
             study_id=data.get("study_id") or data.get("id") or 0,
             name=data.get("name", ""),
             sponsor=data.get("sponsor", ""),
-            start_date=date.fromisoformat(
-                str(data.get("start_date", date.today().isoformat()))
-            ),
-            end_date=date.fromisoformat(data.get("end_date", date.today().isoformat()))
-            if data.get("end_date")
-            else None,
+            start_date=start_date,
+            end_date=end_date,
             protocol_visits=data.get("protocol_visits")
             or data.get("proto_visits")
             or 1,
@@ -78,10 +84,6 @@ class StudyRowDTO(BaseDTO):
             visits=data.get("visits", 0),
             researchers=data.get("researchers", 0),
             events=data.get("events", 0),
-            created_at=dict_to_datetime(data, "created_at"),
-            created_by=data.get("created_by", ""),
-            updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", ""),
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -97,4 +99,4 @@ class StudyRowDTO(BaseDTO):
             "visits": self.visits,
             "researchers": self.researchers,
             "events": self.events,
-        } | super().to_dict()
+        }

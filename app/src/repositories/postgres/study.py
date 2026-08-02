@@ -12,16 +12,7 @@ class StudyRepository(PostgresRepository):
     async def study_exists(self, name: str) -> bool:
         sql: LiteralString = """
         SELECT  study_id
-        ,       name
-        ,       sponsor
-        ,       start_date
-        ,       end_date
-        ,       protocol_visits
-        ,       comments
-        ,       created_at
-        ,       created_by
-        ,       updated_at
-        ,       updated_by
+        FROM    study
         WHERE   name = %s
         """
         result = await self.execute_query(sql, (name,))
@@ -30,13 +21,7 @@ class StudyRepository(PostgresRepository):
     async def list(self) -> builtins.list[StudyRowDTO]:
         # We are reading from a view, not a table
         sql: LiteralString = """
-            SELECT  study_id,
-                    name,
-                    sponsor,
-                    start_date,
-                    end_date,
-                    protocol_visits,
-                    comments,
+            SELECT  study_id, name, sponsor, start_date, end_date, protocol_visits, comments,
                     ( SELECT count(0) AS count
                            FROM patient p
                           WHERE p.study_id = s.study_id) AS patients,
@@ -67,6 +52,7 @@ class StudyRepository(PostgresRepository):
         ,       created_by
         ,       updated_at
         ,       updated_by
+        FROM    study
         WHERE   study_id = %s
         """
         result = await self.execute_query(sql, (study_id,))
@@ -80,6 +66,7 @@ class StudyRepository(PostgresRepository):
                            created_at, created_by, updated_at, updated_by) 
         VALUES (%(name)s, %(sponsor)s, %(start_date)s, %(end_date)s, %(protocol_visits)s, %(comments)s, 
                 %(created_at)s, %(created_by)s, %(updated_at)s, %(updated_by)s)
+        RETURNING study_id
         """
         update: LiteralString = """
         UPDATE study 
@@ -97,6 +84,6 @@ class StudyRepository(PostgresRepository):
 
     async def delete(self, study_id: int) -> None:
         sql: LiteralString = """
-        DELET FROM srudy where study_id=%s
+        DELETE FROM study where study_id=%s
         """
         await self.execute_query(sql, (study_id,))
