@@ -69,7 +69,7 @@ class StudyViewModel(ViewModel):
 
     def to_dict(self) -> dict:
         return {
-            "study_id": self.study_id,
+            "study_id": self.study_id or 0,
             "name": self.name,
             "sponsor": self.sponsor,
             "protocol_visits": int(self.protocol_visits),
@@ -84,7 +84,7 @@ class StudyViewModel(ViewModel):
 
     def to_dto(self) -> StudyDTO:
         return StudyDTO(
-            study_id=self.study_id,
+            study_id=self.study_id or 0,
             name=self.name,
             sponsor=self.sponsor,
             protocol_visits=int(self.protocol_visits),

@@ -18,7 +18,6 @@ class StudyResearcherModel:
             researcher_model = ResearcherModel()
             if dto.researcher_id:
                 dto.researcher = await researcher_model.load(dto.researcher_id)
-
             if dto.study_id:
                 dto.study = await study_model.load(dto.study_id)
         return dto

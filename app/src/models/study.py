@@ -8,12 +8,15 @@ from src.repositories import StudyRepository
 class StudyModel:
     repo = StudyRepository()
 
-    async def save(self, dto: StudyDTO):
+    async def save(self, dto: StudyDTO) -> StudyDTO:
         study: dict = await self.repo.save(dto)
-        return StudyDTO(**study)
+        return StudyDTO.from_dict(study)
 
     async def load(self, study_id: int) -> StudyDTO | None:
-        return await self.repo.load(study_id)
+        study = await self.repo.load(study_id)
+        if study:
+            return StudyDTO.from_dict(study)
+        return None
 
     async def delete(self, study_id: int):
         await self.repo.delete(study_id)

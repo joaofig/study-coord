@@ -9,7 +9,7 @@ def logout() -> None:
 
 
 def get_user_name() -> str:
-    return app.storage.user.get("username", "Guest")
+    return app.storage.user.get("username", "user")
 
 
 def str_to_datetime(str_time: str) -> datetime:

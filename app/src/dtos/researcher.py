@@ -1,6 +1,7 @@
 from typing import Self
 
 from src.dtos.base import BaseDTO
+from src.dtos.study import StudyDTO
 from src.tools.user import dict_to_datetime
 
 
@@ -98,6 +99,9 @@ class StudyResearcherDTO(BaseDTO):
     researcher_id: int = 0
     role: str = ""
     study_comments: str = ""
+
+    researcher: ResearcherDTO | None = None
+    study: StudyDTO | None = None
 
     @classmethod
     def from_dict(cls, data: dict) -> Self:

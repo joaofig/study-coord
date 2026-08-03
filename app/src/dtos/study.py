@@ -1,10 +1,11 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Any, Self
 
+from nicegui import app
 from pydantic import BaseModel
 
 from src.dtos.base import BaseDTO
-from src.tools.user import dict_to_datetime
+from src.tools.user import dict_to_datetime, get_user_name
 
 
 class StudyDTO(BaseDTO):
@@ -32,6 +33,10 @@ class StudyDTO(BaseDTO):
             or data.get("proto_visits")
             or 1,
             comments=data.get("comments", ""),
+            created_at=dict_to_datetime(data, "created_at") or datetime.now(),
+            created_by=data.get("created_by", get_user_name()),
+            updated_at=dict_to_datetime(data, "updated_at") or datetime.now(),
+            updated_by=data.get("updated_by", get_user_name())
         )
 
     def to_dict(self) -> dict[str, Any]:

@@ -21,7 +21,8 @@ class StudyResearcherRepository(PostgresRepository):
                 r.number, r.name, r.phone, r.email,
                 sr.role, sr.study_comments,
                 sr.created_at, sr.created_by, sr.updated_at, sr.updated_by
-        FROM study_researcher sr JOIN researcher r ON sr.researcher_id = r.researcher_id;
+        FROM    study_researcher sr JOIN researcher r ON sr.researcher_id = r.researcher_id
+        WHERE   study_id = %s;
         """
         result = await self.execute_query(sql, (study_id,))
         return [StudyResearcherRow.from_dict(sr) for sr in result]
