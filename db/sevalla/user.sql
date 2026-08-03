@@ -30,3 +30,8 @@ CREATE UNIQUE INDEX IF NOT EXISTS index_user_pass
     ON public."user" USING btree
     (user_name COLLATE pg_catalog."default" ASC NULLS LAST, pass_hash COLLATE pg_catalog."default" ASC NULLS LAST)
     TABLESPACE pg_default;
+
+
+INSERT INTO public."user" (user_name, pass_hash, user_role, change_pass, created_by, updated_by)
+VALUES ('admin', '299390b0010c72e591e83f0679d04a49304c9e40c31c4fc8ebad257f82db5ee8',
+        'Admin', false, 'system', 'system');
