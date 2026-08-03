@@ -33,5 +33,14 @@ def str_to_date(str_time: str) -> datetime:
     return datetime.fromisoformat(str_time)
 
 
-def dict_to_date(data: dict, key: str) -> date:
-    return date.fromisoformat(data.get(key, date.today().isoformat()))
+def dict_to_date(data: dict, key: str,
+                 default: date | None = date.today()) -> date:
+    value = data.get(key)
+    if isinstance(value, str):
+        return date.fromisoformat(value)
+    elif isinstance(value, date):
+        return value
+    elif default is None:
+        raise ValueError(f"Invalid value for key '{key}': {value}")
+    else:
+        return default

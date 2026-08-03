@@ -24,7 +24,6 @@ class StudyResearcherGrid(View):
         self.subscribe(
             channel="study_researcher", message="deleted", handler=self._refresh_grid
         )
-        self.subscribe(channel="patient", message="saved", handler=self._refresh_grid)
         self.subscribe(channel="study", message="selected", handler=self._refresh_grid)
 
     async def _refresh_grid(self, **kwargs):

@@ -49,11 +49,8 @@ class PostgresRepository:
                     # UPDATE
                     await cur.execute(update, value)
                     await self.conn.commit()
-                    return value
                 else:
                     # INSERT
                     await cur.execute(insert, value)
-                    result = await cur.fetchone()
                     await self.conn.commit()
-                    return result if result else {}
-        return {}
+        return value
