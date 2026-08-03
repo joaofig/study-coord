@@ -16,14 +16,17 @@ def str_to_datetime(str_time: str) -> datetime:
     return datetime.fromisoformat(str_time)
 
 
-def dict_to_datetime(data: dict, key: str) -> datetime:
+def dict_to_datetime(data: dict, key: str,
+                     default: datetime | None = datetime.now()) -> datetime:
     value = data.get(key)
     if isinstance(value, str):
         return datetime.fromisoformat(value)
     elif isinstance(value, datetime):
         return value
-    else:
+    elif default is None:
         raise ValueError(f"Invalid value for key '{key}': {value}")
+    else:
+        return default
 
 
 def str_to_date(str_time: str) -> datetime:

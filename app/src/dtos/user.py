@@ -30,9 +30,9 @@ class UserDTO(BaseModel):
             user_role=data.get("user_role", ""),
             change_pass=data.get("change_pass", False),
             created_at=dict_to_datetime(data, "created_at"),
-            created_by=data.get("created_by", ""),
+            created_by=data.get("created_by", "system"),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", ""),
+            updated_by=data.get("updated_by", "system"),
         )
 
     def to_dict(self) -> dict:

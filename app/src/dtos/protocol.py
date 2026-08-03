@@ -2,7 +2,7 @@ from datetime import date, datetime
 from typing import Self
 
 from src.dtos.base import BaseDTO
-from src.tools.user import dict_to_datetime
+from src.tools.user import dict_to_datetime, get_user_name
 
 
 class ProtocolDTO(BaseDTO):
@@ -28,9 +28,9 @@ class ProtocolDTO(BaseDTO):
             ),
             description=data.get("description", ""),
             created_at=dict_to_datetime(data, "created_at"),
-            created_by=data.get("created_by", ""),
+            created_by=data.get("created_by", get_user_name()),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", ""),
+            updated_by=data.get("updated_by", get_user_name()),
         )
 
     def to_dict(self) -> dict:

@@ -2,7 +2,7 @@ from typing import Self
 
 from src.dtos.base import BaseDTO
 from src.dtos.study import StudyDTO
-from src.tools.user import dict_to_datetime
+from src.tools.user import dict_to_datetime, get_user_name
 
 
 def study_researcher_roles() -> dict:
@@ -35,9 +35,9 @@ class ResearcherDTO(BaseDTO):
             email=data.get("email", ""),
             comments=data.get("comments", ""),
             created_at=dict_to_datetime(data, "created_at"),
-            created_by=data.get("created_by", ""),
+            created_by=data.get("created_by", get_user_name()),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", ""),
+            updated_by=data.get("updated_by", get_user_name()),
             study_count=data.get("study_count", 0),
         )
 

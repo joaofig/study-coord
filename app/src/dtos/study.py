@@ -33,9 +33,9 @@ class StudyDTO(BaseDTO):
             or data.get("proto_visits")
             or 1,
             comments=data.get("comments", ""),
-            created_at=dict_to_datetime(data, "created_at") or datetime.now(),
+            created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", get_user_name()),
-            updated_at=dict_to_datetime(data, "updated_at") or datetime.now(),
+            updated_at=dict_to_datetime(data, "updated_at"),
             updated_by=data.get("updated_by", get_user_name())
         )
 

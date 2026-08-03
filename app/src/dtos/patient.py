@@ -2,7 +2,7 @@ from datetime import date, datetime
 from typing import Self
 
 from src.dtos.base import BaseDTO
-from src.tools.user import dict_to_datetime
+from src.tools.user import dict_to_datetime, dict_to_date, get_user_name
 
 
 def patient_statuses() -> dict:
@@ -41,20 +41,14 @@ class PatientDTO(BaseDTO):
             study_id=data.get("study_id", 0),
             number=data.get("number", ""),
             name=data.get("name", ""),
-            start_date=date.fromisoformat(
-                data.get("start_date", date.today().isoformat())
-            ),
-            exit_date=date.fromisoformat(
-                data.get("exit_date", date.today().isoformat())
-            )
-            if data.get("exit_date")
-            else None,
+            start_date=dict_to_date(data, "start_date") or date.today(),
+            exit_date=dict_to_date(data, "exit_date"),
             status=data.get("status", "active"),
             comments=data.get("comments", ""),
-            created_at=dict_to_datetime(data, "created_at"),
-            created_by=data.get("created_by", ""),
-            updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", ""),
+            created_at=dict_to_datetime(data, "created_at") or datetime.now(),
+            created_by=data.get("created_by", get_user_name()),
+            updated_at=dict_to_datetime(data, "updated_at") or datetime.now(),
+            updated_by=data.get("updated_by", get_user_name()),
         )
 
     def to_dict(self) -> dict:
