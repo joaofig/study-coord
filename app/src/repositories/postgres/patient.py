@@ -20,7 +20,18 @@ class PatientRepository(PostgresRepository):
 
     async def load(self, patient_id: int) -> PatientDTO | None:
         sql: LiteralString = """
-        SELECT  *
+        SELECT  patient_id
+        ,       study_id
+        ,       "number"
+        ,       name
+        ,       start_date
+        ,       exit_date
+        ,       status
+        ,       comments
+        ,       created_at
+        ,       created_by
+        ,       updated_at
+        ,       updated_by
         FROM    patient 
         WHERE   patient_id = %s
         """
@@ -31,7 +42,18 @@ class PatientRepository(PostgresRepository):
 
     async def list(self, study_id: int) -> builtins.list[PatientDTO]:
         sql: LiteralString = """
-        SELECT  *
+        SELECT  patient_id
+        ,       study_id
+        ,       "number"
+        ,       name
+        ,       start_date
+        ,       exit_date
+        ,       status
+        ,       comments
+        ,       created_at
+        ,       created_by
+        ,       updated_at
+        ,       updated_by
         FROM    patient 
         WHERE   study_id = %s
         """
