@@ -8,12 +8,14 @@ from src.viewmodels import (
     VisitListViewModel,
 )
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
+from src.viewmodels.timeline import TimelineViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.event_panel import EventPanel
 from src.views.monitoring_panel import StudyMonitoringPanel
 from src.views.patient_panel import StudyPatientPanel
 from src.views.protocol_panel import ProtocolPanel
 from src.views.study_researcher_panel import StudyResearcherPanel
+from src.views.timeline_panel import TimelinePanel
 from src.views.view import View
 from src.views.visit_panel import StudyVisitPanel
 
@@ -54,6 +56,10 @@ class StudyPanel(View):
         panel = EventPanel(AdverseEventListViewModel())
         panel.show()
 
+    def timeline_panel(self):
+        panel = TimelinePanel(TimelineViewModel())
+        panel.show()
+
     def patient_detail_panel(self, patient_vm: ViewModel):
         with ui.column().classes("h-full w-full p-0") \
                 .bind_visibility(patient_vm, "selected_id") as container:
@@ -82,9 +88,10 @@ class StudyPanel(View):
                 .props("dense no-caps") \
                 .bind_visibility(self.vm, "selected_id") as tabs:
             patients = ui.tab("Patients").classes("text-sky-800")
-            monitoring = ui.tab("Monitoring").classes("text-sky-800")
+            monitoring = ui.tab("Monitoring Visits").classes("text-sky-800")
             researchers = ui.tab("Researchers").classes("text-sky-800")
-            protocols = ui.tab("Protocol").classes("text-sky-800")
+            protocols = ui.tab("Protocol Violations").classes("text-sky-800")
+            timeline = ui.tab("Timeline").classes("text-sky-800")
 
         with ui.tab_panels(tabs, value=patients, animated=False) \
                 .classes("w-full h-full"):
@@ -107,3 +114,8 @@ class StudyPanel(View):
                     .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
                 self.protocol_panel()
+
+            with ui.tab_panel(timeline) \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
+                self.timeline_panel()

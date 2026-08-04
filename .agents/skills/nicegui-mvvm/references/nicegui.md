@@ -333,29 +333,30 @@ ui.input_chips('Tags')                  # chip-based multi-value input
 ui.label('Hello World')
 ui.markdown('**Bold** and *italic*')
 ui.markdown('```mermaid\ngraph TD; A-->B\n```',
-            extras=['fenced-code-blocks', 'tables', 'mermaid'])  # `extras` REPLACES the default ['fenced-code-blocks', 'tables']
+            extras=['fenced-code-blocks', 'tables',
+                    'mermaid'])  # `extras` REPLACES the default ['fenced-code-blocks', 'tables']
 ui.code('print("hello")', language='python')
-ui.image('/path/to/image.png')          # or URL or base64
+ui.image('/path/to/image.png')  # or URL or base64
 ui.audio('/path/to/audio.mp3')
 ui.video('/path/to/video.mp4')
-ui.icon('thumb_up', size='2rem', color='green')   # Material Design icons
-ui.avatar('JD', color='blue')           # initials or image
+ui.icon('thumb_up', size='2rem', color='green')  # Material Design icons
+ui.avatar('JD', color='blue')  # initials or image
 ui.badge('3', color='red')
 ui.chip('Tag', icon='label', color='primary')
 ui.separator()
-ui.space()                              # flexible spacer (flex: 1)
+ui.space()  # flexible spacer (flex: 1)
 ui.spinner(size='lg', color='primary')
 ui.skeleton(type='rect', height='2rem')
 ui.circular_progress(value=0.4, min=0, max=1, size='xl', color='primary')
 ui.linear_progress(value=0.4, show_value=True)
 ui.link('Click here', target='https://example.com')
-ui.link_target('section-1')             # in-page anchor, pair with ui.link(target='#section-1')
-ui.html('<b>raw</b> HTML')             # use sparingly
+ui.link_target('section-1')  # in-page anchor, pair with ui.link(target='#section-1')
+ui.html('<b>raw</b> HTML')  # use sparingly
 ui.element('div').classes('grid grid-cols-3 gap-2')  # generic escape hatch for arbitrary tags
-with ui.timeline():                                  # activity feed
+with ui.milestones():  # activity feed
     ui.timeline_entry('Did the thing', title='Step 1', subtitle='10:00')
 ui.chat_message('Hello!', name='Alice', stamp='now', avatar='...')
-ui.log(max_lines=100)                  # live-updating log display
+ui.log(max_lines=100)  # live-updating log display
 ````
 
 ---

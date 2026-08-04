@@ -23,10 +23,36 @@ class VisitRepository(PostgresRepository):
 
     async def list(self, study_id: int, patient_id: int = 0) -> builtins.list[VisitDTO]:
         if patient_id == 0:
-            sql = "SELECT * FROM visit WHERE study_id = %s"
+            sql = """
+            SELECT  visit_id
+            ,       study_id
+            ,       patient_id
+            ,       visit_date
+            ,       visit_type
+            ,       comments
+            ,       created_at
+            ,       created_by
+            ,       updated_at
+            ,       updated_by
+            FROM    visit 
+            WHERE   study_id = %s
+            """
             result = await self.execute_query(sql, (study_id,))
         else:
-            sql = "SELECT * FROM visit WHERE study_id = %s AND patient_id = %s"
+            sql = """
+            SELECT  visit_id
+            ,       study_id
+            ,       patient_id
+            ,       visit_date
+            ,       visit_type
+            ,       comments
+            ,       created_at
+            ,       created_by
+            ,       updated_at
+            ,       updated_by
+            FROM    visit 
+            WHERE   study_id = %s AND patient_id = %s
+            """
             result = await self.execute_query(sql, (study_id, patient_id))
         return [VisitDTO.from_dict(v) for v in result]
 

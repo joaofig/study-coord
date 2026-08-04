@@ -13,10 +13,7 @@ class StudyModel:
         return StudyDTO.from_dict(study)
 
     async def load(self, study_id: int) -> StudyDTO | None:
-        study = await self.repo.load(study_id)
-        if study:
-            return StudyDTO.from_dict(study)
-        return None
+        return await self.repo.load(study_id)
 
     async def delete(self, study_id: int):
         await self.repo.delete(study_id)
