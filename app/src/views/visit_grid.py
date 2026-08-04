@@ -39,11 +39,6 @@ class StudyVisitGrid(View):
 
     async def _update_grid(self):
         await self.grid.run_grid_method("setGridOption", "rowData", self.visits)
-        #
-        # # Restore the selected visit
-        # visit_id = self.vm.get("selected_id")
-        # if visit_id != 0:
-        #     await self.grid.run_row_method(visit_id, "setSelected", True)
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -74,20 +69,6 @@ class StudyVisitGrid(View):
             {
                 "headerName": "Type",
                 "field": "visit_type",
-                "sortable": True,
-                "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
-            },
-            {
-                "headerName": "Patient Number",
-                "field": "patient_number",
-                "sortable": True,
-                "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
-            },
-            {
-                "headerName": "Patient Name",
-                "field": "patient_name",
                 "sortable": True,
                 "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
