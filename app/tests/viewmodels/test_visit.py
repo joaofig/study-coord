@@ -2,7 +2,9 @@ from datetime import date
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from src.dtos.patient import PatientDTO
 from src.dtos.visit import VisitDTO
+from src.models.patient import PatientModel
 from src.viewmodels.visit import VisitViewModel
 from src.viewmodels.visit_list import VisitListViewModel
 
@@ -103,3 +105,18 @@ async def test_visit_list_view_model_load():
         assert len(vm.visits) == 2
         assert vm.study_id == 1
         assert vm.visits[0]["visit_type"] == "V1"
+
+
+@pytest.mark.asyncio
+async def test_visit_view_model_loads_patient_options():
+    vm = VisitViewModel()
+    patients = [
+        PatientDTO(patient_id=101, study_id=1, number="P001", name="Patient One"),
+        PatientDTO(patient_id=102, study_id=1, number="P002", name="Patient Two"),
+    ]
+
+    with patch.object(PatientModel, "list", new=AsyncMock(return_value=patients)):
+        await vm.call("load_patients", study_id=1)
+
+    assert vm.study_id == 1
+    assert vm.patients == {101: "Patient One", 102: "Patient Two"}

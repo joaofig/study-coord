@@ -118,3 +118,21 @@ async def test_user_view_model_load():
         assert vm.user_id == 999
         assert vm.user_name == "loaded_user"
         assert vm.user_role == "Admin"
+
+
+@pytest.mark.asyncio
+async def test_user_list_selection_converts_id_and_delete_reloads():
+    vm = UserListViewModel()
+    reload_users = AsyncMock()
+    delete = AsyncMock()
+
+    with (
+        patch.object(vm, "load", reload_users),
+        patch.object(vm.model, "delete", delete),
+    ):
+        await vm.call("user_selected", user_id="12")
+        await vm.call("delete", user_id=12)
+
+    assert vm.selected_id == 12
+    delete.assert_awaited_once_with(user_id=12)
+    reload_users.assert_awaited_once_with()

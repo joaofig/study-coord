@@ -81,3 +81,15 @@ async def test_researcher_list_view_model_delete():
         
         # Verify
         mock_delete.assert_called_once_with(researcher_id=123)
+
+
+@pytest.mark.asyncio
+async def test_researcher_validation_rejects_invalid_email():
+    vm = ResearcherViewModel(number="R001", name="John Doe", email="invalid")
+
+    with patch.object(vm.model, "number_exists", new=AsyncMock(return_value=False)):
+        await vm.call("validate")
+
+    assert vm.is_invalid is True
+    assert "Email" in vm.validation
+    assert "invalid" in vm.validation

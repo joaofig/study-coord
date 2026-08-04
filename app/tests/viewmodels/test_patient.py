@@ -85,3 +85,23 @@ async def test_patient_list_view_model_delete():
         
         # Verify
         mock_delete.assert_called_once_with(101)
+
+
+@pytest.mark.asyncio
+async def test_patient_validation_rejects_duplicate_number_and_invalid_exit_date():
+    vm = PatientViewModel(
+        study_id=1,
+        number="P001",
+        name="Patient One",
+        start_date="2024-01-10",
+        exit_date="2024-01-01",
+    )
+
+    with patch.object(
+        vm.model, "patient_number_exists", new=AsyncMock(return_value=True)
+    ):
+        is_valid = await vm.call("validate")
+
+    assert is_valid is False
+    assert "already exists" in vm.validation
+    assert "after" in vm.validation

@@ -3,6 +3,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 from nicegui import ui
+import src.dtos.study as study_dto
 from src.dtos.study import StudyDTO as Study
 from src.dtos.study import StudyRowDTO as StudyRow
 from src.viewmodels.study import StudyViewModel
@@ -152,7 +153,10 @@ async def test_save_persists_valid_study_updates_id_and_notifies(
         start_date=STUDY_START_DATE,
     )
 
-    with patch("src.models.study.StudyModel.repo", fake_repository):
+    with (
+        patch("src.models.study.StudyModel.repo", fake_repository),
+        patch.object(study_dto, "get_user_name", return_value="test-user"),
+    ):
         await view_model.save()
 
     assert view_model.study_id == NEW_STUDY_ID
@@ -213,10 +217,12 @@ async def test_message_load_study_keeps_state_when_missing(fake_repository) -> N
 async def test_message_save_study_delegates_to_save() -> None:
     view_model = StudyViewModel()
     view_model.save = AsyncMock()
+    view_model.broadcast = AsyncMock()
 
     await view_model.call("save")
 
     view_model.save.assert_awaited_once_with()
+    view_model.broadcast.assert_awaited_once_with("study_list", "load")
 
 
 @pytest.mark.asyncio

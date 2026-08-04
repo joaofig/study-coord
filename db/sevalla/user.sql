@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS public."user"
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."user"
-    OWNER to "creepy-aquamarine-tortoise";
+-- ALTER TABLE IF EXISTS public."user"
+--     OWNER to "creepy-aquamarine-tortoise";
 -- Index: index_user_pass
 
 -- DROP INDEX IF EXISTS public.index_user_pass;

@@ -63,29 +63,44 @@ async def test_monitoring_list_view_model_load():
     view_model = MonitoringListViewModel()
 
     mock_data = [
-        {
-            "monitoring_id": 1,
-            "study_id": 1,
-            "meeting_date": "2024-01-01",
-            "monitor": "M1",
-            "comments": "C1",
-        },
-        {
-            "monitoring_id": 2,
-            "study_id": 1,
-            "meeting_date": "2024-02-01",
-            "monitor": "M2",
-            "comments": "C2",
-        },
+        MonitoringDTO(
+            monitoring_id=1,
+            study_id=1,
+            meeting_date="2024-01-01",
+            monitor="M1",
+            comments="C1",
+        ),
+        MonitoringDTO(
+            monitoring_id=2,
+            study_id=1,
+            meeting_date="2024-02-01",
+            monitor="M2",
+            comments="C2",
+        ),
     ]
 
     with patch(
         "src.models.monitoring.MonitoringModel.list", new_callable=AsyncMock
     ) as mock_list:
-        mock_list.return_value = [MonitoringDTO.from_dict(m) for m in mock_data]
+        mock_list.return_value = mock_data
 
         await view_model._load_monitoring(1)
 
         assert len(view_model.monitoring_visits) == 2
         assert view_model.monitoring_visits[0]["monitor"] == "M1"
         assert view_model.monitoring_visits[1]["monitor"] == "M2"
+
+
+@pytest.mark.asyncio
+async def test_monitoring_list_selects_and_deletes_monitoring_visit():
+    view_model = MonitoringListViewModel()
+    view_model.monitoring_visits.replace([{"monitoring_id": 7, "monitor": "M1"}])
+    delete = AsyncMock()
+
+    with patch.object(view_model.model, "delete", delete):
+        await view_model.call("monitoring_selected", monitoring_id=7)
+        await view_model.call("delete", monitoring_id=7)
+
+    assert view_model.selected_id == 7
+    delete.assert_awaited_once_with(7)
+    assert view_model.monitoring_visits == []
