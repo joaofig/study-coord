@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS public.visit
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.visit
-    OWNER to "creepy-aquamarine-tortoise";
+-- ALTER TABLE IF EXISTS public.visit
+--     OWNER to "creepy-aquamarine-tortoise";
 
 -- Index: visit_patient_idx
 

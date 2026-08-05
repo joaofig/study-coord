@@ -21,5 +21,5 @@ CREATE TABLE IF NOT EXISTS public.study
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.study
-    OWNER to "creepy-aquamarine-tortoise";
+-- ALTER TABLE IF EXISTS public.study
+--     OWNER to "creepy-aquamarine-tortoise";

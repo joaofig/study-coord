@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS public.patient
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.patient
-    OWNER to "creepy-aquamarine-tortoise";
+-- ALTER TABLE IF EXISTS public.patient
+--     OWNER to "creepy-aquamarine-tortoise";
 
 -- Index: patient_study_idx
 

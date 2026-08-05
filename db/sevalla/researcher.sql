@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS public.researcher
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.researcher
-    OWNER to "creepy-aquamarine-tortoise";
+-- ALTER TABLE IF EXISTS public.researcher
+--     OWNER to "creepy-aquamarine-tortoise";
 
 -- Index: researcher_number_idx
 
