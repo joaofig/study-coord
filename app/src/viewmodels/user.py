@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from typing import Any
 
 from nicegui import binding
@@ -15,9 +15,9 @@ class UserViewModel(ViewModel):
     pass_hash: str = ""
     user_role: str = "User"
     change_pass: bool = False
-    created_at: date = date.today()
+    created_at: datetime = datetime.now()
     created_by: str = ""
-    updated_at: date = date.today()
+    updated_at: datetime = datetime.now()
     updated_by: str = ""
     data_changed: bool = False
     change_set = ObservableSet()
