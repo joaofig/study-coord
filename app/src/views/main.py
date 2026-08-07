@@ -1,5 +1,5 @@
 from nicegui import app, ui
-from src.repositories.supabase.user import UserRepository
+from src.repositories import UserRepository
 from src.tools.tasks import ManagedTasks
 from src.viewmodels import UserViewModel
 

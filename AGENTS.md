@@ -3,14 +3,14 @@
 ## Project overview
 - Language: Python
 - Build tool: uv
-- Database: Supabase (PostgreSQL)
+- Database: PostgreSQL (direct connection)
 - User interface: nicegui (https://nicegui.io/documentation)
 
 ## Repository structure
 - All code is in the `app/src` directory
 - All tests are in the `app/tests` directory
 - All documentation is in the `docs` directory
-- `app/src/repositories/supabase` contains the repository implementations
+- `app/src/repositories/postgres` contains the repository implementations
 - `app/src/models` contains the data models (data classes)
 - `app/src/views` contains the views and controllers
 
