@@ -5,7 +5,7 @@ check:
 	ruff check .
 
 podman-run:
-	podman run --rm \
+	podman run \
 		--name study-coord \
 		-e POSTGRES_PASSWORD=coordstudy \
 		-p 5432:5432 \
