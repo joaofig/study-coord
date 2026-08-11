@@ -29,11 +29,6 @@ class PatientDTO(BaseDTO):
     status: str = "active"
     comments: str = ""
 
-    created_at: datetime = datetime.now()
-    created_by: str = ""
-    updated_at: datetime = datetime.now()
-    updated_by: str = ""
-
     @classmethod
     def from_dict(cls, data: dict) -> Self:
         return cls(
@@ -42,7 +37,7 @@ class PatientDTO(BaseDTO):
             number=data.get("number", ""),
             name=data.get("name", ""),
             start_date=dict_to_date(data, "start_date") or date.today(),
-            exit_date=dict_to_date(data, "exit_date"),
+            exit_date=dict_to_date(data, "exit_date", None),
             status=data.get("status", "active"),
             comments=data.get("comments", ""),
             created_at=dict_to_datetime(data, "created_at") or datetime.now(),

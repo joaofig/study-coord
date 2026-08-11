@@ -8,11 +8,11 @@ class TimelinePanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
 
+        self.root = ui.row().classes("w-full h-full")
+
         self.milestones = self.vm.get("milestones")
         if isinstance(self.milestones, ObservableList):
             self.milestones.on_change(self._update_view)
-
-        self.root = ui.row().classes("w-full h-full")
 
     async def _update_view(self):
         # Clear the existing view root
