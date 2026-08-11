@@ -44,25 +44,15 @@ class StudyMonitoringGrid(View):
                 """,
             },
             {
-                "headerName": "Date",
-                "field": "meeting_date",
-                "sortable": True,
-                "align": "left",
-                "width": 120,
+                "headerName": "Date", "field": "meeting_date", "sortable": True, "align": "left", "width": 120,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Monitor",
-                "field": "monitor",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Monitor", "field": "monitor", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Comments",
-                "field": "comments",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Comments", "field": "comments", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
@@ -96,9 +86,6 @@ class StudyMonitoringGrid(View):
         row_data = event.args
         if row_data:
             await self._edit_monitoring(row_data)
-
-    def show(self) -> AgGrid:
-        return self.grid
 
     async def _row_selection_changed(self, event):
         row = await self.grid.get_selected_row()

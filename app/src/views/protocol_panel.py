@@ -72,4 +72,4 @@ class ProtocolPanel(View):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):
-                ProtocolGrid(self.vm).show()
+                ProtocolGrid(self.vm)

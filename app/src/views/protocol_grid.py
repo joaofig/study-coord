@@ -41,27 +41,15 @@ class ProtocolGrid(View):
                 """,
             },
             {
-                "headerName": "Date",
-                "field": "date",
-                "sortable": True,
-                "align": "left",
-                "width": 120,
+                "headerName": "Date", "field": "date", "sortable": True, "align": "left", "width": 120,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Title",
-                "field": "title",
-                "sortable": True,
-                "align": "left",
-                "flex": 1,
+                "headerName": "Title", "field": "title", "sortable": True, "align": "left", "flex": 1,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Description",
-                "field": "description",
-                "sortable": True,
-                "align": "left",
-                "flex": 2,
+                "headerName": "Description", "field": "description", "sortable": True, "align": "left", "flex": 2,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
@@ -93,6 +81,3 @@ class ProtocolGrid(View):
         row_data = event.args
         if row_data:
             await self._edit_protocol(row_data)
-
-    def show(self) -> AgGrid:
-        return self.grid

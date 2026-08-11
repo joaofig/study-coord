@@ -80,7 +80,7 @@ class EventPanel(View):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):
-                EventGrid(self.vm).show()
+                EventGrid(self.vm)
 
     def _export_to_excel(self):
         events = self.vm.get("events")

@@ -77,4 +77,4 @@ class StudyMonitoringPanel(View):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):
-                StudyMonitoringGrid(self.vm).show()
+                StudyMonitoringGrid(self.vm)

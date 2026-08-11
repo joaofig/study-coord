@@ -51,11 +51,7 @@ class StudyPatientGrid(View):
                 """,
             },
             {
-                "headerName": "Number",
-                "field": "number",
-                "sortable": True,
-                "align": "left",
-                "width": 100,
+                "headerName": "Number", "field": "number", "sortable": True, "align": "left", "width": 100,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
@@ -63,26 +59,15 @@ class StudyPatientGrid(View):
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Start",
-                "field": "start_date",
-                "sortable": True,
-                "align": "left",
-                "width": 120,
+                "headerName": "Start", "field": "start_date", "sortable": True, "align": "left", "width": 120,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "End",
-                "field": "exit_date",
-                "sortable": True,
-                "align": "left",
-                "width": 120,
+                "headerName": "End", "field": "exit_date", "sortable": True, "align": "left", "width": 120,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Status",
-                "field": "status_text",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Status", "field": "status_text", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
@@ -121,9 +106,6 @@ class StudyPatientGrid(View):
         row_data = event.args  # dict with the full row's data
         if row_data:
             await self._edit_patient(row_data)
-
-    def show(self) -> AgGrid:
-        return self.grid
 
     async def _row_selection_changed(self, event):
         row = await self.grid.get_selected_row()

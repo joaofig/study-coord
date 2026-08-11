@@ -77,4 +77,4 @@ class StudyPatientPanel(View):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):
-                StudyPatientGrid(self.vm).show()
+                StudyPatientGrid(self.vm)

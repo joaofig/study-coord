@@ -57,26 +57,15 @@ class EventGrid(View):
                 """,
             },
             {
-                "headerName": "Date",
-                "field": "date",
-                "sortable": True,
-                "align": "left",
-                "width": 120,
+                "headerName": "Date", "field": "date", "sortable": True, "align": "left", "width": 120,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Type",
-                "field": "event_type",
-                "sortable": True,
-                "align": "left",
-                "width": 120,
+                "headerName": "Type", "field": "event_type", "sortable": True, "align": "left", "width": 120,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Description",
-                "field": "description",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Description", "field": "description", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
@@ -101,6 +90,3 @@ class EventGrid(View):
             await self.vm.call("event_selected", event_id=row["selected_id"])
         else:
             await self.vm.call("event_unselected")
-
-    def show(self) -> AgGrid:
-        return self.grid
