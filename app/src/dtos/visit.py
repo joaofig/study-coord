@@ -3,7 +3,7 @@ from typing import Self
 
 from src.dtos.base import BaseDTO
 from src.dtos.patient import PatientDTO
-from src.tools.user import dict_to_datetime, get_user_name
+from src.tools.user import dict_to_datetime, get_user_name, dict_to_date
 
 
 class VisitDTO(BaseDTO):
@@ -22,9 +22,7 @@ class VisitDTO(BaseDTO):
             visit_id=data.get("visit_id", 0),
             study_id=data.get("study_id", 0),
             patient_id=data.get("patient_id", 0),
-            visit_date=date.fromisoformat(
-                data.get("visit_date", date.today().isoformat())
-            ),
+            visit_date=dict_to_date(data, "visit_date") or date.today(),
             visit_type=data.get("visit_type", ""),
             comments=data.get("comments", ""),
             created_at=dict_to_datetime(data, "created_at"),
