@@ -22,10 +22,3 @@ dependencies = [
     "code-review-graph>=2.3.7",
 ]
 
-[dependency-groups]
-dev = [
-    "pytest-env>=1.7.0",
-]
-
-[tool.pytest_env]
-env_files = ["app/src/.env", "app/src/.env.test"]

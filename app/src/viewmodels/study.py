@@ -135,10 +135,6 @@ class StudyViewModel(ViewModel):
 
         if not self.name or len(self.name.strip()) == 0:
             self.validation += "Study name is required.  \r\n"
-        elif len(self.name) < 3:
-            self.validation += "Study name must be at least 3 characters long.  \r\n"
-        elif len(self.name) > 128:
-            self.validation += "Study name must be at most 128 characters long.  \r\n"
 
         if self.study_id == 0:
             if await self.model.study_exists(self.name):
