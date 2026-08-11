@@ -79,7 +79,7 @@ class StudyResearcherPanel(View):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):
-                StudyResearcherGrid(self.vm).show()
+                StudyResearcherGrid(self.vm)
 
     def _export_to_excel(self):
         researchers = [r.to_dict() for r in self.vm.get("researchers")]

@@ -66,50 +66,15 @@ class StudyGrid(View):
                 "filter": "agTextColumnFilter", "floatingFilter": False, "width": 200,
             },
             {
-                "headerName": "Sponsor",
-                "field": "sponsor",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Sponsor", "field": "sponsor", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False, "width": 200,
             },
-            {
-                "headerName": "Start",
-                "field": "start_date",
-                "sortable": True,
-                "align": "left",
-                "width": 90,
-            },
-            {
-                "headerName": "End",
-                "field": "end_date",
-                "sortable": True,
-                "align": "left",
-                "width": 90,
-            },
-            {
-                "headerName": "Patients",
-                "field": "patients",
-                "sortable": True,
-                "align": "right",
-            },
-            {
-                "headerName": "Visits",
-                "field": "visits",
-                "sortable": True,
-                "align": "right",
-            },
-            {
-                "headerName": "Researchers",
-                "field": "researchers",
-                "sortable": True,
-                "align": "right",
-            },
-            {
-                "headerName": "Events",
-                "field": "events",
-                "sortable": True,
-                "align": "right",
-            },
+            {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left", "width": 90,},
+            {"headerName": "End", "field": "end_date", "sortable": True, "align": "left", "width": 90,},
+            {"headerName": "Patients", "field": "patients", "sortable": True, "align": "right",},
+            {"headerName": "Visits", "field": "visits", "sortable": True, "align": "right",},
+            {"headerName": "Researchers", "field": "researchers", "sortable": True, "align": "right",},
+            {"headerName": "Events", "field": "events", "sortable": True, "align": "right",},
         ]
         grid_def = {
             "columnDefs": columns,
@@ -128,7 +93,4 @@ class StudyGrid(View):
         self.grid.on("selectionChanged",
                      lambda event: self._row_selection_changed(event)
                      )
-        return self.grid
-
-    def show(self) -> AgGrid:
         return self.grid

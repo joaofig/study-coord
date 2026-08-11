@@ -59,18 +59,11 @@ class StudyVisitGrid(View):
                 """,
             },
             {
-                "headerName": "Date",
-                "field": "visit_date",
-                "sortable": True,
-                "align": "left",
-                "width": 120,
+                "headerName": "Date", "field": "visit_date", "sortable": True, "align": "left", "width": 120,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Type",
-                "field": "visit_type",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Type", "field": "visit_type", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]

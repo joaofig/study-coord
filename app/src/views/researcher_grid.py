@@ -34,10 +34,7 @@ class ResearcherGrid(View):
                 """,
             },
             {
-                "headerName": "Number",
-                "field": "number",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Number", "field": "number", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
@@ -45,32 +42,18 @@ class ResearcherGrid(View):
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Phone",
-                "field": "phone",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Phone", "field": "phone", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Email",
-                "field": "email",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Email", "field": "email", "sortable": True, "align": "left",
+                "filter": "agTextColumnFilter", "floatingFilter": False,
+             },
+            {
+                "headerName": "Comments", "field": "comments", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
-            {
-                "headerName": "Comments",
-                "field": "comments",
-                "sortable": True,
-                "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
-            },
-            {
-                "headerName": "Studies",
-                "field": "study_count",
-                "sortable": True,
-                "align": "right",
-            },
+            {"headerName": "Studies", "field": "study_count", "sortable": True, "align": "right",},
         ]
         grid_def = {
             "columnDefs": columns,
@@ -123,6 +106,3 @@ class ResearcherGrid(View):
                 researcher=row,
                 researcher_id=row["researcher_id"],
             )
-
-    def show(self) -> AgGrid:
-        return self.grid

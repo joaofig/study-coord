@@ -47,7 +47,7 @@ class ResearcherView(View):
                     ui.tooltip("Log Out")
 
             with ui.column().classes("h-full flex-1"):
-                ResearcherGrid(vm).show()
+                ResearcherGrid(vm)
 
     async def _on_delete_researcher(self):
         dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")

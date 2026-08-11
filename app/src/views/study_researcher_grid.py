@@ -51,11 +51,7 @@ class StudyResearcherGrid(View):
             """,
             },
             {
-                "headerName": "Number",
-                "field": "number",
-                "sortable": True,
-                "align": "left",
-                "width": 100,
+                "headerName": "Number", "field": "number", "sortable": True, "align": "left", "width": 100,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
@@ -63,24 +59,15 @@ class StudyResearcherGrid(View):
                 "filter": "agTextColumnFilter", "floatingFilter": False,
              },
             {
-                "headerName": "Role",
-                "field": "role_text",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Role", "field": "role_text", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Phone",
-                "field": "phone",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Phone", "field": "phone", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
             {
-                "headerName": "Email",
-                "field": "email",
-                "sortable": True,
-                "align": "left",
+                "headerName": "Email", "field": "email", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
             },
         ]
@@ -102,9 +89,6 @@ class StudyResearcherGrid(View):
             "selectionChanged", lambda event: self._row_selection_changed(event)
         )
         return grid
-
-    def show(self) -> AgGrid:
-        return self.grid
 
     async def _edit_researcher(self, researcher: dict) -> dict:
         researcher_vm = StudyResearcherViewModel()
