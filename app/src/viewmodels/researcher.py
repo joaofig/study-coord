@@ -101,6 +101,7 @@ class ResearcherViewModel(ViewModel):
 
     async def save(self):
         researcher = self.to_dto()
+        researcher.log_change(self.researcher_id)
         await self.model.save(researcher)
         if researcher.researcher_id:
             self.researcher_id = researcher.researcher_id

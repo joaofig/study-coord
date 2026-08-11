@@ -1,8 +1,8 @@
 import builtins
 
 from src.dtos.visit import VisitDTO
-from src.repositories.postgres.patient import PatientRepository
 from src.repositories.postgres.base import PostgresRepository
+from src.repositories.postgres.patient import PatientRepository
 
 TABLE = "visit"
 

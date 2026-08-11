@@ -1,8 +1,7 @@
 import hashlib
-from datetime import datetime
 from typing import Self
 
-from pydantic import BaseModel
+from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_datetime
 
 
@@ -10,16 +9,12 @@ def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
 
 
-class UserDTO(BaseModel):
+class UserDTO(BaseDTO):
     user_id: int
     user_name: str
     pass_hash: str
     user_role: str
     change_pass: bool = False
-    created_at: datetime = datetime.now()
-    created_by: str
-    updated_at: datetime = datetime.now()
-    updated_by: str
 
     @classmethod
     def from_dict(cls, data: dict) -> Self:

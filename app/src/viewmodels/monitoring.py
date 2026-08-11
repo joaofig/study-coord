@@ -76,6 +76,7 @@ class MonitoringViewModel(ViewModel):
 
     async def save(self):
         monitoring = self.to_dto()
+        monitoring.log_change(self.monitoring_id)
         monitoring = await self.model.save(monitoring)
         if monitoring.monitoring_id:
             self.monitoring_id = monitoring.monitoring_id

@@ -1,7 +1,9 @@
 import os
+
 import psycopg
 from dotenv import load_dotenv
 from psycopg import AsyncConnection
+
 
 async def get_postgres_client() -> AsyncConnection:
     """

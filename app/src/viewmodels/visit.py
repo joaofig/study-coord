@@ -90,6 +90,7 @@ class VisitViewModel(ViewModel):
 
     async def save(self):
         visit = self.to_dto()
+        visit.log_change(self.visit_id)
         await self.model.save(visit)
         if visit.visit_id:
             self.visit_id = visit.visit_id

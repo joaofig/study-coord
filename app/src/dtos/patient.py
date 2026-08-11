@@ -2,7 +2,7 @@ from datetime import date, datetime
 from typing import Self
 
 from src.dtos.base import BaseDTO
-from src.tools.user import dict_to_datetime, dict_to_date, get_user_name
+from src.tools.user import dict_to_date, dict_to_datetime, get_user_name
 
 
 def patient_statuses() -> dict:

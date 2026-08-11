@@ -102,7 +102,9 @@ class StudyViewModel(ViewModel):
         if not await self.validate():
             ui.notify(self.validation, color="negative")
             return
-        study = await self.model.save(self.to_dto())
+        study = self.to_dto()
+        study.log_change(self.study_id)
+        study = await self.model.save(study)
         self.study_id = study.study_id
         await self.broadcast("study", "study_saved", study=study)
 

@@ -89,6 +89,7 @@ class PatientViewModel(ViewModel):
 
     async def save(self):
         patient = self.to_dto()
+        patient.log_change(self.patient_id)
         await self.model.save(patient)
         if patient.patient_id:
             self.patient_id = patient.patient_id

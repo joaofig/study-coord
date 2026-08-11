@@ -1,15 +1,13 @@
-from datetime import date, datetime
+from datetime import date
 from typing import Any, Self
 
-from nicegui import app
 from pydantic import BaseModel
-
 from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_datetime, get_user_name
 
 
 class StudyDTO(BaseDTO):
-    study_id: int | None
+    study_id: int
     name: str
     sponsor: str
     start_date: date = date.today()

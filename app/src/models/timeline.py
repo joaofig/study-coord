@@ -1,4 +1,3 @@
-from typing import List
 
 from src.dtos.milestone import Milestone
 from src.models.adverse_event import AdverseEventModel
@@ -6,7 +5,6 @@ from src.models.patient import PatientModel
 from src.models.protocol import ProtocolModel
 from src.models.study import StudyModel
 from src.models.visit import VisitModel
-from src.tools.observability import GridList
 
 
 class TimelineModel:
@@ -107,7 +105,7 @@ class TimelineModel:
                 )
                 self.milestones.append(ms.to_dict())
 
-    async def load(self, study_id: int) -> List:
+    async def load(self, study_id: int) -> list:
         self.milestones = []
         await self._add_patients(study_id)
         await self._add_visits(study_id)

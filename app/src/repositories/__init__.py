@@ -18,5 +18,5 @@ from src.repositories.postgres.report import ReportRepository
 from src.repositories.postgres.researcher import ResearcherRepository
 from src.repositories.postgres.study import StudyRepository
 from src.repositories.postgres.study_researcher import StudyResearcherRepository
-from src.repositories.postgres.visit import VisitRepository
 from src.repositories.postgres.user import UserRepository
+from src.repositories.postgres.visit import VisitRepository

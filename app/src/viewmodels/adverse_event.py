@@ -91,6 +91,7 @@ class AdverseEventViewModel(ViewModel):
 
     async def save(self):
         event = self.to_event()
+        event.log_change(self.adverse_event_id)
         await self.model.save(event)
         if event.adverse_event_id:
             self.adverse_event_id = event.adverse_event_id

@@ -8,8 +8,8 @@ from src.dtos.researcher import (
     StudyResearcherDTO,
     study_researcher_roles,
 )
-from src.models.study_researcher import StudyResearcherModel
 from src.models.researcher import ResearcherModel
+from src.models.study_researcher import StudyResearcherModel
 
 from .researcher import ResearcherViewModel
 from .view_model import ViewModel
@@ -89,6 +89,7 @@ class StudyResearcherViewModel(ViewModel):
 
     async def save(self):
         sr = self.to_dto()
+        sr.log_change(self.sr_id)
         await self.model.save(sr)
         if sr.sr_id:
             self.sr_id = sr.sr_id

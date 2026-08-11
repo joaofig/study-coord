@@ -1,6 +1,5 @@
 from src.repositories.supabase.client import get_supabase_client
 from src.tools import singleton
-
 from supabase import AsyncClient
 
 

@@ -2,8 +2,8 @@ import builtins
 from unittest.mock import AsyncMock, patch
 
 import pytest
-from nicegui import ui
 import src.dtos.study as study_dto
+from nicegui import ui
 from src.dtos.study import StudyDTO as Study
 from src.dtos.study import StudyRowDTO as StudyRow
 from src.viewmodels.study import StudyViewModel

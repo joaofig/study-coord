@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 from typing import Self
 
 from src.dtos.base import BaseDTO

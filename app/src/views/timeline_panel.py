@@ -1,6 +1,5 @@
 from nicegui import ui
 from nicegui.observables import ObservableList
-
 from src.viewmodels import ViewModel
 from src.views.view import View
 

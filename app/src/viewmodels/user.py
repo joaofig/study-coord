@@ -81,6 +81,7 @@ class UserViewModel(ViewModel):
     async def save(self):
         self.pass_hash = hash_password(self.password_1)
         user = self.to_dto()
+        user.log_change(self.user_id)
         model: UserModel = UserModel()
         await model.save(user)
         if user.user_id:

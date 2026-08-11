@@ -89,6 +89,7 @@ class ProtocolViewModel(ViewModel):
 
     async def save(self):
         protocol = self.to_protocol()
+        protocol.log_change(self.protocol_id)
         await self.model.save(protocol)
         if protocol.protocol_id:
             self.protocol_id = protocol.protocol_id
