@@ -8,8 +8,6 @@ def validate_name(value: str | None) -> str | None:
         return "Name is required"
     if len(value) < 3:
         return "Name must be at least 3 characters long"
-    if len(value) > 128:
-        return "Name must be at most 128 characters long"
     return None
 
 
