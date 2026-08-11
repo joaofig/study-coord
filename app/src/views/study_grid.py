@@ -15,9 +15,6 @@ class StudyGrid(View):
             self.studies.on_change(self._update_grid)
         self.grid = self._build_grid()
 
-    async def load(self):
-        await self.vm.call("load")
-
     async def _update_grid(self):
         await self.grid.run_grid_method("setGridOption", "rowData", self.studies)
 
@@ -40,7 +37,6 @@ class StudyGrid(View):
         row = event.args
         if row:
             vm = StudyViewModel()
-            vm.updated_by = app.storage.user.get("username", "Unknown")
             dialog = StudyDialog(vm)
             await vm.call("load", study_id=row["study_id"])
             result = await dialog.show()
@@ -129,13 +125,9 @@ class StudyGrid(View):
         }
         ui.on("study-row-edit", self._on_edit)
         self.grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
-        # self.grid.on("rowClicked",
-        #              self._row_selected, # ui.notify(event.args["data"]),
-        #              ["data"]
-        #             )
-        self.grid.on(
-            "selectionChanged", lambda event: self._row_selection_changed(event)
-        )
+        self.grid.on("selectionChanged",
+                     lambda event: self._row_selection_changed(event)
+                     )
         return self.grid
 
     def show(self) -> AgGrid:

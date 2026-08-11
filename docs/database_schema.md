@@ -39,16 +39,22 @@ Stores the main information for each study.
 | Column | Type | Required | Description |
 |---|---:|---:|---|
 | `study_id` | `bigint PRIMARY KEY` | Yes | Unique identifier for the study (identity). |
-| `name` | `character varying(128)` | Yes | Study name. Defaults to empty string. |
+| `name` | `character varying(128)` | Yes | Study name. Must be unique. Defaults to empty string. |
 | `sponsor` | `character varying(128)` | Yes | Sponsor of the study. Defaults to empty string. |
 | `start_date` | `date` | Yes | Study start date. Defaults to `now()`. |
 | `end_date` | `date` | No | Study end date, if applicable. |
 | `protocol_visits` | `integer` | Yes | Number of planned protocol visits. Defaults to `0`. |
 | `comments` | `text` | No | Free-form notes about the study. Defaults to empty string. |
-| `created_at` | `timestamp` | Yes | Record creation timestamp. |
+| `created_at` | `timestamp without time zone` | Yes | Record creation timestamp. |
 | `created_by` | `character varying(64)` | Yes | User who created the record. |
-| `updated_at` | `timestamp` | Yes | Record last update timestamp. |
+| `updated_at` | `timestamp without time zone` | Yes | Record last update timestamp. |
 | `updated_by` | `character varying(64)` | Yes | User who last updated the record. |
+
+### Constraints
+
+| Name | Type | Column(s) |
+|---|---|---|
+| `study_name_key` | UNIQUE | `name` |
 
 ### Purpose
 
@@ -66,16 +72,22 @@ Stores patients associated with a study.
 |---|---:|---:|---|
 | `patient_id` | `bigint PRIMARY KEY` | Yes | Unique identifier for the patient (identity). |
 | `study_id` | `bigint` | No | Study the patient belongs to. References `study(study_id)`. |
-| `number` | `text` | Yes | Patient number or study-specific patient code. |
-| `name` | `text` | No | Patient name. |
-| `start_date` | `text` | No | Patient enrollment/start date. |
-| `exit_date` | `text` | No | Patient exit date, if applicable. |
+| `number` | `character varying(64)` | Yes | Patient number or study-specific patient code. Must be unique. |
+| `name` | `character varying(128)` | No | Patient name. |
+| `start_date` | `date` | Yes | Patient enrollment/start date. Defaults to `now()`. |
+| `exit_date` | `date` | No | Patient exit date, if applicable. |
 | `status` | `text` | No | Current patient status. |
 | `comments` | `text` | No | Free-form notes about the patient. |
-| `created_at` | `timestamp` | Yes | Record creation timestamp. |
+| `created_at` | `timestamp without time zone` | Yes | Record creation timestamp. |
 | `created_by` | `character varying(64)` | Yes | User who created the record. |
-| `updated_at` | `timestamp` | Yes | Record last update timestamp. |
+| `updated_at` | `timestamp without time zone` | Yes | Record last update timestamp. |
 | `updated_by` | `character varying(64)` | Yes | User who last updated the record. |
+
+### Constraints
+
+| Name | Type | Column(s) |
+|---|---|---|
+| `patient_number_key` | UNIQUE | `number` |
 
 ### Foreign Keys
 
@@ -103,9 +115,9 @@ Stores researcher information.
 | `phone` | `character varying(64)` | No | Researcher phone number. |
 | `email` | `character varying(128)` | No | Researcher email address. |
 | `comments` | `text` | No | Free-form notes about the researcher. |
-| `created_at` | `timestamp` | Yes | Record creation timestamp. |
+| `created_at` | `timestamp without time zone` | Yes | Record creation timestamp. |
 | `created_by` | `character varying(64)` | Yes | User who created the record. |
-| `updated_at` | `timestamp` | Yes | Record last update timestamp. |
+| `updated_at` | `timestamp without time zone` | Yes | Record last update timestamp. |
 | `updated_by` | `character varying(64)` | Yes | User who last updated the record. |
 
 ### Purpose
@@ -127,9 +139,9 @@ Links researchers to studies.
 | `researcher_id` | `bigint` | Yes | Researcher assigned to the study. References `researcher(researcher_id)`. |
 | `role` | `character varying(64)` | Yes | Researcher's role in the study. |
 | `study_comments` | `text` | No | Study-specific comments about the researcher assignment. |
-| `created_at` | `timestamp` | Yes | Record creation timestamp. |
+| `created_at` | `timestamp without time zone` | Yes | Record creation timestamp. |
 | `created_by` | `character varying(64)` | Yes | User who created the record. |
-| `updated_at` | `timestamp` | Yes | Record last update timestamp. |
+| `updated_at` | `timestamp without time zone` | Yes | Record last update timestamp. |
 | `updated_by` | `character varying(64)` | Yes | User who last updated the record. |
 
 ### Foreign Keys
@@ -158,12 +170,12 @@ Stores visits performed by patients as part of a study.
 | `visit_id` | `bigint PRIMARY KEY` | Yes | Unique identifier for the visit (identity). |
 | `study_id` | `bigint` | Yes | Study associated with the visit. References `study(study_id)`. |
 | `patient_id` | `bigint` | Yes | Patient associated with the visit. References `patient(patient_id)`. |
-| `visit_date` | `date` | Yes | Date of the visit. |
+| `visit_date` | `date` | Yes | Date of the visit. Defaults to `now()`. |
 | `visit_type` | `character varying(128)` | Yes | Type or name of the visit. |
 | `comments` | `text` | No | Free-form notes about the visit. |
-| `created_at` | `timestamp` | Yes | Record creation timestamp. |
+| `created_at` | `timestamp without time zone` | Yes | Record creation timestamp. |
 | `created_by` | `character varying(64)` | Yes | User who created the record. |
-| `updated_at` | `timestamp` | Yes | Record last update timestamp. |
+| `updated_at` | `timestamp without time zone` | Yes | Record last update timestamp. |
 | `updated_by` | `character varying(64)` | Yes | User who last updated the record. |
 
 ### Foreign Keys
@@ -194,9 +206,9 @@ Stores protocol events or milestones for a study.
 | `title` | `text` | Yes | Title of the protocol event. |
 | `event_date` | `timestamp with time zone` | Yes | Date and time of the event. |
 | `description` | `text` | No | Description of the event. |
-| `created_at` | `timestamp` | Yes | Record creation timestamp. |
+| `created_at` | `timestamp without time zone` | Yes | Record creation timestamp. |
 | `created_by` | `character varying(64)` | Yes | User who created the record. |
-| `updated_at` | `timestamp` | Yes | Record last update timestamp. |
+| `updated_at` | `timestamp without time zone` | Yes | Record last update timestamp. |
 | `updated_by` | `character varying(64)` | Yes | User who last updated the record. |
 
 ### Foreign Keys
@@ -220,9 +232,9 @@ Stores monitoring visits for a study.
 | `meeting_date` | `date` | Yes | Date of the monitoring visit. |
 | `monitor` | `character varying(128)` | Yes | Name of the monitor. |
 | `comments` | `text` | No | Free-form notes about the monitoring visit. |
-| `created_at` | `timestamp` | Yes | Record creation timestamp. |
+| `created_at` | `timestamp without time zone` | Yes | Record creation timestamp. |
 | `created_by` | `character varying(64)` | Yes | User who created the record. |
-| `updated_at` | `timestamp` | Yes | Record last update timestamp. |
+| `updated_at` | `timestamp without time zone` | Yes | Record last update timestamp. |
 | `updated_by` | `character varying(64)` | Yes | User who last updated the record. |
 
 ### Foreign Keys
@@ -248,13 +260,13 @@ Stores adverse events related to a study and patient.
 | `adverse_event_id` | `bigint PRIMARY KEY` | Yes | Unique identifier for the adverse event (identity). |
 | `study_id` | `integer` | Yes | Study associated with the adverse event. References `study(study_id)`. |
 | `patient_id` | `bigint` | Yes | Patient associated with the adverse event. References `patient(patient_id)`. |
-| `event_date` | `date` | Yes | Date the adverse event occurred or was reported. |
+| `event_date` | `date` | Yes | Date the adverse event occurred or was reported. Defaults to `now()`. |
 | `event_type` | `character varying(64)` | Yes | Type/category of adverse event. |
 | `description` | `character varying(256)` | Yes | Description of the adverse event. |
 | `comments` | `text` | No | Additional notes. |
-| `created_at` | `timestamp` | Yes | Record creation timestamp. |
+| `created_at` | `timestamp without time zone` | Yes | Record creation timestamp. |
 | `created_by` | `character varying(64)` | Yes | User who created the record. |
-| `updated_at` | `timestamp` | Yes | Record last update timestamp. |
+| `updated_at` | `timestamp without time zone` | Yes | Record last update timestamp. |
 | `updated_by` | `character varying(64)` | Yes | User who last updated the record. |
 
 ### Foreign Keys
@@ -279,14 +291,20 @@ Stores user accounts and authentication information.
 | Column | Type | Required | Description |
 |---|---:|---:|---|
 | `user_id` | `bigint PRIMARY KEY` | Yes | Unique identifier for the user (identity). |
-| `user_name` | `character varying(64)` | Yes | Username for login. |
-| `pass_hash` | `character varying(256)` | Yes | Hashed password. |
+| `user_name` | `character varying(64)` | Yes | Username for login. Must be unique. |
+| `pass_hash` | `character varying(64)` | Yes | Hashed password. |
 | `user_role` | `character varying(64)` | Yes | User's role (e.g., admin, researcher). |
 | `change_pass` | `boolean` | Yes | Flag indicating if the user must change their password. Defaults to `false`. |
-| `created_at` | `timestamp` | Yes | Record creation timestamp. |
+| `created_at` | `timestamp without time zone` | Yes | Record creation timestamp. |
 | `created_by` | `character varying(64)` | Yes | User who created the record. |
-| `updated_at` | `timestamp` | Yes | Record last update timestamp. |
+| `updated_at` | `timestamp without time zone` | Yes | Record last update timestamp. |
 | `updated_by` | `character varying(64)` | Yes | User who last updated the record. |
+
+### Constraints
+
+| Name | Type | Column(s) |
+|---|---|---|
+| `user_user_name_key` | UNIQUE | `user_name` |
 
 ### Purpose
 
@@ -305,6 +323,7 @@ The schema defines the following indexes:
 | `study_researcher_study_idx` | `study_researcher` | `study_id` | Speeds up loading researchers for a study. |
 | `visit_patient_idx` | `visit` | `patient_id` | Speeds up loading visits for a patient. |
 | `visit_study_idx` | `visit` | `study_id` | Speeds up loading visits for a study. |
+| `index_user_pass` | `user` | `user_name`, `pass_hash` | Composite unique index for user authentication. |
 
 ---
 
@@ -355,188 +374,192 @@ All tables include the following audit columns:
 
 ### Views
 
-The schema includes views to simplify data access:
-- `study_list`: Provides a summary of studies including counts of patients, visits, researchers, and events.
-- `study_researcher_list`: Joins `study_researcher` with `researcher` to provide full researcher details for each assignment.
+Note: Views are currently not implemented as database objects but are handled through application logic and direct joins in the repositories.
 
 ---
 
 ## Current Schema SQL
 
 ```sql
---
--- Table: public.study
---
 CREATE TABLE IF NOT EXISTS public.study
 (
-    study_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
-    name character varying(128) NOT NULL DEFAULT '',
-    sponsor character varying(128) NOT NULL DEFAULT '',
+    study_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    name character varying(128) COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
+    sponsor character varying(128) COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
     start_date date NOT NULL DEFAULT now(),
     end_date date,
     protocol_visits integer NOT NULL DEFAULT 0,
-    comments text DEFAULT '',
+    comments text COLLATE pg_catalog."default" DEFAULT ''::text,
     created_at timestamp without time zone NOT NULL DEFAULT now(),
-    created_by character varying(64) NOT NULL,
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    updated_by character varying(64) NOT NULL,
-    CONSTRAINT study_pkey PRIMARY KEY (study_id)
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT study_pkey PRIMARY KEY (study_id),
+    CONSTRAINT study_name_key UNIQUE (name)
 );
 
---
--- Table: public.patient
---
 CREATE TABLE IF NOT EXISTS public.patient
 (
-    patient_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+    patient_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
     study_id bigint,
-    "number" text NOT NULL,
-    name text,
-    start_date text,
-    exit_date text,
-    status text,
-    comments text,
+    "number" character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(128) COLLATE pg_catalog."default",
+    start_date date NOT NULL DEFAULT now(),
+    exit_date date,
+    status text COLLATE pg_catalog."default",
+    comments text COLLATE pg_catalog."default",
     created_at timestamp without time zone NOT NULL DEFAULT now(),
-    created_by character varying(64) NOT NULL,
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    updated_by character varying(64) NOT NULL,
-    CONSTRAINT patient_pkey PRIMARY KEY (patient_id)
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT patient_pkey PRIMARY KEY (patient_id),
+    CONSTRAINT patient_number_key UNIQUE ("number"),
+    CONSTRAINT patient_study_id_fkey FOREIGN KEY (study_id)
+        REFERENCES public.study (study_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
---
--- Table: public.researcher
---
 CREATE TABLE IF NOT EXISTS public.researcher
 (
-    researcher_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
-    "number" character varying(64) NOT NULL,
-    name character varying(128),
-    phone character varying(64),
-    email character varying(128),
-    comments text,
+    researcher_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    "number" character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(128) COLLATE pg_catalog."default",
+    phone character varying(64) COLLATE pg_catalog."default",
+    email character varying(128) COLLATE pg_catalog."default",
+    comments text COLLATE pg_catalog."default",
     created_at timestamp without time zone NOT NULL DEFAULT now(),
-    created_by character varying(64) NOT NULL,
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    updated_by character varying(64) NOT NULL,
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT researcher_pkey PRIMARY KEY (researcher_id)
 );
 
---
--- Table: public.study_researcher
---
 CREATE TABLE IF NOT EXISTS public.study_researcher
 (
-    sr_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+    sr_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
     study_id bigint NOT NULL,
     researcher_id bigint NOT NULL,
-    role character varying(64) NOT NULL,
-    study_comments text,
+    role character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    study_comments text COLLATE pg_catalog."default",
     created_at timestamp without time zone NOT NULL DEFAULT now(),
-    created_by character varying(64) NOT NULL,
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    updated_by character varying(64) NOT NULL,
-    CONSTRAINT study_researcher_pkey PRIMARY KEY (sr_id)
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT study_researcher_pkey PRIMARY KEY (sr_id),
+    CONSTRAINT study_researcher_researcher_id_fkey FOREIGN KEY (researcher_id)
+        REFERENCES public.researcher (researcher_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT study_researcher_study_id_fkey FOREIGN KEY (study_id)
+        REFERENCES public.study (study_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
---
--- Table: public.adverse_event
---
 CREATE TABLE IF NOT EXISTS public.adverse_event
 (
-    adverse_event_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+    adverse_event_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
     study_id integer NOT NULL,
     patient_id bigint NOT NULL,
     event_date date NOT NULL DEFAULT now(),
-    event_type character varying(64) NOT NULL,
-    description character varying(256) NOT NULL,
-    comments text,
+    event_type character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    description character varying(256) COLLATE pg_catalog."default" NOT NULL,
+    comments text COLLATE pg_catalog."default",
     created_at timestamp without time zone NOT NULL DEFAULT now(),
-    created_by character varying(64) NOT NULL,
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    updated_by character varying(64) NOT NULL,
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT event_pkey PRIMARY KEY (adverse_event_id),
     CONSTRAINT event_patient_id_fkey FOREIGN KEY (patient_id)
-        REFERENCES public.patient (patient_id)
+        REFERENCES public.patient (patient_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT event_study_id_fkey FOREIGN KEY (study_id)
+        REFERENCES public.study (study_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
---
--- Table: public.visit
---
 CREATE TABLE IF NOT EXISTS public.visit
 (
-    visit_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+    visit_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
     study_id bigint NOT NULL,
     patient_id bigint NOT NULL,
-    visit_date date NOT NULL,
-    visit_type character varying(128) NOT NULL,
-    comments text,
+    visit_date date NOT NULL DEFAULT now(),
+    visit_type character varying(128) COLLATE pg_catalog."default" NOT NULL,
+    comments text COLLATE pg_catalog."default",
     created_at timestamp without time zone NOT NULL DEFAULT now(),
-    created_by character varying(64) NOT NULL,
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    updated_by character varying(64) NOT NULL,
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT visit_pkey PRIMARY KEY (visit_id),
     CONSTRAINT visit_patient_id_fkey FOREIGN KEY (patient_id)
-        REFERENCES public.patient (patient_id)
+        REFERENCES public.patient (patient_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT visit_study_id_fkey FOREIGN KEY (study_id)
+        REFERENCES public.study (study_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
---
--- Table: public.protocol
---
 CREATE TABLE IF NOT EXISTS public.protocol
 (
-    protocol_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+    protocol_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
     study_id bigint NOT NULL,
-    title text NOT NULL,
+    title text COLLATE pg_catalog."default" NOT NULL,
     event_date timestamp with time zone NOT NULL,
-    description text,
+    description text COLLATE pg_catalog."default",
     created_at timestamp without time zone NOT NULL DEFAULT now(),
-    created_by character varying(64) NOT NULL,
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    updated_by character varying(64) NOT NULL,
-    CONSTRAINT protocol_pkey PRIMARY KEY (protocol_id)
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT protocol_pkey PRIMARY KEY (protocol_id),
+    CONSTRAINT protocol_study_id_fkey FOREIGN KEY (study_id)
+        REFERENCES public.study (study_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
---
--- Table: public.monitoring
---
 CREATE TABLE IF NOT EXISTS public.monitoring
 (
-    monitoring_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+    monitoring_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
     study_id bigint NOT NULL,
     meeting_date date NOT NULL,
-    monitor character varying(128) NOT NULL,
-    comments text,
+    monitor character varying(128) COLLATE pg_catalog."default" NOT NULL,
+    comments text COLLATE pg_catalog."default",
     created_at timestamp without time zone NOT NULL DEFAULT now(),
-    created_by character varying(64) NOT NULL,
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    updated_by character varying(64) NOT NULL,
-    CONSTRAINT monitoring_pkey PRIMARY KEY (monitoring_id)
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT monitoring_pkey PRIMARY KEY (monitoring_id),
+    CONSTRAINT monitoring_study_id_fkey FOREIGN KEY (study_id)
+        REFERENCES public.study (study_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
---
--- Table: public.user
---
 CREATE TABLE IF NOT EXISTS public."user"
 (
-    user_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
-    user_name character varying(64) NOT NULL,
-    pass_hash character varying(256) NOT NULL,
-    user_role character varying(64) NOT NULL,
+    user_id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    user_name character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    pass_hash character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    user_role character varying(64) COLLATE pg_catalog."default" NOT NULL,
     change_pass boolean NOT NULL DEFAULT false,
     created_at timestamp without time zone NOT NULL DEFAULT now(),
-    created_by character varying(64) NOT NULL,
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    updated_by character varying(64) NOT NULL,
-    CONSTRAINT user_pkey PRIMARY KEY (user_id)
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT user_pkey PRIMARY KEY (user_id),
+    CONSTRAINT user_user_name_key UNIQUE (user_name)
 );
 
---
--- Indexes
---
-CREATE INDEX IF NOT EXISTS patient_study_idx ON public.patient (study_id);
-CREATE INDEX IF NOT EXISTS researcher_number_idx ON public.researcher (number);
-CREATE INDEX IF NOT EXISTS study_researcher_study_idx ON public.study_researcher (study_id);
-CREATE INDEX IF NOT EXISTS visit_patient_idx ON public.visit (patient_id);
-CREATE INDEX IF NOT EXISTS visit_study_idx ON public.visit (study_id);
+CREATE INDEX IF NOT EXISTS patient_study_idx ON public.patient USING btree (study_id ASC NULLS LAST);
+CREATE INDEX IF NOT EXISTS researcher_number_idx ON public.researcher USING btree ("number" COLLATE pg_catalog."default" ASC NULLS LAST);
+CREATE INDEX IF NOT EXISTS study_researcher_study_idx ON public.study_researcher USING btree (study_id ASC NULLS LAST);
+CREATE INDEX IF NOT EXISTS visit_patient_idx ON public.visit USING btree (patient_id ASC NULLS LAST);
+CREATE INDEX IF NOT EXISTS visit_study_idx ON public.visit USING btree (study_id ASC NULLS LAST);
+CREATE UNIQUE INDEX IF NOT EXISTS index_user_pass ON public."user" USING btree (user_name COLLATE pg_catalog."default" ASC NULLS LAST, pass_hash COLLATE pg_catalog."default" ASC NULLS LAST);
 ```
 
