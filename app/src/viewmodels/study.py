@@ -136,9 +136,8 @@ class StudyViewModel(ViewModel):
         if not self.name or len(self.name.strip()) == 0:
             self.validation += "Study name is required.  \r\n"
 
-        if self.study_id == 0:
-            if await self.model.study_exists(self.name):
-                self.validation += "Study name already exists.  \r\n"
+        if self.study_id == 0 and await self.model.study_exists(self.name):
+            self.validation += "Study name already exists.  \r\n"
 
         if not self.sponsor or len(self.sponsor.strip()) == 0:
             self.validation += "Sponsor is required.  \r\n"

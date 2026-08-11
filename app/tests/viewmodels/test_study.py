@@ -67,33 +67,31 @@ def make_study_row(study_id: int = EXISTING_STUDY_ID) -> StudyRow:
 @pytest.fixture
 def fake_repository():
     class FakeStudyRepository:
-        rows: builtins.list[StudyRow] = []
-        studies_by_id: dict[int, Study] = {}
-        requested_ids: builtins.list[int] = []
-        saved_studies: builtins.list[Study] = []
 
-        @classmethod
-        async def list(cls) -> builtins.list[StudyRow]:
-            return cls.rows
+        def __init__(self):
+            self.rows: builtins.list[StudyRow] = []
+            self.studies_by_id: dict[int, Study] = {}
+            self.requested_ids: builtins.list[int] = []
+            self.saved_studies: builtins.list[Study] = []
 
-        @classmethod
-        async def load(cls, study_id: int) -> Study | None:
-            cls.requested_ids.append(study_id)
-            return cls.studies_by_id.get(study_id)
+        async def list(self) -> builtins.list[StudyRow]:
+            return self.rows
 
-        @classmethod
-        async def save(cls, study: Study) -> dict:
-            cls.saved_studies.append(study)
+        async def load(self, study_id: int) -> Study | None:
+            self.requested_ids.append(study_id)
+            return self.studies_by_id.get(study_id)
+
+        async def save(self, study: Study) -> dict:
+            self.saved_studies.append(study)
             d = study.model_dump()
             if d.get("study_id") == EMPTY_ID or d.get("study_id") is None:
                 d["study_id"] = NEW_STUDY_ID
             return d
 
-        @classmethod
-        async def study_exists(cls, name: str) -> bool:
-            return any(s.name == name for s in cls.studies_by_id.values())
+        async def study_exists(self, name: str) -> bool:
+            return any(s.name == name for s in self.studies_by_id.values())
 
-    return FakeStudyRepository
+    return FakeStudyRepository()
 
 
 def assert_view_model_matches_study(view_model: StudyViewModel, study: Study) -> None:

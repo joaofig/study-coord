@@ -24,7 +24,7 @@ class SupabaseRepository:
     async def insert_or_update(self, table: str, value: dict) -> dict:
         await self.connect()
         if self.supabase:
-            row_id = [k for k in value if k == "id" or k.endswith("_id")][0]
+            row_id = next(k for k in value if k == "id" or k.endswith("_id"))
             if value.get(row_id, 0) > 0:
                 await (
                     self.supabase.table(table)
