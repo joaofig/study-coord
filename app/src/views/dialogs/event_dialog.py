@@ -39,17 +39,20 @@ class EventDialog(View):
                     ui.input(label="Start Date") \
                         .props("readonly dense") \
                         .bind_value(selection, "start_date") \
-                        .classes("w-full")
+                        .classes("w-full") \
+                        .props("dense")
 
                     ui.input(label="Status") \
                         .props("readonly dense") \
                         .bind_value(selection, "status_text") \
-                        .classes("w-full")
+                        .classes("w-full") \
+                        .props("dense")
 
                 with ui.column().classes("flex-1"):
                     ui.date_input(label="Date")\
                         .bind_value(self.vm, "event_date") \
-                        .classes("w-full")
+                        .classes("w-full") \
+                        .props("dense")
 
                     ui.input(label="Event Type", validation=validate_required) \
                         .bind_value(self.vm, "event_type") \
@@ -61,15 +64,17 @@ class EventDialog(View):
                         .classes("w-full") \
                         .props("dense")
 
-                    ui.textarea(label="Comments").bind_value(self.vm, "comments").classes("w-full")
+                    ui.textarea(label="Comments").bind_value(self.vm, "comments") \
+                        .classes("w-full") \
+                        .props("dense")
 
             ui.markdown().classes("bg-orange-200 w-full") \
                 .bind_content_from(self.vm, "validation") \
                 .bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save())
-                ui.button("Close", on_click=lambda: dialog.submit("close"))
+                ui.button("Save", on_click=lambda: self.save()).props("no-caps")
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
             self.dialog = dialog
 
     async def show(self):

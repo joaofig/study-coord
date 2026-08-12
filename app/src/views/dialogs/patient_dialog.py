@@ -46,9 +46,11 @@ class StudyPatientDialog(View):
                     with ui.row():
                         ui.date_input("Start Date") \
                             .classes("w-36") \
+                            .props("dense") \
                             .bind_value(self.vm, "start_date")
                         ui.date_input("Exit Date") \
                             .classes("w-36") \
+                            .props("dense") \
                             .bind_value(self.vm, "exit_date")
 
                     ui.select(options=statuses, label="Status", value="active") \

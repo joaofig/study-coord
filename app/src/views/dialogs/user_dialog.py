@@ -15,28 +15,32 @@ class UserDialog(View):
             with ui.row().classes("w-full bg-gray-200 p-2"):
                 ui.label("User Details").classes("text-base")
 
-            ui.input(label="User Name").classes("w-full").bind_value(
-                self.vm, "user_name"
-            )
+            ui.input(label="User Name") \
+                .classes("w-full") \
+                .props("dense") \
+                .bind_value(self.vm, "user_name")
 
-            ui.select(
-                label="Role",
-                options=["Admin", "User"],
-            ).classes("w-full").bind_value(self.vm, "user_role")
+            ui.select(label="Role", options=["Admin", "User"],) \
+                .classes("w-full") \
+                .props("dense") \
+                .bind_value(self.vm, "user_role")
 
-            ui.input(
-                label="Password", password=True, password_toggle_button=True
-            ).classes("w-full").bind_value(self.vm, "password_1")
+            ui.input(label="Password", password=True, password_toggle_button=True) \
+                .classes("w-full") \
+                .props("dense") \
+                .bind_value(self.vm, "password_1")
 
-            ui.input(
-                label="Confirm Password", password=True, password_toggle_button=True
-            ).classes("w-full").bind_value(self.vm, "password_2")
+            ui.input(label="Confirm Password", password=True, password_toggle_button=True) \
+                .classes("w-full") \
+                .props("dense") \
+                .bind_value(self.vm, "password_2")
 
-            ui.checkbox(text="Change Password after login").bind_value(self.vm, "change_pass")
+            ui.checkbox(text="Change Password after login") \
+                .bind_value(self.vm, "change_pass")
 
             with ui.row():
-                ui.button("Save", on_click=self.save)
-                ui.button("Cancel", on_click=lambda: dialog.submit("cancel"))
+                ui.button("Save", on_click=self.save).props("no-caps")
+                ui.button("Cancel", on_click=lambda: dialog.submit("cancel")).props("no-caps")
             self.dialog = dialog
 
     async def save(self):

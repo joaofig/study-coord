@@ -27,42 +27,42 @@ class StudyVisitDialog(View):
                                 msg="load_patient", patient_id=self.vm.get("patient_id")
                             )
                         )
-                        .classes("w-full")
+                        .classes("w-full").props("dense")
                     )
 
                     selection = self.vm.get("selection")
                     ui.input(label="Patient Number").props("readonly").bind_value(
                         selection, "number"
-                    ).classes("w-full")
+                    ).classes("w-full").props("dense")
 
                     ui.input(label="Start Date").props("readonly").bind_value(
                         selection, "start_date"
-                    ).classes("w-full")
+                    ).classes("w-full").props("dense")
 
                     ui.input(label="Status").props("readonly").bind_value(
                         selection, "status_text"
-                    ).classes("w-full")
+                    ).classes("w-full").props("dense")
 
                 with ui.column().classes("flex-1"):
                     ui.date_input(label="Visit Date").bind_value(
                         self.vm, "visit_date"
-                    ).classes("w-full")
+                    ).classes("w-full").props("dense")
 
                     ui.input(label="Visit Type", validation=validate_type).bind_value(
                         self.vm, "visit_type"
-                    ).classes("w-full")
+                    ).classes("w-full").props("dense")
 
                     ui.textarea(label="Comments").bind_value(
                         self.vm, "comments"
-                    ).classes("w-full")
+                    ).classes("w-full").props("dense")
 
             ui.markdown().classes("bg-orange-200 w-full") \
                 .bind_content_from(self.vm, "validation") \
                 .bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save())
-                ui.button("Close", on_click=lambda: dialog.submit("close"))
+                ui.button("Save", on_click=lambda: self.save()).props("no-caps")
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
             self.dialog = dialog
 
     async def show(self):

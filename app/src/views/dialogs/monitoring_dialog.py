@@ -27,20 +27,22 @@ class StudyMonitoringDialog(View):
             (
                 ui.date_input("Date")
                 .classes("w-full")
+                .props("dense")
                 .bind_value(self.vm, "meeting_date")
             )
             (
                 ui.input("Monitor")
                 .classes("w-full")
+                .props("dense")
                 .bind_value(self.vm, "monitor")
             )
-            (ui.textarea("Comments").classes("w-full").bind_value(self.vm, "comments"))
+            (ui.textarea("Comments").classes("w-full").props("dense").bind_value(self.vm, "comments"))
 
             ui.markdown().classes("bg-orange-200 w-full") \
                 .bind_content_from(self.vm, "validation") \
                 .bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save())
-                ui.button("Close", on_click=lambda: dialog.submit("close"))
+                ui.button("Save", on_click=lambda: self.save()).props("dense")
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props("dense")
         return dialog
