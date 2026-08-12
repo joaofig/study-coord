@@ -12,6 +12,7 @@ from src.viewmodels.view_model import ViewModel
 @binding.bindable_dataclass
 class StudyViewModel(ViewModel):
     study_id: int = 0
+    protocol: str = ""
     name: str = ""
     sponsor: str = ""
     protocol_visits: int = 1
@@ -53,6 +54,7 @@ class StudyViewModel(ViewModel):
 
     def copy(self, study: StudyDTO):
         self.study_id = study.study_id or 0
+        self.protocol = study.protocol
         self.name = study.name
         self.sponsor = study.sponsor
         self.protocol_visits = study.protocol_visits
@@ -70,6 +72,7 @@ class StudyViewModel(ViewModel):
     def to_dict(self) -> dict:
         return {
             "study_id": self.study_id or 0,
+            "protocol": self.protocol,
             "name": self.name,
             "sponsor": self.sponsor,
             "protocol_visits": int(self.protocol_visits),
@@ -85,6 +88,7 @@ class StudyViewModel(ViewModel):
     def to_dto(self) -> StudyDTO:
         return StudyDTO(
             study_id=self.study_id or 0,
+            protocol=self.protocol,
             name=self.name,
             sponsor=self.sponsor,
             protocol_visits=int(self.protocol_visits),
@@ -132,6 +136,13 @@ class StudyViewModel(ViewModel):
     async def validate(self) -> bool:
         self.is_invalid = False
         self.validation = ""
+
+        if not self.protocol or len(self.protocol.strip()) == 0:
+            self.validation += "Protocol is required.  \r\n"
+        elif len(self.protocol) < 3:
+            self.validation += "Protocol must be at least 3 characters long.  \r\n"
+        elif len(self.protocol) > 64:
+            self.validation += "Protocol must be at most 64 characters long.  \r\n"
 
         if not self.name or len(self.name.strip()) == 0:
             self.validation += "Study name is required.  \r\n"

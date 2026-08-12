@@ -21,6 +21,16 @@ def validate_sponsor(value: str | None) -> str | None:
     return None
 
 
+def validate_protocol(value: str | None) -> str | None:
+    if not value:
+        return "Sponsor name is required"
+    if len(value) < 3:
+        return "Sponsor name must be at least 3 characters long"
+    if len(value) > 64:
+        return "Sponsor name must be at most 128 characters long"
+    return None
+
+
 class StudyDialog(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
@@ -28,6 +38,11 @@ class StudyDialog(View):
         with ui.dialog() as dialog, ui.card().classes("w-240"):
             with ui.row().classes("w-full  bg-gray-200 p-2"):
                 ui.label("Study Details").classes("text-base")
+
+            ui.input(label="Protocol", validation=validate_protocol) \
+                .classes("w-full") \
+                .bind_value(self.vm, "protocol") \
+                .props("dense")
 
             ui.input(
                 label="Name",

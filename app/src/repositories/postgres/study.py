@@ -21,7 +21,7 @@ class StudyRepository(PostgresRepository):
     async def list(self) -> builtins.list[StudyRowDTO]:
         # We are reading from a view, not a table
         sql: LiteralString = """
-            SELECT  study_id, name, sponsor, start_date, end_date, protocol_visits, comments,
+            SELECT  study_id, protocol, name, sponsor, start_date, end_date, protocol_visits, comments,
                     ( SELECT count(0) AS count
                            FROM patient p
                           WHERE p.study_id = s.study_id) AS patients,
@@ -42,6 +42,7 @@ class StudyRepository(PostgresRepository):
     async def load(self, study_id: int) -> StudyDTO | None:
         sql: LiteralString = """
         SELECT  study_id
+        ,       protocol
         ,       name
         ,       sponsor
         ,       start_date
@@ -62,15 +63,16 @@ class StudyRepository(PostgresRepository):
 
     async def save(self, study: StudyDTO) -> dict:
         insert: LiteralString = """
-        INSERT INTO study (name, sponsor, start_date, end_date, protocol_visits, comments, 
+        INSERT INTO study (protocol, name, sponsor, start_date, end_date, protocol_visits, comments, 
                            created_at, created_by, updated_at, updated_by) 
-        VALUES (%(name)s, %(sponsor)s, %(start_date)s, %(end_date)s, %(protocol_visits)s, %(comments)s, 
+        VALUES (%(protocol)s, %(name)s, %(sponsor)s, %(start_date)s, %(end_date)s, %(protocol_visits)s, %(comments)s, 
                 %(created_at)s, %(created_by)s, %(updated_at)s, %(updated_by)s)
         RETURNING study_id
         """
         update: LiteralString = """
         UPDATE study 
-        SET     name = %(name)s, 
+        SET     protocol = %(protocol)s, 
+                name = %(name)s, 
                 sponsor = %(sponsor)s, 
                 start_date = %(start_date)s, 
                 end_date = %(end_date)s, 

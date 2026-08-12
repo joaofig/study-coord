@@ -8,6 +8,7 @@ from src.tools.user import dict_to_datetime, get_user_name
 
 class StudyDTO(BaseDTO):
     study_id: int
+    protocol: str
     name: str
     sponsor: str
     start_date: date = date.today()
@@ -19,6 +20,7 @@ class StudyDTO(BaseDTO):
     def from_dict(cls, data: dict[str, Any]) -> Self:
         return cls(
             study_id=data.get("study_id") or data.get("id") or 0,
+            protocol=data.get("protocol", ""),
             name=data.get("name", ""),
             sponsor=data.get("sponsor", ""),
             start_date=date.fromisoformat(
@@ -40,6 +42,7 @@ class StudyDTO(BaseDTO):
     def to_dict(self) -> dict[str, Any]:
         return {
             "study_id": self.study_id,
+            "protocol": self.protocol,
             "name": self.name,
             "sponsor": self.sponsor,
             "start_date": self.start_date.isoformat(),
@@ -51,6 +54,7 @@ class StudyDTO(BaseDTO):
 
 class StudyRowDTO(BaseModel):
     study_id: int
+    protocol: str
     name: str
     sponsor: str
     start_date: date = date.today()
@@ -75,6 +79,7 @@ class StudyRowDTO(BaseModel):
 
         return cls(
             study_id=data.get("study_id") or data.get("id") or 0,
+            protocol=data.get("protocol", ""),
             name=data.get("name", ""),
             sponsor=data.get("sponsor", ""),
             start_date=start_date,
@@ -92,6 +97,7 @@ class StudyRowDTO(BaseModel):
     def to_dict(self) -> dict[str, Any]:
         return {
             "study_id": self.study_id,
+            "protocol": self.protocol,
             "name": self.name,
             "sponsor": self.sponsor,
             "start_date": self.start_date.isoformat(),
