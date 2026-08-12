@@ -105,7 +105,6 @@ class StudyResearcherGrid(View):
 
     async def _on_edit(self, event):
         row_data = event.args  # dict with the full row's data
-        print(row_data)
         if row_data:
             await self._edit_researcher(row_data)
 

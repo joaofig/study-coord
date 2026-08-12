@@ -24,9 +24,9 @@ class ProtocolListViewModel(ViewModel):
         self.protocols.replace([p.to_dict() for p in await self.model.list(study_id)])
 
     async def _handle_study_selected(self, **kwargs):
-        study_id = kwargs.get("study_id")
+        study_id = kwargs.get("study_id", 0)
         if study_id:
-            self.study_id = int(str(study_id))
+            self.study_id = study_id
             await self._load_protocols(self.study_id)
         else:
             self.study_id = 0
@@ -34,29 +34,29 @@ class ProtocolListViewModel(ViewModel):
             self.protocols.clear()
 
     async def _handle_load(self, **kwargs):
-        study_id = kwargs.get("study_id")
+        study_id = kwargs.get("study_id", 0)
         if study_id:
-            self.study_id = int(str(study_id))
+            self.study_id = study_id
             await self._load_protocols(self.study_id)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
-                study_id = kwargs.get("study_id")
+                study_id = kwargs.get("study_id", 0)
                 if study_id is not None:
-                    self.study_id = int(str(study_id))
-                    await self._load_protocols(self.study_id)
+                    self.study_id = study_id
+                    await self._load_protocols(study_id)
 
             case "protocol_selected":
-                protocol_id = kwargs.get("protocol_id")
+                protocol_id = kwargs.get("protocol_id", 0)
                 if protocol_id:
-                    self.protocol_id = int(str(protocol_id))
+                    self.protocol_id = protocol_id
 
             case "delete_protocol":
-                protocol_id = kwargs.get("protocol_id")
+                protocol_id = kwargs.get("protocol_id", 0)
                 if protocol_id:
-                    self.protocol_id = int(str(protocol_id))
-                    await self.model.delete(self.protocol_id)
+                    self.protocol_id = protocol_id
+                    await self.model.delete(protocol_id)
                     await self._load_protocols(self.study_id)
 
         return None

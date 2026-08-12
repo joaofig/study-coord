@@ -131,6 +131,7 @@ class StudyViewModel(ViewModel):
 
             case "validate":
                 return await self.validate()
+
         return None
 
     async def validate(self) -> bool:

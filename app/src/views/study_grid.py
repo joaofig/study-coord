@@ -1,4 +1,4 @@
-from nicegui import app, ui
+from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 from src.viewmodels import StudyViewModel
@@ -28,9 +28,7 @@ class StudyGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             # Notify other components that a study has been selected
-            await self.vm.call("study_selected", study=row, study_id=row["study_id"])
-        else:
-            await self.vm.call("study_unselected")
+            await self.vm.call("select", study=row, study_id=row["study_id"])
 
     async def _on_edit(self, event):
         # Handle the edit button click event from the AgGrid component

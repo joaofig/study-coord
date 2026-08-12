@@ -33,11 +33,12 @@ class StudyListViewModel(ViewModel):
                 await self.model.delete(study_id)
                 await self.load()
 
-            case "study_selected":
-                self.selected_id = kwargs["study_id"]
-                await self.broadcast(
-                    channel="study", message="selected", study_id=self.selected_id
-                )
+            case "select":
+                self.selected_id = kwargs.get("study_id", 0)
+                if self.selected_id:
+                    await self.broadcast("study", message="selected",
+                                         study=self, study_id=self.selected_id)
+
         return None
 
     async def _on_load(self, **kwargs):
