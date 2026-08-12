@@ -44,7 +44,7 @@ class StudyVisitPanel(View):
         result = await dialog.show()
         if result == "delete":
             dialog.close()
-            visit_id = self.vm.get("visit_id")
+            visit_id = self.vm.get("selected_id")
             if visit_id:
                 await self.vm.call("delete", visit_id=visit_id)
 
