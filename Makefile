@@ -7,8 +7,11 @@ check:
 podman-run:
 	podman run \
 		--name study-coord \
+		-e POSTGRES_USER=postgres \
+		-e POSTGRES_DB=postgres \
 		-e POSTGRES_PASSWORD=coordstudy \
 		-p 5432:5432 \
+		-v postgres-volume:/Users/joaofig/data/postgres \
 		-d postgres
 
 docker-run:
