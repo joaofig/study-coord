@@ -23,7 +23,8 @@ class StudyResearcherListViewModel(ViewModel):
         )
 
     async def _load_study_researchers(self, study_id: int):
-        self.researchers.replace([r.to_dict() for r in await self.model.list(study_id)])
+        researchers = await self.model.list(study_id)
+        self.researchers.replace([r.to_dict() for r in researchers])
 
     async def _delete_researcher(self, researcher_id: int):
         await self.model.delete(researcher_id)

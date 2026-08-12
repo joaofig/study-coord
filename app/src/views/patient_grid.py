@@ -18,11 +18,6 @@ class StudyPatientGrid(View):
             self.patients.on_change(self._update_grid)
 
         self.grid: AgGrid = self._build_grid()
-        self.subscribe("patient", "saved", self._on_patient_saved)
-
-
-    async def _on_patient_saved(self, **kwargs):
-        await self.vm.call("load")
 
     async def _update_grid(self):
         await self.grid.run_grid_method("setGridOption", "rowData", self.patients)
@@ -99,7 +94,7 @@ class StudyPatientGrid(View):
         result = await dlg.show()
         if result == "save":
             patient = vm.to_dict()
-            await self._on_patient_saved()
+            await self.vm.call("load")
         return patient
 
     async def _handle_edit(self, event):

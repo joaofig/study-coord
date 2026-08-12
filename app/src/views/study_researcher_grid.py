@@ -18,17 +18,6 @@ class StudyResearcherGrid(View):
 
         self.grid: AgGrid = self._build_grid()
 
-        self.subscribe(
-            channel="study_researcher", message="saved", handler=self._refresh_grid
-        )
-        self.subscribe(
-            channel="study_researcher", message="deleted", handler=self._refresh_grid
-        )
-        self.subscribe(channel="study", message="selected", handler=self._refresh_grid)
-
-    async def _refresh_grid(self, **kwargs):
-        await self.vm.call("load")
-
     async def _update_grid(self):
         await self.grid.run_grid_method("setGridOption", "rowData", self.researchers)
 

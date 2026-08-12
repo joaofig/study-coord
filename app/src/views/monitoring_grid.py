@@ -16,11 +16,6 @@ class StudyMonitoringGrid(View):
             self.monitoring_visits.on_change(self._update_grid)
 
         self.grid: AgGrid = self._build_grid()
-        self.subscribe("monitoring", "saved", self._on_monitoring_saved)
-
-
-    async def _on_monitoring_saved(self, **kwargs):
-        await self.vm.call("load")
 
     async def _update_grid(self):
         await self.grid.run_grid_method("setGridOption", "rowData", self.monitoring_visits)
@@ -79,7 +74,7 @@ class StudyMonitoringGrid(View):
         result = await dlg.show()
         if result == "save":
             monitoring = vm.to_dict()
-            await self._on_monitoring_saved()
+            await self.vm.call("load")
         return monitoring
 
     async def _handle_edit(self, event):
