@@ -81,7 +81,6 @@ async def main_view():
             # ui.space()
             with ui.row().classes("w-full flex-1 justify-end"):
                 with ui.button(text="Logout", on_click=logout)\
-                        .props("padding=xs") \
                         .classes("text-xs mr-4 mt-2") \
                         .props("padding=xs"):
                     ui.tooltip("Log Out")

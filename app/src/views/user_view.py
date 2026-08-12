@@ -37,15 +37,6 @@ class UserView(View):
                 ):
                     ui.tooltip("Export to Excel")
 
-                ui.separator()
-
-                with (
-                    ui.button(icon="logout", on_click=logout)
-                    .classes("text-xs")
-                    .props("padding=xs")
-                ):
-                    ui.tooltip("Log Out")
-
             with ui.column().classes("h-full flex-1"):
                 self.grid = UserGrid(vm)
 
