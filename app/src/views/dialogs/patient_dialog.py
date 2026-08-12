@@ -27,29 +27,46 @@ class StudyPatientDialog(View):
 
     def _build_dialog(self) -> Dialog:
         statuses = self.vm.get("statuses")
-        with ui.dialog() as dialog, ui.card():
+        with ui.dialog() as dialog, ui.card().classes("w-280"):
             with ui.row().classes("w-full  bg-gray-200 p-2"):
                 ui.label("Study Patient Details").classes("text-base")
 
-            (ui.input("Number", validation=validate_patient_number)
-                .classes("w-full")
-                .bind_value(self.vm, "number")
-            )
-            (ui.input("Name").classes("w-full").bind_value(self.vm, "name"))
-            with ui.row():
-                (ui.date_input("Start Date").bind_value(self.vm, "start_date"))
-                (ui.date_input("Exit Date").bind_value(self.vm, "exit_date"))
-            (ui.select(options=statuses, label="Status", value="active")
-                .classes("w-full")
-                .bind_value(self.vm, "status")
-            )
-            (ui.textarea("Comments").classes("w-full").bind_value(self.vm, "comments"))
+            with ui.row().classes("w-full"):
+                with ui.column():
+                    ui.input("Number", validation=validate_patient_number) \
+                        .classes("w-full") \
+                        .props("dense") \
+                        .bind_value(self.vm, "number")
+
+                    ui.input("Name") \
+                        .classes("w-full") \
+                        .props("dense") \
+                        .bind_value(self.vm, "name")
+
+                    with ui.row():
+                        ui.date_input("Start Date") \
+                            .classes("w-36") \
+                            .bind_value(self.vm, "start_date")
+                        ui.date_input("Exit Date") \
+                            .classes("w-36") \
+                            .bind_value(self.vm, "exit_date")
+
+                    ui.select(options=statuses, label="Status", value="active") \
+                        .classes("w-full") \
+                        .props("dense") \
+                    .bind_value(self.vm, "status")
+
+                with ui.column().classes("flex-1"):
+                    ui.textarea("Comments") \
+                        .classes("w-full h-full") \
+                        .props("dense") \
+                        .bind_value(self.vm, "comments")
 
             ui.markdown().classes("bg-orange-200 w-full") \
                 .bind_content_from(self.vm, "validation") \
                 .bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save())
-                ui.button("Close", on_click=lambda: dialog.submit("close"))
+                ui.button("Save", on_click=lambda: self.save()).props("no-caps")
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
         return dialog

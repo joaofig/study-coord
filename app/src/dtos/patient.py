@@ -11,7 +11,7 @@ def patient_statuses() -> dict:
         "completed": "Completed",
         "withdrawn": "Withdrawn Consent",
         "lost": "Lost to Follow-up",
-        "deceased": "Deceased",
+        "dead": "Dead ☠️",
     }
 
 

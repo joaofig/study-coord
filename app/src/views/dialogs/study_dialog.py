@@ -32,55 +32,38 @@ class StudyDialog(View):
             ui.input(
                 label="Name",
                 validation=validate_name,
-                on_change=lambda: self.vm.call("mark_changed", field_name="name"),
-            ).classes("w-full").bind_value(self.vm, "name")
+            ).classes("w-full").bind_value(self.vm, "name").props("dense")
 
             ui.input(
                 label="Sponsor",
                 validation=validate_sponsor,
-                on_change=lambda: self.vm.call("mark_changed", field_name="sponsor"),
-            ).classes("w-full").bind_value(self.vm, "sponsor")
+            ).classes("w-full").bind_value(self.vm, "sponsor").props("dense")
 
-            with ui.row().classes("gap-2"):
-                self.start_date = ui.date_input(
-                    label="Start Date",
-                    on_change=lambda: self.vm.call(
-                        "mark_changed", field_name="start_date"
-                    ),
-                ).bind_value(self.vm, "start_date")
-                self.end_date = ui.date_input(
-                    label="End Date",
-                    on_change=lambda: self.vm.call(
-                        "mark_changed", field_name="end_date"
-                    ),
-                ).bind_value(self.vm, "end_date")
+            with ui.row():
+                self.start_date = ui.date_input(label="Start Date") \
+                    .bind_value(self.vm, "start_date") \
+                    .classes("w-36").props("dense")
+                self.end_date = ui.date_input(label="End Date") \
+                    .bind_value(self.vm, "end_date").classes("w-36").props("dense")
 
-            with ui.row().classes("gap-2"):
-                ui.number(
-                    label="Protocol Visits",
-                    value=1, min=1, step=1,
-                    on_change=lambda: self.vm.call(
-                        "mark_changed", field_name="protocol_visits"
-                    ),
-                ).props("clearable").classes("w-full").bind_value(
-                    self.vm, "protocol_visits", strict=True
-                )
+                ui.number(label="Protocol Visits", value=1, min=1, step=1,) \
+                    .props("clearable dense") \
+                    .bind_value(self.vm, "protocol_visits", strict=True) \
+                    .classes("w-36")
 
             with ui.row().classes("gap-2 w-full"):
-                ui.textarea(
-                    label="Comments",
-                    on_change=lambda: self.vm.call(
-                        "mark_changed", field_name="comments"
-                    ),
-                ).classes("w-full").bind_value(self.vm, "comments")
+                ui.textarea(label="Comments") \
+                    .classes("w-full") \
+                    .props("dense") \
+                    .bind_value(self.vm, "comments")
 
             ui.markdown().classes("bg-orange-200 w-full") \
                 .bind_content_from(self.vm, "validation") \
                 .bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=self.save)
-                ui.button("Close", on_click=lambda: dialog.submit("close"))
+                ui.button("Save", on_click=self.save).props("no-caps")
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
             self.dialog = dialog
 
     async def show(self):

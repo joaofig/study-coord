@@ -1,6 +1,6 @@
 from nicegui import ui
 from src.tools.excel import export_to_excel
-from src.tools.user import get_user_name, logout
+from src.tools.user import get_user_name
 from src.viewmodels import ResearcherViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -36,15 +36,6 @@ class ResearcherView(View):
                     .props("padding=xs")
                 ):
                     ui.tooltip("Export to Excel")
-
-                ui.separator()
-
-                with (
-                    ui.button(icon="logout", on_click=logout)
-                    .classes("text-xs")
-                    .props("padding=xs")
-                ):
-                    ui.tooltip("Log Out")
 
             with ui.column().classes("h-full flex-1"):
                 ResearcherGrid(vm)

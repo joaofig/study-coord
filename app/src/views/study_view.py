@@ -1,6 +1,5 @@
 from nicegui import ui
 from src.tools.excel import export_to_excel
-from src.tools.user import logout
 from src.viewmodels import StudyViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -41,6 +40,7 @@ class StudyView(View):
     def show(self):
         with ui.splitter(horizontal=True).classes("w-full h-full") as splitter:
             with splitter.before:
+
                 with ui.row().classes("w-full h-full"):
                     with ui.column().classes("h-full flex-none pl-0"):
                         with ui.button(icon="add", on_click=lambda: self._new_study_dialog()) \
@@ -56,13 +56,6 @@ class StudyView(View):
                                 .classes("text-xs") \
                                 .props("padding=xs"):
                             ui.tooltip("Export to Excel")
-
-                        ui.separator()
-
-                        with ui.button(icon="logout", on_click=logout) \
-                                .classes("text-xs") \
-                                .props("padding=xs"):
-                            ui.tooltip("Log Out")
 
                     with ui.column().classes("h-full flex-1"):
                         StudyGrid(self.vm)

@@ -1,6 +1,7 @@
 from nicegui import app, ui
 from src.repositories import UserRepository
 from src.tools.tasks import ManagedTasks
+from src.tools.user import logout
 from src.viewmodels import UserViewModel
 
 
@@ -67,15 +68,24 @@ async def main_view():
     user_id = app.storage.user.get("user_id", 0)
 
     with ui.column().classes("w-full h-screen"):
-        with ui.tabs().props("dense no-caps") as tabs:
-            studies = ui.tab("Studies").classes("text-sky-800")
-            researchers = ui.tab("Researchers").classes("text-sky-800")
-            reports = ui.tab("Reports").classes("text-sky-800")
-            settings = ui.tab("Settings").classes("text-sky-800")
-            admin = ui.tab("Admin").classes("text-sky-800")
+        with ui.row().classes("w-full flex-1"):
+            with ui.tabs().props("dense no-caps") as tabs:
+                studies = ui.tab("Studies").classes("text-sky-800")
+                researchers = ui.tab("Researchers").classes("text-sky-800")
+                reports = ui.tab("Reports").classes("text-sky-800")
+                settings = ui.tab("Settings").classes("text-sky-800")
+                admin = ui.tab("Admin").classes("text-sky-800")
 
-            # Only visible to Admin users
-            admin.set_visibility(user_role == "Admin")
+                # Only visible to Admin users
+                admin.set_visibility(user_role == "Admin")
+            # ui.space()
+            with ui.row().classes("w-full flex-1 justify-end"):
+                with ui.button(text="Logout", on_click=logout)\
+                        .props("padding=xs") \
+                        .classes("text-xs mr-4 mt-2") \
+                        .props("padding=xs"):
+                    ui.tooltip("Log Out")
+
 
         with ui.tab_panels(tabs, value=studies, animated=False).classes(
             "h-full w-full"

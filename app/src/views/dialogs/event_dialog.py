@@ -31,17 +31,20 @@ class EventDialog(View):
                     )
 
                     selection = self.vm.get("selection")
-                    ui.input(label="Patient Number").props("readonly").bind_value(
-                        selection, "number"
-                    ).classes("w-full")
+                    ui.input(label="Patient Number") \
+                        .props("readonly dense") \
+                        .bind_value(selection, "number") \
+                        .classes("w-full")
 
-                    ui.input(label="Start Date").props("readonly").bind_value(
-                        selection, "start_date"
-                    ).classes("w-full")
+                    ui.input(label="Start Date") \
+                        .props("readonly dense") \
+                        .bind_value(selection, "start_date") \
+                        .classes("w-full")
 
-                    ui.input(label="Status").props("readonly").bind_value(
-                        selection, "status_text"
-                    ).classes("w-full")
+                    ui.input(label="Status") \
+                        .props("readonly dense") \
+                        .bind_value(selection, "status_text") \
+                        .classes("w-full")
 
                 with ui.column().classes("flex-1"):
                     ui.date_input(label="Date")\
@@ -50,11 +53,13 @@ class EventDialog(View):
 
                     ui.input(label="Event Type", validation=validate_required) \
                         .bind_value(self.vm, "event_type") \
-                        .classes("w-full")
+                        .classes("w-full") \
+                        .props("dense")
 
                     ui.input(label="Description", validation=validate_required) \
                         .bind_value(self.vm, "description") \
-                        .classes("w-full")
+                        .classes("w-full") \
+                        .props("dense")
 
                     ui.textarea(label="Comments").bind_value(self.vm, "comments").classes("w-full")
 
