@@ -20,7 +20,10 @@ class StudyPatientGrid(View):
         self.grid: AgGrid = self._build_grid()
 
     async def _update_grid(self):
-        await self.grid.run_grid_method("setGridOption", "rowData", self.patients)
+        await self.grid.run_grid_method("setGridOption", "rowData",
+                                        self.patients)
+        if len(self.patients) == 0:
+            await self.grid.run_grid_method("redrawRows")
 
         # Restore the selected patient
         patient_id = self.vm.get("selected_id")

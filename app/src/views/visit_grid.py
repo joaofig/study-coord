@@ -38,7 +38,10 @@ class StudyVisitGrid(View):
             await self._edit_visit(row_data["visit_id"])
 
     async def _update_grid(self):
-        await self.grid.run_grid_method("setGridOption", "rowData", self.visits)
+        if len(self.visits) > 0:
+            await self.grid.run_grid_method("setGridOption", "rowData", self.visits)
+        else:
+            await self.grid.run_grid_method("setGridOption", "rowData", [])
 
     def _build_grid(self) -> AgGrid:
         columns = [

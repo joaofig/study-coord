@@ -1,6 +1,7 @@
 from collections.abc import Awaitable, Callable
 
 from src.tools import singleton
+from src.tools.tasks import ManagedTasks
 
 
 class Messenger:
@@ -8,10 +9,11 @@ class Messenger:
         self.handlers = {}
 
     async def broadcast(self, message: str, **kwargs):
+        mt = ManagedTasks()
         if message in self.handlers:
             for handler in self.handlers[message]:
                 if handler is not None and isinstance(handler, Callable):
-                    await handler(**kwargs)
+                    mt.create(handler(**kwargs))
 
     async def send(self, message: str, **kwargs):
         await self.broadcast(message, **kwargs)

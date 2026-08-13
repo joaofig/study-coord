@@ -51,7 +51,7 @@ async def settings_view(user_id: int):
     if user is not None:
         vm.copy(user)
     SettingsView(vm)
-    ManagedTasks().create(vm.call("load"))
+    await vm.call("load")
 
 
 async def admin_view():

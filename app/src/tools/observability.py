@@ -37,8 +37,12 @@ class GridList(ObservableList):
         super().__init__(data, on_change=on_change, _parent=_parent)
 
     def replace(self, new_items: Iterable):
-        list.clear(self)
-        self.extend(new_items)
+        items = list(new_items)
+        if len(items) > 0:
+            list.clear(self)
+            self.extend(items)
+        else:
+            self.clear()
 
     def delete(self, key: str, value: Any):
         removed = [r for r in self if r[key] != value]
