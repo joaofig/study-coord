@@ -129,7 +129,7 @@ class StudyResearcherViewModel(ViewModel):
         model = ResearcherModel()
         self.researcher_list = await model.list()
         self.researchers = {
-            sr.researcher_id: sr.name
+            sr.researcher_id: sr.number
             for sr in self.researcher_list
         }
 
