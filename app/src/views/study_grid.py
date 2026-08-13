@@ -62,6 +62,7 @@ class StudyGrid(View):
             {
                 "headerName": "Protocol", "field": "protocol", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False, "width": 200,
+                "cellStyle": {"fontWeight": "bold"},
             },
             {
                 "headerName": "Name", "field": "name", "sortable": True, "align": "left",

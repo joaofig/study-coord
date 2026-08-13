@@ -36,6 +36,7 @@ class ResearcherGrid(View):
             {
                 "headerName": "Number", "field": "number", "sortable": True, "align": "left",
                 "filter": "agTextColumnFilter", "floatingFilter": False,
+                "cellStyle": {"fontWeight": "bold"},
             },
             {
                 "headerName": "Name", "field": "name", "sortable": True, "align": "left",

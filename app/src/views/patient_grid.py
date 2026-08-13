@@ -51,6 +51,7 @@ class StudyPatientGrid(View):
             {
                 "headerName": "Number", "field": "number", "sortable": True, "align": "left", "width": 100,
                 "filter": "agTextColumnFilter", "floatingFilter": False,
+                "cellStyle": {"fontWeight": "bold"},
             },
             {
                 "headerName": "Name", "field": "name", "sortable": True, "align": "left",
