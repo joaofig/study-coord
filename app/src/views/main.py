@@ -19,7 +19,7 @@ async def study_view():
     from src.views.study_view import StudyView
 
     study_vm = StudyListViewModel()
-    await study_vm.load()
+    await study_vm.call("load")
     view = StudyView(study_vm)
     view.show()
 
@@ -29,7 +29,7 @@ async def researcher_view():
     from src.views.researcher_view import ResearcherView
 
     researcher_vm = ResearcherListViewModel()
-    await researcher_vm.load()
+    await researcher_vm.call("load")
     ResearcherView(researcher_vm)
 
 

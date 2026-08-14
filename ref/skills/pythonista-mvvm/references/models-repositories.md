@@ -21,7 +21,7 @@ class EntityRepository:
     def _get_by_id(self, entity_id: int) -> dict | None:
         conn = get_connection()
         conn.row_factory = lambda _, row: {...}
-        cursor = conn.execute(self.cache.load("entity/get_by_id.sql"), (entity_id,))
+        cursor = conn.execute(self.cache._load("entity/get_by_id.sql"), (entity_id,))
         return cursor.fetchone()
 
     async def get(self, entity_id: int) -> dict | None:

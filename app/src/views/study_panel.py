@@ -1,30 +1,22 @@
 from nicegui import ui
-from nicegui.events import ValueChangeEventArguments
 from src.viewmodels import (
-    AdverseEventListViewModel,
     MonitoringListViewModel,
     PatientListViewModel,
     ProtocolListViewModel,
-    VisitListViewModel,
 )
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
-from src.viewmodels.timeline import TimelineViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.event_panel import EventPanel
 from src.views.monitoring_panel import StudyMonitoringPanel
+from src.views.patient_detail_panel import PatientDetailPanel
 from src.views.patient_panel import StudyPatientPanel
 from src.views.protocol_panel import ProtocolPanel
 from src.views.study_researcher_panel import StudyResearcherPanel
-from src.views.timeline_panel import TimelinePanel
 from src.views.view import View
-from src.views.visit_panel import StudyVisitPanel
 
 
 class StudyPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
-        self.children = {}
-
         self.study_detail_panel()
 
     def patient_panel(self):
@@ -34,54 +26,7 @@ class StudyPanel(View):
                 panel = StudyPatientPanel(patient_vm)
                 panel.show()
             with splitter.after:  # as splitter_right:
-                self.patient_detail_panel(patient_vm)
-
-    def monitoring_panel(self):
-        panel = StudyMonitoringPanel(MonitoringListViewModel())
-        panel.show()
-
-    def researcher_panel(self):
-        panel = StudyResearcherPanel(StudyResearcherListViewModel())
-        panel.show()
-
-    def protocol_panel(self):
-        panel = ProtocolPanel(ProtocolListViewModel())
-        panel.show()
-
-    def visits_panel(self):
-        panel = StudyVisitPanel(VisitListViewModel())
-        panel.show()
-
-    def events_panel(self):
-        panel = EventPanel(AdverseEventListViewModel())
-        panel.show()
-
-    def timeline_panel(self):
-        panel = TimelinePanel(TimelineViewModel())
-        panel.show()
-
-    def patient_detail_panel(self, patient_vm: ViewModel):
-        with ui.column().classes("h-full w-full p-0") \
-                .bind_visibility(patient_vm, "selected_id") as container:
-            ui.separator()
-            with ui.tabs().props("dense no-caps").bind_visibility(self.vm, "selected_id") as tabs:
-                visits = ui.tab("Visits").classes("text-sky-800")
-                events = ui.tab("Events").classes("text-sky-800")
-
-            with ui.tab_panels(tabs, value=visits, animated=False).classes("w-full h-full"):
-                with ui.tab_panel(visits) \
-                        .classes("pl-4 pt-0 pb-0 pr-0"):
-                    self.visits_panel()
-
-                with ui.tab_panel(events) \
-                        .classes("pl-4 pt-0 pb-0 pr-0"):
-                    self.events_panel()
-
-        self.children["Patients"] = container
-
-    def on_tab_change(self, tab: ValueChangeEventArguments):
-        for name, view in self.children.items():
-            view.set_visibility(name == tab.value)
+                PatientDetailPanel(self.vm, patient_vm)
 
     def study_detail_panel(self):
         with ui.tabs() \
@@ -103,19 +48,19 @@ class StudyPanel(View):
             with ui.tab_panel(monitoring) \
                     .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
-                self.monitoring_panel()
+                StudyMonitoringPanel(MonitoringListViewModel())
 
             with ui.tab_panel(researchers) \
                     .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
-                self.researcher_panel()
+                StudyResearcherPanel(StudyResearcherListViewModel())
 
             with ui.tab_panel(protocols) \
                     .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
-                self.protocol_panel()
+                ProtocolPanel(ProtocolListViewModel())
 
             # with ui.tab_panel(timeline) \
             #         .classes("pl-0 pt-0 pb-0 pr-0") \
             #         .bind_visibility(self.vm, "selected_id"):
-            #     self.timeline_panel()
+            #     TimelinePanel(TimelineViewModel())

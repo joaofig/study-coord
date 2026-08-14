@@ -20,36 +20,6 @@ class StudyResearcherPanel(View):
 
         self.subscribe("study", "selected", self._study_selected)
 
-    async def _study_selected(self, **kwargs):
-        if "study_id" in kwargs:
-            self.study_id = kwargs["study_id"]
-
-    async def _new_researcher_dialog(self):
-        researcher_vm = StudyResearcherViewModel()
-        await researcher_vm.load_researchers()
-        researcher_vm.study_id = self.study_id
-        dialog = StudyResearcherDialog(researcher_vm)
-        result = await dialog.show()
-        if result == "save":
-            await self.vm.call("load")
-            await self.broadcast("study_list", "load")
-
-    async def _study_researcher_selected(self, **kwargs):
-        if "study_id" in kwargs:
-            self.study_id = kwargs["study_id"]
-
-    async def _on_delete_researcher(self):
-        dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")
-        result = await dialog.show()
-        if result == "delete":
-            dialog.close()
-            selected_id = self.vm.get("selected_id")
-            if selected_id:
-                researcher_id = selected_id
-                await self.vm.call("delete", researcher_id=researcher_id)
-            await self.broadcast("study_list", "load")
-
-    def show(self):
         with ui.row().classes("w-full h-full"):
             with ui.column().classes("h-full flex-none"):
                 with (
@@ -80,6 +50,37 @@ class StudyResearcherPanel(View):
 
             with ui.column().classes("h-full flex-1"):
                 StudyResearcherGrid(self.vm)
+
+
+    async def _study_selected(self, **kwargs):
+        if "study_id" in kwargs:
+            self.study_id = kwargs["study_id"]
+
+    async def _new_researcher_dialog(self):
+        researcher_vm = StudyResearcherViewModel()
+        await researcher_vm.load_researchers()
+        researcher_vm.study_id = self.study_id
+        dialog = StudyResearcherDialog(researcher_vm)
+        result = await dialog.show()
+        if result == "save":
+            await self.vm.call("load")
+            await self.broadcast("study_list", "load")
+
+    async def _study_researcher_selected(self, **kwargs):
+        if "study_id" in kwargs:
+            self.study_id = kwargs["study_id"]
+
+    async def _on_delete_researcher(self):
+        dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")
+        result = await dialog.show()
+        if result == "delete":
+            dialog.close()
+            selected_id = self.vm.get("selected_id")
+            if selected_id:
+                researcher_id = selected_id
+                await self.vm.call("delete", researcher_id=researcher_id)
+            await self.broadcast("study_list", "load")
+
 
     def _export_to_excel(self):
         researchers = [r.to_dict() for r in self.vm.get("researchers")]

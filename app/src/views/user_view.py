@@ -41,7 +41,7 @@ class UserView(View):
 
     async def _on_delete_user(self):
         user = self.vm.get("selected_row")
-        user_name = user.load("user_name", "") if user else ""
+        user_name = user._load("user_name", "") if user else ""
         if user_name == app.storage.user.get("username"):
             ui.notify("You cannot delete the currently logged-in user.", color="red")
             return

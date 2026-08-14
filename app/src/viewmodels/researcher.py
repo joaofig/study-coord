@@ -107,6 +107,7 @@ class ResearcherViewModel(ViewModel):
             self.researcher_id = researcher.researcher_id
         self.data_changed = False
         self.is_old = True
+        await self.broadcast("researcher", "saved")
 
     async def validate(self) -> str | None:
         self.is_invalid = False

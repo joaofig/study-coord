@@ -20,3 +20,7 @@ dependencies = [
     "psycopg[binary]>=3.2.4",
 ]
 
+[tool.pytest.ini_options]
+python_files = ["test_*.py", "*_test.py", "*_tests.py"]
+pythonpath = ["app"]
+

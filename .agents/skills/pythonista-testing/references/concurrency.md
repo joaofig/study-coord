@@ -45,7 +45,7 @@ async def test_queues_during_loading_WRONG(controller):
     controller.service.get_data = blocking_method
 
     # Start load, sleep to let it start, then act
-    load_task = asyncio.create_task(controller.load())
+    load_task = asyncio.create_task(controller._load())
     await asyncio.sleep(0.01)  # Timing assumption - flaky!
 
     result = await controller.handle_action()

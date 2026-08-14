@@ -93,7 +93,7 @@ class ProtocolViewModel(ViewModel):
         await self.model.save(protocol)
         if protocol.protocol_id:
             self.protocol_id = protocol.protocol_id
-        await send_message("protocol_list", "load", study_id=self.study_id)
+        await send_message("protocol", "saved", study_id=self.study_id)
         self.changed = False
 
     async def _on_call(self, msg: str, **kwargs) -> Any:

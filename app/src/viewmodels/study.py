@@ -35,22 +35,6 @@ class StudyViewModel(ViewModel):
 
     def __post_init__(self):
         super().__init__()
-        # self.subscribe(
-        #     channel="study", message="selected", handler=self._handle_study_selected
-        # )
-
-    def _field_changed(self, field_name: str):
-        self.changed = True
-        self.change_set.add(field_name)
-
-    async def _handle_study_selected(self, **kwargs):
-        study_row = kwargs.get("study")
-        if study_row:
-            study_id = study_row.get("study_id", 0)
-            if study_id:
-                study = await self.model.load(study_id=study_id)
-                if study:
-                    self.copy(study)
 
     def copy(self, study: StudyDTO):
         self.study_id = study.study_id or 0
@@ -103,14 +87,14 @@ class StudyViewModel(ViewModel):
         )
 
     async def save(self):
-        if not await self.validate():
+        if not await self._validate():
             ui.notify(self.validation, color="negative")
             return
         study = self.to_dto()
         study.log_change(self.study_id)
         study = await self.model.save(study)
         self.study_id = study.study_id
-        await self.broadcast("study", "study_saved", study=study)
+        await self.broadcast("study", "saved", study=study)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
@@ -122,19 +106,13 @@ class StudyViewModel(ViewModel):
 
             case "save":
                 await self.save()
-                await self.broadcast("study_list", "load")
-
-            case "mark_changed":
-                field_name = kwargs.get("field_name", "")
-                if field_name:
-                    self._field_changed(field_name)
 
             case "validate":
-                return await self.validate()
+                return await self._validate()
 
         return None
 
-    async def validate(self) -> bool:
+    async def _validate(self) -> bool:
         self.is_invalid = False
         self.validation = ""
 

@@ -16,33 +16,6 @@ class StudyMonitoringPanel(View):
             channel="study", message="selected", handler=self._study_selected
         )
 
-    async def _study_selected(self, **kwargs):
-        if "study_id" in kwargs:
-            self.study_id = kwargs["study_id"]
-
-    async def _new_monitoring_dialog(self):
-        monitoring_vm = MonitoringViewModel()
-
-        monitoring_vm.study_id = self.study_id
-        dialog = StudyMonitoringDialog(monitoring_vm)
-        result = await dialog.show()
-        if result == "save":
-            await self.vm.call("load", study_id=self.study_id)
-            await self.broadcast("study_list", "load")
-
-    async def _on_delete_monitoring(self):
-        dialog = DeleteWarningDialog(
-            "Are you sure you want to delete this monitoring visit?"
-        )
-        result = await dialog.show()
-        if result == "delete":
-            dialog.close()
-            monitoring_id = self.vm.get("selected_id")
-            await self.vm.call("delete", monitoring_id=monitoring_id)
-            # await self.vm.call("load", study_id=self.study_id)
-            # await self.broadcast("study_list", "load")
-
-    def show(self):
         with ui.row().classes("w-full h-full"):
             with ui.column().classes("h-full flex-none pl-0"):
                 with (
@@ -78,3 +51,30 @@ class StudyMonitoringPanel(View):
 
             with ui.column().classes("h-full flex-1"):
                 StudyMonitoringGrid(self.vm)
+
+
+    async def _study_selected(self, **kwargs):
+        if "study_id" in kwargs:
+            self.study_id = kwargs["study_id"]
+
+    async def _new_monitoring_dialog(self):
+        monitoring_vm = MonitoringViewModel()
+
+        monitoring_vm.study_id = self.study_id
+        dialog = StudyMonitoringDialog(monitoring_vm)
+        result = await dialog.show()
+        if result == "save":
+            await self.vm.call("load", study_id=self.study_id)
+            await self.broadcast("study_list", "load")
+
+    async def _on_delete_monitoring(self):
+        dialog = DeleteWarningDialog(
+            "Are you sure you want to delete this monitoring visit?"
+        )
+        result = await dialog.show()
+        if result == "delete":
+            dialog.close()
+            monitoring_id = self.vm.get("selected_id")
+            await self.vm.call("delete", monitoring_id=monitoring_id)
+            # await self.vm.call("load", study_id=self.study_id)
+            # await self.broadcast("study_list", "load")

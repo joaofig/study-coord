@@ -142,7 +142,7 @@ class StudiesPage:
         background_tasks.create(self._load())
 
     async def _load(self) -> None:
-        await self.vm.load()
+        await self.vm._load()
         self.master.refresh()
 ```
 

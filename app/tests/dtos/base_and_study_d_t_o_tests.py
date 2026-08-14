@@ -37,6 +37,7 @@ def test_study_dto_from_dict_and_to_dict():
     dto = StudyDTO.from_dict(
         {
             "id": 10,
+            "protocol": "PROT-10",
             "name": "Cardiology Study",
             "sponsor": "Acme Pharma",
             "start_date": "2024-01-01",
@@ -51,12 +52,14 @@ def test_study_dto_from_dict_and_to_dict():
     )
 
     assert dto.study_id == 10
+    assert dto.protocol == "PROT-10"
     assert dto.start_date == date(2024, 1, 1)
     assert dto.end_date == date(2024, 12, 31)
     assert dto.protocol_visits == 6
 
     assert dto.to_dict() == {
         "study_id": 10,
+        "protocol": "PROT-10",
         "name": "Cardiology Study",
         "sponsor": "Acme Pharma",
         "start_date": "2024-01-01",
@@ -74,6 +77,7 @@ def test_study_row_dto_from_dict_and_to_dict():
     dto = StudyRowDTO.from_dict(
         {
             "id": 11,
+            "protocol": "PROT-11",
             "name": "Oncology Study",
             "sponsor": "Health Inc",
             "start_date": "2024-02-01",
@@ -89,6 +93,7 @@ def test_study_row_dto_from_dict_and_to_dict():
 
     assert dto.to_dict() == {
         "study_id": 11,
+        "protocol": "PROT-11",
         "name": "Oncology Study",
         "sponsor": "Health Inc",
         "start_date": "2024-02-01",
@@ -314,7 +319,7 @@ def test_user_dto_from_dict_and_to_dict():
 def test_hash_password_returns_sha256_hash():
     assert (
         hash_password("secret")
-        == "2bb80d537b1da3e38bd30361aa855686bde0ba31d560d9a57c15bfbf00a08e37"
+        == "2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b"
     )
 
 

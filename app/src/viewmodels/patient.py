@@ -93,15 +93,13 @@ class PatientViewModel(ViewModel):
         await self.model.save(patient)
         if patient.patient_id:
             self.patient_id = patient.patient_id
-        await send_message("study_list", "load")
+        await send_message("patient", "saved")
         self.changed = False
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "save":
                 await self.save()
-                await self.broadcast("study_list", "load")
-                await self.broadcast("patient_list", "load")
 
             case "validate":
                 return await self.validate()

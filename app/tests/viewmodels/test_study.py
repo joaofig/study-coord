@@ -1,3 +1,4 @@
+import asyncio
 import builtins
 from unittest.mock import AsyncMock, patch
 
@@ -8,11 +9,13 @@ from src.dtos.study import StudyDTO as Study
 from src.dtos.study import StudyRowDTO as StudyRow
 from src.viewmodels.study import StudyViewModel
 from src.viewmodels.study_list import StudyListViewModel
+from src.viewmodels.view_model import ViewModel
 
 EXISTING_STUDY_ID = 7
 NEW_STUDY_ID = 23
 SELECTED_STUDY_ID = 11
 MISSING_STUDY_ID = 404
+STUDY_PROTOCOL = "PROT-1"
 STUDY_NAME = "Cardio Trial"
 EMPTY_STUDY_NAME = ""
 STUDY_SPONSOR = "Acme Pharma"
@@ -30,6 +33,7 @@ NO_ADVERSE_EVENTS = 0
 def make_study(
     *,
     study_id: int | None = EXISTING_STUDY_ID,
+    protocol: str = STUDY_PROTOCOL,
     name: str = STUDY_NAME,
     sponsor: str = STUDY_SPONSOR,
     start_date: str = STUDY_START_DATE,
@@ -39,6 +43,7 @@ def make_study(
 ) -> Study:
     return Study(
         study_id=study_id,
+        protocol=protocol,
         name=name,
         sponsor=sponsor,
         start_date=start_date,
@@ -51,6 +56,7 @@ def make_study(
 def make_study_row(study_id: int = EXISTING_STUDY_ID) -> StudyRow:
     return StudyRow(
         study_id=study_id,
+        protocol=STUDY_PROTOCOL,
         name=STUDY_NAME,
         sponsor=STUDY_SPONSOR,
         start_date=STUDY_START_DATE,
@@ -96,6 +102,7 @@ def fake_repository():
 
 def assert_view_model_matches_study(view_model: StudyViewModel, study: Study) -> None:
     assert view_model.study_id == (study.study_id or EMPTY_ID)
+    assert view_model.protocol == study.protocol
     assert view_model.name == study.name
     assert view_model.sponsor == study.sponsor
     assert view_model.protocol_visits == study.protocol_visits
@@ -106,6 +113,7 @@ def assert_view_model_matches_study(view_model: StudyViewModel, study: Study) ->
 
 def assert_studies_match(actual: Study, expected: Study) -> None:
     assert actual.study_id == expected.study_id
+    assert actual.protocol == expected.protocol
     assert actual.name == expected.name
     assert actual.sponsor == expected.sponsor
     assert str(actual.start_date) == str(expected.start_date)
@@ -127,6 +135,7 @@ async def test_study_view_model_copy_populates_editable_fields() -> None:
 def test_study_view_model_to_study_preserves_current_fields() -> None:
     view_model = StudyViewModel(
         study_id=EXISTING_STUDY_ID,
+        protocol=STUDY_PROTOCOL,
         name=STUDY_NAME,
         sponsor=STUDY_SPONSOR,
         protocol_visits=PROTOCOL_VISITS,
@@ -145,6 +154,7 @@ async def test_save_persists_valid_study_updates_id_and_notifies(
     fake_repository,
 ) -> None:
     view_model = StudyViewModel(
+        protocol=STUDY_PROTOCOL,
         name=STUDY_NAME,
         sponsor=STUDY_SPONSOR,
         protocol_visits=PROTOCOL_VISITS,
@@ -160,6 +170,7 @@ async def test_save_persists_valid_study_updates_id_and_notifies(
     assert view_model.study_id == NEW_STUDY_ID
     assert len(fake_repository.saved_studies) == 1
     saved_study = fake_repository.saved_studies[0]
+    assert saved_study.protocol == STUDY_PROTOCOL
     assert saved_study.name == STUDY_NAME
     assert saved_study.sponsor == STUDY_SPONSOR
     assert saved_study.protocol_visits == PROTOCOL_VISITS
@@ -168,6 +179,7 @@ async def test_save_persists_valid_study_updates_id_and_notifies(
 @pytest.mark.asyncio
 async def test_save_rejects_invalid_study_without_persisting(fake_repository) -> None:
     view_model = StudyViewModel(
+        protocol=STUDY_PROTOCOL,
         name=EMPTY_STUDY_NAME,
         sponsor=STUDY_SPONSOR,
         protocol_visits=PROTOCOL_VISITS,
@@ -230,7 +242,7 @@ async def test_study_list_load_replaces_rows_and_notifies(fake_repository) -> No
     view_model = StudyListViewModel()
 
     with patch("src.models.study.StudyModel.repo", fake_repository):
-        await view_model.load()
+        await view_model._load()
 
     assert view_model.studies == [r.to_dict() for r in rows]
 
@@ -238,11 +250,11 @@ async def test_study_list_load_replaces_rows_and_notifies(fake_repository) -> No
 @pytest.mark.asyncio
 async def test_study_list_reloads_after_study_saved() -> None:
     view_model = StudyListViewModel()
-    view_model.load = AsyncMock()
-
-    await view_model.call("study_saved")
-
-    view_model.load.assert_awaited_once_with()
+    with patch.object(view_model.model, "list", new_callable=AsyncMock) as mock_list:
+        mock_list.return_value = []
+        await ViewModel.broadcast("study", "saved")
+        await asyncio.sleep(0)
+        mock_list.assert_awaited_once()
 
 
 @pytest.mark.asyncio
@@ -252,7 +264,7 @@ async def test_study_list_loads_selected_study_into_child_view_model() -> None:
         mock_messenger = AsyncMock()
         mock_get_messenger.return_value = mock_messenger
 
-        await view_model.call("study_selected", study_id=SELECTED_STUDY_ID)
+        await view_model.call("select", study_id=SELECTED_STUDY_ID)
 
         mock_get_messenger.assert_called_once_with("study")
         mock_messenger.send.assert_awaited_once_with(

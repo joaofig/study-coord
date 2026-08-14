@@ -13,12 +13,8 @@ class ProtocolListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(
-            channel="study", message="selected", handler=self._handle_study_selected
-        )
-        self.subscribe(
-            channel="protocol_list", message="load", handler=self._handle_load
-        )
+        self.subscribe(channel="study", message="selected", handler=self._handle_study_selected)
+        self.subscribe(channel="protocol", message="saved", handler=self._handle_load)
 
     async def _load_protocols(self, study_id: int):
         self.protocols.replace([p.to_dict() for p in await self.model.list(study_id)])
@@ -48,12 +44,12 @@ class ProtocolListViewModel(ViewModel):
                     await self._load_protocols(study_id)
 
             case "protocol_selected":
-                protocol_id = kwargs.get("protocol_id", 0)
+                protocol_id = int(kwargs.get("protocol_id", 0))
                 if protocol_id:
                     self.protocol_id = protocol_id
 
-            case "delete_protocol":
-                protocol_id = kwargs.get("protocol_id", 0)
+            case "delete":
+                protocol_id = int(kwargs.get("protocol_id", 0))
                 if protocol_id:
                     self.protocol_id = protocol_id
                     await self.model.delete(protocol_id)

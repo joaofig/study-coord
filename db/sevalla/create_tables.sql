@@ -97,6 +97,12 @@ CREATE INDEX IF NOT EXISTS patient_study_idx
     TABLESPACE pg_default;
 
 
+ALTER TABLE IF EXISTS public.patient DROP CONSTRAINT IF EXISTS number_study_unique;
+
+ALTER TABLE IF EXISTS public.patient
+    ADD CONSTRAINT number_study_unique UNIQUE (study_id, "number");
+
+
 -------------------------------------------------
 --
 -- Table: public.researcher

@@ -130,7 +130,7 @@ async def test_protocol_list_deletes_and_reloads_protocols():
         patch.object(vm.model, "delete", delete),
         patch.object(vm, "_load_protocols", load),
     ):
-        await vm.call("delete_protocol", protocol_id="9")
+        await vm.call("delete", protocol_id="9")
 
     assert vm.protocol_id == 9
     delete.assert_awaited_once_with(9)

@@ -29,6 +29,3 @@ class TimelinePanel(View):
                                       icon=milestone.get("icon", ""),
                                       body=milestone.get("description", ""),
                                       color=milestone.get("color", "gray"))
-
-    def show(self):
-        return self.root

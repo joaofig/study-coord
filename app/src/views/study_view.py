@@ -9,6 +9,12 @@ from src.views.study_panel import StudyPanel
 from src.views.view import View
 
 
+async def _new_study_dialog():
+    study_vm = StudyViewModel()
+    dialog = StudyDialog(study_vm)
+    await dialog.show()
+
+
 class StudyView(View):
     """
     This is the main Study view, which contains the StudyGrid and StudyEditor components.
@@ -18,24 +24,13 @@ class StudyView(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
 
-    async def load(self):
-        await self.vm.call("load")
-
     async def _on_delete_study(self):
         dialog = DeleteWarningDialog("Are you sure you want to delete this study?")
         result = await dialog.show()
         if result == "delete":
             dialog.close()
             study_id = self.vm.get("selected_id")
-            await self.vm.call("delete_study", study_id=study_id)
-            await self.vm.call("load")
-
-    async def _new_study_dialog(self):
-        study_vm = StudyViewModel()
-        dialog = StudyDialog(study_vm)
-        result = await dialog.show()
-        if result == "save":
-            await self.vm.call("load")
+            await self.vm.call("delete", study_id=study_id)
 
     def show(self):
         with ui.splitter(horizontal=True, value=35).classes("w-full h-full") as splitter:
@@ -43,7 +38,7 @@ class StudyView(View):
 
                 with ui.row().classes("w-full h-full"):
                     with ui.column().classes("h-full flex-none pl-0"):
-                        with ui.button(icon="add", on_click=lambda: self._new_study_dialog()) \
+                        with ui.button(icon="add", on_click=_new_study_dialog) \
                                 .classes("text-xs") \
                                 .props("padding=xs"):
                             ui.tooltip("Add Study")
