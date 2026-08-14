@@ -133,5 +133,11 @@ class PatientViewModel(ViewModel):
         if self.exit_date and self.start_date and self.exit_date < self.start_date:
             self.validation += "**Exit date** must be after **Start date**.  \r\n"
 
+        if self.status != "active" and not self.exit_date:
+            self.validation += "**Exit date** is required for **non-active** patients.  \r\n"
+
+        if self.exit_date and self.status == "active":
+            self.validation += "**Exit date** must be empty for **active** patients.  \r\n"
+
         self.is_invalid = len(self.validation) > 0
         return not self.is_invalid
