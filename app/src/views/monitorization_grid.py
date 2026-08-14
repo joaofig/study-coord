@@ -85,8 +85,4 @@ class StudyMonitorizationGrid(View):
     async def _row_selection_changed(self, event):
         row = await self.grid.get_selected_row()
         if row:
-            await self.vm.call(
-                "select",
-                monitoring=row,
-                monitoring_id=row["monitoring_id"],
-            )
+            await self.vm.call("select", monitoring=row, monitoring_id=row["monitoring_id"])
