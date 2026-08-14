@@ -1,19 +1,19 @@
 
 import builtins
 
-from src.dtos.monitoring import MonitoringDTO
+from src.dtos.monitorization import MonitorizationDTO
 from src.repositories import MonitoringRepository
 
 
 class MonitoringModel:
     repo = MonitoringRepository()
 
-    async def save(self, dto: MonitoringDTO):
+    async def save(self, dto: MonitorizationDTO):
         monitoring = await self.repo.save(dto)
         dto.monitoring_id = monitoring["monitoring_id"]
         return dto
 
-    async def load(self, monitoring_id: int) -> MonitoringDTO | None:
+    async def load(self, monitoring_id: int) -> MonitorizationDTO | None:
         monitoring = await self.repo.load(monitoring_id)
         if monitoring:
             return monitoring
@@ -22,6 +22,6 @@ class MonitoringModel:
     async def delete(self, monitoring_id: int):
         await self.repo.delete(monitoring_id=monitoring_id)
 
-    async def list(self, study_id: int) -> builtins.list[MonitoringDTO]:
+    async def list(self, study_id: int) -> builtins.list[MonitorizationDTO]:
         ms = await self.repo.list(study_id)
         return ms

@@ -1,24 +1,24 @@
 from nicegui import app, ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
-from src.viewmodels.monitoring import MonitoringViewModel
+from src.viewmodels.monitorization import MonitorizationViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.dialogs.monitoring_dialog import StudyMonitoringDialog
+from src.views.dialogs.monitorization_dialog import StudyMonitorizationDialog
 from src.views.view import View
 
 
-class StudyMonitoringGrid(View):
+class StudyMonitorizationGrid(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
 
-        self.monitoring_visits = self.vm.get("monitoring_visits")
-        if isinstance(self.monitoring_visits, ObservableList):
-            self.monitoring_visits.on_change(self._update_grid)
+        self.monitorization_visits = self.vm.get("monitorization_visits")
+        if isinstance(self.monitorization_visits, ObservableList):
+            self.monitorization_visits.on_change(self._update_grid)
 
         self.grid: AgGrid = self._build_grid()
 
     async def _update_grid(self):
-        await self.grid.run_grid_method("setGridOption", "rowData", self.monitoring_visits)
+        await self.grid.run_grid_method("setGridOption", "rowData", self.monitorization_visits)
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -53,7 +53,7 @@ class StudyMonitoringGrid(View):
         ]
         grid_def = {
             "columnDefs": columns,
-            "rowData": self.monitoring_visits,
+            "rowData": self.monitorization_visits,
             "rowSelection": {
                 "mode": "singleRow",
                 "checkboxes": False,
@@ -67,9 +67,9 @@ class StudyMonitoringGrid(View):
         return grid
 
     async def _edit_monitoring(self, monitoring: dict) -> dict:
-        vm = MonitoringViewModel()
+        vm = MonitorizationViewModel()
         vm.updated_by = app.storage.user.get("username", "Unknown")
-        dlg = StudyMonitoringDialog(vm=vm)
+        dlg = StudyMonitorizationDialog(vm=vm)
         vm.from_dict(monitoring)
         result = await dlg.show()
         if result == "save":

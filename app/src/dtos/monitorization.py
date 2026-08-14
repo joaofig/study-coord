@@ -5,7 +5,7 @@ from src.dtos.base import BaseDTO
 from src.tools.user import dict_to_date, dict_to_datetime, get_user_name
 
 
-class MonitoringDTO(BaseDTO):
+class MonitorizationDTO(BaseDTO):
     monitoring_id: int = 0
     study_id: int = 0
     meeting_date: date = date.today()

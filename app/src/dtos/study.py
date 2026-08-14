@@ -66,6 +66,7 @@ class StudyRowDTO(BaseModel):
     visits: int = 0
     researchers: int = 0
     events: int = 0
+    monitorizations: int = 0
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Self:
@@ -92,6 +93,7 @@ class StudyRowDTO(BaseModel):
             visits=data.get("visits", 0),
             researchers=data.get("researchers", 0),
             events=data.get("events", 0),
+            monitorizations=data.get("monitorizations", 0),
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -108,4 +110,5 @@ class StudyRowDTO(BaseModel):
             "visits": self.visits,
             "researchers": self.researchers,
             "events": self.events,
+            "monitorizations": self.monitorizations,
         }

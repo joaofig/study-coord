@@ -33,7 +33,10 @@ class StudyRepository(PostgresRepository):
                           WHERE sr.study_id = s.study_id) AS researchers,
                     ( SELECT count(0) AS count
                            FROM adverse_event ae
-                          WHERE ae.study_id = s.study_id) AS events
+                          WHERE ae.study_id = s.study_id) AS events,
+                    ( SELECT count(0) AS count
+                           FROM monitoring m
+                          WHERE m.study_id = s.study_id) AS monitorizations
             FROM study s;
         """
         result = await self.execute_query(sql)

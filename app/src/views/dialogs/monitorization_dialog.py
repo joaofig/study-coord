@@ -4,7 +4,7 @@ from src.viewmodels.view_model import ViewModel
 from src.views.view import View
 
 
-class StudyMonitoringDialog(View):
+class StudyMonitorizationDialog(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.dialog: Dialog = self._build_dialog()
@@ -22,7 +22,7 @@ class StudyMonitoringDialog(View):
     def _build_dialog(self) -> Dialog:
         with ui.dialog() as dialog, ui.card().classes("w-120"):
             with ui.row().classes("w-full  bg-gray-200 p-2"):
-                ui.label("Monitoring Visit Details").classes("text-base")
+                ui.label("Monitorization Visit Details").classes("text-base")
 
             (
                 ui.date_input("Date")

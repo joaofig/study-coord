@@ -1,14 +1,14 @@
 from unittest.mock import AsyncMock, patch
 
 import pytest
-from src.dtos.monitoring import MonitoringDTO
-from src.viewmodels.monitoring import MonitoringViewModel
-from src.viewmodels.monitoring_list import MonitoringListViewModel
+from src.dtos.monitorization import MonitorizationDTO
+from src.viewmodels.monitorization import MonitorizationViewModel
+from src.viewmodels.monitorization_list import MonitoringListViewModel
 
 
 @pytest.mark.asyncio
 async def test_monitoring_view_model_save():
-    view_model = MonitoringViewModel(
+    view_model = MonitorizationViewModel(
         study_id=1,
         meeting_date="2024-07-07",
         monitor="John Doe",
@@ -31,7 +31,7 @@ async def test_monitoring_view_model_save():
 @pytest.mark.asyncio
 async def test_monitoring_view_model_validate():
     # Setup - Invalid (missing monitor)
-    vm = MonitoringViewModel()
+    vm = MonitorizationViewModel()
     vm.meeting_date = "2024-07-07"
     vm.monitor = ""
 
@@ -63,14 +63,14 @@ async def test_monitoring_list_view_model_load():
     view_model = MonitoringListViewModel()
 
     mock_data = [
-        MonitoringDTO(
+        MonitorizationDTO(
             monitoring_id=1,
             study_id=1,
             meeting_date="2024-01-01",
             monitor="M1",
             comments="C1",
         ),
-        MonitoringDTO(
+        MonitorizationDTO(
             monitoring_id=2,
             study_id=1,
             meeting_date="2024-02-01",
@@ -84,17 +84,17 @@ async def test_monitoring_list_view_model_load():
     ) as mock_list:
         mock_list.return_value = mock_data
 
-        await view_model._load_monitoring(1)
+        await view_model._load_monitorizations(1)
 
-        assert len(view_model.monitoring_visits) == 2
-        assert view_model.monitoring_visits[0]["monitor"] == "M1"
-        assert view_model.monitoring_visits[1]["monitor"] == "M2"
+        assert len(view_model.monitorization_visits) == 2
+        assert view_model.monitorization_visits[0]["monitor"] == "M1"
+        assert view_model.monitorization_visits[1]["monitor"] == "M2"
 
 
 @pytest.mark.asyncio
 async def test_monitoring_list_selects_and_deletes_monitoring_visit():
     view_model = MonitoringListViewModel()
-    view_model.monitoring_visits.replace([{"monitoring_id": 7, "monitor": "M1"}])
+    view_model.monitorization_visits.replace([{"monitoring_id": 7, "monitor": "M1"}])
     delete = AsyncMock()
 
     with patch.object(view_model.model, "delete", delete):
@@ -103,4 +103,4 @@ async def test_monitoring_list_selects_and_deletes_monitoring_visit():
 
     assert view_model.selected_id == 7
     delete.assert_awaited_once_with(7)
-    assert view_model.monitoring_visits == []
+    assert view_model.monitorization_visits == []

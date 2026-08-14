@@ -3,7 +3,7 @@ from datetime import date, datetime
 from src.dtos.adverse_event import AdverseEventDTO
 from src.dtos.base import BaseDTO
 from src.dtos.milestone import Milestone
-from src.dtos.monitoring import MonitoringDTO
+from src.dtos.monitorization import MonitorizationDTO
 from src.dtos.patient import PatientDTO, patient_status_name
 from src.dtos.protocol import ProtocolDTO
 from src.dtos.researcher import (
@@ -182,7 +182,7 @@ def test_protocol_dto_from_dict_and_to_dict():
 
 
 def test_monitoring_dto_from_dict_and_to_dict():
-    dto = MonitoringDTO.from_dict(
+    dto = MonitorizationDTO.from_dict(
         {
             "monitoring_id": 50,
             "study_id": 10,

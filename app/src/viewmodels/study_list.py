@@ -19,8 +19,9 @@ class StudyListViewModel(ViewModel):
         self.subscribe("event", "saved", self._load)
         self.subscribe("visit", "saved", self._load)
         self.subscribe("protocol", "saved", self._load)
+        self.subscribe("monitorization", "saved", self._load)
 
-    async def _load(self):
+    async def _load(self, **kwargs):
         studies = await self.model.list()
         self.studies.replace([s.to_dict() for s in studies])
 

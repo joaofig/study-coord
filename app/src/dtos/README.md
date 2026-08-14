@@ -15,7 +15,7 @@ DTOs are lightweight objects that carry data between layers of an application, s
 - **StudyDTO** (`study.py`): Represents core clinical study data, including `protocol` identifier, `name`, `sponsor`, and scheduled dates.
 - **StudyRowDTO** (`study.py`): Optimized for grid displays, providing a summary of a study along with aggregated counts of patients, visits, researchers, and events.
 - **ProtocolDTO** (`protocol.py`): Tracks protocol-related events or version updates for a study.
-- **MonitoringDTO** (`monitoring.py`): Records monitoring visits or meetings, including the `meeting_date` and `monitor` details.
+- **MonitoringDTO** (`monitorization.py`): Records monitoring visits or meetings, including the `meeting_date` and `monitor` details.
 
 ### Patient & Visit Tracking
 - **PatientDTO** (`patient.py`): Captures patient enrollment details, including their `number`, `name`, and current `status` (Active, Completed, Withdrawn, etc.).

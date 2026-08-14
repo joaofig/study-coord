@@ -6,7 +6,7 @@ from src.viewmodels import (
 )
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.monitoring_panel import StudyMonitoringPanel
+from src.views.monitorization_panel import StudyMonitorizationPanel
 from src.views.patient_detail_panel import PatientDetailPanel
 from src.views.patient_panel import StudyPatientPanel
 from src.views.protocol_panel import ProtocolPanel
@@ -48,7 +48,7 @@ class StudyPanel(View):
             with ui.tab_panel(monitoring) \
                     .classes("pl-0 pt-0 pb-0 pr-0") \
                     .bind_visibility(self.vm, "selected_id"):
-                StudyMonitoringPanel(MonitoringListViewModel())
+                StudyMonitorizationPanel(MonitoringListViewModel())
 
             with ui.tab_panel(researchers) \
                     .classes("pl-0 pt-0 pb-0 pr-0") \

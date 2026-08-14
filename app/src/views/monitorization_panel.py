@@ -1,14 +1,14 @@
 from nicegui import ui
 from src.tools.excel import export_to_excel
-from src.viewmodels.monitoring import MonitoringViewModel
+from src.viewmodels.monitorization import MonitorizationViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.views.dialogs.monitoring_dialog import StudyMonitoringDialog
-from src.views.monitoring_grid import StudyMonitoringGrid
+from src.views.dialogs.monitorization_dialog import StudyMonitorizationDialog
+from src.views.monitorization_grid import StudyMonitorizationGrid
 from src.views.view import View
 
 
-class StudyMonitoringPanel(View):
+class StudyMonitorizationPanel(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
         self.study_id = 0
@@ -50,7 +50,7 @@ class StudyMonitoringPanel(View):
                     ui.tooltip("Export to Excel")
 
             with ui.column().classes("h-full flex-1"):
-                StudyMonitoringGrid(self.vm)
+                StudyMonitorizationGrid(self.vm)
 
 
     async def _study_selected(self, **kwargs):
@@ -58,10 +58,10 @@ class StudyMonitoringPanel(View):
             self.study_id = kwargs["study_id"]
 
     async def _new_monitoring_dialog(self):
-        monitoring_vm = MonitoringViewModel()
+        monitoring_vm = MonitorizationViewModel()
 
         monitoring_vm.study_id = self.study_id
-        dialog = StudyMonitoringDialog(monitoring_vm)
+        dialog = StudyMonitorizationDialog(monitoring_vm)
         result = await dialog.show()
         if result == "save":
             await self.vm.call("load", study_id=self.study_id)
@@ -69,7 +69,7 @@ class StudyMonitoringPanel(View):
 
     async def _on_delete_monitoring(self):
         dialog = DeleteWarningDialog(
-            "Are you sure you want to delete this monitoring visit?"
+            "Are you sure you want to delete this monitorization visit?"
         )
         result = await dialog.show()
         if result == "delete":

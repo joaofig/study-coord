@@ -1,7 +1,7 @@
 from .adverse_event import AdverseEventViewModel as AdverseEventViewModel
 from .adverse_event_list import AdverseEventListViewModel as AdverseEventListViewModel
-from .monitoring import MonitoringViewModel as MonitoringViewModel
-from .monitoring_list import MonitoringListViewModel as MonitoringListViewModel
+from .monitorization import MonitorizationViewModel as MonitoringViewModel
+from .monitorization_list import MonitoringListViewModel as MonitoringListViewModel
 from .patient import PatientViewModel as PatientViewModel
 from .patient_list import PatientListViewModel as PatientListViewModel
 from .protocol import ProtocolViewModel as ProtocolViewModel

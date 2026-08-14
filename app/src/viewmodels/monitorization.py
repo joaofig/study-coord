@@ -2,7 +2,7 @@ from datetime import date, datetime
 from typing import Any
 
 from nicegui import binding
-from src.dtos.monitoring import MonitoringDTO
+from src.dtos.monitorization import MonitorizationDTO
 from src.models.monitoring import MonitoringModel
 from src.tools.messenger import send_message
 from src.tools.validation import is_date
@@ -10,7 +10,7 @@ from src.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass
-class MonitoringViewModel(ViewModel):
+class MonitorizationViewModel(ViewModel):
     monitoring_id: int = 0
     study_id: int = 0
     meeting_date: str = date.today().isoformat()
@@ -43,8 +43,8 @@ class MonitoringViewModel(ViewModel):
             "updated_by": self.updated_by,
         }
 
-    def to_dto(self) -> MonitoringDTO:
-        return MonitoringDTO(
+    def to_dto(self) -> MonitorizationDTO:
+        return MonitorizationDTO(
             monitoring_id=self.monitoring_id,
             study_id=self.study_id,
             meeting_date=date.fromisoformat(self.meeting_date),
@@ -80,7 +80,7 @@ class MonitoringViewModel(ViewModel):
         monitoring = await self.model.save(monitoring)
         if monitoring.monitoring_id:
             self.monitoring_id = monitoring.monitoring_id
-        await send_message("study_list", "load")
+        await send_message("monitorization", "saved", monitoring_id=self.monitoring_id)
         self.changed = False
 
     async def _on_call(self, msg: str, **kwargs) -> Any:

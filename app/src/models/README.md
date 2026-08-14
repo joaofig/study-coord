@@ -10,7 +10,7 @@ Models in this folder act as services that orchestrate data operations between V
 ### Study Management
 - **StudyModel** (`study.py`): The primary service for managing clinical study metadata. It handles saving, loading, listing, and basic validation (e.g., checking for unique study names) for studies.
 - **ProtocolModel** (`protocol.py`): Manages protocol-related events and violations within a study.
-- **MonitoringModel** (`monitoring.py`): Handles the recording and management of monitoring visits and logs.
+- **MonitoringModel** (`monitorization.py`): Handles the recording and management of monitoring visits and logs.
 - **TimelineModel** (`timeline.py`): An aggregator model that builds a chronological view of a study's progress by collecting milestones from patients, visits, protocols, and adverse events.
 
 ### Participant & Event Tracking

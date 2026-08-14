@@ -74,10 +74,11 @@ class StudyGrid(View):
             },
             {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left", "width": 90,},
             {"headerName": "End", "field": "end_date", "sortable": True, "align": "left", "width": 90,},
-            {"headerName": "Patients", "field": "patients", "sortable": True, "align": "right",},
-            {"headerName": "Visits", "field": "visits", "sortable": True, "align": "right",},
-            {"headerName": "Researchers", "field": "researchers", "sortable": True, "align": "right",},
-            {"headerName": "Events", "field": "events", "sortable": True, "align": "right",},
+            {"headerName": "Patients", "field": "patients", "sortable": True, "type": "numericColumn", "width": 90,},
+            {"headerName": "Visits", "field": "visits", "sortable": True, "type": "numericColumn", "width": 90,},
+            {"headerName": "Researchers", "field": "researchers", "sortable": True, "type": "numericColumn", "width": 90,},
+            {"headerName": "Events", "field": "events", "sortable": True, "type": "numericColumn", "width": 90,},
+            {"headerName": "Monitorizations", "field": "monitorizations", "sortable": True, "type": "numericColumn", "width": 90,},
         ]
         grid_def = {
             "columnDefs": columns,

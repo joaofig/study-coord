@@ -34,8 +34,8 @@ This folder contains the ViewModel objects that form the core of the application
 
 ## Oversight & Reporting
 - **Site Monitoring**:
-    - `MonitoringViewModel` (`monitoring.py`): Tracks individual site monitoring visits and compliance reviews.
-    - `MonitoringListViewModel` (`monitoring_list.py`): Manages the log of monitoring activities for a study.
+    - `MonitorizationViewModel` (`monitorization.py`): Tracks individual site monitoring visits and compliance reviews.
+    - `MonitoringListViewModel` (`monitorization_list.py`): Manages the log of monitoring activities for a study.
 - **Dashboard & Visualization**:
     - `ReportViewModel` (`report.py`): Aggregates key performance indicators (KPIs) and counts for dashboarding and high-level oversight.
     - `TimelineViewModel` (`timeline.py`): Generates a chronological view of study milestones, collecting data from across the system for visualization.
