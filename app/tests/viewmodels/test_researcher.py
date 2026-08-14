@@ -62,7 +62,7 @@ async def test_researcher_list_view_model_load():
     
     with patch("src.models.researcher.ResearcherModel.list", new_callable=AsyncMock, return_value=mock_researchers):
         # Action
-        await vm.load()
+        await vm._load()
         
         # Verify
         assert len(vm.researchers) == 2

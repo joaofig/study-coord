@@ -12,19 +12,19 @@ class ResearcherListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(channel="researcher_list", message="load", handler=self._on_load)
+        self.subscribe(channel="study_researcher", message="saved", handler=self._load)
 
-    async def load(self):
+    async def _load(self):
         researchers = [r.to_dict() for r in await self.model.list()]
         self.researchers.replace(researchers)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
-                await self.load()
+                await self._load()
 
             case "study_saved":
-                await self.load()
+                await self._load()
 
             case "researcher_selected":
                 if "researcher_id" in kwargs:
@@ -35,8 +35,5 @@ class ResearcherListViewModel(ViewModel):
                 if researcher_id:
                     await self.model.delete(researcher_id=researcher_id)
                     self.researchers.delete("researcher_id", researcher_id)
-                # await self.broadcast("researcher_list", "load")
+                    await self.broadcast("researcher", "deleted", researcher_id=researcher_id)
         return None
-
-    async def _on_load(self, **kwargs):
-        await self.load()

@@ -10,6 +10,7 @@ def patient_statuses() -> dict:
         "active": "Active",
         "completed": "Completed",
         "withdrawn": "Withdrawn Consent",
+        "screen_failed": "Screening Failure",
         "lost": "Lost to Follow-up",
         "dead": "Dead ☠️",
     }
