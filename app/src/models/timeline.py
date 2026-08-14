@@ -71,18 +71,18 @@ class TimelineModel:
             )
             self.milestones.append(ms.to_dict())
 
-    async def _add_protocol_violations(self, study_id: int):
-        # Placeholder for adding protocol violations to the timeline
+    async def _add_protocol_deviations(self, study_id: int):
+        # Placeholder for adding protocol deviations to the timeline
         model = ProtocolModel()
         patient_model = PatientModel()
-        violations = await model.list(study_id)
-        for violation in violations:
-            patient = await patient_model.load(violation.patient_id)
+        deviations = await model.list(study_id)
+        for deviation in deviations:
+            patient = await patient_model.load(deviation.patient_id)
             ms = Milestone(
-                event_title=f"Protocol Violation for Patient: {patient.name}",
-                event_date=violation.event_date,
+                event_title=f"Protocol Deviation for Patient: {patient.name}",
+                event_date=deviation.event_date,
                 event_icon="alert_circle",
-                description=violation.description or "",
+                description=deviation.description or "",
                 color="red"
             )
             self.milestones.append(ms.to_dict())
@@ -109,7 +109,7 @@ class TimelineModel:
         self.milestones = []
         await self._add_patients(study_id)
         await self._add_visits(study_id)
-        await self._add_protocol_violations(study_id)
+        await self._add_protocol_deviations(study_id)
         await self._add_adverse_events(study_id)
         self.milestones.sort(key=lambda x: x["subtitle"], reverse=True)
         await self._add_study(study_id)

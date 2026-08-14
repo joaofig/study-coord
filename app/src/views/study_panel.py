@@ -35,7 +35,7 @@ class StudyPanel(View):
             patients = ui.tab("Patients").classes("text-sky-800")
             monitoring = ui.tab("Monitoring Visits").classes("text-sky-800")
             researchers = ui.tab("Researchers").classes("text-sky-800")
-            protocols = ui.tab("Protocol Violations").classes("text-sky-800")
+            protocols = ui.tab("Protocol Deviations").classes("text-sky-800")
             # timeline = ui.tab("Timeline").classes("text-sky-800")
 
         with ui.tab_panels(tabs, value=patients, animated=False) \
