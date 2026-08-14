@@ -49,7 +49,7 @@ class PatientListViewModel(ViewModel):
                     self.study_id = int(study_id)
                     await self._load_patients(self.study_id)
 
-            case "patient_selected":
+            case "select":
                 patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
                     self.selected_id = patient_id
@@ -59,9 +59,10 @@ class PatientListViewModel(ViewModel):
                         patient_id=self.selected_id,
                     )
 
-            case "delete_patient":
+            case "delete":
                 patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
                     await self.model.delete(patient_id)
                     self.patients.delete("patient_id", patient_id)
+                    await self.broadcast(channel="patient", message="deleted", patient_id=patient_id)
         return None

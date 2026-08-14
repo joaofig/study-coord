@@ -13,14 +13,12 @@ class StudyResearcherListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(
-            channel="study_researcher_list", message="load", handler=self._on_load
-        )
-        self.subscribe(
-            channel="study",
-            message="selected",
-            handler=self._on_study_selected
-        )
+        self.subscribe(channel="study_researcher",
+                       message="saved",
+                       handler=self._on_load)
+        self.subscribe(channel="study",
+                       message="selected",
+                       handler=self._on_study_selected)
 
     async def _load_study_researchers(self, study_id: int):
         researchers = await self.model.list(study_id)
@@ -28,7 +26,7 @@ class StudyResearcherListViewModel(ViewModel):
 
     async def _delete_researcher(self, researcher_id: int):
         await self.model.delete(researcher_id)
-        await self.load()
+        self.researchers.delete("researcher_id", researcher_id)
         await self.broadcast(channel="study_researcher", message="deleted")
 
     async def _on_study_selected(self, **kwargs):

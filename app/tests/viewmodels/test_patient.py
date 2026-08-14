@@ -81,7 +81,7 @@ async def test_patient_list_view_model_delete():
     with patch("src.models.patient.PatientModel.delete", new_callable=AsyncMock) as mock_delete, \
          patch("src.models.patient.PatientModel.list", new_callable=AsyncMock, return_value=[]):
         # Action
-        await vm.call("delete_patient", patient_id=101)
+        await vm.call("delete", patient_id=101)
         
         # Verify
         mock_delete.assert_called_once_with(101)

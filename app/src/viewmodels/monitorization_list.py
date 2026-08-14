@@ -7,38 +7,34 @@ from src.viewmodels.view_model import ViewModel
 
 class MonitoringListViewModel(ViewModel):
     monitorization_visits = GridList()
-    study_id: int = 0
     selected_id: int = 0
     model = MonitoringModel()
 
     def __init__(self):
         super().__init__()
-        self.subscribe(
-            channel="study",
-            message="selected",
-            handler=self._handle_study_selected
-        )
+        self.subscribe(channel="study",
+                       message="selected",
+                       handler=self._study_selected)
 
     async def _load_monitorizations(self, study_id: int):
-        self.monitorization_visits.replace(
-            [m.to_dict() for m in await self.model.list(study_id)]
-        )
+        visits = [m.to_dict() for m in await self.model.list(study_id)]
+        self.monitorization_visits.replace(visits)
 
-    async def _handle_study_selected(self, **kwargs):
+    async def _study_selected(self, **kwargs):
         study_id = kwargs.get("study_id", 0)
         if study_id:
-            self.study_id = study_id
-            await self._load_monitorizations(self.study_id)
+            self.selected_id = study_id
+            await self._load_monitorizations(study_id)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
-                study_id = kwargs.get("study_id")
+                study_id = kwargs.get("study_id", 0)
                 if study_id is not None:
-                    self.study_id = int(str(study_id))
-                    await self._load_monitorizations(self.study_id)
+                    self.selected_id = study_id
+                    await self._load_monitorizations(study_id)
 
-            case "monitoring_selected":
+            case "select":
                 monitoring_id = kwargs.get("monitoring_id", 0)
                 if monitoring_id:
                     self.selected_id = monitoring_id
@@ -48,5 +44,5 @@ class MonitoringListViewModel(ViewModel):
                 if monitoring_id:
                     await self.model.delete(monitoring_id)
                     self.monitorization_visits.delete("monitoring_id", monitoring_id)
-
+                    await self.broadcast(channel="monitoring", message="deleted", monitoring_id=monitoring_id)
         return None

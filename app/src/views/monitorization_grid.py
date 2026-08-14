@@ -86,7 +86,7 @@ class StudyMonitorizationGrid(View):
         row = await self.grid.get_selected_row()
         if row:
             await self.vm.call(
-                "monitoring_selected",
+                "select",
                 monitoring=row,
                 monitoring_id=row["monitoring_id"],
             )

@@ -98,7 +98,7 @@ async def test_monitoring_list_selects_and_deletes_monitoring_visit():
     delete = AsyncMock()
 
     with patch.object(view_model.model, "delete", delete):
-        await view_model.call("monitoring_selected", monitoring_id=7)
+        await view_model.call("select", monitoring_id=7)
         await view_model.call("delete", monitoring_id=7)
 
     assert view_model.selected_id == 7

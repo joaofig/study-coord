@@ -44,7 +44,7 @@ class StudyPatientPanel(View):
         if result == "delete":
             dialog.close()
             patient_id = self.vm.get("patient_id")
-            await self.vm.call("delete_patient", patient_id=patient_id)
+            await self.vm.call("delete", patient_id=patient_id)
             await self.vm.call("load", study_id=self.study_id)
             await self.broadcast("study_list", "load")
 
