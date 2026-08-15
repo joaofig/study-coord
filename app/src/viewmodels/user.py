@@ -25,17 +25,6 @@ class UserViewModel(ViewModel):
 
     def __post_init__(self):
         super().__init__()
-        self.subscribe("user", "user_selected", self._handle_user_selected)
-
-    async def _handle_user_selected(self, **kwargs):
-        user_row = kwargs.get("user")
-        if user_row:
-            user_id = user_row.get("user_id")
-            if user_id:
-                model: UserModel = UserModel()
-                user = await model.load(user_id=int(user_id))
-                if user:
-                    self.copy(user)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

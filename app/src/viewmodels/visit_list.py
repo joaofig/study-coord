@@ -78,4 +78,5 @@ class VisitListViewModel(ViewModel):
                 visit_id = kwargs.get("visit_id", 0)
                 if visit_id:
                     self.visits.delete("visit_id", visit_id)
+                    await self.broadcast("visit", "deleted", visit_id=visit_id)
         return None

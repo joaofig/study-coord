@@ -13,13 +13,27 @@ class StudyListViewModel(ViewModel):
         self.studies = GridList()
         self.model: StudyModel = StudyModel()
 
-        self.subscribe("study", "saved", self._load)
-        self.subscribe("patient", "saved", self._load)
-        self.subscribe("researcher", "saved", self._load)
-        self.subscribe("event", "saved", self._load)
-        self.subscribe("visit", "saved", self._load)
-        self.subscribe("protocol", "saved", self._load)
-        self.subscribe("monitorization", "saved", self._load)
+        self.subscribe(channel="study",
+                       messages=["saved"],
+                       handler=self._load)
+        self.subscribe(channel="patient",
+                       messages=["saved", "deleted"],
+                       handler=self._load)
+        self.subscribe(channel="researcher",
+                       messages=["saved", "deleted"],
+                       handler=self._load)
+        self.subscribe(channel="adverse_event",
+                       messages=["saved", "deleted"],
+                       handler=self._load)
+        self.subscribe(channel="visit",
+                       messages=["saved", "deleted"],
+                       handler=self._load)
+        self.subscribe(channel="protocol",
+                       messages=["saved", "deleted"],
+                       handler=self._load)
+        self.subscribe(channel="monitorization",
+                       messages=["saved", "deleted"],
+                       handler=self._load)
 
     async def _load(self, **kwargs):
         studies = await self.model.list()
@@ -34,7 +48,7 @@ class StudyListViewModel(ViewModel):
                 study_id = kwargs["study_id"]
                 await self.model.delete(study_id)
                 await self._load()
-                await self.broadcast("study", message="deleted", study_id=study_id)
+                await self.broadcast(channel="study", message="deleted", study_id=study_id)
 
             case "select":
                 self.selected_id = kwargs.get("study_id", 0)

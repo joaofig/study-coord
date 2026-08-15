@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 from typing import Any
 
 from nicegui import binding, ui
@@ -20,11 +20,6 @@ class StudyViewModel(ViewModel):
     end_date: str | None = None
     comments: str = ""
 
-    created_at: datetime = datetime.now()
-    created_by: str = ""
-    updated_at: datetime = datetime.now()
-    updated_by: str = ""
-
     is_invalid: bool = False
     validation: str = ""
 
@@ -45,29 +40,10 @@ class StudyViewModel(ViewModel):
         self.start_date = study.start_date.isoformat()
         self.end_date = study.end_date.isoformat() if study.end_date else None
         self.comments = study.comments or ""
-        self.created_at = study.created_at
-        self.created_by = study.created_by
-        self.updated_at = study.updated_at
-        self.updated_by = study.updated_by
+
         self.changed = False
         self.is_old = study.study_id is not None
         self.change_set.clear()
-
-    def to_dict(self) -> dict:
-        return {
-            "study_id": self.study_id or 0,
-            "protocol": self.protocol,
-            "name": self.name,
-            "sponsor": self.sponsor,
-            "protocol_visits": int(self.protocol_visits),
-            "start_date": self.start_date,
-            "end_date": None if not self.end_date else self.end_date,
-            "comments": self.comments,
-            "created_at": self.created_at.isoformat(),
-            "created_by": self.created_by,
-            "updated_at": self.updated_at.isoformat(),
-            "updated_by": self.updated_by,
-        }
 
     def to_dto(self) -> StudyDTO:
         return StudyDTO(
@@ -79,11 +55,6 @@ class StudyViewModel(ViewModel):
             start_date=date.fromisoformat(self.start_date),
             end_date=None if not self.end_date else date.fromisoformat(self.end_date),
             comments=self.comments,
-
-            created_at=self.created_at,
-            created_by=self.created_by,
-            updated_at=self.updated_at,
-            updated_by=self.updated_by,
         )
 
     async def save(self):
@@ -94,7 +65,7 @@ class StudyViewModel(ViewModel):
         study.log_change(self.study_id)
         study = await self.model.save(study)
         self.study_id = study.study_id
-        await self.broadcast("study", "saved", study=study)
+        await self.broadcast("study", "saved", study_id=self.study_id)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:

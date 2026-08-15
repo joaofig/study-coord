@@ -42,5 +42,5 @@ class MonitoringListViewModel(ViewModel):
                 if monitoring_id:
                     await self.model.delete(monitoring_id)
                     self.monitorization_visits.delete("monitoring_id", monitoring_id)
-                    await self.broadcast(channel="monitoring", message="deleted", monitoring_id=monitoring_id)
+                    await self.broadcast(channel="monitorization", message="deleted", monitoring_id=monitoring_id)
         return None

@@ -54,5 +54,6 @@ class ProtocolListViewModel(ViewModel):
                     self.protocol_id = protocol_id
                     await self.model.delete(protocol_id)
                     await self._load_protocols(self.study_id)
+                    await self.broadcast("protocol", "deleted", protocol_id=protocol_id)
 
         return None

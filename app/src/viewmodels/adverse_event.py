@@ -96,7 +96,7 @@ class AdverseEventViewModel(ViewModel):
         if event.adverse_event_id:
             self.adverse_event_id = event.adverse_event_id
         self.changed = False
-        await self.broadcast("event", "saved")
+        await self.broadcast("adverse_event", "saved")
 
     async def load(self, event_id: int):
         event = await self.model.load(event_id)
