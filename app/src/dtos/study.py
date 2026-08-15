@@ -3,7 +3,7 @@ from typing import Any, Self
 
 from pydantic import BaseModel
 from src.dtos.base import BaseDTO
-from src.tools.user import dict_to_datetime, get_user_name
+from src.tools.user import dict_to_datetime, get_user_name, dict_to_date
 
 
 class StudyDTO(BaseDTO):
@@ -23,15 +23,9 @@ class StudyDTO(BaseDTO):
             protocol=data.get("protocol", ""),
             name=data.get("name", ""),
             sponsor=data.get("sponsor", ""),
-            start_date=date.fromisoformat(
-                str(data.get("start_date", date.today().isoformat()))
-            ),
-            end_date=date.fromisoformat(data.get("end_date", date.today().isoformat()))
-            if data.get("end_date")
-            else None,
-            protocol_visits=data.get("protocol_visits")
-            or data.get("proto_visits")
-            or 1,
+            start_date=dict_to_date(data, "start_date") or date.today(),
+            end_date=dict_to_date(data, "end_date"),
+            protocol_visits=data.get("protocol_visits", 1),
             comments=data.get("comments", ""),
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", get_user_name()),
