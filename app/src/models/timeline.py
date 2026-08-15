@@ -105,12 +105,12 @@ class TimelineModel:
                 )
                 self.milestones.append(ms.to_dict())
 
-    async def load(self, study_id: int) -> list:
+    async def load(self, study_id: int) -> list[Milestone]:
         self.milestones = []
         await self._add_patients(study_id)
         await self._add_visits(study_id)
         await self._add_protocol_deviations(study_id)
         await self._add_adverse_events(study_id)
-        self.milestones.sort(key=lambda x: x["subtitle"], reverse=True)
+        self.milestones.sort(key=lambda x: x["event_date"], reverse=True)
         await self._add_study(study_id)
         return self.milestones

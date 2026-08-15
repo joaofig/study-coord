@@ -1,6 +1,6 @@
 from typing import Any
 
-from src.models.monitoring import MonitoringModel
+from src.models.monitorization import MonitorizationModel
 from src.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 
@@ -8,7 +8,7 @@ from src.viewmodels.view_model import ViewModel
 class MonitoringListViewModel(ViewModel):
     monitorization_visits = GridList()
     selected_id: int = 0
-    model = MonitoringModel()
+    model = MonitorizationModel()
 
     def __init__(self):
         super().__init__()
@@ -23,7 +23,6 @@ class MonitoringListViewModel(ViewModel):
     async def _study_selected(self, **kwargs):
         study_id = kwargs.get("study_id", 0)
         if study_id:
-            self.selected_id = study_id
             await self._load_monitorizations(study_id)
 
     async def _on_call(self, msg: str, **kwargs) -> Any:
@@ -31,7 +30,6 @@ class MonitoringListViewModel(ViewModel):
             case "load":
                 study_id = kwargs.get("study_id", 0)
                 if study_id is not None:
-                    self.selected_id = study_id
                     await self._load_monitorizations(study_id)
 
             case "select":

@@ -6,7 +6,7 @@ from src.repositories.postgres.base import PostgresRepository
 TABLE = "monitoring"
 
 
-class MonitoringRepository(PostgresRepository):
+class MonitorizationRepository(PostgresRepository):
     def __init__(self):
         super().__init__()
 

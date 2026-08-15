@@ -1,5 +1,5 @@
 # from src.repositories.supabase.adverse_event import AdverseEventRepository
-# from src.repositories.supabase.monitoring import MonitoringRepository
+# from src.repositories.supabase.monitoring import MonitorizationRepository
 # from src.repositories.supabase.patient import PatientRepository
 # from src.repositories.supabase.protocol import ProtocolRepository
 # from src.repositories.supabase.report import ReportRepository
@@ -11,7 +11,7 @@
 
 
 from src.repositories.postgres.adverse_event import AdverseEventRepository
-from src.repositories.postgres.monitoring import MonitoringRepository
+from src.repositories.postgres.monitoring import MonitorizationRepository
 from src.repositories.postgres.patient import PatientRepository
 from src.repositories.postgres.protocol import ProtocolRepository
 from src.repositories.postgres.report import ReportRepository

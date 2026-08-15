@@ -15,7 +15,7 @@ async def test_monitoring_view_model_save():
         comments="Routine check",
     )
 
-    with patch("src.models.monitoring.MonitoringModel.repo") as mock_repo:
+    with patch("src.models.monitorization.py.MonitorizationModel.repo") as mock_repo:
         mock_repo.save = AsyncMock(return_value={"monitoring_id": 123})
 
         await view_model.save()
@@ -80,7 +80,7 @@ async def test_monitoring_list_view_model_load():
     ]
 
     with patch(
-        "src.models.monitoring.MonitoringModel.list", new_callable=AsyncMock
+            "src.models.monitorization.py.MonitorizationModel.list", new_callable=AsyncMock
     ) as mock_list:
         mock_list.return_value = mock_data
 

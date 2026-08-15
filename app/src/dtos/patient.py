@@ -7,12 +7,12 @@ from src.tools.user import dict_to_date, dict_to_datetime, get_user_name
 
 def patient_statuses() -> dict:
     return {
-        "active": "Active",
-        "completed": "Completed",
-        "withdrawn": "Withdrawn Consent",
-        "screen_failed": "Screening Failure",
-        "lost": "Lost to Follow-up",
-        "dead": "Dead ☠️",
+        "active": "😃 Active",
+        "completed": "✅ Completed",
+        "withdrawn": "🚫 Withdrawn Consent",
+        "screen_failed": "🙁 Screening Failure",
+        "lost": "🤷‍♂️ Lost to Follow-up",
+        "dead": "☠️ Dead",
     }
 
 

@@ -3,7 +3,7 @@ from typing import Any
 
 from nicegui import binding
 from src.dtos.monitorization import MonitorizationDTO
-from src.models.monitoring import MonitoringModel
+from src.models.monitorization import MonitorizationModel
 from src.tools.messenger import send_message
 from src.tools.validation import is_date
 from src.viewmodels.view_model import ViewModel
@@ -25,7 +25,7 @@ class MonitorizationViewModel(ViewModel):
     is_invalid: bool = False
     validation: str = ""
 
-    model = MonitoringModel()
+    model = MonitorizationModel()
 
     def __post_init__(self):
         super().__init__()

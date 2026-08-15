@@ -3,7 +3,7 @@ from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 from src.viewmodels import AdverseEventViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.dialogs.event_dialog import EventDialog
+from src.views.dialogs.adverse_event_dialog import AdverseEventDialog
 from src.views.view import View
 
 
@@ -24,7 +24,7 @@ class EventGrid(View):
         patient_id = self.vm.get("patient_id")
         await event_vm.call("load_patients", study_id=study_id)
         await event_vm.call("load", event_id=event_id)
-        dialog = EventDialog(event_vm)
+        dialog = AdverseEventDialog(event_vm)
         result = await dialog.show()
         if result == "save":
             await self.vm.call("load", study_id=study_id, patient_id=patient_id)
@@ -36,7 +36,7 @@ class EventGrid(View):
             await self._edit_event(row_data["adverse_event_id"])
 
     async def _update_grid(self):
-        self.grid.options["rowData"] = self.vm.get("events")
+        await self.grid.run_grid_method("setGridOption", "rowData", self.events)
 
     def _build_grid(self) -> AgGrid:
         columns = [

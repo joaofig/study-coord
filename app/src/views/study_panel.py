@@ -5,12 +5,14 @@ from src.viewmodels import (
     ProtocolListViewModel,
 )
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
+from src.viewmodels.timeline import TimelineViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.monitorization_panel import StudyMonitorizationPanel
 from src.views.patient_detail_panel import PatientDetailPanel
 from src.views.patient_panel import StudyPatientPanel
 from src.views.protocol_panel import ProtocolPanel
 from src.views.study_researcher_panel import StudyResearcherPanel
+from src.views.timeline_panel import TimelinePanel
 from src.views.view import View
 
 
@@ -36,7 +38,7 @@ class StudyPanel(View):
             monitoring = ui.tab("Monitoring Visits").classes("text-sky-800")
             researchers = ui.tab("Researchers").classes("text-sky-800")
             protocols = ui.tab("Protocol Deviations").classes("text-sky-800")
-            # timeline = ui.tab("Timeline").classes("text-sky-800")
+            timeline = ui.tab("Timeline").classes("text-sky-800")
 
         with ui.tab_panels(tabs, value=patients, animated=False) \
                 .classes("w-full h-full"):
@@ -60,7 +62,7 @@ class StudyPanel(View):
                     .bind_visibility(self.vm, "selected_id"):
                 ProtocolPanel(ProtocolListViewModel())
 
-            # with ui.tab_panel(timeline) \
-            #         .classes("pl-0 pt-0 pb-0 pr-0") \
-            #         .bind_visibility(self.vm, "selected_id"):
-            #     TimelinePanel(TimelineViewModel())
+            with ui.tab_panel(timeline) \
+                    .classes("pl-0 pt-0 pb-0 pr-0") \
+                    .bind_visibility(self.vm, "selected_id"):
+                TimelinePanel(TimelineViewModel())

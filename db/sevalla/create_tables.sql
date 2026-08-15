@@ -36,12 +36,51 @@ VALUES ('admin', '299390b0010c72e591e83f0679d04a49304c9e40c31c4fc8ebad257f82db5e
 
 -------------------------------------------------
 --
+-- Table: public.api_key
+--
+DROP TABLE IF EXISTS public.api_key;
+
+CREATE TABLE IF NOT EXISTS public.api_key
+(
+    api_key_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+	user_name character varying(128) COLLATE pg_catalog."default" NOT NULL,
+    api_key character varying(128) COLLATE pg_catalog."default" NOT NULL,
+    key_name character varying(128) COLLATE pg_catalog."default" NOT NULL,
+	key_description character varying(256) COLLATE pg_catalog."default" NOT NULL,
+    valid_until date NOT NULL,
+    created_at timestamp without time zone NOT NULL DEFAULT now(),
+    created_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    updated_at timestamp with time zone NOT NULL DEFAULT now(),
+    updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT api_key_pkey PRIMARY KEY (api_key_id),
+    CONSTRAINT api_key_unique UNIQUE (api_key)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.api_key
+    OWNER to postgres;
+
+-- Index: user_name_idx
+
+DROP INDEX IF EXISTS public.user_name_idx;
+
+CREATE INDEX IF NOT EXISTS user_name_idx
+    ON public.api_key USING btree
+    (user_name COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+
+
+-------------------------------------------------
+--
 -- Table: public.study
 --
 CREATE TABLE IF NOT EXISTS public.study
 (
     study_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
-    name character varying(128) COLLATE pg_catalog."default" NOT NULL,
+    protocol character varying(64) COLLATE pg_catalog."default" NOT NULL,
+    name text COLLATE pg_catalog."default" NOT NULL,
     sponsor character varying(128) COLLATE pg_catalog."default" NOT NULL,
     start_date date NOT NULL DEFAULT now(),
     end_date date,

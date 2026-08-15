@@ -9,13 +9,13 @@ def validate_required(value: str) -> str | None:
     return None
 
 
-class EventDialog(View):
+class AdverseEventDialog(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
 
         with ui.dialog() as dialog, ui.card().classes("w-240"):
             with ui.row().classes("w-full  bg-gray-200 p-2"):
-                ui.label("Event Details").classes("text-base")
+                ui.label("Adverse Event Details").classes("text-base")
 
             with ui.row().classes("w-full"):
                 with ui.column().classes("flex-1"):

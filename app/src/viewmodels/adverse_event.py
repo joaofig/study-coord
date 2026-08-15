@@ -101,6 +101,8 @@ class AdverseEventViewModel(ViewModel):
     async def load(self, event_id: int):
         event = await self.model.load(event_id)
         if event:
+            await self.load_patients(event.study_id)
+
             self.adverse_event_id = event.adverse_event_id
             self.study_id = event.study_id
             self.patient_id = event.patient_id

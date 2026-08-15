@@ -15,7 +15,7 @@ class PatientDetailPanel(View):
             ui.separator()
             with ui.tabs().props("dense no-caps").bind_visibility(self.vm, "selected_id") as tabs:
                 visits = ui.tab("Visits").classes("text-sky-800")
-                events = ui.tab("Events").classes("text-sky-800")
+                events = ui.tab("Adverse Events").classes("text-sky-800")
 
             with ui.tab_panels(tabs, value=visits, animated=False).classes("w-full h-full"):
                 with ui.tab_panel(visits) \

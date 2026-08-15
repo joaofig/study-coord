@@ -3,7 +3,7 @@ from src.tools.excel import export_to_excel
 from src.viewmodels import AdverseEventViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.views.dialogs.event_dialog import EventDialog
+from src.views.dialogs.adverse_event_dialog import AdverseEventDialog
 from src.views.event_grid import EventGrid
 from src.views.view import View
 
@@ -57,9 +57,9 @@ class EventPanel(View):
     async def _new_event_dialog(self):
         event_vm = AdverseEventViewModel()
         await event_vm.load_patients(self.study_id)
-        event_vm.adverse_event_id = self.patient_id
+        event_vm.patient_id = self.patient_id
         await event_vm.call("load_patient", patient_id=self.patient_id)
-        dialog = EventDialog(event_vm)
+        dialog = AdverseEventDialog(event_vm)
         result = await dialog.show()
         if result == "save":
             await self.vm.call(

@@ -12,9 +12,9 @@ class Milestone(BaseModel):
 
     def to_dict(self):
         return {
-            "title": self.event_title,
-            "subtitle": self.event_date.strftime("%Y-%m-%d"),
-            "icon": self.event_icon,
+            "event_title": self.event_title,
+            "event_date": self.event_date.strftime("%Y-%m-%d"),
+            "event_icon": self.event_icon,
             "description": self.description,
             "color": self.color
         }

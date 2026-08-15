@@ -115,12 +115,12 @@ class VisitViewModel(ViewModel):
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "load":
-                visit_id = kwargs.get("visit_id")
+                visit_id = kwargs.get("visit_id", 0)
                 if visit_id:
                     await self.load(visit_id)
 
             case "load_patient":
-                patient_id = kwargs.get("patient_id")
+                patient_id = kwargs.get("patient_id", 0)
                 if patient_id:
                     model = PatientModel()
                     patient = await model.load(patient_id)

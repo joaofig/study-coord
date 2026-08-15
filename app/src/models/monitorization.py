@@ -2,21 +2,21 @@
 import builtins
 
 from src.dtos.monitorization import MonitorizationDTO
-from src.repositories import MonitoringRepository
+from src.repositories import MonitorizationRepository
 
 
-class MonitoringModel:
-    repo = MonitoringRepository()
+class MonitorizationModel:
+    repo = MonitorizationRepository()
 
     async def save(self, dto: MonitorizationDTO):
-        monitoring = await self.repo.save(dto)
-        dto.monitoring_id = monitoring["monitoring_id"]
+        monitorization = await self.repo.save(dto)
+        dto.monitoring_id = monitorization["monitoring_id"]
         return dto
 
     async def load(self, monitoring_id: int) -> MonitorizationDTO | None:
-        monitoring = await self.repo.load(monitoring_id)
-        if monitoring:
-            return monitoring
+        monitorization = await self.repo.load(monitoring_id)
+        if monitorization:
+            return monitorization
         return None
 
     async def delete(self, monitoring_id: int):
