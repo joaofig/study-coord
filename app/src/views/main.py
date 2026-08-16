@@ -3,6 +3,7 @@ from src.repositories import UserRepository
 from src.tools.tasks import ManagedTasks
 from src.tools.user import logout
 from src.viewmodels import UserViewModel
+from src.views.admin_panel import AdminPanel
 
 
 async def on_tab_change(event):
@@ -103,4 +104,4 @@ async def main_view():
 
             with ui.tab_panel(admin).classes("pl-4 pt-0 pb-0 pr-4"):
                 if user_role == "Admin":
-                    await admin_view()
+                    AdminPanel()
