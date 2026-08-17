@@ -1,0 +1,36 @@
+from nicegui import ui
+from nicegui.elements.aggrid import AgGrid
+from nicegui.observables import ObservableList
+
+from src.viewmodels import ViewModel
+from src.views.view import View
+
+
+class SQLGrid(View):
+    def __init__(self, vm: ViewModel):
+        super().__init__(vm)
+        self.result = self.vm.get("result")
+        if isinstance(self.result, ObservableList):
+            self.result.on_change(self._update_grid)
+        self.grid: AgGrid = self._build_grid()
+
+    async def _update_grid(self):
+        if len(self.result) > 0:
+            columns = [{"headerName": key, "field": key} for key in self.result[0].keys()]
+            await self.grid.run_grid_method("setGridOption", "columnDefs", columns)
+            await self.grid.run_grid_method("setGridOption", "rowData", self.result)
+
+    def _build_grid(self) -> AgGrid:
+        grid_def = {
+            "columnDefs": [],
+            # "autoGenerateColumnDefs": True,
+            # Placeholder for rowData; in a real application, this would be populated from a data source
+            # For example: 'rowData': get_studies_from_database()
+            "rowData": [],
+            "rowSelection": {
+                "mode": "singleRow",
+                "checkboxes": False,
+                "enableClickSelection": True,
+            },
+        }
+        return ui.aggrid(options=grid_def, theme="balham").classes("w-full h-full")
