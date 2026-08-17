@@ -2,6 +2,7 @@ from nicegui import ui
 
 from src.tools.tasks import ManagedTasks
 from src.viewmodels import UserListViewModel
+from src.viewmodels.sql import SQLViewModel
 from src.views.sql_view import SQLView
 from src.views.user_view import UserView
 
@@ -23,4 +24,5 @@ class AdminPanel:
 
             with ui.tab_panel(sql) \
                     .classes("pl-0 pt-0 pb-0 pr-0"):
-                SQLView()
+                vm = SQLViewModel()
+                SQLView(vm)
