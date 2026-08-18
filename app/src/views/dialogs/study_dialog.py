@@ -58,8 +58,11 @@ class StudyDialog(View):
                 self.start_date = ui.date_input(label="Start Date") \
                     .bind_value(self.vm, "start_date") \
                     .classes("w-36").props("dense")
+
                 self.end_date = ui.date_input(label="End Date") \
-                    .bind_value(self.vm, "end_date").classes("w-36").props("dense")
+                    .bind_value(self.vm, "end_date")\
+                    .classes("w-40") \
+                    .props("clearable dense")
 
                 ui.number(label="Protocol Visits", value=1, min=1, step=1,) \
                     .props("clearable dense") \

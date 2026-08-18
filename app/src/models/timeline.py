@@ -1,3 +1,4 @@
+from datetime import date
 
 from src.dtos.milestone import Milestone
 from src.models.adverse_event import AdverseEventModel
@@ -24,7 +25,7 @@ class TimelineModel:
             )
             self.milestones.append(ms.to_dict())
 
-            if study.end_date:
+            if study.end_date is not None and isinstance(study.end_date, date):
                 ms = Milestone(
                     event_title=f"Study: {study.name} ended",
                     event_date=study.end_date,
@@ -47,7 +48,7 @@ class TimelineModel:
             )
             self.milestones.append(ms.to_dict())
 
-            if patient.exit_date:
+            if patient.exit_date is not None and isinstance(patient.exit_date, date):
                 ms = Milestone(
                     event_title=f"Patient {patient.number} left the study",
                     event_date=patient.exit_date,
@@ -74,12 +75,10 @@ class TimelineModel:
     async def _add_protocol_deviations(self, study_id: int):
         # Placeholder for adding protocol deviations to the timeline
         model = ProtocolModel()
-        patient_model = PatientModel()
         deviations = await model.list(study_id)
         for deviation in deviations:
-            patient = await patient_model.load(deviation.patient_id)
             ms = Milestone(
-                event_title=f"Protocol Deviation for Patient: {patient.name}",
+                event_title=f"Protocol Deviation: {deviation.title}",
                 event_date=deviation.event_date,
                 event_icon="alert_circle",
                 description=deviation.description or "",

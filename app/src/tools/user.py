@@ -20,7 +20,7 @@ def str_to_datetime(str_time: str) -> datetime:
 
 
 def dict_to_datetime(data: dict, key: str,
-                     default: datetime | None = datetime.now()) -> datetime:
+                     default: datetime | None = None) -> datetime:
     value = data.get(key)
     if isinstance(value, str):
         return datetime.fromisoformat(value)
@@ -32,12 +32,12 @@ def dict_to_datetime(data: dict, key: str,
         return default
 
 
-def str_to_date(str_time: str) -> datetime:
-    return datetime.fromisoformat(str_time)
+def str_to_date(str_time: str) -> date:
+    return date.fromisoformat(str_time)
 
 
 def dict_to_date(data: dict, key: str,
-                 default: date | None = date.today()) -> date | None:
+                 default: date | None = None) -> date | None:
     value = data.get(key)
     if isinstance(value, str):
         return date.fromisoformat(value)
