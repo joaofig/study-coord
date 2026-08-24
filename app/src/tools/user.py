@@ -21,6 +21,17 @@ def str_to_datetime(str_time: str) -> datetime:
 
 def dict_to_datetime(data: dict, key: str,
                      default: datetime | None = None) -> datetime:
+    """
+    Convert a dictionary value to a datetime.
+
+    Args:
+        data: The dictionary containing the value.
+        key: The key to look up in the dictionary.
+        default: The default value to return if the key is not found or the value is invalid.
+
+    Returns:
+        The corresponding datetime or the default value.
+    """
     value = data.get(key)
     if isinstance(value, str):
         return datetime.fromisoformat(value)
@@ -38,6 +49,17 @@ def str_to_date(str_time: str) -> date:
 
 def dict_to_date(data: dict, key: str,
                  default: date | None = None) -> date | None:
+    """
+    Convert a dictionary value to a date.
+
+    Args:
+        data: The dictionary containing the value.
+        key: The key to look up in the dictionary.
+        default: The default value to return if the key is not found or the value is invalid.
+
+    Returns:
+        The corresponding date or the default value.
+    """
     value = data.get(key)
     if isinstance(value, str):
         return date.fromisoformat(value)

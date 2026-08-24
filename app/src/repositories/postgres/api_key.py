@@ -9,11 +9,32 @@ class ApiKeyRepository(PostgresRepository):
     def __init__(self):
         super().__init__()
 
+
+    async def find_by_key(self, api_key: str) -> ApiKeyDTO | None:
+        sql: LiteralString = """
+        SELECT  api_key_id
+        ,       user_name
+        ,       api_key_hash
+        ,       key_name
+        ,       key_description
+        ,       valid_until
+        ,       created_at
+        ,       created_by
+        ,       updated_at
+        ,       updated_by
+        FROM    api_key
+        WHERE   api_key_hash = %s
+        """
+        result = await self.execute_query(sql, (api_key,))
+        if result:
+            return ApiKeyDTO.from_dict(result[0])
+        return None
+
     async def load(self, api_key_id: int) -> ApiKeyDTO | None:
         sql: LiteralString = """
         SELECT  api_key_id
         ,       user_name
-        ,       api_key
+        ,       api_key_hash
         ,       key_name
         ,       key_description
         ,       valid_until
@@ -33,7 +54,7 @@ class ApiKeyRepository(PostgresRepository):
         sql: LiteralString = """
         SELECT  api_key_id
         ,       user_name
-        ,       api_key
+        ,       api_key_hash
         ,       key_name
         ,       key_description
         ,       valid_until
@@ -54,7 +75,7 @@ class ApiKeyRepository(PostgresRepository):
         sql: LiteralString = """
         SELECT  api_key_id
         ,       user_name
-        ,       api_key
+        ,       api_key_hash
         ,       key_name
         ,       key_description
         ,       valid_until
@@ -73,7 +94,7 @@ class ApiKeyRepository(PostgresRepository):
         insert: LiteralString = """
         INSERT INTO api_key (
             user_name, 
-            api_key,
+            api_key_hash,
             key_name, 
             key_description, 
             valid_until, 
@@ -83,7 +104,7 @@ class ApiKeyRepository(PostgresRepository):
             updated_by
         ) VALUES (
             %(user_name)s, 
-            %(api_key)s, 
+            %(api_key_hash)s, 
             %(key_name)s, 
             %(key_description)s, 
             %(valid_until)s, 
@@ -97,7 +118,7 @@ class ApiKeyRepository(PostgresRepository):
         update: LiteralString = """
         UPDATE  api_key 
         SET     user_name = %(user_name)s
-        ,       api_key = %(api_key)s
+        ,       api_key_hash = %(api_key_hash)s
         ,       key_name = %(key_name)s
         ,       key_description = %(key_description)s
         ,       valid_until = %(valid_until)s

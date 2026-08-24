@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS public.api_key
 (
     api_key_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
 	user_name character varying(128) COLLATE pg_catalog."default" NOT NULL,
-    api_key character varying(128) COLLATE pg_catalog."default" NOT NULL,
+    api_key_hash character varying(256) COLLATE pg_catalog."default" NOT NULL,
     key_name character varying(128) COLLATE pg_catalog."default" NOT NULL,
 	key_description character varying(256) COLLATE pg_catalog."default" NOT NULL,
     valid_until date NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS public.api_key
     updated_at timestamp with time zone NOT NULL DEFAULT now(),
     updated_by character varying(64) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT api_key_pkey PRIMARY KEY (api_key_id),
-    CONSTRAINT api_key_unique UNIQUE (api_key)
+    CONSTRAINT api_key_unique UNIQUE (api_key_hash)
 )
 
 TABLESPACE pg_default;
@@ -68,6 +68,15 @@ DROP INDEX IF EXISTS public.user_name_idx;
 CREATE INDEX IF NOT EXISTS user_name_idx
     ON public.api_key USING btree
     (user_name COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Index: api_key_idx
+
+DROP INDEX IF EXISTS public.api_key_hash_idx;
+
+CREATE INDEX IF NOT EXISTS api_key_hash_idx
+    ON public.api_key USING btree
+    (api_key_hash COLLATE pg_catalog."default" ASC NULLS LAST)
     TABLESPACE pg_default;
 
 

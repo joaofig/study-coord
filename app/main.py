@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from dotenv import load_dotenv
 from fastapi import Request
@@ -23,12 +24,16 @@ class AuthMiddleware(BaseHTTPMiddleware):
     """
 
     async def dispatch(self, request: Request, call_next):
+        last_activity_time = app.storage.user.get("last_activity_time", datetime.now().isoformat())
+        last_activity_seconds = (datetime.now() - datetime.fromisoformat(last_activity_time)).total_seconds()
         path = request.url.path
         if (
             app.storage.user.get("authenticated", False)
+            or last_activity_seconds <= 5 * 60              # 5 minutes of inactivity sends you to the login page
             or path in unrestricted_page_routes
             or path.startswith("/_nicegui")
         ):
+            app.storage.user.update(last_activity_time=datetime.now().isoformat())
             return await call_next(request)
         return RedirectResponse(f"/login?redirect_to={path}")
 
@@ -55,6 +60,13 @@ async def login(redirect_to: str = "/") -> RedirectResponse | None:
     if app.storage.user.get("authenticated", False):
         return RedirectResponse("/")
 
+    last_login_time = app.storage.user.get("login_time", None)
+    if last_login_time is not None:
+        time_since_last_login = datetime.now() - last_login_time
+        if time_since_last_login.total_seconds() > 5 * 60:  # 5 minutes
+            ui.notify("You have been logged out due to inactivity.", color="negative")
+            return RedirectResponse("/")
+
     async def try_login() -> None:
         model = UserModel()
         pass_hash = hash_password(password.value or "")
@@ -65,7 +77,8 @@ async def login(redirect_to: str = "/") -> RedirectResponse | None:
                 username=username.value,
                 user_role=user.user_role,
                 user_id=user.user_id,
-                authenticated=True
+                authenticated=True,
+                login_time=datetime.now(),
             )
 
             username.value = ""
@@ -115,6 +128,7 @@ def add_inactivity_timeout(timeout_seconds: float, on_timeout):
     </script>
     """)
     ui.on("inactivity_timeout", on_timeout)
+    app.storage.user.update(last_activity_time=datetime.now().isoformat())
 
 
 def logout():

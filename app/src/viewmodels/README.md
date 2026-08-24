@@ -44,3 +44,6 @@ This folder contains the ViewModel objects that form the core of the application
 - **User & Security**:
     - `UserViewModel` (`user.py`): Manages application user accounts, role assignments, and secure password handling.
     - `UserListViewModel` (`user_list.py`): Handles the administrative list of all application users.
+    - `ApiKeyListViewModel` (`api_key_list.py`): Manages API keys, including user-specific key listing, selection, and deletion.
+- **Database Management**:
+    - `SQLViewModel` (`sql.py`): Manages direct database SQL query execution, handling query state, schema structure, error messages, and tabular result data.
