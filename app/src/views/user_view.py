@@ -1,5 +1,6 @@
 from nicegui import app, ui
 from src.tools.excel import export_to_excel
+from src.tools.user import is_user_readonly
 from src.viewmodels import UserViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs import UserDialog
@@ -18,6 +19,7 @@ class UserView(View):
                     ui.button(icon="add", on_click=self._show_dialog)
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Add User")
 
@@ -40,14 +42,17 @@ class UserView(View):
                 self.grid = UserGrid(vm)
 
     async def _on_delete_user(self):
-        user = self.vm.get("selected_row")
-        user_name = user._load("user_name", "") if user else ""
-        if user_name == app.storage.user.get("username"):
-            ui.notify("You cannot delete the currently logged-in user.", color="red")
-            return
-        if user_name == "admin":
-            ui.notify("You cannot delete the admin user.", color="red")
-            return
+        if not is_user_readonly():
+            user = self.vm.get("selected_row")
+            user_name = user._load("user_name", "") if user else ""
+            if user_name == app.storage.user.get("username"):
+                ui.notify("You cannot delete the currently logged-in user.", color="red")
+                return
+            if user_name == "admin":
+                ui.notify("You cannot delete the admin user.", color="red")
+                return
+        else:
+            ui.notify("You do not have permission to delete users", type="negative")
 
         dialog = DeleteWarningDialog("Are you sure you want to delete this user?")
         result = await dialog.show()

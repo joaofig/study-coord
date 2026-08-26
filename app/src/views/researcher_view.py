@@ -1,6 +1,6 @@
 from nicegui import ui
 from src.tools.excel import export_to_excel
-from src.tools.user import get_user_name
+from src.tools.user import get_user_name, is_user_readonly
 from src.viewmodels import ResearcherViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -19,6 +19,7 @@ class ResearcherView(View):
                     ui.button(icon="add", on_click=self._show_dialog)
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Add Researcher")
 
@@ -34,6 +35,7 @@ class ResearcherView(View):
                     ui.button(icon="table_view", on_click=self._on_export_to_excel)
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Export to Excel")
 
@@ -41,12 +43,15 @@ class ResearcherView(View):
                 ResearcherGrid(vm)
 
     async def _on_delete_researcher(self):
-        dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")
-        result = await dialog.show()
-        if result == "delete":
-            dialog.close()
-            researcher_id = self.vm.get("selected_id")
-            await self.vm.call("delete", researcher_id=researcher_id)
+        if not is_user_readonly():
+            dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")
+            result = await dialog.show()
+            if result == "delete":
+                dialog.close()
+                researcher_id = self.vm.get("selected_id")
+                await self.vm.call("delete", researcher_id=researcher_id)
+        else:
+            ui.notification("You do not have permission to delete researchers.", type="negative")
 
     async def _show_dialog(self):
         vm = ResearcherViewModel()

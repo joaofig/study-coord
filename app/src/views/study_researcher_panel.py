@@ -1,6 +1,7 @@
 from nicegui import ui
 from src.tools.excel import export_to_excel
 from src.tools.messenger import get_messenger
+from src.tools.user import is_user_readonly
 from src.viewmodels.study_researcher import StudyResearcherViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -28,6 +29,7 @@ class StudyResearcherPanel(View):
                     )
                     .props("padding=xs")
                     .classes("text-xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Add Researcher")
 
@@ -45,6 +47,7 @@ class StudyResearcherPanel(View):
                     ui.button(icon="table_view", on_click=self._export_to_excel)
                     .props("padding=xs")
                     .classes("text-xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Export to Excel")
 
@@ -71,16 +74,18 @@ class StudyResearcherPanel(View):
             self.study_id = kwargs["study_id"]
 
     async def _on_delete_researcher(self):
-        dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")
-        result = await dialog.show()
-        if result == "delete":
-            dialog.close()
-            selected_id = self.vm.get("selected_id")
-            if selected_id:
-                researcher_id = selected_id
-                await self.vm.call("delete", researcher_id=researcher_id)
-            await self.broadcast("study_list", "load")
-
+        if not is_user_readonly():
+            dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")
+            result = await dialog.show()
+            if result == "delete":
+                dialog.close()
+                selected_id = self.vm.get("selected_id")
+                if selected_id:
+                    researcher_id = selected_id
+                    await self.vm.call("delete", researcher_id=researcher_id)
+                await self.broadcast("study_list", "load")
+        else:
+            ui.notify("You do not have permission to delete researchers", type="negative")
 
     def _export_to_excel(self):
         researchers = [r.to_dict() for r in self.vm.get("researchers")]

@@ -9,6 +9,9 @@ def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
 
 
+USER_ROLES = ["Admin", "User", "Reader"]
+
+
 class UserDTO(BaseDTO):
     user_id: int
     user_name: str

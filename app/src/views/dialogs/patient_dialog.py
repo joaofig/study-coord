@@ -1,5 +1,7 @@
 from nicegui import ui
 from nicegui.elements.dialog import Dialog
+
+from src.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
 from src.views.view import View
 
@@ -69,6 +71,8 @@ class StudyPatientDialog(View):
                 .bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save()).props("no-caps")
+                ui.button("Save", on_click=lambda: self.save()) \
+                    .props("no-caps") \
+                    .set_enabled(not is_user_readonly())
                 ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
         return dialog

@@ -9,10 +9,15 @@ def logout() -> None:
 
 
 def get_user_name() -> str:
-    try:
-        return app.storage.user.get("username", "user")
-    except RuntimeError:
-        return "user"
+    return app.storage.user.get("username", "user")
+
+
+def get_user_role() -> str:
+    return app.storage.user.get("user_role", "Reader")
+
+
+def is_user_readonly() -> bool:
+    return get_user_role() == "Reader"
 
 
 def str_to_datetime(str_time: str) -> datetime:

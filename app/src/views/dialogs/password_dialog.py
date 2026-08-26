@@ -1,4 +1,6 @@
 from nicegui import ui
+
+from src.dtos.user import USER_ROLES
 from src.viewmodels.user import UserViewModel
 from src.views.view import View
 
@@ -20,7 +22,7 @@ class PasswordDialog(View):
                 .props("disabled dense") \
                 .bind_value(self.vm, "user_name")
 
-            ui.select(label="Role", options=["Admin", "User"]) \
+            ui.select(label="Role", options=USER_ROLES) \
                 .classes("w-full") \
                 .props("disable dense") \
                 .bind_value(self.vm, "user_role") \

@@ -68,6 +68,8 @@ class StudyResearcherDialog(View):
                 .bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save()).props("no-caps")
+                ui.button("Save", on_click=lambda: self.save()) \
+                    .props("no-caps") \
+                    .set_enabled(not is_user_readonly())
                 ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
         return dialog

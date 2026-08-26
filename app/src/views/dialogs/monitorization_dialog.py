@@ -1,5 +1,7 @@
 from nicegui import ui
 from nicegui.elements.dialog import Dialog
+
+from src.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
 from src.views.view import View
 
@@ -43,6 +45,8 @@ class StudyMonitorizationDialog(View):
                 .bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save()).props("dense")
+                ui.button("Save", on_click=lambda: self.save()) \
+                    .props("dense") \
+                    .set_enabled(not is_user_readonly())
                 ui.button("Close", on_click=lambda: dialog.submit("close")).props("dense")
         return dialog

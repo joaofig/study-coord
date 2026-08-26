@@ -1,5 +1,6 @@
 from nicegui import ui
 from src.tools.excel import export_to_excel
+from src.tools.user import is_user_readonly
 from src.viewmodels.monitorization import MonitorizationViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -24,6 +25,7 @@ class StudyMonitorizationPanel(View):
                     )
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Add Monitoring Visit")
 
@@ -46,6 +48,7 @@ class StudyMonitorizationPanel(View):
                     )
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Export to Excel")
 
@@ -58,6 +61,7 @@ class StudyMonitorizationPanel(View):
             self.study_id = kwargs["study_id"]
 
     async def _new_monitoring_dialog(self):
+
         monitoring_vm = MonitorizationViewModel()
 
         monitoring_vm.study_id = self.study_id
@@ -68,6 +72,10 @@ class StudyMonitorizationPanel(View):
             await self.broadcast("study_list", "load")
 
     async def _on_delete_monitoring(self):
+        if is_user_readonly():
+            ui.notify("You do not have permission to delete monitorizations.", type="negative")
+            return
+
         dialog = DeleteWarningDialog(
             "Are you sure you want to delete this monitorization visit?"
         )

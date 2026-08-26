@@ -1,5 +1,6 @@
 from nicegui import ui
 from src.tools.excel import export_to_excel
+from src.tools.user import is_user_readonly
 from src.viewmodels import AdverseEventViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -22,6 +23,7 @@ class EventPanel(View):
                     ui.button(icon="add", on_click=self._new_event_dialog)
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Add Event")
 
@@ -37,6 +39,7 @@ class EventPanel(View):
                     ui.button(icon="table_view", on_click=self._export_to_excel)
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Export to Excel")
 
@@ -68,6 +71,10 @@ class EventPanel(View):
             await self.broadcast("study_list", "load")
 
     async def _on_delete_event(self):
+        if is_user_readonly():
+            ui.notify("You do not have permission to delete events.", type="negative")
+            return
+
         dialog = DeleteWarningDialog("Are you sure you want to delete this event?")
         result = await dialog.show()
         if result == "delete":

@@ -3,6 +3,7 @@ from datetime import datetime
 
 from nicegui import app, ui
 from src.tools.excel import export_to_excel
+from src.tools.user import is_user_readonly
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -39,14 +40,17 @@ class StudyPatientPanel(View):
             await self.broadcast("study_list", "load")
 
     async def _on_delete_patient(self):
-        dialog = DeleteWarningDialog("Are you sure you want to delete this patient?")
-        result = await dialog.show()
-        if result == "delete":
-            dialog.close()
-            patient_id = self.vm.get("patient_id")
-            await self.vm.call("delete", patient_id=patient_id)
-            await self.vm.call("load", study_id=self.study_id)
-            await self.broadcast("study_list", "load")
+        if not is_user_readonly():
+            dialog = DeleteWarningDialog("Are you sure you want to delete this patient?")
+            result = await dialog.show()
+            if result == "delete":
+                dialog.close()
+                patient_id = self.vm.get("patient_id")
+                await self.vm.call("delete", patient_id=patient_id)
+                await self.vm.call("load", study_id=self.study_id)
+                await self.broadcast("study_list", "load")
+        else:
+            ui.notification("You do not have permission to delete patients.", type="negative")
 
     def show(self):
         with ui.row().classes("w-full h-full"):
@@ -55,6 +59,7 @@ class StudyPatientPanel(View):
                     ui.button(icon="add", on_click=lambda: self._new_patient_dialog())
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Add Patient")
 
@@ -73,6 +78,7 @@ class StudyPatientPanel(View):
                     )
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Export to Excel")
 

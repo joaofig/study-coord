@@ -1,5 +1,6 @@
 from nicegui import ui
 from src.tools.excel import export_to_excel
+from src.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
 from src.viewmodels.visit import VisitViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -22,6 +23,7 @@ class StudyVisitPanel(View):
                     ui.button(icon="add", on_click=self._new_visit_dialog)
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Add Visit")
 
@@ -42,6 +44,7 @@ class StudyVisitPanel(View):
                     )
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Export to Excel")
 
@@ -69,10 +72,13 @@ class StudyVisitPanel(View):
             await self.broadcast("study_list", "load")
 
     async def _on_delete_visit(self):
-        dialog = DeleteWarningDialog("Are you sure you want to delete this visit?")
-        result = await dialog.show()
-        if result == "delete":
-            dialog.close()
-            visit_id = self.vm.get("selected_id")
-            if visit_id:
-                await self.vm.call("delete", visit_id=visit_id)
+        if not is_user_readonly():
+            dialog = DeleteWarningDialog("Are you sure you want to delete this visit?")
+            result = await dialog.show()
+            if result == "delete":
+                dialog.close()
+                visit_id = self.vm.get("selected_id")
+                if visit_id:
+                    await self.vm.call("delete", visit_id=visit_id)
+        else:
+            ui.notify("You do not have permission to delete visits", type="negative")

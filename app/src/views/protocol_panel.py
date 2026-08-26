@@ -1,5 +1,6 @@
 from nicegui import ui
 from src.tools.excel import export_to_excel
+from src.tools.user import is_user_readonly
 from src.viewmodels import ProtocolViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
@@ -22,6 +23,7 @@ class ProtocolPanel(View):
                     ui.button(icon="add", on_click=lambda: self._new_protocol_dialog())
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Add Protocol Deviation")
 
@@ -44,6 +46,7 @@ class ProtocolPanel(View):
                     )
                     .classes("text-xs")
                     .props("padding=xs")
+                    .set_enabled(not is_user_readonly())
                 ):
                     ui.tooltip("Export to Excel")
 
@@ -63,11 +66,14 @@ class ProtocolPanel(View):
             await self.vm.call("load", study_id=self.study_id)
 
     async def _on_delete_protocol(self):
-        dialog = DeleteWarningDialog(
-            "Are you sure you want to delete this protocol deviation?"
-        )
-        result = await dialog.show()
-        if result == "delete":
-            dialog.close()
-            protocol_id = self.vm.get("protocol_id")
-            await self.vm.call("delete", protocol_id=protocol_id)
+        if not is_user_readonly():
+            dialog = DeleteWarningDialog(
+                "Are you sure you want to delete this protocol deviation?"
+            )
+            result = await dialog.show()
+            if result == "delete":
+                dialog.close()
+                protocol_id = self.vm.get("protocol_id")
+                await self.vm.call("delete", protocol_id=protocol_id)
+        else:
+            ui.notification("You do not have permission to delete protocol deviations.", type="negative")
