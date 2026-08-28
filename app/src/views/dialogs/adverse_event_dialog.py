@@ -1,5 +1,4 @@
 from nicegui import ui
-
 from src.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
 from src.views.view import View
@@ -33,52 +32,48 @@ class AdverseEventDialog(View):
                     )
 
                     selection = self.vm.get("selection")
-                    ui.input(label="Patient Number") \
-                        .props("readonly dense") \
-                        .bind_value(selection, "number") \
-                        .classes("w-full")
+                    ui.input(label="Patient Number").props("readonly dense").bind_value(
+                        selection, "number"
+                    ).classes("w-full")
 
-                    ui.input(label="Start Date") \
-                        .props("readonly dense") \
-                        .bind_value(selection, "start_date") \
-                        .classes("w-full") \
-                        .props("dense")
+                    ui.input(label="Start Date").props("readonly dense").bind_value(
+                        selection, "start_date"
+                    ).classes("w-full").props("dense")
 
-                    ui.input(label="Status") \
-                        .props("readonly dense") \
-                        .bind_value(selection, "status_text") \
-                        .classes("w-full") \
-                        .props("dense")
+                    ui.input(label="Status").props("readonly dense").bind_value(
+                        selection, "status_text"
+                    ).classes("w-full").props("dense")
 
                 with ui.column().classes("flex-1"):
-                    ui.date_input(label="Date")\
-                        .bind_value(self.vm, "event_date") \
-                        .classes("w-full") \
-                        .props("dense")
+                    ui.date_input(label="Date").bind_value(
+                        self.vm, "event_date"
+                    ).classes("w-full").props("dense")
 
-                    ui.input(label="Event Type", validation=validate_required) \
-                        .bind_value(self.vm, "event_type") \
-                        .classes("w-full") \
-                        .props("dense")
+                    ui.input(
+                        label="Event Type", validation=validate_required
+                    ).bind_value(self.vm, "event_type").classes("w-full").props("dense")
 
-                    ui.input(label="Description", validation=validate_required) \
-                        .bind_value(self.vm, "description") \
-                        .classes("w-full") \
-                        .props("dense")
+                    ui.input(
+                        label="Description", validation=validate_required
+                    ).bind_value(self.vm, "description").classes("w-full").props(
+                        "dense"
+                    )
 
-                    ui.textarea(label="Comments").bind_value(self.vm, "comments") \
-                        .classes("w-full") \
-                        .props("dense")
+                    ui.textarea(label="Comments").bind_value(
+                        self.vm, "comments"
+                    ).classes("w-full").props("dense")
 
-            ui.markdown().classes("bg-orange-200 w-full") \
-                .bind_content_from(self.vm, "validation") \
-                .bind_visibility_from(self.vm, "is_invalid")
+            ui.markdown().classes("bg-orange-200 w-full").bind_content_from(
+                self.vm, "validation"
+            ).bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save()) \
-                    .props("no-caps") \
-                    .set_enabled(not is_user_readonly())
-                ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
+                ui.button("Save", on_click=lambda: self.save()).props(
+                    "no-caps"
+                ).set_enabled(not is_user_readonly())
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props(
+                    "no-caps"
+                )
             self.dialog = dialog
 
     async def show(self):

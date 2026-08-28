@@ -1,4 +1,3 @@
-
 import builtins
 
 from src.dtos.protocol import ProtocolDTO

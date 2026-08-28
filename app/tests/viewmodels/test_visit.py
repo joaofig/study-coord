@@ -16,19 +16,20 @@ async def test_visit_view_model_save():
     vm.study_id = 1
     vm.patient_id = 101
     vm.visit_type = "Screening"
-    
+
     with patch("src.models.visit.VisitModel.repo") as mock_repo:
         mock_repo.save = AsyncMock(return_value={"visit_id": 201})
-        
+
         # Action
         await vm.save()
-        
+
         # Verify
         assert vm.visit_id == 201
         mock_repo.save.assert_called_once()
         args = mock_repo.save.call_args[0][0]
         assert args.visit_type == "Screening"
         assert args.patient_id == 101
+
 
 @pytest.mark.asyncio
 async def test_visit_view_model_load():
@@ -39,17 +40,22 @@ async def test_visit_view_model_load():
         study_id=1,
         patient_id=101,
         visit_date=date(2024, 1, 1),
-        visit_type="Follow-up"
+        visit_type="Follow-up",
     )
-    
-    with patch("src.models.visit.VisitModel.load", new_callable=AsyncMock, return_value=mock_dto):
+
+    with patch(
+        "src.models.visit.VisitModel.load",
+        new_callable=AsyncMock,
+        return_value=mock_dto,
+    ):
         # Action
         await vm.load(201)
-        
+
         # Verify
         assert vm.visit_id == 201
         assert vm.visit_type == "Follow-up"
         assert vm.visit_date == "2024-01-01"
+
 
 @pytest.mark.asyncio
 async def test_visit_view_model_validate():
@@ -88,6 +94,7 @@ async def test_visit_view_model_validate():
     assert vm.is_invalid is False
     assert vm.validation == ""
 
+
 @pytest.mark.asyncio
 async def test_visit_list_view_model_load():
     # Setup
@@ -96,11 +103,15 @@ async def test_visit_list_view_model_load():
         VisitDTO(visit_id=1, study_id=1, patient_id=101, visit_type="V1"),
         VisitDTO(visit_id=2, study_id=1, patient_id=101, visit_type="V2"),
     ]
-    
-    with patch("src.models.visit.VisitModel.list", new_callable=AsyncMock, return_value=mock_visits):
+
+    with patch(
+        "src.models.visit.VisitModel.list",
+        new_callable=AsyncMock,
+        return_value=mock_visits,
+    ):
         # Action
         await vm.call("load", study_id=1)
-        
+
         # Verify
         assert len(vm.visits) == 2
         assert vm.study_id == 1

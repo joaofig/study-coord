@@ -54,7 +54,9 @@ class StudyViewModel(ViewModel):
             sponsor=self.sponsor,
             protocol_visits=int(self.protocol_visits),
             start_date=date.fromisoformat(self.start_date),
-            end_date=None if self.end_date is None or len(self.end_date) == 0 else date.fromisoformat(self.end_date),
+            end_date=None
+            if self.end_date is None or len(self.end_date) == 0
+            else date.fromisoformat(self.end_date),
             comments=self.comments,
         )
 

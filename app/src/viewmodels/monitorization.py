@@ -57,19 +57,23 @@ class MonitorizationViewModel(ViewModel):
         )
 
     def from_dict(self, monitoring: dict):
-        self.monitoring_id = monitoring.get("monitoring_id") or monitoring.get("id") or 0
+        self.monitoring_id = (
+            monitoring.get("monitoring_id") or monitoring.get("id") or 0
+        )
         self.study_id = monitoring.get("study_id", 0)
         self.meeting_date = monitoring.get("meeting_date", date.today().isoformat())
         self.monitor = monitoring.get("monitor", "")
         self.comments = monitoring.get("comments", "")
-        
+
         if "created_at" in monitoring:
             from src.tools.user import dict_to_datetime
+
             self.created_at = dict_to_datetime(monitoring, "created_at")
         self.created_by = monitoring.get("created_by", "")
-        
+
         if "updated_at" in monitoring:
             from src.tools.user import dict_to_datetime
+
             self.updated_at = dict_to_datetime(monitoring, "updated_at")
         self.updated_by = monitoring.get("updated_by", "")
         self.changed = False

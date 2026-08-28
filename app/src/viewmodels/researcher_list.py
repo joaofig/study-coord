@@ -35,5 +35,7 @@ class ResearcherListViewModel(ViewModel):
                 if researcher_id:
                     await self.model.delete(researcher_id=researcher_id)
                     self.researchers.delete("researcher_id", researcher_id)
-                    await self.broadcast("researcher", "deleted", researcher_id=researcher_id)
+                    await self.broadcast(
+                        "researcher", "deleted", researcher_id=researcher_id
+                    )
         return None

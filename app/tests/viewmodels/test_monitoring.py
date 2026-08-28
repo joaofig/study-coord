@@ -80,7 +80,7 @@ async def test_monitoring_list_view_model_load():
     ]
 
     with patch(
-            "src.models.monitorization.py.MonitorizationModel.list", new_callable=AsyncMock
+        "src.models.monitorization.py.MonitorizationModel.list", new_callable=AsyncMock
     ) as mock_list:
         mock_list.return_value = mock_data
 

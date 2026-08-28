@@ -41,7 +41,9 @@ class StudyPatientPanel(View):
 
     async def _on_delete_patient(self):
         if not is_user_readonly():
-            dialog = DeleteWarningDialog("Are you sure you want to delete this patient?")
+            dialog = DeleteWarningDialog(
+                "Are you sure you want to delete this patient?"
+            )
             result = await dialog.show()
             if result == "delete":
                 dialog.close()
@@ -50,7 +52,9 @@ class StudyPatientPanel(View):
                 await self.vm.call("load", study_id=self.study_id)
                 await self.broadcast("study_list", "load")
         else:
-            ui.notification("You do not have permission to delete patients.", type="negative")
+            ui.notification(
+                "You do not have permission to delete patients.", type="negative"
+            )
 
     def show(self):
         with ui.row().classes("w-full h-full"):
@@ -63,10 +67,12 @@ class StudyPatientPanel(View):
                 ):
                     ui.tooltip("Add Patient")
 
-                with ui.button(icon="delete", on_click=lambda: self._on_delete_patient()) \
-                        .bind_enabled(self.vm, "selected_id") \
-                        .classes("text-xs") \
-                        .props("color=red padding=xs"):
+                with (
+                    ui.button(icon="delete", on_click=lambda: self._on_delete_patient())
+                    .bind_enabled(self.vm, "selected_id")
+                    .classes("text-xs")
+                    .props("color=red padding=xs")
+                ):
                     ui.tooltip("Delete Patient")
 
                 with (

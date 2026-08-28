@@ -23,7 +23,9 @@ class ReportViewModel(ViewModel):
     def __init__(self):
         super().__init__()
         self.subscribe(channel="reports", message="load", handler=self._on_load)
-        self.subscribe(channel="study_list", message="load", handler=self._on_reload_studies)
+        self.subscribe(
+            channel="study_list", message="load", handler=self._on_reload_studies
+        )
 
     async def load(self):
         repo = ReportRepository()

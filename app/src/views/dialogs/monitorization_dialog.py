@@ -1,6 +1,5 @@
 from nicegui import ui
 from nicegui.elements.dialog import Dialog
-
 from src.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
 from src.views.view import View
@@ -38,15 +37,22 @@ class StudyMonitorizationDialog(View):
                 .props("dense")
                 .bind_value(self.vm, "monitor")
             )
-            (ui.textarea("Comments").classes("w-full").props("dense").bind_value(self.vm, "comments"))
+            (
+                ui.textarea("Comments")
+                .classes("w-full")
+                .props("dense")
+                .bind_value(self.vm, "comments")
+            )
 
-            ui.markdown().classes("bg-orange-200 w-full") \
-                .bind_content_from(self.vm, "validation") \
-                .bind_visibility_from(self.vm, "is_invalid")
+            ui.markdown().classes("bg-orange-200 w-full").bind_content_from(
+                self.vm, "validation"
+            ).bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save()) \
-                    .props("dense") \
-                    .set_enabled(not is_user_readonly())
-                ui.button("Close", on_click=lambda: dialog.submit("close")).props("dense")
+                ui.button("Save", on_click=lambda: self.save()).props(
+                    "dense"
+                ).set_enabled(not is_user_readonly())
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props(
+                    "dense"
+                )
         return dialog

@@ -1,5 +1,4 @@
 from nicegui import ui
-
 from src.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
 from src.views.view import View
@@ -29,7 +28,8 @@ class StudyVisitDialog(View):
                                 msg="load_patient", patient_id=self.vm.get("patient_id")
                             )
                         )
-                        .classes("w-full").props("dense")
+                        .classes("w-full")
+                        .props("dense")
                     )
 
                     selection = self.vm.get("selection")
@@ -58,15 +58,17 @@ class StudyVisitDialog(View):
                         self.vm, "comments"
                     ).classes("w-full").props("dense")
 
-            ui.markdown().classes("bg-orange-200 w-full") \
-                .bind_content_from(self.vm, "validation") \
-                .bind_visibility_from(self.vm, "is_invalid")
+            ui.markdown().classes("bg-orange-200 w-full").bind_content_from(
+                self.vm, "validation"
+            ).bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save()) \
-                    .props("no-caps") \
-                    .set_enabled(not is_user_readonly())
-                ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
+                ui.button("Save", on_click=lambda: self.save()).props(
+                    "no-caps"
+                ).set_enabled(not is_user_readonly())
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props(
+                    "no-caps"
+                )
             self.dialog = dialog
 
     async def show(self):

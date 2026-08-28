@@ -1,4 +1,3 @@
-
 import builtins
 
 from src.dtos.patient import PatientDTO

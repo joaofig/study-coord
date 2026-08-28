@@ -3,7 +3,7 @@ from typing import Any, Self
 
 from pydantic import BaseModel
 from src.dtos.base import BaseDTO
-from src.tools.user import dict_to_datetime, get_user_name, dict_to_date
+from src.tools.user import dict_to_date, dict_to_datetime, get_user_name
 
 
 class StudyDTO(BaseDTO):
@@ -30,7 +30,7 @@ class StudyDTO(BaseDTO):
             created_at=dict_to_datetime(data, "created_at"),
             created_by=data.get("created_by", get_user_name()),
             updated_at=dict_to_datetime(data, "updated_at"),
-            updated_by=data.get("updated_by", get_user_name())
+            updated_by=data.get("updated_by", get_user_name()),
         )
 
     def to_dict(self) -> dict[str, Any]:

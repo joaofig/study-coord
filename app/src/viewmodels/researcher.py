@@ -36,7 +36,7 @@ class ResearcherViewModel(ViewModel):
         self.subscribe(
             channel="researcher",
             message="researcher_selected",
-            handler=self._handle_researcher_selected
+            handler=self._handle_researcher_selected,
         )
 
     def _field_changed(self, field_name: str):
@@ -125,9 +125,13 @@ class ResearcherViewModel(ViewModel):
         if not self.name or len(self.name.strip()) == 0:
             self.validation += "**Researcher Name** is required.  \r\n"
         if len(self.name) < 3:
-            self.validation += "**Researcher Name** must be at least 3 characters long.  \r\n"
+            self.validation += (
+                "**Researcher Name** must be at least 3 characters long.  \r\n"
+            )
         if len(self.name) > 128:
-            self.validation += "**Researcher Name** must be at most 128 characters long.  \r\n"
+            self.validation += (
+                "**Researcher Name** must be at most 128 characters long.  \r\n"
+            )
 
         if self.email and not is_email(self.email):
             self.validation += "**Researcher Email** is invalid.  \r\n"

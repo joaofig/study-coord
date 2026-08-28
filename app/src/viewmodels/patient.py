@@ -120,9 +120,13 @@ class PatientViewModel(ViewModel):
             self.validation += "**Patient Name** is required  \r\n"
         else:
             if len(self.name) < 3:
-                self.validation += "**Patient Name** must be at least 3 characters  \r\n"
+                self.validation += (
+                    "**Patient Name** must be at least 3 characters  \r\n"
+                )
             elif len(self.name) > 128:
-                self.validation += "**Patient Name** must be less than 128 characters  \r\n"
+                self.validation += (
+                    "**Patient Name** must be less than 128 characters  \r\n"
+                )
 
         if self.exit_date and not is_date(self.exit_date):
             self.validation += "**Exit date** must be a valid date.  \r\n"
@@ -134,10 +138,14 @@ class PatientViewModel(ViewModel):
             self.validation += "**Exit date** must be after **Start date**.  \r\n"
 
         if self.status != "active" and not self.exit_date:
-            self.validation += "**Exit date** is required for **non-active** patients.  \r\n"
+            self.validation += (
+                "**Exit date** is required for **non-active** patients.  \r\n"
+            )
 
         if self.exit_date and self.status == "active":
-            self.validation += "**Exit date** must be empty for **active** patients.  \r\n"
+            self.validation += (
+                "**Exit date** must be empty for **active** patients.  \r\n"
+            )
 
         self.is_invalid = len(self.validation) > 0
         return not self.is_invalid

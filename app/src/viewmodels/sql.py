@@ -1,15 +1,14 @@
-from typing import Any, LiteralString, cast, Tuple
+from typing import Any, LiteralString, cast
 
 from nicegui import binding
 from psycopg import AsyncConnection, Column
 from psycopg.errors import Error
-
 from src.repositories.postgres.base import PostgresCentral
 from src.tools.observability import GridList
 from src.viewmodels import ViewModel
 
 
-async def run_query(query: str) -> Tuple[list[dict[str, Any]], list[Column] | None]:
+async def run_query(query: str) -> tuple[list[dict[str, Any]], list[Column] | None]:
     """Executes a database query and returns fetched records asynchronously"""
     conn = await PostgresCentral().connect()
     if conn:

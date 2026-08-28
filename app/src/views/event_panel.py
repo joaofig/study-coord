@@ -3,8 +3,8 @@ from src.tools.excel import export_to_excel
 from src.tools.user import is_user_readonly
 from src.viewmodels import AdverseEventViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.adverse_event_dialog import AdverseEventDialog
+from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.event_grid import EventGrid
 from src.views.view import View
 
@@ -14,8 +14,12 @@ class EventPanel(View):
         super().__init__(vm)
         self.study_id = 0
         self.patient_id = 0
-        self.subscribe(channel="study", message="selected", handler=self._study_selected)
-        self.subscribe(channel="patient", message="selected", handler=self._patient_selected)
+        self.subscribe(
+            channel="study", message="selected", handler=self._study_selected
+        )
+        self.subscribe(
+            channel="patient", message="selected", handler=self._patient_selected
+        )
 
         with ui.row().classes("w-full h-full"):
             with ui.column().classes("h-full flex-none"):

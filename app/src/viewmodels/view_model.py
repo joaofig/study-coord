@@ -1,7 +1,7 @@
 import asyncio
 from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable
-from typing import Any, List
+from typing import Any
 
 from src.tools.messenger import get_messenger
 
@@ -17,11 +17,13 @@ class ViewModel(ABC):
         await messenger.send(message, **kwargs)
 
     @staticmethod
-    def subscribe(channel: str,
-                  *,
-                  message: str | None = None,
-                  messages: List[str] | None = None,
-                  handler: Callable[..., None | Awaitable[None]]) -> None:
+    def subscribe(
+        channel: str,
+        *,
+        message: str | None = None,
+        messages: list[str] | None = None,
+        handler: Callable[..., None | Awaitable[None]],
+    ) -> None:
         """Subscribe a handler to a message on the given channel"""
         messenger = get_messenger(channel)
         if message:

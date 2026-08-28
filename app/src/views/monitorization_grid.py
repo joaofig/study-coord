@@ -18,7 +18,9 @@ class StudyMonitorizationGrid(View):
         self.grid: AgGrid = self._build_grid()
 
     async def _update_grid(self):
-        await self.grid.run_grid_method("setGridOption", "rowData", self.monitorization_visits)
+        await self.grid.run_grid_method(
+            "setGridOption", "rowData", self.monitorization_visits
+        )
 
     def _build_grid(self) -> AgGrid:
         columns = [
@@ -39,16 +41,29 @@ class StudyMonitorizationGrid(View):
                 """,
             },
             {
-                "headerName": "Date", "field": "meeting_date", "sortable": True, "align": "left", "width": 120,
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Date",
+                "field": "meeting_date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "Monitor", "field": "monitor", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Monitor",
+                "field": "monitor",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "Comments", "field": "comments", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Comments",
+                "field": "comments",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
         ]
         grid_def = {
@@ -85,4 +100,6 @@ class StudyMonitorizationGrid(View):
     async def _row_selection_changed(self, event):
         row = await self.grid.get_selected_row()
         if row:
-            await self.vm.call("select", monitoring=row, monitoring_id=row["monitoring_id"])
+            await self.vm.call(
+                "select", monitoring=row, monitoring_id=row["monitoring_id"]
+            )

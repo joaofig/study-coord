@@ -9,7 +9,6 @@ class ApiKeyRepository(PostgresRepository):
     def __init__(self):
         super().__init__()
 
-
     async def find_by_key(self, api_key: str) -> ApiKeyDTO | None:
         sql: LiteralString = """
         SELECT  api_key_id
@@ -89,7 +88,6 @@ class ApiKeyRepository(PostgresRepository):
         result = await self.execute_query(sql, (user_name,))
         return [ApiKeyDTO.from_dict(s) for s in result]
 
-
     async def save(self, api_key: ApiKeyDTO) -> dict:
         insert: LiteralString = """
         INSERT INTO api_key (
@@ -129,7 +127,6 @@ class ApiKeyRepository(PostgresRepository):
         WHERE   api_key_id = %(api_key_id)s
         """
         return await self.insert_or_update(insert, update, api_key.to_dict())
-
 
     async def delete(self, api_key_id: int) -> None:
         sql: LiteralString = """

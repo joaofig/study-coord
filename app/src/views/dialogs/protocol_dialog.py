@@ -1,6 +1,5 @@
 from nicegui import ui
 from nicegui.elements.dialog import Dialog
-
 from src.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
 from src.views.view import View
@@ -32,27 +31,27 @@ class ProtocolDialog(View):
             with ui.row().classes("w-full bg-gray-200 p-2"):
                 ui.label("Protocol Deviation Details").classes("text-base")
 
-            ui.input("Title", validation=validate_title) \
-                .classes("w-full") \
-                .props("dense") \
-                .bind_value(self.vm, "title")
+            ui.input("Title", validation=validate_title).classes("w-full").props(
+                "dense"
+            ).bind_value(self.vm, "title")
 
-            ui.date_input("Date") \
-                .classes("w-full") \
-                .props("dense") \
-                .bind_value(self.vm, "event_date")
+            ui.date_input("Date").classes("w-full").props("dense").bind_value(
+                self.vm, "event_date"
+            )
 
             ui.textarea("Description").classes("w-full").props("dense").bind_value(
                 self.vm, "description"
             )
 
-            ui.markdown().classes("bg-orange-200 w-full") \
-                .bind_content_from(self.vm, "validation") \
-                .bind_visibility_from(self.vm, "is_invalid")
+            ui.markdown().classes("bg-orange-200 w-full").bind_content_from(
+                self.vm, "validation"
+            ).bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save()) \
-                    .props("no-caps") \
-                    .set_enabled(not is_user_readonly())
-                ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
+                ui.button("Save", on_click=lambda: self.save()).props(
+                    "no-caps"
+                ).set_enabled(not is_user_readonly())
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props(
+                    "no-caps"
+                )
         return dialog

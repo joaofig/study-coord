@@ -60,24 +60,75 @@ class StudyGrid(View):
             """,
             },
             {
-                "headerName": "Protocol", "field": "protocol", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False, "width": 200,
+                "headerName": "Protocol",
+                "field": "protocol",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
+                "width": 200,
                 "cellStyle": {"fontWeight": "bold"},
             },
             {
-                "headerName": "Name", "field": "name", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False, "width": 200,
+                "headerName": "Name",
+                "field": "name",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
+                "width": 200,
             },
             {
-                "headerName": "Sponsor", "field": "sponsor", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False, "width": 200,
+                "headerName": "Sponsor",
+                "field": "sponsor",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
+                "width": 200,
             },
-            {"headerName": "Start", "field": "start_date", "sortable": True, "align": "left", "width": 90,},
-            {"headerName": "End", "field": "end_date", "sortable": True, "align": "left", "width": 90,},
-            {"headerName": "Patients", "field": "patients", "sortable": True, "type": "numericColumn", "width": 90,},
-            {"headerName": "Visits", "field": "visits", "sortable": True, "type": "numericColumn", "width": 90,},
-            {"headerName": "Researchers", "field": "researchers", "sortable": True, "type": "numericColumn", "width": 90,},
-            {"headerName": "Adverse Events", "field": "events", "sortable": True, "type": "numericColumn", "width": 90,},
+            {
+                "headerName": "Start",
+                "field": "start_date",
+                "sortable": True,
+                "align": "left",
+                "width": 90,
+            },
+            {
+                "headerName": "End",
+                "field": "end_date",
+                "sortable": True,
+                "align": "left",
+                "width": 90,
+            },
+            {
+                "headerName": "Patients",
+                "field": "patients",
+                "sortable": True,
+                "type": "numericColumn",
+                "width": 90,
+            },
+            {
+                "headerName": "Visits",
+                "field": "visits",
+                "sortable": True,
+                "type": "numericColumn",
+                "width": 90,
+            },
+            {
+                "headerName": "Researchers",
+                "field": "researchers",
+                "sortable": True,
+                "type": "numericColumn",
+                "width": 90,
+            },
+            {
+                "headerName": "Adverse Events",
+                "field": "events",
+                "sortable": True,
+                "type": "numericColumn",
+                "width": 90,
+            },
             # {"headerName": "Monitorizations", "field": "monitorizations", "sortable": True, "type": "numericColumn", "width": 90,},
         ]
         grid_def = {
@@ -94,7 +145,7 @@ class StudyGrid(View):
         }
         ui.on("study-row-edit", self._on_edit)
         self.grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
-        self.grid.on("selectionChanged",
-                     lambda event: self._row_selection_changed(event)
-                     )
+        self.grid.on(
+            "selectionChanged", lambda event: self._row_selection_changed(event)
+        )
         return self.grid

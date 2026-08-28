@@ -14,15 +14,15 @@ class AdverseEventListViewModel(ViewModel):
         self.selected_id: int = 0
         self.model = AdverseEventModel()
 
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._handle_study_selected)
-        self.subscribe(channel="patient",
-                       message="selected",
-                       handler=self._handle_patient_selected)
-        self.subscribe(channel="event",
-                       message="saved",
-                       handler=self._handle_event_saved)
+        self.subscribe(
+            channel="study", message="selected", handler=self._handle_study_selected
+        )
+        self.subscribe(
+            channel="patient", message="selected", handler=self._handle_patient_selected
+        )
+        self.subscribe(
+            channel="event", message="saved", handler=self._handle_event_saved
+        )
 
     async def _load_events(self, study_id: int, patient_id: int):
         loaded_events = await self.model.list(study_id, patient_id)
@@ -72,5 +72,7 @@ class AdverseEventListViewModel(ViewModel):
                 if adverse_event_id:
                     await self.model.delete(adverse_event_id)
                     await self._load_events(self.study_id, self.patient_id)
-                    await self.broadcast("adverse_event", "deleted", adverse_event_id=adverse_event_id)
+                    await self.broadcast(
+                        "adverse_event", "deleted", adverse_event_id=adverse_event_id
+                    )
         return None

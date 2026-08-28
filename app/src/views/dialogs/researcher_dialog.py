@@ -1,5 +1,4 @@
 from nicegui import ui
-
 from src.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
 from src.views.view import View
@@ -21,30 +20,43 @@ class ResearcherDialog(View):
             with ui.row().classes("w-full bg-gray-200 p-2"):
                 ui.label("Researcher Details").classes("text-base")
 
-            self.number = ui.input(label="Number", validation=validate_number,) \
-                .classes("w-full") \
-                .props("dense") \
+            self.number = (
+                ui.input(
+                    label="Number",
+                    validation=validate_number,
+                )
+                .classes("w-full")
+                .props("dense")
                 .bind_value(self.vm, "number")
-            self.name = ui.input(label="Name") \
-                .classes("w-full") \
-                .props("dense") \
+            )
+            self.name = (
+                ui.input(label="Name")
+                .classes("w-full")
+                .props("dense")
                 .bind_value(self.vm, "name")
+            )
 
-            ui.input(label="Phone").classes("w-full").props("dense").bind_value(self.vm, "phone")
-            ui.input(label="Email").classes("w-full").props("dense").bind_value(self.vm, "email")
+            ui.input(label="Phone").classes("w-full").props("dense").bind_value(
+                self.vm, "phone"
+            )
+            ui.input(label="Email").classes("w-full").props("dense").bind_value(
+                self.vm, "email"
+            )
             ui.textarea(label="Comments").classes("w-full").props("dense").bind_value(
                 self.vm, "comments"
             )
 
-            ui.markdown().classes("bg-orange-200 w-full") \
-                .bind_content_from(self.vm, "validation") \
-                .bind_visibility_from(self.vm, "is_invalid")
+            ui.markdown().classes("bg-orange-200 w-full").bind_content_from(
+                self.vm, "validation"
+            ).bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save()) \
-                    .props("no-caps") \
-                    .set_enabled(not is_user_readonly())
-                ui.button("Cancel", on_click=lambda: dialog.submit("cancel")).props("no-caps")
+                ui.button("Save", on_click=lambda: self.save()).props(
+                    "no-caps"
+                ).set_enabled(not is_user_readonly())
+                ui.button("Cancel", on_click=lambda: dialog.submit("cancel")).props(
+                    "no-caps"
+                )
             self.dialog = dialog
 
     async def save(self):

@@ -112,7 +112,11 @@ class StudyResearcherViewModel(ViewModel):
                 return await self.validate()
 
             case "load":
-                rs = [r for r in self.researcher_list if r.researcher_id == self.researcher_id]
+                rs = [
+                    r
+                    for r in self.researcher_list
+                    if r.researcher_id == self.researcher_id
+                ]
                 if len(rs) > 0:
                     researcher = rs[0]
                     self.selection.copy(researcher)
@@ -128,10 +132,7 @@ class StudyResearcherViewModel(ViewModel):
     async def load_researchers(self):
         model = ResearcherModel()
         self.researcher_list = await model.list()
-        self.researchers = {
-            sr.researcher_id: sr.number
-            for sr in self.researcher_list
-        }
+        self.researchers = {sr.researcher_id: sr.number for sr in self.researcher_list}
 
     async def validate(self) -> bool:
         self.validation = ""

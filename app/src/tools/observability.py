@@ -28,12 +28,13 @@ class Observable:
 
 
 class GridList(ObservableList):
-    def __init__(self,
-                 data: list | None = None,
-                 *,
-                 on_change: Callable | None = None,
-                 _parent: ObservableCollection | None = None,
-                 ):
+    def __init__(
+        self,
+        data: list | None = None,
+        *,
+        on_change: Callable | None = None,
+        _parent: ObservableCollection | None = None,
+    ):
         super().__init__(data, on_change=on_change, _parent=_parent)
 
     def replace(self, new_items: Iterable):

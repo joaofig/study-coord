@@ -54,7 +54,6 @@ class StudyResearcherPanel(View):
             with ui.column().classes("h-full flex-1"):
                 StudyResearcherGrid(self.vm)
 
-
     async def _study_selected(self, **kwargs):
         if "study_id" in kwargs:
             self.study_id = kwargs["study_id"]
@@ -75,7 +74,9 @@ class StudyResearcherPanel(View):
 
     async def _on_delete_researcher(self):
         if not is_user_readonly():
-            dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")
+            dialog = DeleteWarningDialog(
+                "Are you sure you want to delete this researcher?"
+            )
             result = await dialog.show()
             if result == "delete":
                 dialog.close()
@@ -85,7 +86,9 @@ class StudyResearcherPanel(View):
                     await self.vm.call("delete", researcher_id=researcher_id)
                 await self.broadcast("study_list", "load")
         else:
-            ui.notify("You do not have permission to delete researchers", type="negative")
+            ui.notify(
+                "You do not have permission to delete researchers", type="negative"
+            )
 
     def _export_to_excel(self):
         researchers = [r.to_dict() for r in self.vm.get("researchers")]

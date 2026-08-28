@@ -13,12 +13,12 @@ class StudyResearcherListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(channel="study_researcher",
-                       message="saved",
-                       handler=self._on_load)
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._on_study_selected)
+        self.subscribe(
+            channel="study_researcher", message="saved", handler=self._on_load
+        )
+        self.subscribe(
+            channel="study", message="selected", handler=self._on_study_selected
+        )
 
     async def _load_study_researchers(self, study_id: int):
         researchers = await self.model.list(study_id)

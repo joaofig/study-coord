@@ -24,3 +24,11 @@ dependencies = [
 python_files = ["test_*.py", "*_test.py", "*_tests.py"]
 pythonpath = ["app"]
 
+[tool.ruff]
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.format]
+quote-style = "double"

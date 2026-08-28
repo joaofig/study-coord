@@ -62,12 +62,21 @@ class StudyVisitGrid(View):
                 """,
             },
             {
-                "headerName": "Date", "field": "visit_date", "sortable": True, "align": "left", "width": 120,
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Date",
+                "field": "visit_date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "Type", "field": "visit_type", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Type",
+                "field": "visit_type",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
         ]
         grid_def = {
@@ -84,7 +93,10 @@ class StudyVisitGrid(View):
         }
         ui.on("visit-row-edit", self._on_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
-        grid.on("selectionChanged", lambda event: asyncio.create_task(self._row_selection_changed(event)))
+        grid.on(
+            "selectionChanged",
+            lambda event: asyncio.create_task(self._row_selection_changed(event)),
+        )
         return grid
 
     async def _row_selection_changed(self, event):

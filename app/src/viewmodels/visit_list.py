@@ -13,19 +13,13 @@ class VisitListViewModel(ViewModel):
         self.patient_id: int = 0
         self.selected_id: int = 0
         self.subscribe(
-            channel="study",
-            message="selected",
-            handler=self._handle_study_selected
+            channel="study", message="selected", handler=self._handle_study_selected
         )
         self.subscribe(
-            channel="visit",
-            message="saved",
-            handler=self._handle_visit_saved
+            channel="visit", message="saved", handler=self._handle_visit_saved
         )
         self.subscribe(
-            channel="patient",
-            message="selected",
-            handler=self._handle_patient_selected
+            channel="patient", message="selected", handler=self._handle_patient_selected
         )
         self.model = VisitModel()
 
@@ -33,7 +27,9 @@ class VisitListViewModel(ViewModel):
         if patient_id != self.patient_id:
             self.selected_id = 0
         self.patient_id = patient_id
-        self.visits.replace([v.to_dict() for v in await self.model.list(study_id, patient_id)])
+        self.visits.replace(
+            [v.to_dict() for v in await self.model.list(study_id, patient_id)]
+        )
 
     async def _handle_visit_saved(self, **kwargs):
         await self._load_visits(self.study_id, self.patient_id)

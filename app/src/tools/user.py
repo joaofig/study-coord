@@ -28,8 +28,7 @@ def str_to_datetime(str_time: str) -> datetime:
     return datetime.fromisoformat(str_time)
 
 
-def dict_to_datetime(data: dict, key: str,
-                     default: datetime | None = None) -> datetime:
+def dict_to_datetime(data: dict, key: str, default: datetime | None = None) -> datetime:
     """
     Convert a dictionary value to a datetime.
 
@@ -56,8 +55,7 @@ def str_to_date(str_time: str) -> date:
     return date.fromisoformat(str_time)
 
 
-def dict_to_date(data: dict, key: str,
-                 default: date | None = None) -> date | None:
+def dict_to_date(data: dict, key: str, default: date | None = None) -> date | None:
     """
     Convert a dictionary value to a date.
 

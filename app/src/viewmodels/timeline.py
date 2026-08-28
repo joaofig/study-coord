@@ -12,15 +12,9 @@ class TimelineViewModel(ViewModel):
         super().__init__()
         self.milestones = GridList()
         self.model = TimelineModel()
+        self.subscribe(channel="timeline", message="load", handler=self._on_load)
         self.subscribe(
-            channel="timeline",
-            message="load",
-            handler=self._on_load
-        )
-        self.subscribe(
-            channel="study",
-            message="selected",
-            handler=self._on_study_selected
+            channel="study", message="selected", handler=self._on_study_selected
         )
 
     async def _on_load(self, study_id):

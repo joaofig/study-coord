@@ -28,25 +28,33 @@ class ReportRepository(PostgresRepository):
         return await self.get_count("SELECT COUNT(*) FROM patient")
 
     async def get_patient_count_by_study(self, study_id: int) -> int:
-        return await self.get_count_by_study("SELECT COUNT(*) FROM patient WHERE study_id=%s", study_id)
+        return await self.get_count_by_study(
+            "SELECT COUNT(*) FROM patient WHERE study_id=%s", study_id
+        )
 
     async def get_researcher_count(self) -> int:
         return await self.get_count("SELECT COUNT(*) FROM researcher")
 
     async def get_researcher_count_by_study(self, study_id: int) -> int:
-        return await self.get_count_by_study("SELECT COUNT(*) FROM study_researcher WHERE study_id=%s", study_id)
+        return await self.get_count_by_study(
+            "SELECT COUNT(*) FROM study_researcher WHERE study_id=%s", study_id
+        )
 
     async def get_visit_count(self) -> int:
         return await self.get_count("SELECT COUNT(*) FROM visit")
 
     async def get_visit_count_by_study(self, study_id: int) -> int:
-        return await self.get_count_by_study("SELECT COUNT(*) FROM visit WHERE study_id=%s", study_id)
+        return await self.get_count_by_study(
+            "SELECT COUNT(*) FROM visit WHERE study_id=%s", study_id
+        )
 
     async def get_event_count(self) -> int:
         return await self.get_count("SELECT COUNT(*) FROM adverse_event")
 
     async def get_event_count_by_study(self, study_id: int) -> int:
-        return await self.get_count_by_study("SELECT COUNT(*) FROM adverse_event WHERE study_id=%s", study_id)
+        return await self.get_count_by_study(
+            "SELECT COUNT(*) FROM adverse_event WHERE study_id=%s", study_id
+        )
 
     async def get_studies(self) -> list:
         sql = "SELECT * FROM study"

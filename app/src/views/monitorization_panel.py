@@ -55,7 +55,6 @@ class StudyMonitorizationPanel(View):
             with ui.column().classes("h-full flex-1"):
                 StudyMonitorizationGrid(self.vm)
 
-
     async def _study_selected(self, **kwargs):
         if "study_id" in kwargs:
             self.study_id = kwargs["study_id"]
@@ -73,7 +72,9 @@ class StudyMonitorizationPanel(View):
 
     async def _on_delete_monitoring(self):
         if is_user_readonly():
-            ui.notify("You do not have permission to delete monitorizations.", type="negative")
+            ui.notify(
+                "You do not have permission to delete monitorizations.", type="negative"
+            )
             return
 
         dialog = DeleteWarningDialog(

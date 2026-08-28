@@ -21,7 +21,7 @@ class TimelineModel:
                 event_date=study.start_date,
                 event_icon="start",
                 description=study.comments or "",
-                color="green"
+                color="green",
             )
             self.milestones.append(ms.to_dict())
 
@@ -31,7 +31,7 @@ class TimelineModel:
                     event_date=study.end_date,
                     event_icon="stop_circle",
                     description=study.comments or "",
-                    color="blue"
+                    color="blue",
                 )
                 self.milestones.insert(0, ms.to_dict())
 
@@ -44,7 +44,7 @@ class TimelineModel:
                 event_date=patient.start_date,
                 event_icon="user_plus",
                 description=patient.comments or "",
-                color="orange"
+                color="orange",
             )
             self.milestones.append(ms.to_dict())
 
@@ -54,7 +54,7 @@ class TimelineModel:
                     event_date=patient.exit_date,
                     event_icon="user_minus",
                     description=patient.comments or "",
-                    color="red"
+                    color="red",
                 )
                 self.milestones.append(ms.to_dict())
 
@@ -68,7 +68,7 @@ class TimelineModel:
                 event_date=visit.visit_date,
                 event_icon="calendar_check",
                 description=visit.comments or "",
-                color="purple"
+                color="purple",
             )
             self.milestones.append(ms.to_dict())
 
@@ -82,7 +82,7 @@ class TimelineModel:
                 event_date=deviation.event_date,
                 event_icon="alert_circle",
                 description=deviation.description or "",
-                color="red"
+                color="red",
             )
             self.milestones.append(ms.to_dict())
 
@@ -100,7 +100,7 @@ class TimelineModel:
                     event_date=event.event_date,
                     event_icon="alert_octagon",
                     description=event.description or "",
-                    color="yellow"
+                    color="yellow",
                 )
                 self.milestones.append(ms.to_dict())
 

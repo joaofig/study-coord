@@ -1,4 +1,5 @@
 from src.repositories.postgres.adverse_event import AdverseEventRepository
+from src.repositories.postgres.api_key import ApiKeyRepository
 from src.repositories.postgres.monitoring import MonitorizationRepository
 from src.repositories.postgres.patient import PatientRepository
 from src.repositories.postgres.protocol import ProtocolRepository
@@ -8,4 +9,3 @@ from src.repositories.postgres.study import StudyRepository
 from src.repositories.postgres.study_researcher import StudyResearcherRepository
 from src.repositories.postgres.user import UserRepository
 from src.repositories.postgres.visit import VisitRepository
-from src.repositories.postgres.api_key import ApiKeyRepository

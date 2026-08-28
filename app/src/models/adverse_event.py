@@ -1,4 +1,3 @@
-
 import builtins
 
 from src.dtos.adverse_event import AdverseEventDTO
@@ -15,7 +14,9 @@ class AdverseEventModel:
     async def load(self, event_id: int) -> AdverseEventDTO | None:
         return await self.repo.load(event_id)
 
-    async def list(self, study_id: int, patient_id: int) -> builtins.list[AdverseEventDTO]:
+    async def list(
+        self, study_id: int, patient_id: int
+    ) -> builtins.list[AdverseEventDTO]:
         return await self.repo.list(study_id=study_id, patient_id=patient_id)
 
     async def delete(self, adverse_event_id: int):

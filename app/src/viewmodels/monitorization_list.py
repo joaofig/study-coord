@@ -12,9 +12,9 @@ class MonitoringListViewModel(ViewModel):
 
     def __init__(self):
         super().__init__()
-        self.subscribe(channel="study",
-                       message="selected",
-                       handler=self._study_selected)
+        self.subscribe(
+            channel="study", message="selected", handler=self._study_selected
+        )
 
     async def _load_monitorizations(self, study_id: int):
         visits = [m.to_dict() for m in await self.model.list(study_id)]
@@ -42,5 +42,9 @@ class MonitoringListViewModel(ViewModel):
                 if monitoring_id:
                     await self.model.delete(monitoring_id)
                     self.monitorization_visits.delete("monitoring_id", monitoring_id)
-                    await self.broadcast(channel="monitorization", message="deleted", monitoring_id=monitoring_id)
+                    await self.broadcast(
+                        channel="monitorization",
+                        message="deleted",
+                        monitoring_id=monitoring_id,
+                    )
         return None

@@ -33,43 +33,40 @@ class StudyResearcherDialog(View):
             ui.select(
                 options=self.vm.get("researchers"),
                 label="Researcher Number",
-                validation=validate_researcher_number,) \
-                .bind_value(self.vm, "researcher_id") \
-                .on_value_change(lambda: self.vm.call("load")) \
-                .classes("w-full") \
-                .props("dense")
+                validation=validate_researcher_number,
+            ).bind_value(self.vm, "researcher_id").on_value_change(
+                lambda: self.vm.call("load")
+            ).classes("w-full").props("dense")
 
             selection = self.vm.get("selection")
-            ui.input(label="Name") \
-                .props("readonly dense") \
-                .classes("w-full") \
-                .bind_value(selection, "name")
+            ui.input(label="Name").props("readonly dense").classes("w-full").bind_value(
+                selection, "name"
+            )
 
-            ui.input(label="Phone") \
-                .props("readonly dense") \
-                .classes("w-full") \
-                .bind_value(selection, "phone")
-            ui.input(label="Email") \
-                .props("readonly dense") \
-                .classes("w-full") \
-                .bind_value(selection, "email")
+            ui.input(label="Phone").props("readonly dense").classes(
+                "w-full"
+            ).bind_value(selection, "phone")
+            ui.input(label="Email").props("readonly dense").classes(
+                "w-full"
+            ).bind_value(selection, "email")
 
-            ui.select(options=self.vm.get("roles"), label="Role") \
-                .bind_value(self.vm, "role") \
-                .classes("w-full") \
-                .props("dense")
+            ui.select(options=self.vm.get("roles"), label="Role").bind_value(
+                self.vm, "role"
+            ).classes("w-full").props("dense")
 
-            ui.textarea(label="Study Comments").classes("w-full") \
-                .props("dense") \
-                .bind_value(self.vm, "study_comments")
+            ui.textarea(label="Study Comments").classes("w-full").props(
+                "dense"
+            ).bind_value(self.vm, "study_comments")
 
-            ui.markdown().classes("bg-orange-200 w-full") \
-                .bind_content_from(self.vm, "validation") \
-                .bind_visibility_from(self.vm, "is_invalid")
+            ui.markdown().classes("bg-orange-200 w-full").bind_content_from(
+                self.vm, "validation"
+            ).bind_visibility_from(self.vm, "is_invalid")
 
             with ui.row():
-                ui.button("Save", on_click=lambda: self.save()) \
-                    .props("no-caps") \
-                    .set_enabled(not is_user_readonly())
-                ui.button("Close", on_click=lambda: dialog.submit("close")).props("no-caps")
+                ui.button("Save", on_click=lambda: self.save()).props(
+                    "no-caps"
+                ).set_enabled(not is_user_readonly())
+                ui.button("Close", on_click=lambda: dialog.submit("close")).props(
+                    "no-caps"
+                )
         return dialog

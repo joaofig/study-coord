@@ -20,8 +20,7 @@ class StudyPatientGrid(View):
         self.grid: AgGrid = self._build_grid()
 
     async def _update_grid(self):
-        await self.grid.run_grid_method("setGridOption", "rowData",
-                                        self.patients)
+        await self.grid.run_grid_method("setGridOption", "rowData", self.patients)
         if len(self.patients) == 0:
             await self.grid.run_grid_method("redrawRows")
 
@@ -49,25 +48,48 @@ class StudyPatientGrid(View):
                 """,
             },
             {
-                "headerName": "Number", "field": "number", "sortable": True, "align": "left", "width": 100,
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Number",
+                "field": "number",
+                "sortable": True,
+                "align": "left",
+                "width": 100,
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
                 "cellStyle": {"fontWeight": "bold"},
             },
             {
-                "headerName": "Name", "field": "name", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Name",
+                "field": "name",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "Start", "field": "start_date", "sortable": True, "align": "left", "width": 120,
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Start",
+                "field": "start_date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "End", "field": "exit_date", "sortable": True, "align": "left", "width": 120,
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "End",
+                "field": "exit_date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "Status", "field": "status_text", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Status",
+                "field": "status_text",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
         ]
         grid_def = {
@@ -84,7 +106,10 @@ class StudyPatientGrid(View):
         }
         ui.on("patient-row-edit", self._handle_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
-        grid.on("selectionChanged", lambda event: asyncio.create_task(self._row_selection_changed(event)))
+        grid.on(
+            "selectionChanged",
+            lambda event: asyncio.create_task(self._row_selection_changed(event)),
+        )
         return grid
 
     async def _edit_patient(self, patient: dict) -> dict:

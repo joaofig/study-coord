@@ -26,12 +26,17 @@ class AuthMiddleware(BaseHTTPMiddleware):
     """
 
     async def dispatch(self, request: Request, call_next):
-        last_activity_time = app.storage.user.get("last_activity_time", datetime.now().isoformat())
-        last_activity_seconds = (datetime.now() - datetime.fromisoformat(last_activity_time)).total_seconds()
+        last_activity_time = app.storage.user.get(
+            "last_activity_time", datetime.now().isoformat()
+        )
+        last_activity_seconds = (
+            datetime.now() - datetime.fromisoformat(last_activity_time)
+        ).total_seconds()
         path = request.url.path
         if (
             app.storage.user.get("authenticated", False)
-            and last_activity_seconds <= 5 * 60              # 5 minutes of inactivity sends you to the login page
+            and last_activity_seconds
+            <= 5 * 60  # 5 minutes of inactivity sends you to the login page
             or path in unrestricted_page_routes
             or path.startswith("/_nicegui")
         ):
@@ -88,7 +93,9 @@ async def login(redirect_to: str = "/") -> RedirectResponse | None:
             if user.change_pass:
                 if await change_password(user):
                     ui.notify("Password changed successfully", color="positive")
-                    ui.navigate.to(redirect_to)  # go back to where the user wanted to go
+                    ui.navigate.to(
+                        redirect_to
+                    )  # go back to where the user wanted to go
                 else:
                     ui.notify("Password change failed", color="negative")
                     ui.navigate.to("/login")
@@ -161,8 +168,12 @@ async def index():
     await main_view()
 
 
-app.add_static_file(local_file=os.path.join(os.path.dirname(__file__), 'images', 'science_24dp_1F1F1F.png'),
-                    url_path='/favicon.ico')
+app.add_static_file(
+    local_file=os.path.join(
+        os.path.dirname(__file__), "images", "science_24dp_1F1F1F.png"
+    ),
+    url_path="/favicon.ico",
+)
 load_dotenv()
 ui.run(
     host="0.0.0.0",

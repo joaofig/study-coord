@@ -14,14 +14,12 @@ class PatientListViewModel(ViewModel):
     def __init__(self):
         super().__init__()
         self.subscribe(
-            channel="study",
-            message="selected",
-            handler=self._handle_study_selected
+            channel="study", message="selected", handler=self._handle_study_selected
         )
         self.subscribe(
             channel="patient_list",
             message="load",
-            handler=self._handle_load   # Refresh the patient list
+            handler=self._handle_load,  # Refresh the patient list
         )
 
     async def _load_patients(self, study_id: int):
@@ -64,5 +62,7 @@ class PatientListViewModel(ViewModel):
                 if patient_id:
                     await self.model.delete(patient_id)
                     self.patients.delete("patient_id", patient_id)
-                    await self.broadcast(channel="patient", message="deleted", patient_id=patient_id)
+                    await self.broadcast(
+                        channel="patient", message="deleted", patient_id=patient_id
+                    )
         return None

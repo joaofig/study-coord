@@ -46,7 +46,9 @@ class UserView(View):
             user = self.vm.get("selected_row")
             user_name = user._load("user_name", "") if user else ""
             if user_name == app.storage.user.get("username"):
-                ui.notify("You cannot delete the currently logged-in user.", color="red")
+                ui.notify(
+                    "You cannot delete the currently logged-in user.", color="red"
+                )
                 return
             if user_name == "admin":
                 ui.notify("You cannot delete the admin user.", color="red")

@@ -1,6 +1,5 @@
 from nicegui import app, ui
 from src.repositories import UserRepository
-from src.tools.tasks import ManagedTasks
 from src.tools.user import logout
 from src.viewmodels import UserViewModel
 from src.views.admin_panel import AdminPanel
@@ -81,11 +80,12 @@ async def main_view():
                 admin.set_visibility(user_role == "Admin")
             # ui.space()
             with ui.row().classes("w-full flex-1 justify-end"):
-                with ui.button(text="Logout", on_click=logout)\
-                        .classes("text-xs mr-4 mt-2") \
-                        .props("padding=xs"):
+                with (
+                    ui.button(text="Logout", on_click=logout)
+                    .classes("text-xs mr-4 mt-2")
+                    .props("padding=xs")
+                ):
                     ui.tooltip("Log Out")
-
 
         with ui.tab_panels(tabs, value=studies, animated=False).classes(
             "h-full w-full"

@@ -1,4 +1,3 @@
-
 from nicegui import app, ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
@@ -40,25 +39,46 @@ class StudyResearcherGrid(View):
             """,
             },
             {
-                "headerName": "Number", "field": "number", "sortable": True, "align": "left", "width": 100,
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Number",
+                "field": "number",
+                "sortable": True,
+                "align": "left",
+                "width": 100,
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
                 "cellStyle": {"fontWeight": "bold"},
             },
             {
-                "headerName": "Name", "field": "name", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
-             },
-            {
-                "headerName": "Role", "field": "role_text", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Name",
+                "field": "name",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "Phone", "field": "phone", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Role",
+                "field": "role_text",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "Email", "field": "email", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Phone",
+                "field": "phone",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
+            },
+            {
+                "headerName": "Email",
+                "field": "email",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
         ]
         grid_def = {
@@ -75,9 +95,7 @@ class StudyResearcherGrid(View):
         }
         ui.on("study-researcher-row-edit", self._on_edit)
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
-        grid.on(
-            "selectionChanged", lambda event: self._row_selection_changed(event)
-        )
+        grid.on("selectionChanged", lambda event: self._row_selection_changed(event))
         return grid
 
     async def _edit_researcher(self, researcher: dict) -> dict:

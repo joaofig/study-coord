@@ -79,12 +79,14 @@ class VisitViewModel(ViewModel):
         self.patient_name = data.get("patient_name", "")
         self.patient_number = data.get("patient_number", "")
         if "created_at" in data:
-             from src.tools.user import dict_to_datetime
-             self.created_at = dict_to_datetime(data, "created_at")
+            from src.tools.user import dict_to_datetime
+
+            self.created_at = dict_to_datetime(data, "created_at")
         self.created_by = data.get("created_by", "")
         if "updated_at" in data:
-             from src.tools.user import dict_to_datetime
-             self.updated_at = dict_to_datetime(data, "updated_at")
+            from src.tools.user import dict_to_datetime
+
+            self.updated_at = dict_to_datetime(data, "updated_at")
         self.updated_by = data.get("updated_by", "")
         self.changed = False
 
@@ -106,8 +108,12 @@ class VisitViewModel(ViewModel):
             self.visit_date = visit.visit_date.isoformat()
             self.visit_type = visit.visit_type
             self.comments = visit.comments
-            self.patient_name = visit.patient_name if hasattr(visit, "patient_name") else ""
-            self.patient_number = visit.patient_number if hasattr(visit, "patient_number") else ""
+            self.patient_name = (
+                visit.patient_name if hasattr(visit, "patient_name") else ""
+            )
+            self.patient_number = (
+                visit.patient_number if hasattr(visit, "patient_number") else ""
+            )
 
             if visit.patient:
                 self.selection.from_dict(visit.patient.to_dict())

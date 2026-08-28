@@ -44,14 +44,18 @@ class ResearcherView(View):
 
     async def _on_delete_researcher(self):
         if not is_user_readonly():
-            dialog = DeleteWarningDialog("Are you sure you want to delete this researcher?")
+            dialog = DeleteWarningDialog(
+                "Are you sure you want to delete this researcher?"
+            )
             result = await dialog.show()
             if result == "delete":
                 dialog.close()
                 researcher_id = self.vm.get("selected_id")
                 await self.vm.call("delete", researcher_id=researcher_id)
         else:
-            ui.notification("You do not have permission to delete researchers.", type="negative")
+            ui.notification(
+                "You do not have permission to delete researchers.", type="negative"
+            )
 
     async def _show_dialog(self):
         vm = ResearcherViewModel()

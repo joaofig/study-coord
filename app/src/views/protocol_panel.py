@@ -76,4 +76,7 @@ class ProtocolPanel(View):
                 protocol_id = self.vm.get("protocol_id")
                 await self.vm.call("delete", protocol_id=protocol_id)
         else:
-            ui.notification("You do not have permission to delete protocol deviations.", type="negative")
+            ui.notification(
+                "You do not have permission to delete protocol deviations.",
+                type="negative",
+            )

@@ -14,8 +14,12 @@ class StudyVisitPanel(View):
         super().__init__(vm)
         self.study_id = 0
         self.patient_id = 0
-        self.subscribe(channel="study", message="selected", handler=self._study_selected)
-        self.subscribe(channel="patient", message="selected", handler=self._patient_selected)
+        self.subscribe(
+            channel="study", message="selected", handler=self._study_selected
+        )
+        self.subscribe(
+            channel="patient", message="selected", handler=self._patient_selected
+        )
 
         with ui.row().classes("w-full h-full"):
             with ui.column().classes("h-full flex-none"):
@@ -50,7 +54,6 @@ class StudyVisitPanel(View):
 
             with ui.column().classes("h-full flex-1"):
                 StudyVisitGrid(self.vm).show()
-
 
     async def _study_selected(self, **kwargs):
         if "study_id" in kwargs:

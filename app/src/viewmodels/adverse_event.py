@@ -28,7 +28,7 @@ class AdverseEventViewModel(ViewModel):
     created_by: str = ""
     updated_at: datetime = datetime.now()
     updated_by: str = ""
-    
+
     is_invalid: bool = False
     validation: str = ""
 
@@ -80,12 +80,14 @@ class AdverseEventViewModel(ViewModel):
         self.patient_name = data.get("patient_name", "")
         self.patient_number = data.get("patient_number", "")
         if "created_at" in data:
-             from src.tools.user import dict_to_datetime
-             self.created_at = dict_to_datetime(data, "created_at")
+            from src.tools.user import dict_to_datetime
+
+            self.created_at = dict_to_datetime(data, "created_at")
         self.created_by = data.get("created_by", "")
         if "updated_at" in data:
-             from src.tools.user import dict_to_datetime
-             self.updated_at = dict_to_datetime(data, "updated_at")
+            from src.tools.user import dict_to_datetime
+
+            self.updated_at = dict_to_datetime(data, "updated_at")
         self.updated_by = data.get("updated_by", "")
         self.changed = False
 
@@ -145,6 +147,7 @@ class AdverseEventViewModel(ViewModel):
 
     async def validate(self) -> bool:
         from src.tools.validation import is_date
+
         self.validation = ""
         self.is_invalid = False
 

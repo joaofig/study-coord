@@ -21,16 +21,30 @@ class TimelinePanel(View):
     def _build_grid(self) -> AgGrid:
         columns = [
             {
-                "headerName": "Date", "field": "event_date", "sortable": True, "align": "left", "width": 120,
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Date",
+                "field": "event_date",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "Event", "field": "event_title", "sortable": True, "align": "left", "width": 120,
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Event",
+                "field": "event_title",
+                "sortable": True,
+                "align": "left",
+                "width": 120,
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
             {
-                "headerName": "Description", "field": "description", "sortable": True, "align": "left",
-                "filter": "agTextColumnFilter", "floatingFilter": False,
+                "headerName": "Description",
+                "field": "description",
+                "sortable": True,
+                "align": "left",
+                "filter": "agTextColumnFilter",
+                "floatingFilter": False,
             },
         ]
         grid_def = {

@@ -73,7 +73,6 @@ def make_study_row(study_id: int = EXISTING_STUDY_ID) -> StudyRow:
 @pytest.fixture
 def fake_repository():
     class FakeStudyRepository:
-
         def __init__(self):
             self.rows: builtins.list[StudyRow] = []
             self.studies_by_id: dict[int, Study] = {}
