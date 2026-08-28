@@ -8,6 +8,10 @@ def logout() -> None:
     ui.navigate.to("/login")
 
 
+def record_user_activity() -> None:
+    app.storage.user.update(last_activity_time=datetime.now().isoformat())
+
+
 def get_user_name() -> str:
     return app.storage.user.get("username", "user")
 

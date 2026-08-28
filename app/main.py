@@ -1,4 +1,5 @@
 import os
+import uuid
 from datetime import datetime
 
 from dotenv import load_dotenv
@@ -7,6 +8,7 @@ from fastapi.responses import RedirectResponse
 from nicegui import app, context, ui
 from src.dtos.user import UserDTO, hash_password
 from src.models.user import UserModel
+from src.tools.user import record_user_activity
 from src.viewmodels import UserViewModel
 from src.views.dialogs.password_dialog import PasswordDialog
 from src.views.main import main_view
@@ -29,11 +31,11 @@ class AuthMiddleware(BaseHTTPMiddleware):
         path = request.url.path
         if (
             app.storage.user.get("authenticated", False)
-            or last_activity_seconds <= 5 * 60              # 5 minutes of inactivity sends you to the login page
+            and last_activity_seconds <= 5 * 60              # 5 minutes of inactivity sends you to the login page
             or path in unrestricted_page_routes
             or path.startswith("/_nicegui")
         ):
-            app.storage.user.update(last_activity_time=datetime.now().isoformat())
+            record_user_activity()
             return await call_next(request)
         return RedirectResponse(f"/login?redirect_to={path}")
 
@@ -168,5 +170,5 @@ ui.run(
     favicon="/favicon.ico",
     title="Study Coordinator",
     reload=True,
-    storage_secret=os.environ.get("STORAGE_SECRET", "default_secret"),
+    storage_secret=str(uuid.uuid4()),
 )

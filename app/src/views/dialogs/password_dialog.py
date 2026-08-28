@@ -8,10 +8,11 @@ from src.views.view import View
 class PasswordDialog(View):
     def __init__(self, vm: UserViewModel):
         super().__init__(vm)
+        user_vm = vm
 
         # Ensure user_role has a default value if not set
-        if not self.vm.user_role:
-            self.vm.user_role = "User"
+        if not user_vm.user_role:
+            user_vm.user_role = "User"
 
         with ui.dialog() as dialog, ui.card().classes("w-120"):
             with ui.row().classes("w-full bg-gray-200 p-2"):
@@ -20,23 +21,23 @@ class PasswordDialog(View):
             ui.input(label="User Name") \
                 .classes("w-full") \
                 .props("disabled dense") \
-                .bind_value(self.vm, "user_name")
+                .bind_value(user_vm, "user_name")
 
             ui.select(label="Role", options=USER_ROLES) \
                 .classes("w-full") \
                 .props("disable dense") \
-                .bind_value(self.vm, "user_role") \
+                .bind_value(user_vm, "user_role") \
                 .set_enabled(False)  # Disable role selection in password dialog
 
             ui.input(label="Password", password=True, password_toggle_button=True) \
                 .classes("w-full") \
                 .props("dense") \
-                .bind_value(self.vm, "password_1")
+                .bind_value(user_vm, "password_1")
 
             ui.input(label="Confirm Password", password=True, password_toggle_button=True) \
                 .classes("w-full") \
                 .props("dense") \
-                .bind_value(self.vm, "password_2")
+                .bind_value(user_vm, "password_2")
 
             with ui.row():
                 ui.button("Save", on_click=self.save).props("dense")
