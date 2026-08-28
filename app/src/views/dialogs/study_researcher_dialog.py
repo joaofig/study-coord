@@ -6,9 +6,9 @@ from src.viewmodels.view_model import ViewModel
 from src.views.view import View
 
 
-def validate_researcher_number(value: str | None) -> str | None:
+def validate_researcher_name(value: str | None) -> str | None:
     if not value:
-        return "Researcher Number is required"
+        return "Researcher Name is required"
     return None
 
 
@@ -34,15 +34,15 @@ class StudyResearcherDialog(View):
 
             ui.select(
                 options=self.vm.get("researchers"),
-                label="Researcher Number",
-                validation=validate_researcher_number,
+                label="Researcher Name",
+                validation=validate_researcher_name,
             ).bind_value(self.vm, "researcher_id").on_value_change(
                 lambda: self.vm.call("load")
             ).classes("w-full").props("dense")
 
             selection = self.vm.get("selection")
-            ui.input(label="Name").props("readonly dense").classes("w-full").bind_value(
-                selection, "name"
+            ui.input(label="Number").props("readonly dense").classes("w-full").bind_value(
+                selection, "number"
             )
 
             ui.input(label="Phone").props("readonly dense").classes(

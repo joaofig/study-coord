@@ -132,7 +132,7 @@ class StudyResearcherViewModel(ViewModel):
     async def load_researchers(self):
         model = ResearcherModel()
         self.researcher_list = await model.list()
-        self.researchers = {sr.researcher_id: sr.number for sr in self.researcher_list}
+        self.researchers = {sr.researcher_id: sr.name for sr in self.researcher_list}
 
     async def validate(self) -> bool:
         self.validation = ""
