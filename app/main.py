@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 from fastapi import Request
 from fastapi.responses import RedirectResponse
 from nicegui import app, context, ui
+from nicegui.events import GenericEventArguments
+
 from src.dtos.user import UserDTO, hash_password
 from src.models.user import UserModel
 from src.tools.user import record_user_activity
@@ -140,6 +142,16 @@ def add_inactivity_timeout(timeout_seconds: float, on_timeout):
     app.storage.user.update(last_activity_time=datetime.now().isoformat())
 
 
+def on_pagehide(args: GenericEventArguments):
+    if not args.args["persisted"]:
+        logout()
+
+
+def add_pagehide_handler():
+    """Calls `on_pagehide` when the page is hidden."""
+    ui.on("pagehide", on_pagehide)
+
+
 def logout():
     app.storage.user.clear()
     ui.navigate.to("/login")
@@ -165,6 +177,7 @@ async def index():
     context.client.content.classes("p-0")
     ui.page_title("Study Coordinator")
     add_inactivity_timeout(300, logout)  # 5 minutes of inactivity
+    add_pagehide_handler()
     await main_view()
 
 
