@@ -34,7 +34,9 @@ class ResearcherViewModel(ViewModel):
     def __post_init__(self):
         super().__init__()
         self.subscribe(
-            "researcher", "researcher_selected", self._handle_researcher_selected
+            channel="researcher",
+            message="researcher_selected",
+            handler=self._handle_researcher_selected
         )
 
     def _field_changed(self, field_name: str):
