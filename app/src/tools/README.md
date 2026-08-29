@@ -20,7 +20,7 @@ This folder contains utility objects, helper functions, and architectural tools 
 
 ### Session & Utilities
 - **User & Session Helpers** (`user.py`): Utilities for managing NiceGUI user sessions (e.g., `logout`, `get_user_name`) and robust date/time conversion functions (`str_to_date`, `dict_to_datetime`) that handle parsing and default values.
-- **Singleton** (`singleton.py`): A class decorator that implements the Singleton pattern, ensuring a class has only one instance across the application.
+- **Singleton** (`../../../../nicemvvm/src/nicemvvm/tools/singleton.py`): A class decorator that implements the Singleton pattern, ensuring a class has only one instance across the application.
 
 ### Architectural Patterns
 - The tools in this directory promote a decoupled architecture, using **Singletons** for global services, the **Observer** pattern for state updates, and **Managed Tasks** for safe asynchronous execution.

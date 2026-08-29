@@ -1,6 +1,6 @@
 import asyncio
 
-from src.tools import singleton
+from nicemvvm.tools.singleton import singleton
 
 
 @singleton
