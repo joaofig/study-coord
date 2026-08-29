@@ -11,7 +11,7 @@ RUN apt-get -y update
 RUN apt-get -y install git
 
 COPY pyproject.toml .
-RUN uv sync --no-dev --no-sources;
+RUN uv sync --no-dev;
 
 WORKDIR /app
 
