@@ -6,7 +6,7 @@ from nicegui.observables import ObservableSet
 from src.dtos.study import StudyDTO
 from src.models.study import StudyModel
 from nicemvvm.tools.validation import is_date
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

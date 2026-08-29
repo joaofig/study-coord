@@ -7,7 +7,7 @@ from src.dtos.adverse_event import AdverseEventDTO
 from src.models.adverse_event import AdverseEventModel
 from src.models.patient import PatientModel
 from src.viewmodels.patient import PatientViewModel
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

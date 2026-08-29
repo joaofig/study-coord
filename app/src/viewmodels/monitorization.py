@@ -6,7 +6,7 @@ from src.dtos.monitorization import MonitorizationDTO
 from src.models.monitorization import MonitorizationModel
 from nicemvvm.tools.messenger import send_message
 from nicemvvm.tools.validation import is_date
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

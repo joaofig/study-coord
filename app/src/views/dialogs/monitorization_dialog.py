@@ -1,7 +1,7 @@
 from nicegui import ui
 from nicegui.elements.dialog import Dialog
 from nicemvvm.tools.user import is_user_readonly
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 from nicemvvm.views.view import View
 
 

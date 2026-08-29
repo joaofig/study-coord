@@ -16,6 +16,5 @@ from .study_researcher_list import (
 )
 from .user import UserViewModel as UserViewModel
 from .user_list import UserListViewModel as UserListViewModel
-from .view_model import ViewModel as ViewModel
 from .visit import VisitViewModel as VisitViewModel
 from .visit_list import VisitListViewModel as VisitListViewModel

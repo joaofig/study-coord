@@ -2,7 +2,7 @@ from typing import Any
 
 from src.models.study_researcher import StudyResearcherModel
 from nicemvvm.tools.observability import GridList
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 class StudyResearcherListViewModel(ViewModel):

@@ -1,7 +1,7 @@
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
-from src.viewmodels import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 from nicemvvm.views.view import View
 
 

@@ -9,7 +9,7 @@ from src.dtos.study import StudyDTO as Study
 from src.dtos.study import StudyRowDTO as StudyRow
 from src.viewmodels.study import StudyViewModel
 from src.viewmodels.study_list import StudyListViewModel
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 EXISTING_STUDY_ID = 7
 NEW_STUDY_ID = 23
@@ -259,7 +259,7 @@ async def test_study_list_reloads_after_study_saved() -> None:
 @pytest.mark.asyncio
 async def test_study_list_loads_selected_study_into_child_view_model() -> None:
     view_model = StudyListViewModel()
-    with patch("src.viewmodels.view_model.get_messenger") as mock_get_messenger:
+    with patch("nicemvvm.viewmodels.view_model.get_messenger") as mock_get_messenger:
         mock_messenger = AsyncMock()
         mock_get_messenger.return_value = mock_messenger
 

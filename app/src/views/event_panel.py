@@ -2,7 +2,7 @@ from nicegui import ui
 from nicemvvm.tools.excel import export_to_excel
 from nicemvvm.tools.user import is_user_readonly
 from src.viewmodels import AdverseEventViewModel
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs.adverse_event_dialog import AdverseEventDialog
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.event_grid import EventGrid

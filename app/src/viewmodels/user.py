@@ -5,7 +5,7 @@ from nicegui import binding
 from src.dtos.user import UserDTO, hash_password
 from src.models.user import UserModel
 from nicemvvm.tools.user import get_user_name
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

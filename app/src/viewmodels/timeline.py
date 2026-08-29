@@ -2,7 +2,7 @@ from typing import Any
 
 from src.models.timeline import TimelineModel
 from nicemvvm.tools.observability import GridList
-from src.viewmodels import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 class TimelineViewModel(ViewModel):

@@ -9,7 +9,7 @@ from src.models.visit import VisitModel
 from nicemvvm.tools.validation import is_date
 
 from .patient import PatientViewModel
-from .view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

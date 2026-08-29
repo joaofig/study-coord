@@ -12,7 +12,7 @@ from src.models.researcher import ResearcherModel
 from src.models.study_researcher import StudyResearcherModel
 
 from .researcher import ResearcherViewModel
-from .view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

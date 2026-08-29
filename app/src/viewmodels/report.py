@@ -2,7 +2,7 @@ from typing import Any
 
 from nicegui.observables import ObservableDict
 from src.repositories import ReportRepository
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 class ReportViewModel(ViewModel):

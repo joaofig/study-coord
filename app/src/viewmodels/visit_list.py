@@ -2,7 +2,7 @@ from typing import Any
 
 from src.models.visit import VisitModel
 from nicemvvm.tools.observability import GridList
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 class VisitListViewModel(ViewModel):

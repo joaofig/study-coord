@@ -2,7 +2,7 @@ from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 from src.viewmodels import StudyViewModel
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs.study_dialog import StudyDialog
 from nicemvvm.views.view import View
 

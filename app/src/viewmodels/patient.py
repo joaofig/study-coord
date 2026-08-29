@@ -7,7 +7,7 @@ from src.models.patient import PatientModel
 from nicemvvm.tools.messenger import send_message
 from nicemvvm.tools.user import dict_to_datetime
 from nicemvvm.tools.validation import is_date
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

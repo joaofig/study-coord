@@ -6,7 +6,7 @@ from src.viewmodels import (
 )
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
 from src.viewmodels.timeline import TimelineViewModel
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.monitorization_panel import StudyMonitorizationPanel
 from src.views.patient_detail_panel import PatientDetailPanel
 from src.views.patient_panel import StudyPatientPanel

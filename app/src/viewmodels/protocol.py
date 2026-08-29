@@ -6,7 +6,7 @@ from src.dtos.protocol import ProtocolDTO
 from src.models.protocol import ProtocolModel
 from nicemvvm.tools.messenger import send_message
 from nicemvvm.tools.validation import is_date
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

@@ -5,7 +5,7 @@ from nicegui import app, ui
 from nicemvvm.tools.excel import export_to_excel
 from nicemvvm.tools.user import is_user_readonly
 from src.viewmodels import PatientViewModel
-from src.viewmodels.view_model import ViewModel
+from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.patient_dialog import StudyPatientDialog
 from src.views.patient_grid import StudyPatientGrid
