@@ -9,7 +9,7 @@ dependencies = [
     "openpyxl>=3.1.5",
     "pandas>=3.0.3",
     "pandas-stubs~=3.0.3",
-    "pydantic[email,timezone]>=2.13.4",
+    "pydantic[email,timezone]==2.13.5",
     "pytest-asyncio>=1.4.0",
     "python-dateutil>=2.9.0.post0",
     "python-dotenv>=1.2.2",
@@ -18,7 +18,7 @@ dependencies = [
     "validators>=0.35.0",
     "xlsxwriter>=3.2.9",
     "psycopg[binary]>=3.2.4",
-    "nicemvvm @ git+https://github.com/joaofig/nicemvvm.git@main",
+    "nicemvvm@git+https://github.com/joaofig/nicemvvm",
 ]
 
 
@@ -36,5 +36,4 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 quote-style = "double"
 
 [tool.uv.sources]
-#nicemvvm = { git = "https://github.com/joaofig/nicemvvm.git", rev = "main" }
 nicemvvm = { path = "../nicemvvm", editable = true }
