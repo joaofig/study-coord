@@ -1,8 +1,9 @@
 from typing import LiteralString
 
 from psycopg import AsyncConnection, rows
+
+from nicemvvm.tools.singleton import singleton
 from src.repositories.postgres.client import get_postgres_client
-from nicemvvm.tools import singleton
 
 
 @singleton

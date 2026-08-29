@@ -18,7 +18,7 @@ dependencies = [
     "validators>=0.35.0",
     "xlsxwriter>=3.2.9",
     "psycopg[binary]>=3.2.4",
-    "nicemvvm",
+    "nicemvvm @ git+https://github.com/joaofig/nicemvvm.git@main",
 ]
 
 
@@ -36,4 +36,5 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 quote-style = "double"
 
 [tool.uv.sources]
-nicemvvm = { git = "https://github.com/joaofig/nicemvvm.git", rev = "main" }
+#nicemvvm = { git = "https://github.com/joaofig/nicemvvm.git", rev = "main" }
+nicemvvm = { path = "../nicemvvm", editable = true }

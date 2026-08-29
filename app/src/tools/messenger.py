@@ -1,6 +1,6 @@
 from collections.abc import Awaitable, Callable
 
-from nicemvvm.tools import singleton
+from nicemvvm.tools.singleton import singleton
 from src.tools.tasks import ManagedTasks
 
 
