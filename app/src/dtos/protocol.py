@@ -2,7 +2,7 @@ from datetime import date, datetime
 from typing import Self
 
 from src.dtos.base import BaseDTO
-from src.tools.user import dict_to_datetime, get_user_name
+from nicemvvm.tools.user import dict_to_datetime, get_user_name
 
 
 class ProtocolDTO(BaseDTO):

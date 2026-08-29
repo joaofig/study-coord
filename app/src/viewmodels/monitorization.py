@@ -4,8 +4,8 @@ from typing import Any
 from nicegui import binding
 from src.dtos.monitorization import MonitorizationDTO
 from src.models.monitorization import MonitorizationModel
-from src.tools.messenger import send_message
-from src.tools.validation import is_date
+from nicemvvm.tools.messenger import send_message
+from nicemvvm.tools.validation import is_date
 from src.viewmodels.view_model import ViewModel
 
 
@@ -66,13 +66,13 @@ class MonitorizationViewModel(ViewModel):
         self.comments = monitoring.get("comments", "")
 
         if "created_at" in monitoring:
-            from src.tools.user import dict_to_datetime
+            from nicemvvm.tools.user import dict_to_datetime
 
             self.created_at = dict_to_datetime(monitoring, "created_at")
         self.created_by = monitoring.get("created_by", "")
 
         if "updated_at" in monitoring:
-            from src.tools.user import dict_to_datetime
+            from nicemvvm.tools.user import dict_to_datetime
 
             self.updated_at = dict_to_datetime(monitoring, "updated_at")
         self.updated_by = monitoring.get("updated_by", "")

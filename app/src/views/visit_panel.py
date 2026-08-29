@@ -1,11 +1,11 @@
 from nicegui import ui
 from nicemvvm.tools.excel import export_to_excel
-from src.tools.user import is_user_readonly
+from nicemvvm.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
 from src.viewmodels.visit import VisitViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.visit_dialog import StudyVisitDialog
-from src.views.view import View
+from nicemvvm.views.view import View
 from src.views.visit_grid import StudyVisitGrid
 
 

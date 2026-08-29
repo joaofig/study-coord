@@ -1,7 +1,7 @@
 from nicegui import ui
-from src.tools.user import is_user_readonly
+from nicemvvm.tools.user import is_user_readonly
 from src.viewmodels.view_model import ViewModel
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 def validate_type(value: str) -> str | None:

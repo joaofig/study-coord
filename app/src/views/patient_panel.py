@@ -3,13 +3,13 @@ from datetime import datetime
 
 from nicegui import app, ui
 from nicemvvm.tools.excel import export_to_excel
-from src.tools.user import is_user_readonly
+from nicemvvm.tools.user import is_user_readonly
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.patient_dialog import StudyPatientDialog
 from src.views.patient_grid import StudyPatientGrid
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class StudyPatientPanel(View):

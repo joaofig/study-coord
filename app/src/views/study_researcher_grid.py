@@ -4,7 +4,7 @@ from nicegui.observables import ObservableList
 from src.viewmodels.study_researcher import StudyResearcherViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.study_researcher_dialog import StudyResearcherDialog
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class StudyResearcherGrid(View):

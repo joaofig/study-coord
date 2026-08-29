@@ -36,19 +36,20 @@ All grid components should inherit from `View` and be backed by a `ViewModel`.
 from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
-from src.views.view import View
+from nicemvvm.views.view import View
+
 
 class EntityGrid(View):
     def __init__(self, vm):
         super().__init__(vm)
         self.data = self.vm.get("items")
-        
+
         # Observe changes if using ObservableList
         if isinstance(self.data, ObservableList):
             self.data.on_change(self._update_grid)
-            
+
         self.grid: AgGrid = self._build_grid()
-        
+
         # Subscribe to save events to refresh data
         self.subscribe("entity", "saved", self._update_grid)
 
@@ -73,16 +74,16 @@ class EntityGrid(View):
             {"headerName": "Name", "field": "name", "sortable": True},
             # ... other columns
         ]
-        
+
         grid_def = {
             "columnDefs": columns,
             "rowData": self.data,
             "rowSelection": {"mode": "singleRow"},
             ":getRowId": "(params) => String(params.data.id)",
         }
-        
+
         ui.on("entity-row-edit", self._on_edit)
-        
+
         grid = ui.aggrid(grid_def, theme="balham").classes("w-full h-full")
         grid.on("selectionChanged", lambda e: self._on_selection_changed(e))
         return grid
@@ -91,7 +92,7 @@ class EntityGrid(View):
         # Update rowData and trigger grid update
         self.grid.options["rowData"] = self.vm.get("items")
         self.grid.update()
-        
+
         # Alternative for partial updates:
         # await self.grid.run_grid_method("setGridOption", "rowData", self.vm.get("items"))
 

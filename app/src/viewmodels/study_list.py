@@ -1,7 +1,7 @@
 from typing import Any
 
 from src.models.study import StudyModel
-from src.tools.observability import GridList
+from nicemvvm.tools.observability import GridList
 from src.viewmodels.view_model import ViewModel
 
 

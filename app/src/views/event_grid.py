@@ -4,7 +4,7 @@ from nicegui.observables import ObservableList
 from src.viewmodels import AdverseEventViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.adverse_event_dialog import AdverseEventDialog
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class EventGrid(View):

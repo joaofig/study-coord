@@ -10,7 +10,7 @@ from nicegui.events import GenericEventArguments
 
 from src.dtos.user import UserDTO, hash_password
 from src.models.user import UserModel
-from src.tools.user import record_user_activity
+from nicemvvm.tools.user import record_user_activity
 from src.viewmodels import UserViewModel
 from src.views.dialogs.password_dialog import PasswordDialog
 from src.views.main import main_view

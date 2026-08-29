@@ -3,7 +3,7 @@ from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 from src.viewmodels import ResearcherViewModel
 from src.viewmodels.view_model import ViewModel
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class ResearcherGrid(View):

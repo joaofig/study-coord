@@ -4,7 +4,7 @@ from nicegui.observables import ObservableList
 from src.viewmodels.monitorization import MonitorizationViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.monitorization_dialog import StudyMonitorizationDialog
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class StudyMonitorizationGrid(View):

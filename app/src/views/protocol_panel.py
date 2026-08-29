@@ -1,12 +1,12 @@
 from nicegui import ui
 from nicemvvm.tools.excel import export_to_excel
-from src.tools.user import is_user_readonly
+from nicemvvm.tools.user import is_user_readonly
 from src.viewmodels import ProtocolViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.protocol_dialog import ProtocolDialog
 from src.views.protocol_grid import ProtocolGrid
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class ProtocolPanel(View):

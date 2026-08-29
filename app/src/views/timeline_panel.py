@@ -2,7 +2,7 @@ from nicegui import ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 from src.viewmodels import ViewModel
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class TimelinePanel(View):

@@ -4,8 +4,8 @@ from typing import Any
 from nicegui import binding
 from src.dtos.protocol import ProtocolDTO
 from src.models.protocol import ProtocolModel
-from src.tools.messenger import send_message
-from src.tools.validation import is_date
+from nicemvvm.tools.messenger import send_message
+from nicemvvm.tools.validation import is_date
 from src.viewmodels.view_model import ViewModel
 
 

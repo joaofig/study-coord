@@ -13,7 +13,7 @@ from src.views.patient_panel import StudyPatientPanel
 from src.views.protocol_panel import ProtocolPanel
 from src.views.study_researcher_panel import StudyResearcherPanel
 from src.views.timeline_panel import TimelinePanel
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class StudyPanel(View):

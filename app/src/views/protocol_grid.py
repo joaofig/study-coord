@@ -6,7 +6,7 @@ from nicegui.observables import ObservableList
 from src.viewmodels import ProtocolViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.protocol_dialog import ProtocolDialog
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class ProtocolGrid(View):

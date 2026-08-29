@@ -4,7 +4,7 @@ from nicegui import binding
 from psycopg import AsyncConnection, Column
 from psycopg.errors import Error
 from src.repositories.postgres.base import PostgresCentral
-from src.tools.observability import GridList
+from nicemvvm.tools.observability import GridList
 from src.viewmodels import ViewModel
 
 

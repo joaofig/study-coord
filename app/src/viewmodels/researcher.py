@@ -5,7 +5,7 @@ from nicegui import binding
 from nicegui.observables import ObservableSet
 from src.dtos.researcher import ResearcherDTO
 from src.models.researcher import ResearcherModel
-from src.tools.validation import is_email
+from nicemvvm.tools.validation import is_email
 from src.viewmodels.view_model import ViewModel
 
 

@@ -7,7 +7,7 @@ from nicegui.observables import ObservableList
 from src.viewmodels import PatientViewModel
 from src.viewmodels.view_model import ViewModel
 from src.views.dialogs.patient_dialog import StudyPatientDialog
-from src.views.view import View
+from nicemvvm.views.view import View
 
 
 class StudyPatientGrid(View):

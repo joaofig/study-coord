@@ -1,12 +1,12 @@
 from nicegui import app, ui
 from src.repositories import UserRepository
-from src.tools.user import logout
+from nicemvvm.tools.user import logout
 from src.viewmodels import UserViewModel
 from src.views.admin_panel import AdminPanel
 
 
 async def on_tab_change(event):
-    from src.tools.messenger import get_messenger
+    from nicemvvm.tools.messenger import get_messenger
 
     match event.value:
         case "Reports":
