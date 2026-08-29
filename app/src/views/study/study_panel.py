@@ -7,11 +7,11 @@ from src.viewmodels import (
 from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
 from src.viewmodels.timeline import TimelineViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
-from src.views.monitorization_panel import StudyMonitorizationPanel
-from src.views.patient_detail_panel import PatientDetailPanel
-from src.views.patient_panel import StudyPatientPanel
-from src.views.protocol_panel import ProtocolPanel
-from src.views.study_researcher_panel import StudyResearcherPanel
+from src.views.study.monitorization_panel import StudyMonitorizationPanel
+from src.views.study.patient_detail_panel import PatientDetailPanel
+from src.views.study.patient_panel import StudyPatientPanel
+from src.views.study.protocol_panel import ProtocolPanel
+from src.views.study.study_researcher_panel import StudyResearcherPanel
 from src.views.timeline_panel import TimelinePanel
 from nicemvvm.views.view import View
 

@@ -5,7 +5,7 @@ from src.viewmodels import UserViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs import UserDialog
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.views.user_grid import UserGrid
+from src.views.admin.user_grid import UserGrid
 from nicemvvm.views.view import View
 
 

@@ -2,7 +2,7 @@ from nicegui import app, ui
 from src.repositories import UserRepository
 from nicemvvm.tools.user import logout
 from src.viewmodels import UserViewModel
-from src.views.admin_panel import AdminPanel
+from src.views.admin.admin_panel import AdminPanel
 
 
 async def on_tab_change(event):
@@ -16,17 +16,16 @@ async def on_tab_change(event):
 
 async def study_view():
     from src.viewmodels import StudyListViewModel
-    from src.views.study_view import StudyView
+    from src.views.study.study_view import StudyView
 
     study_vm = StudyListViewModel()
     await study_vm.call("load")
-    view = StudyView(study_vm)
-    view.show()
+    StudyView(study_vm)
 
 
 async def researcher_view():
     from src.viewmodels import ResearcherListViewModel
-    from src.views.researcher_view import ResearcherView
+    from src.views.researcher.researcher_view import ResearcherView
 
     researcher_vm = ResearcherListViewModel()
     await researcher_vm.call("load")
@@ -43,7 +42,7 @@ async def report_view():
 
 
 async def settings_view(user_id: int):
-    from src.views.settings_view import SettingsView
+    from src.views.settings.settings_view import SettingsView
 
     vm = UserViewModel()
     repo = UserRepository()
@@ -56,7 +55,7 @@ async def settings_view(user_id: int):
 
 async def admin_view():
     from src.viewmodels import UserListViewModel
-    from src.views.user_view import UserView
+    from src.views.admin.user_view import UserView
 
     vm = UserListViewModel()
     UserView(vm)

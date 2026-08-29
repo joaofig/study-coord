@@ -5,7 +5,7 @@ from src.viewmodels import ResearcherViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.researcher_dialog import ResearcherDialog
-from src.views.researcher_grid import ResearcherGrid
+from src.views.researcher.researcher_grid import ResearcherGrid
 from nicemvvm.views.view import View
 
 

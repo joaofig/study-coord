@@ -5,7 +5,7 @@ from src.viewmodels import AdverseEventViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs.adverse_event_dialog import AdverseEventDialog
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
-from src.views.event_grid import EventGrid
+from src.views.study.event_grid import EventGrid
 from nicemvvm.views.view import View
 
 

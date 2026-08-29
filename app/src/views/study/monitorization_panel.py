@@ -5,7 +5,7 @@ from src.viewmodels.monitorization import MonitorizationViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.monitorization_dialog import StudyMonitorizationDialog
-from src.views.monitorization_grid import StudyMonitorizationGrid
+from src.views.study.monitorization_grid import StudyMonitorizationGrid
 from nicemvvm.views.view import View
 
 

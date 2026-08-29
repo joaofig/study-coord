@@ -5,7 +5,7 @@ from src.viewmodels import ProtocolViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.protocol_dialog import ProtocolDialog
-from src.views.protocol_grid import ProtocolGrid
+from src.views.study.protocol_grid import ProtocolGrid
 from nicemvvm.views.view import View
 
 

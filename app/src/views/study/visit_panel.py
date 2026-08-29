@@ -6,7 +6,7 @@ from src.viewmodels.visit import VisitViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.visit_dialog import StudyVisitDialog
 from nicemvvm.views.view import View
-from src.views.visit_grid import StudyVisitGrid
+from src.views.study.visit_grid import StudyVisitGrid
 
 
 class StudyVisitPanel(View):

@@ -8,7 +8,7 @@ from src.viewmodels import PatientViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.patient_dialog import StudyPatientDialog
-from src.views.patient_grid import StudyPatientGrid
+from src.views.study.patient_grid import StudyPatientGrid
 from nicemvvm.views.view import View
 
 
