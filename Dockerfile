@@ -10,13 +10,12 @@ ENV DATABASE=postgres
 RUN apt-get -y update
 RUN apt-get -y install git
 
-COPY pyproject.toml .
-RUN uv sync --no-dev;
-
 WORKDIR /app
 
 COPY . .
 
+RUN uv sync --no-dev --no-sources;
+
 EXPOSE 8080
 
-CMD ["uv", "run", "python", "app/main.py"]
+CMD ["uv", "run", "--no-sources", "python", "app/main.py"]
