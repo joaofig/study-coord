@@ -7,9 +7,11 @@ ENV UV_LINK_MODE=copy
 ENV PORT=8080
 ENV DATABASE=postgres
 
+RUN apt-get -y update
+RUN apt-get -y install git
+
 COPY pyproject.toml .
 RUN uv sync --no-dev;
-
 
 WORKDIR /app
 
