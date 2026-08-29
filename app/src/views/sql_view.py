@@ -1,6 +1,6 @@
 from nicegui import ui
 from nicegui.binding import bind_from
-from src.tools.excel import export_to_excel
+from nicemvvm.tools.excel import export_to_excel
 from src.viewmodels import ViewModel
 from src.views.sql_grid import SQLGrid
 from src.views.view import View

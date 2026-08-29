@@ -1,5 +1,5 @@
 from nicegui import ui
-from src.tools.excel import export_to_excel
+from nicemvvm.tools.excel import export_to_excel
 from src.tools.messenger import get_messenger
 from src.tools.user import is_user_readonly
 from src.viewmodels.study_researcher import StudyResearcherViewModel

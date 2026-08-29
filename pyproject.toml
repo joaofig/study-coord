@@ -18,7 +18,9 @@ dependencies = [
     "validators>=0.35.0",
     "xlsxwriter>=3.2.9",
     "psycopg[binary]>=3.2.4",
+    "nicemvvm",
 ]
+
 
 [tool.pytest.ini_options]
 python_files = ["test_*.py", "*_test.py", "*_tests.py"]
@@ -32,3 +34,6 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.ruff.format]
 quote-style = "double"
+
+[tool.uv.sources]
+nicemvvm = { path = "../nicemvvm", editable = true }

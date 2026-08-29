@@ -1,5 +1,5 @@
 from nicegui import ui
-from src.tools.excel import export_to_excel
+from nicemvvm.tools.excel import export_to_excel
 from src.tools.user import get_user_name, is_user_readonly
 from src.viewmodels import ResearcherViewModel
 from src.viewmodels.view_model import ViewModel
