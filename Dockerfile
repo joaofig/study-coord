@@ -8,17 +8,8 @@ ENV PORT=8080
 ENV DATABASE=postgres
 
 COPY pyproject.toml .
+RUN uv sync --no-dev;
 
-
-RUN if [ -f uv.lock ]; then \
-      uv sync --frozen --no-dev; \
-    elif [ -f pyproject.toml ]; then \
-      uv sync --no-dev; \
-    elif [ -f requirements.txt ]; then \
-      uv venv && uv pip install -r requirements.txt; \
-    else \
-      echo "No pyproject.toml, uv.lock, or requirements.txt found" && exit 1; \
-    fi
 
 WORKDIR /app
 

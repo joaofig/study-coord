@@ -36,4 +36,4 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 quote-style = "double"
 
 [tool.uv.sources]
-nicemvvm = { path = "../nicemvvm", editable = true }
+nicemvvm = { git = "https://github.com/joaofig/nicemvvm.git", rev = "main" }
