@@ -6,11 +6,10 @@ from dotenv import load_dotenv
 from fastapi import Request
 from fastapi.responses import RedirectResponse
 from nicegui import app, context, ui
-from nicegui.events import GenericEventArguments
 
 from src.dtos.user import UserDTO, hash_password
 from src.models.user import UserModel
-from nicemvvm.tools.user import record_user_activity
+from nicemvvm.tools.user import record_user_activity, add_unload_handler, add_inactivity_timeout, logout
 from src.viewmodels import UserViewModel
 from src.views.dialogs.password_dialog import PasswordDialog
 from src.views.main import main_view
@@ -122,49 +121,6 @@ async def login(redirect_to: str = "/") -> RedirectResponse | None:
     return None
 
 
-def add_inactivity_timeout(timeout_seconds: float, on_timeout):
-    """Redirects/logs out after `timeout_seconds` of no user activity."""
-    ui.add_body_html(f"""
-    <script>
-    (function() {{
-        let timer;
-        function reset() {{
-            clearTimeout(timer);
-            timer = setTimeout(() => emitEvent('inactivity_timeout'), {timeout_seconds * 1000});
-        }}
-        ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt =>
-            document.addEventListener(evt, reset, true));
-        reset();
-    }})();
-    </script>
-    """)
-    ui.on("inactivity_timeout", on_timeout)
-    app.storage.user.update(last_activity_time=datetime.now().isoformat())
-
-
-def on_page_unload(args: GenericEventArguments):
-    app.storage.user.clear()
-
-
-def add_unload_handler():
-    """Calls `on_pagehide` when the page is hidden."""
-    ui.add_body_html("""
-    <script>
-    (function() {
-        window.addEventListener('unload', (event) => {
-            emitEvent('page_unload', event);
-        });
-    })();
-    </script>
-    """)
-    ui.on("page_unload", on_page_unload)
-
-
-def logout():
-    app.storage.user.clear()
-    ui.navigate.to("/login")
-
-
 @ui.page("/")
 async def index():
     ui.add_css("""
@@ -195,7 +151,6 @@ app.add_static_file(
     ),
     url_path="/favicon.ico",
 )
-load_dotenv()
 ui.run(
     host="0.0.0.0",
     port=int(os.environ.get("PORT", 8080)),

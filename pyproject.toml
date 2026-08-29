@@ -19,6 +19,7 @@ dependencies = [
     "xlsxwriter>=3.2.9",
     "psycopg[binary]>=3.2.4",
     "nicemvvm@git+https://github.com/joaofig/nicemvvm.git",
+    "fastapi>=0.141.1",
 ]
 
 
