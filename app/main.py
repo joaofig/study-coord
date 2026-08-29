@@ -142,14 +142,22 @@ def add_inactivity_timeout(timeout_seconds: float, on_timeout):
     app.storage.user.update(last_activity_time=datetime.now().isoformat())
 
 
-def on_pagehide(args: GenericEventArguments):
-    if not args.args["persisted"]:
-        logout()
+def on_page_unload(args: GenericEventArguments):
+    app.storage.user.clear()
 
 
-def add_pagehide_handler():
+def add_unload_handler():
     """Calls `on_pagehide` when the page is hidden."""
-    ui.on("pagehide", on_pagehide)
+    ui.add_body_html("""
+    <script>
+    (function() {
+        window.addEventListener('unload', (event) => {
+            emitEvent('page_unload', event);
+        });
+    })();
+    </script>
+    """)
+    ui.on("page_unload", on_page_unload)
 
 
 def logout():
@@ -177,7 +185,7 @@ async def index():
     context.client.content.classes("p-0")
     ui.page_title("Study Coordinator")
     add_inactivity_timeout(300, logout)  # 5 minutes of inactivity
-    add_pagehide_handler()
+    add_unload_handler()
     await main_view()
 
 
