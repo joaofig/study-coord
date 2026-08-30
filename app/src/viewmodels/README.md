@@ -26,8 +26,8 @@ This folder contains the ViewModel objects that form the core of the application
 
 ## Staff & Role Management
 - **Researcher Directory**:
-    - `ResearcherViewModel` (`researcher.py`): Manages global profiles and contact information for clinical staff.
-    - `ResearcherListViewModel` (`researcher_list.py`): Displays the directory of all researchers in the system.
+    - `ResearcherViewModel` (`researcher/researcher.py`): Manages global profiles and contact information for clinical staff.
+    - `ResearcherListViewModel` (`researcher/researcher_list.py`): Displays the directory of all researchers in the system.
 - **Study Assignments**:
     - `StudyResearcherViewModel` (`study_researcher.py`): Manages the specific assignment of a researcher to a study, including role definitions.
     - `StudyResearcherListViewModel` (`study_researcher_list.py`): Shows the team of researchers assigned to a particular study.

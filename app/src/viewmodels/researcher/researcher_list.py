@@ -26,9 +26,12 @@ class ResearcherListViewModel(ViewModel):
             case "study_saved":
                 await self._load()
 
-            case "researcher_selected":
-                if "researcher_id" in kwargs:
-                    self.selected_id = kwargs["researcher_id"]
+            case "selected":
+                self.selected_id = kwargs.get("researcher_id", 0)
+                if self.selected_id:
+                    await self.broadcast(
+                        "researcher", message="selected", researcher_id=self.selected_id
+                    )
 
             case "delete":
                 researcher_id = kwargs.get("researcher_id", 0)

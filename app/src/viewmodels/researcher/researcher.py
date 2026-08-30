@@ -44,7 +44,7 @@ class ResearcherViewModel(ViewModel):
         self.change_set.add(field_name)
 
     async def _handle_researcher_selected(self, **kwargs):
-        researcher_row = kwargs.get("researcher")
+        researcher_row = kwargs.get("")
         if researcher_row:
             researcher_id = researcher_row.get("researcher_id")
             if researcher_id:
@@ -55,7 +55,7 @@ class ResearcherViewModel(ViewModel):
     async def _on_call(self, msg: str, **kwargs) -> Any:
         match msg:
             case "copy":
-                self.copy(kwargs.get("researcher"))
+                self.copy(kwargs.get(""))
 
             case "save":
                 await self.save()

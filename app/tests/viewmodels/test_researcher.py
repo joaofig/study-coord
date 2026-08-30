@@ -3,7 +3,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from src.dtos.researcher import ResearcherDTO
 from src.viewmodels.researcher import ResearcherViewModel
-from src.viewmodels.researcher_list import ResearcherListViewModel
+from src.viewmodels.researcher.researcher_list import ResearcherListViewModel
 
 
 @pytest.mark.asyncio

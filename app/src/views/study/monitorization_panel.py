@@ -60,7 +60,6 @@ class StudyMonitorizationPanel(View):
             self.study_id = kwargs["study_id"]
 
     async def _new_monitoring_dialog(self):
-
         monitoring_vm = MonitorizationViewModel()
 
         monitoring_vm.study_id = self.study_id

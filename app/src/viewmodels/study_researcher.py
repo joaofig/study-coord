@@ -11,7 +11,7 @@ from src.dtos.researcher import (
 from src.models.researcher import ResearcherModel
 from src.models.study_researcher import StudyResearcherModel
 
-from .researcher import ResearcherViewModel
+from .researcher.researcher import ResearcherViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 
 

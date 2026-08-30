@@ -6,8 +6,8 @@ from .patient import PatientViewModel as PatientViewModel
 from .patient_list import PatientListViewModel as PatientListViewModel
 from .protocol import ProtocolViewModel as ProtocolViewModel
 from .protocol_list import ProtocolListViewModel as ProtocolListViewModel
-from .researcher import ResearcherViewModel as ResearcherViewModel
-from .researcher_list import ResearcherListViewModel as ResearcherListViewModel
+from .researcher.researcher import ResearcherViewModel as ResearcherViewModel
+from src.viewmodels.researcher.researcher_list import ResearcherListViewModel as ResearcherListViewModel
 from .study import StudyViewModel as StudyViewModel
 from .study_list import StudyListViewModel as StudyListViewModel
 from .study_researcher import StudyResearcherViewModel as StudyResearcherViewModel

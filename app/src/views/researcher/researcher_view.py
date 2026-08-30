@@ -3,44 +3,54 @@ from nicemvvm.tools.excel import export_to_excel
 from nicemvvm.tools.user import get_user_name, is_user_readonly
 from src.viewmodels import ResearcherViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.viewmodels.researcher.researcher_study_list import ResearcherStudyListViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.researcher_dialog import ResearcherDialog
 from src.views.researcher.researcher_grid import ResearcherGrid
 from nicemvvm.views.view import View
+from src.views.researcher.researcher_study_panel import ResearcherStudyPanel
+from src.views.researcher.researcher_study_grid import ResearcherStudyGrid
 
 
 class ResearcherView(View):
     def __init__(self, vm: ViewModel):
         super().__init__(vm)
 
-        with ui.row().classes("w-full h-full"):
-            with ui.column().classes("h-full flex-none"):
-                with (
-                    ui.button(icon="add", on_click=self._show_dialog)
-                    .classes("text-xs")
-                    .props("padding=xs")
-                    .set_enabled(not is_user_readonly())
-                ):
-                    ui.tooltip("Add Researcher")
+        with ui.splitter(horizontal=True, value=35) \
+                .classes("w-full h-full") as splitter:
+            with splitter.before, ui.row().classes("w-full h-full"):
 
-                with (
-                    ui.button(icon="delete", on_click=self._on_delete_researcher)
-                    .bind_enabled(self.vm, "selected_id")
-                    .classes("text-xs")
-                    .props("padding=xs color=red")
-                ):
-                    ui.tooltip("Delete Researcher")
+                with ui.row().classes("w-full h-full"):
+                    with ui.column().classes("h-full flex-none"):
+                        with (
+                            ui.button(icon="add", on_click=self._show_dialog)
+                            .classes("text-xs")
+                            .props("padding=xs")
+                            .set_enabled(not is_user_readonly())
+                        ):
+                            ui.tooltip("Add Researcher")
 
-                with (
-                    ui.button(icon="table_view", on_click=self._on_export_to_excel)
-                    .classes("text-xs")
-                    .props("padding=xs")
-                    .set_enabled(not is_user_readonly())
-                ):
-                    ui.tooltip("Export to Excel")
+                        with (
+                            ui.button(icon="delete", on_click=self._on_delete_researcher)
+                            .bind_enabled(self.vm, "selected_id")
+                            .classes("text-xs")
+                            .props("padding=xs color=red")
+                        ):
+                            ui.tooltip("Delete Researcher")
 
-            with ui.column().classes("h-full flex-1"):
-                ResearcherGrid(vm)
+                        with (
+                            ui.button(icon="table_view", on_click=self._on_export_to_excel)
+                            .classes("text-xs")
+                            .props("padding=xs")
+                            .set_enabled(not is_user_readonly())
+                        ):
+                            ui.tooltip("Export to Excel")
+
+                    with ui.column().classes("h-full flex-1"):
+                        ResearcherGrid(vm)
+
+            with splitter.after:
+                ResearcherStudyPanel(ResearcherStudyListViewModel())
 
     async def _on_delete_researcher(self):
         if not is_user_readonly():
