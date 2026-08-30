@@ -2,8 +2,8 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 from src.dtos.protocol import ProtocolDTO as Protocol
-from src.viewmodels.protocol import ProtocolViewModel
-from src.viewmodels.protocol_list import ProtocolListViewModel
+from src.viewmodels.study.protocol import ProtocolViewModel
+from src.viewmodels.study.protocol_list import ProtocolListViewModel
 
 
 @pytest.mark.asyncio

@@ -8,7 +8,7 @@ from nicegui import ui
 from src.dtos.study import StudyDTO as Study
 from src.dtos.study import StudyRowDTO as StudyRow
 from src.viewmodels.study import StudyViewModel
-from src.viewmodels.study_list import StudyListViewModel
+from src.viewmodels.study.study_list import StudyListViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 
 EXISTING_STUDY_ID = 7

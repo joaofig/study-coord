@@ -1,7 +1,7 @@
 from nicegui import app, ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
-from src.viewmodels.monitorization import MonitorizationViewModel
+from src.viewmodels.study.monitorization import MonitorizationViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.dialogs.monitorization_dialog import StudyMonitorizationDialog
 from nicemvvm.views.view import View

@@ -4,7 +4,7 @@ from src.viewmodels import (
     PatientListViewModel,
     ProtocolListViewModel,
 )
-from src.viewmodels.study_researcher_list import StudyResearcherListViewModel
+from src.viewmodels.study.study_researcher_list import StudyResearcherListViewModel
 from src.viewmodels.timeline import TimelineViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.study.monitorization_panel import StudyMonitorizationPanel

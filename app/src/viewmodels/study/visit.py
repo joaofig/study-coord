@@ -8,7 +8,7 @@ from src.models.patient import PatientModel
 from src.models.visit import VisitModel
 from nicemvvm.tools.validation import is_date
 
-from .patient import PatientViewModel
+from src.viewmodels.study.patient import PatientViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
 
 

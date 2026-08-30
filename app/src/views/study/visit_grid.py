@@ -4,7 +4,7 @@ from nicegui import app, ui
 from nicegui.elements.aggrid import AgGrid
 from nicegui.observables import ObservableList
 from nicemvvm.viewmodels.view_model import ViewModel
-from src.viewmodels.visit import VisitViewModel
+from src.viewmodels.study.visit import VisitViewModel
 from src.views.dialogs.visit_dialog import StudyVisitDialog
 from nicemvvm.views.view import View
 

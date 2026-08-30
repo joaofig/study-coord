@@ -2,8 +2,8 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 from src.dtos.monitorization import MonitorizationDTO
-from src.viewmodels.monitorization import MonitorizationViewModel
-from src.viewmodels.monitorization_list import MonitoringListViewModel
+from src.viewmodels.study.monitorization import MonitorizationViewModel
+from src.viewmodels.study.monitorization_list import MonitoringListViewModel
 
 
 @pytest.mark.asyncio

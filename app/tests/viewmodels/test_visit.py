@@ -5,8 +5,8 @@ import pytest
 from src.dtos.patient import PatientDTO
 from src.dtos.visit import VisitDTO
 from src.models.patient import PatientModel
-from src.viewmodels.visit import VisitViewModel
-from src.viewmodels.visit_list import VisitListViewModel
+from src.viewmodels.study.visit import VisitViewModel
+from src.viewmodels.study.visit_list import VisitListViewModel
 
 
 @pytest.mark.asyncio

@@ -2,8 +2,8 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 from src.dtos.user import UserDTO
-from src.viewmodels.user import UserViewModel
-from src.viewmodels.user_list import UserListViewModel
+from src.viewmodels.admin.user import UserViewModel
+from src.viewmodels.admin.user_list import UserListViewModel
 
 
 @pytest.mark.asyncio

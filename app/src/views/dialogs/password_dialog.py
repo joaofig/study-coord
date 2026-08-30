@@ -1,6 +1,6 @@
 from nicegui import ui
 from src.dtos.user import USER_ROLES
-from src.viewmodels.user import UserViewModel
+from src.viewmodels.admin.user import UserViewModel
 from nicemvvm.views.view import View
 
 

@@ -1,7 +1,7 @@
 from nicegui import ui
 from nicemvvm.tools.tasks import ManagedTasks
 from src.viewmodels import UserListViewModel
-from src.viewmodels.sql import SQLViewModel
+from src.viewmodels.admin.sql import SQLViewModel
 from src.views.admin.sql_view import SQLView
 from src.views.admin.user_view import UserView
 

@@ -2,8 +2,8 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 from src.dtos.patient import PatientDTO
-from src.viewmodels.patient import PatientViewModel
-from src.viewmodels.patient_list import PatientListViewModel
+from src.viewmodels.study.patient import PatientViewModel
+from src.viewmodels.study.patient_list import PatientListViewModel
 
 
 @pytest.mark.asyncio
