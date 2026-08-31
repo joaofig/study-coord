@@ -88,7 +88,23 @@ class StudyRepository(PostgresRepository):
         return await self.insert_or_update(insert, update, study.to_dict())
 
     async def delete(self, study_id: int) -> None:
-        sql: LiteralString = """
-        DELETE FROM study where study_id=%s
-        """
+        sql = "DELETE FROM visit WHERE study_id=%s"
+        await self.execute_query(sql, (study_id,))
+
+        sql = "DELETE FROM adverse_event WHERE study_id=%s"
+        await self.execute_query(sql, (study_id,))
+
+        sql = "DELETE FROM protocol WHERE study_id=%s"
+        await self.execute_query(sql, (study_id,))
+
+        sql = "DELETE FROM monitoring WHERE study_id=%s"
+        await self.execute_query(sql, (study_id,))
+
+        sql = "DELETE FROM patient WHERE study_id=%s"
+        await self.execute_query(sql, (study_id,))
+
+        sql = "DELETE FROM study_researcher WHERE study_id=%s"
+        await self.execute_query(sql, (study_id,))
+
+        sql = "DELETE FROM study WHERE study_id=%s"
         await self.execute_query(sql, (study_id,))

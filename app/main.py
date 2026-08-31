@@ -147,7 +147,7 @@ async def index():
 
 app.add_static_file(
     local_file=os.path.join(
-        os.path.dirname(__file__), "images", "science_24dp_1F1F1F.png"
+        str(os.path.dirname(__file__)), "images", "science_24dp_1F1F1F.png"
     ),
     url_path="/favicon.ico",
 )

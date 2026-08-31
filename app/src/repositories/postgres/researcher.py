@@ -37,6 +37,9 @@ class ResearcherRepository(PostgresRepository):
         return await self.insert_or_update(insert, update, researcher.to_dict())
 
     async def delete(self, researcher_id: int):
+        sql = "DELETE FROM study_researcher WHERE researcher_id=%s"
+        await self.execute_query(sql, (researcher_id,))
+
         sql = "DELETE FROM researcher WHERE researcher_id=%s"
         await self.execute_query(sql, (researcher_id,))
 
