@@ -23,14 +23,13 @@ class ResearcherListViewModel(ViewModel):
             case "load":
                 await self._load()
 
-            case "study_saved":
-                await self._load()
-
-            case "selected":
+            case "select":
                 self.selected_id = kwargs.get("researcher_id", 0)
                 if self.selected_id:
                     await self.broadcast(
-                        "researcher", message="selected", researcher_id=self.selected_id
+                        channel="researcher",
+                        message="selected",
+                        researcher_id=self.selected_id
                     )
 
             case "delete":
@@ -39,6 +38,8 @@ class ResearcherListViewModel(ViewModel):
                     await self.model.delete(researcher_id=researcher_id)
                     self.researchers.delete("researcher_id", researcher_id)
                     await self.broadcast(
-                        "researcher", "deleted", researcher_id=researcher_id
+                        channel="researcher",
+                        message="deleted",
+                        researcher_id=researcher_id
                     )
         return None

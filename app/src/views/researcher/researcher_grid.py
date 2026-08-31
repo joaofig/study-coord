@@ -128,7 +128,7 @@ class ResearcherGrid(View):
         if row:
             # Notify other components that a researcher has been selected
             await self.vm.call(
-                "selected",
+                msg="select",
                 researcher=row,
                 researcher_id=row["researcher_id"],
             )
