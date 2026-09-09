@@ -25,3 +25,6 @@ docker-run:
 
 prune-docker:
 	docker system prune --all --force --volumes
+
+lint-imports:
+	lint-imports --no-logo

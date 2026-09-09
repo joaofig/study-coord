@@ -39,3 +39,22 @@ quote-style = "double"
 [tool.uv.sources]
 nicemvvm = { path = "../nicemvvm", editable = true }
 
+[dependency-groups]
+dev = [
+    "import-linter[ui]>=2.14",
+]
+
+[tool.importlinter]
+root_package = "app.src"
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "MVVM layers contract"
+type = "layers"
+layers = [
+    "views",
+    "viewmodels",
+    "models",
+    "repositories",
+    "dtos",
+]
