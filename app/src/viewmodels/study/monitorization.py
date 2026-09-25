@@ -2,11 +2,11 @@ from datetime import date, datetime
 from typing import Any
 
 from nicegui import binding
-from src.dtos.monitorization import MonitorizationDTO
-from src.models.monitorization import MonitorizationModel
 from nicemvvm.tools.messenger import send_message
 from nicemvvm.tools.validation import is_date
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.dtos.monitorization import MonitorizationDTO
+from src.models.monitorization import MonitorizationModel
 
 
 @binding.bindable_dataclass

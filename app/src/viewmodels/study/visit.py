@@ -3,13 +3,12 @@ from datetime import date, datetime
 from typing import Any
 
 from nicegui import binding
+from nicemvvm.tools.validation import is_date
+from nicemvvm.viewmodels.view_model import ViewModel
 from src.dtos.visit import VisitDTO
 from src.models.patient import PatientModel
 from src.models.visit import VisitModel
-from nicemvvm.tools.validation import is_date
-
 from src.viewmodels.study.patient import PatientViewModel
-from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

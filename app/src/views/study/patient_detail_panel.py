@@ -1,9 +1,8 @@
 from nicegui import ui
-
 from nicemvvm.viewmodels.view_model import ViewModel
+from nicemvvm.views.view import View
 from src.viewmodels import AdverseEventListViewModel, VisitListViewModel
 from src.views.study.event_panel import EventPanel
-from nicemvvm.views.view import View
 from src.views.study.visit_panel import StudyVisitPanel
 
 

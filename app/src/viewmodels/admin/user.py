@@ -2,10 +2,10 @@ from datetime import datetime
 from typing import Any
 
 from nicegui import binding
-from src.dtos.user import UserDTO, hash_password
-from src.models.user import UserModel
 from nicemvvm.tools.user import get_user_name
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.dtos.user import UserDTO, hash_password
+from src.models.user import UserModel
 
 
 @binding.bindable_dataclass

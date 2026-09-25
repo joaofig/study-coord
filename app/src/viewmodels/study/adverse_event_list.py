@@ -1,8 +1,8 @@
 from typing import Any
 
-from src.models.adverse_event import AdverseEventModel
 from nicemvvm.tools.observability import GridList
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.models.adverse_event import AdverseEventModel
 
 
 class AdverseEventListViewModel(ViewModel):

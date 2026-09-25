@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from pydantic import BaseModel
 from nicemvvm.tools.user import get_user_name
+from pydantic import BaseModel
 
 
 class BaseDTO(BaseModel):

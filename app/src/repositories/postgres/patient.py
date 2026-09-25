@@ -54,8 +54,8 @@ class PatientRepository(PostgresRepository):
         ,       p.created_by
         ,       p.updated_at
         ,       p.updated_by
-        ,       (SELECT count(0) AS count FROM visit v WHERE v.study_id = p.study_id) AS visits
-        ,       (SELECT count(0) AS count FROM adverse_event ae WHERE ae.study_id = p.study_id) AS events
+        ,       (SELECT count(0) AS count FROM visit v WHERE v.patient_id = p.patient_id) AS visits
+        ,       (SELECT count(0) AS count FROM adverse_event ae WHERE ae.patient_id = p.patient_id) AS events
         FROM    patient p
         WHERE   study_id = %s
         """

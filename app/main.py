@@ -2,14 +2,17 @@ import os
 import uuid
 from datetime import datetime
 
-from dotenv import load_dotenv
 from fastapi import Request
 from fastapi.responses import RedirectResponse
 from nicegui import app, context, ui
-
+from nicemvvm.tools.user import (
+    add_inactivity_timeout,
+    add_unload_handler,
+    logout,
+    record_user_activity,
+)
 from src.dtos.user import UserDTO, hash_password
 from src.models.user import UserModel
-from nicemvvm.tools.user import record_user_activity, add_unload_handler, add_inactivity_timeout, logout
 from src.viewmodels import UserViewModel
 from src.views.dialogs.password_dialog import PasswordDialog
 from src.views.main import main_view

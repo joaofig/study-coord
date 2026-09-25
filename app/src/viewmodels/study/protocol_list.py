@@ -1,8 +1,8 @@
 from typing import Any
 
-from src.models.protocol import ProtocolModel
 from nicemvvm.tools.observability import GridList
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.models.protocol import ProtocolModel
 
 
 class ProtocolListViewModel(ViewModel):

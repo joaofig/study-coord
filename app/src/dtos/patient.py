@@ -1,8 +1,8 @@
 from datetime import date, datetime
 from typing import Self
 
-from src.dtos.base import BaseDTO
 from nicemvvm.tools.user import dict_to_date, dict_to_datetime, get_user_name
+from src.dtos.base import BaseDTO
 
 
 def patient_statuses() -> dict:

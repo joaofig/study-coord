@@ -1,8 +1,8 @@
 from typing import Any
 
-from src.models.patient import PatientModel
 from nicemvvm.tools.observability import GridList
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.models.patient import PatientModel
 
 
 class PatientListViewModel(ViewModel):

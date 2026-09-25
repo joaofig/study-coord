@@ -1,8 +1,8 @@
 from typing import Any
 
 from nicegui.observables import ObservableDict
-from src.repositories import ReportRepository
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.repositories import ReportRepository
 
 
 class ReportViewModel(ViewModel):

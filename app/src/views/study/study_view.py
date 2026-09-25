@@ -1,13 +1,13 @@
 from nicegui import ui
 from nicemvvm.tools.excel import export_to_excel
 from nicemvvm.tools.user import is_user_readonly
-from src.viewmodels import StudyViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
+from nicemvvm.views.view import View
+from src.viewmodels import StudyViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.study_dialog import StudyDialog
 from src.views.study.study_grid import StudyGrid
 from src.views.study.study_panel import StudyPanel
-from nicemvvm.views.view import View
 
 
 async def _new_study_dialog():

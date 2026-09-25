@@ -1,8 +1,8 @@
 from typing import Any
 
-from src.models.study_researcher import StudyResearcherModel
 from nicemvvm.tools.observability import GridList
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.models.study_researcher import StudyResearcherModel
 
 
 class StudyResearcherListViewModel(ViewModel):

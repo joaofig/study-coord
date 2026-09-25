@@ -1,9 +1,9 @@
 from datetime import date
 from typing import Any, Self
 
+from nicemvvm.tools.user import dict_to_date, dict_to_datetime, get_user_name
 from pydantic import BaseModel
 from src.dtos.base import BaseDTO
-from nicemvvm.tools.user import dict_to_date, dict_to_datetime, get_user_name
 
 
 class StudyDTO(BaseDTO):

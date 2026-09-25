@@ -1,8 +1,8 @@
 import hashlib
 from typing import Self
 
-from src.dtos.base import BaseDTO
 from nicemvvm.tools.user import dict_to_datetime
+from src.dtos.base import BaseDTO
 
 
 def hash_password(password: str) -> str:

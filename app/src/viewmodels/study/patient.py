@@ -2,12 +2,12 @@ from datetime import date, datetime
 from typing import Any
 
 from nicegui import binding
-from src.dtos.patient import PatientDTO, patient_statuses
-from src.models.patient import PatientModel
 from nicemvvm.tools.messenger import send_message
 from nicemvvm.tools.user import dict_to_datetime
 from nicemvvm.tools.validation import is_date
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.dtos.patient import PatientDTO, patient_statuses
+from src.models.patient import PatientModel
 
 
 @binding.bindable_dataclass

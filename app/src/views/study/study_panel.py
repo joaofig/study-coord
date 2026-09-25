@@ -1,17 +1,17 @@
 from nicegui import ui
+from nicemvvm.viewmodels.view_model import ViewModel
+from nicemvvm.views.view import View
 from src.viewmodels import (
     MonitoringListViewModel,
     PatientListViewModel,
     ProtocolListViewModel,
 )
 from src.viewmodels.study.study_researcher_list import StudyResearcherListViewModel
-from nicemvvm.viewmodels.view_model import ViewModel
 from src.views.study.monitorization_panel import StudyMonitorizationPanel
 from src.views.study.patient_detail_panel import PatientDetailPanel
 from src.views.study.patient_panel import StudyPatientPanel
 from src.views.study.protocol_panel import ProtocolPanel
 from src.views.study.study_researcher_panel import StudyResearcherPanel
-from nicemvvm.views.view import View
 
 
 class StudyPanel(View):

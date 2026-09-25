@@ -1,6 +1,6 @@
 from nicegui import app, ui
-from src.repositories import UserRepository
 from nicemvvm.tools.user import logout
+from src.repositories import UserRepository
 from src.viewmodels import UserViewModel
 from src.views.admin.admin_panel import AdminPanel
 

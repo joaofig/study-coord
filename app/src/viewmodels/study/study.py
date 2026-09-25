@@ -3,10 +3,10 @@ from typing import Any
 
 from nicegui import binding, ui
 from nicegui.observables import ObservableSet
-from src.dtos.study import StudyDTO
-from src.models.study import StudyModel
 from nicemvvm.tools.validation import is_date
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.dtos.study import StudyDTO
+from src.models.study import StudyModel
 
 
 @binding.bindable_dataclass

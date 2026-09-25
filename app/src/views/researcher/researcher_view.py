@@ -1,15 +1,14 @@
 from nicegui import ui
 from nicemvvm.tools.excel import export_to_excel
 from nicemvvm.tools.user import get_user_name, is_user_readonly
-from src.viewmodels import ResearcherViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
+from nicemvvm.views.view import View
+from src.viewmodels import ResearcherViewModel
 from src.viewmodels.researcher.researcher_study_list import ResearcherStudyListViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.researcher_dialog import ResearcherDialog
 from src.views.researcher.researcher_grid import ResearcherGrid
-from nicemvvm.views.view import View
 from src.views.researcher.researcher_study_panel import ResearcherStudyPanel
-from src.views.researcher.researcher_study_grid import ResearcherStudyGrid
 
 
 class ResearcherView(View):

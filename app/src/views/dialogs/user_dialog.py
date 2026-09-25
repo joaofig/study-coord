@@ -1,7 +1,7 @@
 from nicegui import ui
+from nicemvvm.views.view import View
 from src.dtos.user import USER_ROLES
 from src.viewmodels.admin.user import UserViewModel
-from nicemvvm.views.view import View
 
 
 class UserDialog(View):

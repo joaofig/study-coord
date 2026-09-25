@@ -1,9 +1,9 @@
 from datetime import date
 from typing import Self
 
+from nicemvvm.tools.user import dict_to_date, dict_to_datetime, get_user_name
 from src.dtos.base import BaseDTO
 from src.dtos.patient import PatientDTO
-from nicemvvm.tools.user import dict_to_date, dict_to_datetime, get_user_name
 
 
 class VisitDTO(BaseDTO):

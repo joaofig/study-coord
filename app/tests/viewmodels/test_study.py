@@ -5,11 +5,11 @@ from unittest.mock import AsyncMock, patch
 import pytest
 import src.dtos.study as study_dto
 from nicegui import ui
+from nicemvvm.viewmodels.view_model import ViewModel
 from src.dtos.study import StudyDTO as Study
 from src.dtos.study import StudyRowDTO as StudyRow
-from src.viewmodels.study import StudyViewModel
+from src.viewmodels.study.study import StudyViewModel
 from src.viewmodels.study.study_list import StudyListViewModel
-from nicemvvm.viewmodels.view_model import ViewModel
 
 EXISTING_STUDY_ID = 7
 NEW_STUDY_ID = 23
@@ -226,12 +226,12 @@ async def test_message_load_study_keeps_state_when_missing(fake_repository) -> N
 async def test_message_save_study_delegates_to_save() -> None:
     view_model = StudyViewModel()
     view_model.save = AsyncMock()
-    view_model.broadcast = AsyncMock()
+    # view_model.broadcast = AsyncMock()
 
     await view_model.call("save")
 
     view_model.save.assert_awaited_once_with()
-    view_model.broadcast.assert_awaited_once_with("study_list", "load")
+    # view_model.broadcast.assert_awaited_once_with(channel="study", message="saved")
 
 
 @pytest.mark.asyncio

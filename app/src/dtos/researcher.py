@@ -1,9 +1,9 @@
 from datetime import date
 from typing import Self
 
+from nicemvvm.tools.user import dict_to_datetime, get_user_name
 from src.dtos.base import BaseDTO
 from src.dtos.study import StudyDTO
-from nicemvvm.tools.user import dict_to_datetime, get_user_name
 
 
 def study_researcher_roles() -> dict:
@@ -148,7 +148,7 @@ class ResearcherStudyDTO(BaseDTO):
             name=data.get("name", ""),
             sponsor=data.get("sponsor", ""),
             start_date=data.get("start_date", date.today()),
-            end_date=data.get("end_date", None),
+            end_date=data.get("end_date"),
         )
 
     def to_dict(self) -> dict:

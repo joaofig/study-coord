@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Any
 
 from nicegui import binding
+from nicemvvm.viewmodels.view_model import ViewModel
 from src.dtos.researcher import (
     ResearcherDTO,
     StudyResearcherDTO,
@@ -10,9 +11,7 @@ from src.dtos.researcher import (
 )
 from src.models.researcher import ResearcherModel
 from src.models.study_researcher import StudyResearcherModel
-
 from src.viewmodels.researcher.researcher import ResearcherViewModel
-from nicemvvm.viewmodels.view_model import ViewModel
 
 
 @binding.bindable_dataclass

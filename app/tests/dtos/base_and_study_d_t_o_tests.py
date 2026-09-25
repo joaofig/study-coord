@@ -2,7 +2,6 @@ from datetime import date, datetime
 
 from src.dtos.adverse_event import AdverseEventDTO
 from src.dtos.base import BaseDTO
-from src.dtos.milestone import Milestone
 from src.dtos.monitorization import MonitorizationDTO
 from src.dtos.patient import PatientDTO, patient_status_name
 from src.dtos.protocol import ProtocolDTO
@@ -42,7 +41,7 @@ def test_study_dto_from_dict_and_to_dict():
             "sponsor": "Acme Pharma",
             "start_date": "2024-01-01",
             "end_date": "2024-12-31",
-            "proto_visits": 6,
+            "protocol_visits": 6,
             "comments": "Important study",
             "created_at": "2024-01-01T10:00:00",
             "created_by": "admin",
@@ -104,6 +103,7 @@ def test_study_row_dto_from_dict_and_to_dict():
         "visits": 48,
         "researchers": 3,
         "events": 2,
+        "monitorizations": 0,
     }
 
 
@@ -133,11 +133,11 @@ def test_patient_dto_from_dict_to_dict_and_to_grid():
 
     grid = dto.to_grid()
     assert grid["patient_id"] == 20
-    assert grid["status_text"] == "Completed"
+    assert grid["status_text"] == "✅ Completed"
 
 
 def test_patient_status_name_returns_known_and_unknown_labels():
-    assert patient_status_name("active") == "Active"
+    assert patient_status_name("active") == "😃 Active"
     assert patient_status_name("missing") == "Unknown"
 
 
@@ -321,21 +321,3 @@ def test_hash_password_returns_sha256_hash():
         hash_password("secret")
         == "2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b"
     )
-
-
-def test_milestone_to_dict():
-    milestone = Milestone(
-        event_title="First Visit",
-        event_date=date(2024, 11, 1),
-        event_icon="event",
-        description="Patient first visit",
-        color="blue",
-    )
-
-    assert milestone.to_dict() == {
-        "title": "First Visit",
-        "subtitle": "2024-11-01",
-        "icon": "event",
-        "description": "Patient first visit",
-        "color": "blue",
-    }

@@ -1,12 +1,12 @@
 from nicegui import ui
 from nicemvvm.tools.excel import export_to_excel
 from nicemvvm.tools.user import is_user_readonly
-from src.viewmodels.study.monitorization import MonitorizationViewModel
 from nicemvvm.viewmodels.view_model import ViewModel
+from nicemvvm.views.view import View
+from src.viewmodels.study.monitorization import MonitorizationViewModel
 from src.views.dialogs.delete_warning_dialog import DeleteWarningDialog
 from src.views.dialogs.monitorization_dialog import StudyMonitorizationDialog
 from src.views.study.monitorization_grid import StudyMonitorizationGrid
-from nicemvvm.views.view import View
 
 
 class StudyMonitorizationPanel(View):

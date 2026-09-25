@@ -1,7 +1,7 @@
 from nicegui import ui
+from nicemvvm.views.view import View
 from src.viewmodels import UserViewModel
 from src.views.dialogs.password_dialog import PasswordDialog
-from nicemvvm.views.view import View
 
 
 class SettingsView(View):

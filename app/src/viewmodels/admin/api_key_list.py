@@ -1,7 +1,7 @@
 from typing import Any
 
-from src.models.api_key import ApiKeyModel
 from nicemvvm.tools.observability import GridList
+from src.models.api_key import ApiKeyModel
 from src.viewmodels import ViewModel
 
 

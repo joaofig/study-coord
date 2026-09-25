@@ -2,11 +2,11 @@ from datetime import date, datetime
 from typing import Any
 
 from nicegui import binding
-from src.dtos.protocol import ProtocolDTO
-from src.models.protocol import ProtocolModel
 from nicemvvm.tools.messenger import send_message
 from nicemvvm.tools.validation import is_date
 from nicemvvm.viewmodels.view_model import ViewModel
+from src.dtos.protocol import ProtocolDTO
+from src.models.protocol import ProtocolModel
 
 
 @binding.bindable_dataclass
