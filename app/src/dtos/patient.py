@@ -74,3 +74,34 @@ class PatientDTO(BaseDTO):
             "status_text": self.status_text,
             "comments": self.comments,
         } | super().to_dict()
+
+
+class PatientRowDTO(PatientDTO):
+    visits: int = 0
+    events: int = 0
+
+    @classmethod
+    def from_dict(cls, data: dict) -> Self:
+        return cls(
+            patient_id=data.get("patient_id", 0),
+            study_id=data.get("study_id", 0),
+            number=data.get("number", ""),
+            name=data.get("name", ""),
+            start_date=dict_to_date(data, "start_date") or date.today(),
+            exit_date=dict_to_date(data, "exit_date", None),
+            status=data.get("status", "active"),
+            status_text=patient_status_name(data.get("status", "active")),
+            comments=data.get("comments", ""),
+            created_at=dict_to_datetime(data, "created_at") or datetime.now(),
+            created_by=data.get("created_by", get_user_name()),
+            updated_at=dict_to_datetime(data, "updated_at") or datetime.now(),
+            updated_by=data.get("updated_by", get_user_name()),
+            visits=data.get("visits", 0),
+            events=data.get("events", 0),
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "visits": self.visits,
+            "events": self.events,
+        } | super().to_dict()

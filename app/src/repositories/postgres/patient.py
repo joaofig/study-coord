@@ -1,7 +1,7 @@
 import builtins
 from typing import LiteralString
 
-from src.dtos.patient import PatientDTO
+from src.dtos.patient import PatientDTO, PatientRowDTO
 from src.repositories.postgres.base import PostgresRepository
 
 
@@ -40,25 +40,27 @@ class PatientRepository(PostgresRepository):
             return PatientDTO.from_dict(result[0])
         return None
 
-    async def list(self, study_id: int) -> builtins.list[PatientDTO]:
+    async def list(self, study_id: int) -> builtins.list[PatientRowDTO]:
         sql: LiteralString = """
-        SELECT  patient_id
-        ,       study_id
-        ,       "number"
-        ,       name
-        ,       start_date
-        ,       exit_date
-        ,       status
-        ,       comments
-        ,       created_at
-        ,       created_by
-        ,       updated_at
-        ,       updated_by
-        FROM    patient 
+        SELECT  p.patient_id
+        ,       p.study_id
+        ,       p."number"
+        ,       p.name
+        ,       p.start_date
+        ,       p.exit_date
+        ,       p.status
+        ,       p.comments
+        ,       p.created_at
+        ,       p.created_by
+        ,       p.updated_at
+        ,       p.updated_by
+        ,       (SELECT count(0) AS count FROM visit v WHERE v.study_id = p.study_id) AS visits
+        ,       (SELECT count(0) AS count FROM adverse_event ae WHERE ae.study_id = p.study_id) AS events
+        FROM    patient p
         WHERE   study_id = %s
         """
         result = await self.execute_query(sql, (study_id,))
-        return [PatientDTO.from_dict(p) for p in result]
+        return [PatientRowDTO.from_dict(p) for p in result]
 
     async def save(self, patient: PatientDTO) -> dict:
         insert: LiteralString = """

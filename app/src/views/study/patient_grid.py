@@ -91,6 +91,20 @@ class StudyPatientGrid(View):
                 "filter": "agTextColumnFilter",
                 "floatingFilter": False,
             },
+            {
+                "headerName": "Visits",
+                "field": "visits",
+                "sortable": True,
+                "type": "numericColumn",
+                "width": 70,
+            },
+            {
+                "headerName": "Events",
+                "field": "events",
+                "sortable": True,
+                "type": "numericColumn",
+                "width": 70,
+            },
         ]
         grid_def = {
             "columnDefs": columns,
