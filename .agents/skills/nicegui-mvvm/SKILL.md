@@ -39,7 +39,8 @@ This skill provides an overview of the Model-View-ViewModel (MVVM) architecture 
 
 For detailed patterns, blueprints, and checklists for each layer, refer to the corresponding dedicated skill:
 
-- **[PostgreSQL Repository Skill](../postgres-repository/SKILL.md)**: Data access layer, SQL queries, parameterized statements, and DTO mapping.
-- **[Domain Model Skill](../model/SKILL.md)**: Domain service orchestration, business rules, and multi-repository aggregation.
-- **[ViewModel Skill](../viewmodel/SKILL.md)**: Single record form ViewModels (`@binding.bindable_dataclass`) vs Plural list ViewModels (`GridList`).
+- **[PostgreSQL Repository Skill](../mvvm-postgres-repository/SKILL.md)**: Data access layer, SQL queries, parameterized statements, and DTO mapping.
+- **[Domain Model Skill](../mvvm-model/SKILL.md)**: Domain service orchestration, business rules, and multi-repository aggregation.
+- **[ViewModel Skill](../mvvm-viewmodel/SKILL.md)**: Single record form ViewModels (`@binding.bindable_dataclass`) vs Plural list ViewModels (`GridList`).
+- **[Dialog Skill](../mvvm-dialog/SKILL.md)**: Modal form views, validation banners, and action dialogs.
 - **[NiceGUI AgGrid Skill](../nicegui-aggrid/SKILL.md)**: Data grid components backed by ViewModels using `ui.aggrid`.

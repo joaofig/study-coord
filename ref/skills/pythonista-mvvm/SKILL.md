@@ -1,6 +1,6 @@
 ---
 name: pythonista-mvvm
-description: Use when creating or modifying Models, Repositories, ViewModels, Views, or Dialogs. Triggers on "pattern", "mvvm", "model", "repository", "viewmodel", "view", "dialog", "crud", "save", "load", "sql".
+description: Use when creating or modifying Models, Repositories, ViewModels, Views, or Dialogs. Triggers on "pattern", "mvvm", "mvvm-model", "repository", "mvvm-viewmodel", "view", "dialog", "crud", "save", "load", "sql".
 ---
 
 # MVVM Pattern Implementation Guide

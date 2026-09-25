@@ -1,5 +1,5 @@
 ---
-name: postgres-repository
+name: mvvm-postgres-repository
 description: Use when creating or modifying PostgreSQL repository classes in the data access layer given a DTO. Triggers on "postgres repository", "repository", "sql", "PostgresRepository", "data access", "database layer", "CRUD repository", "insert_or_update", "execute_query".
 ---
 
@@ -176,7 +176,7 @@ class EntityRepository(PostgresRepository):
         return await self.insert_or_update(insert, update, entity.to_dict())
 
     async def delete(self, *, entity_id: int = 0, parent_id: int = 0) -> None:
-        """Delete by primary key or by parent foreign key."""
+        """Delete it by primary key or by parent foreign key."""
         if parent_id:
             sql: LiteralString = "DELETE FROM entity WHERE parent_id = %s"
             await self.execute_query(sql, (parent_id,))

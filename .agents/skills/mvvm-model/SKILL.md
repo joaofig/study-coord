@@ -1,6 +1,6 @@
 ---
-name: model
-description: Use when creating or modifying Model classes (domain service orchestrators) given a DTO. Triggers on "model", "domain model", "business logic", "service layer", "Model", "Model class", "orchestrator".
+name: mvvm-model
+description: Use when creating or modifying Model classes (domain service orchestrators) given a DTO. Triggers on "mvvm-model", "domain mvvm-model", "business logic", "service layer", "Model", "Model class", "orchestrator".
 ---
 
 # Domain Model Pattern

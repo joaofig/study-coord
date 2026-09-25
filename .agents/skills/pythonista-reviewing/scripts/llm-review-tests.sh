@@ -3,11 +3,11 @@
 #
 # Prerequisites:
 #   - Simon Willison's llm tool: pip install llm
-#   - A configured model: llm keys set openai / llm install llm-claude-3
+#   - A configured mvvm-model: llm keys set openai / llm install llm-claude-3
 #
 # Usage:
-#   ./llm-review-tests.sh                    # Review with default model
-#   ./llm-review-tests.sh -m gpt-4o          # Use specific model
+#   ./llm-review-tests.sh                    # Review with default mvvm-model
+#   ./llm-review-tests.sh -m gpt-4o          # Use specific mvvm-model
 
 set -e
 
@@ -19,7 +19,7 @@ REVIEW_MODE="$OUTPUT_DIR/review-mode.txt"
 MODEL_ARG=""
 while [[ $# -gt 0 ]]; do
     case $1 in
-        -m|--model)
+        -m|--mvvm-model)
             MODEL_ARG="-m $2"
             shift 2
             ;;

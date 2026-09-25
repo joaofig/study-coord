@@ -117,7 +117,7 @@ def test_policy():
 ```python
 @pytest.mark.asyncio
 async def test_endpoint_returns_correct_data(app, mock_db_client, clean_db):
-    # Arrange: Create test data using model classes
+    # Arrange: Create test data using mvvm-model classes
     test_result = ModerationResult(
         channel_id="channel_123",
         user_id="user_456",
@@ -225,6 +225,6 @@ async def test_moderator_caches_results(mock_ml_model, moderator):
     # Second call - should use cache
     await moderator.check_content(frame)
 
-    # ML model called only once
+    # ML mvvm-model called only once
     assert mock_ml_model.call_count == 1
 ```

@@ -5,8 +5,8 @@
 #   - Simon Willison's llm tool: pip install llm
 #
 # Usage:
-#   ./llm-review-types.sh                    # Review with default model
-#   ./llm-review-types.sh -m gpt-4o          # Use specific model
+#   ./llm-review-types.sh                    # Review with default mvvm-model
+#   ./llm-review-types.sh -m gpt-4o          # Use specific mvvm-model
 
 set -e
 
@@ -18,7 +18,7 @@ REVIEW_MODE="$OUTPUT_DIR/review-mode.txt"
 MODEL_ARG=""
 while [[ $# -gt 0 ]]; do
     case $1 in
-        -m|--model)
+        -m|--mvvm-model)
             MODEL_ARG="-m $2"
             shift 2
             ;;

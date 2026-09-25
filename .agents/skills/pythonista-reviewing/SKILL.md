@@ -54,7 +54,7 @@ These are auto-fixable or minor. Focus on structural problems.
 ./scripts/extract-changes.sh abc123       # Specific commit
 ./scripts/extract-changes.sh auth/login   # Path pattern (fuzzy match)
 
-# 2. Run code review with large-context model
+# 2. Run code review with large-context mvvm-model
 ./scripts/llm-review.sh -m gpt-4o
 ./scripts/llm-review.sh -m claude-3-5-sonnet-latest
 

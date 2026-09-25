@@ -117,11 +117,11 @@ When adding a parameter, trace the complete path:
 ```python
 async def test_model_flows_from_config_to_chain():
     """
-    INVARIANT: model in FlowConfig reaches ComposingChain.
+    INVARIANT: mvvm-model in FlowConfig reaches ComposingChain.
 
     Journey: FlowConfig -> gather_sources() -> FlowInput -> ComposingChain
     """
-    # User sets model (entry point)
+    # User sets mvvm-model (entry point)
     config = FlowConfig(model=ModelChoice.GROK_4)
 
     # Call production code

@@ -60,7 +60,7 @@ llm models
 # Test with a simple prompt
 echo "Hello" | llm
 
-# Test with specific model
+# Test with specific mvvm-model
 echo "Hello" | llm -m gpt-4o
 echo "Hello" | llm -m claude-3-sonnet
 ```
@@ -89,10 +89,10 @@ This creates:
 ### 2. Run Code Review
 
 ```bash
-# Default model
+# Default mvvm-model
 ./llm-review.sh
 
-# Specific model
+# Specific mvvm-model
 ./llm-review.sh -m gpt-4o
 ./llm-review.sh -m claude-3-5-sonnet-latest
 ./llm-review.sh -m gemini-1.5-pro
@@ -120,7 +120,7 @@ This creates:
 # 1. Extract the diff
 ./extract-changes.sh
 
-# 2. Get high-level review from a large-context model
+# 2. Get high-level review from a large-context mvvm-model
 ./llm-review.sh -m gpt-4o
 
 # 3. Use findings as hints for Claude to investigate deeper

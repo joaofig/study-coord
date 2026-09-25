@@ -1,6 +1,6 @@
 ---
-name: viewmodel
-description: Use when creating or modifying single or plural (list) ViewModels in NiceGUI MVVM architecture given a DTO. Triggers on "viewmodel", "ViewModel", "bindable_dataclass", "single viewmodel", "list viewmodel", "GridList", "ObservableList", "MVVM state", "MVVM viewmodel".
+name: mvvm-viewmodel
+description: Use when creating or modifying single or plural (list) ViewModels in NiceGUI MVVM architecture given a DTO. Triggers on "mvvm-viewmodel", "ViewModel", "bindable_dataclass", "single mvvm-viewmodel", "list mvvm-viewmodel", "GridList", "ObservableList", "MVVM state", "MVVM mvvm-viewmodel".
 ---
 
 # ViewModel Pattern (Single & List ViewModels)
@@ -186,7 +186,7 @@ class EntityViewModel(ViewModel):
         }
 
     async def save(self) -> bool:
-        """Validate, persist to model, log changes, and broadcast save event."""
+        """Validate, persist to mvvm-model, log changes, and broadcast save event."""
         if not await self.validate():
             return False
 
