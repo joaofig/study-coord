@@ -1,6 +1,7 @@
 ---
 name: mvvm-viewmodel
 description: Use when creating or modifying single or plural (list) ViewModels in NiceGUI MVVM architecture given a DTO. Triggers on "mvvm-viewmodel", "ViewModel", "bindable_dataclass", "single mvvm-viewmodel", "list mvvm-viewmodel", "GridList", "ObservableList", "MVVM state", "MVVM mvvm-viewmodel".
+writes-artifact: false
 ---
 
 # ViewModel Pattern (Single & List ViewModels)

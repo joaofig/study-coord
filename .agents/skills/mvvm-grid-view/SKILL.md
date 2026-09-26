@@ -1,6 +1,7 @@
 ---
 name: mvvm-grid-view
 description: Use when creating or modifying grid views (AgGrid list views, table views, data grids) in NiceGUI MVVM architecture given a ViewModel. Triggers on "mvvm-grid-view", "grid view", "AgGrid", "data grid", "list view", "Grid", "View grid", "ui.aggrid", "grid pattern".
+writes-artifact: false
 ---
 
 # NiceGUI MVVM Grid View Pattern

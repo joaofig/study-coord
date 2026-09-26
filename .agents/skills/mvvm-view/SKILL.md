@@ -1,6 +1,7 @@
 ---
 name: mvvm-view
 description: Use when creating or modifying views (composite master views, tabbed detail panels, context-aware child panels, dashboard views, or any class derived from View) in NiceGUI MVVM architecture given a ViewModel. Triggers on "mvvm-view", "View", "View class", "master view", "panel view", "composite view", "detail panel", "StudyView", "StudyPanel", "view pattern".
+writes-artifact: false
 ---
 
 # NiceGUI MVVM View Pattern
@@ -451,10 +452,10 @@ ManagedTasks().create(vm.call("load"))
 
 ## Package Export Conventions
 
-Always export views in their module `__init__.py` (e.g. `src/views/study/__init__.py`) when applicable:
+Always export views in their module `__init__.py` (e.g. `src/views/__init__.py`) when applicable:
 
 ```python
-# src/views/study/__init__.py
+# src/views/__init__.py
 from .study_view import StudyView as StudyView
 from .study_panel import StudyPanel as StudyPanel
 

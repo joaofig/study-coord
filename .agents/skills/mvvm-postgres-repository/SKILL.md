@@ -1,6 +1,7 @@
 ---
 name: mvvm-postgres-repository
 description: Use when creating or modifying PostgreSQL repository classes in the data access layer given a DTO. Triggers on "postgres repository", "repository", "sql", "PostgresRepository", "data access", "database layer", "CRUD repository", "insert_or_update", "execute_query".
+writes-artifact: false
 ---
 
 # PostgreSQL Repository Pattern

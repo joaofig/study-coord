@@ -1,6 +1,7 @@
 ---
 name: mvvm-dialog
 description: Use when creating or modifying dialogs (modal forms, confirmation dialogs, detail editors) in NiceGUI MVVM architecture given a ViewModel. Triggers on "mvvm-dialog", "dialog", "modal", "Dialog", "View dialog", "DeleteWarningDialog", "ui.dialog", "dialog pattern".
+writes-artifact: false
 ---
 
 # NiceGUI MVVM Dialog Pattern
